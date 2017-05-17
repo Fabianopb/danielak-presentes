@@ -12,13 +12,18 @@
   },
   "devDependencies": {
     "concurrently": "^3.4.0",
+    "node-sass": "^4.5.3",
+    "npm-run-all": "^4.0.2",
     "react-scripts": "0.9.5"
   },
   "scripts": {
-    "start": "concurrently \"npm run server\" \"npm run client\"",
+    "build-css": "node-sass src/ -o src/",
+    "watch-css": "npm run build-css && node-sass src/ -o src/ --watch --recursive",
+    "start-js": "concurrently \"npm run server\" \"npm run client\"",
+    "start": "npm-run-all -p watch-css start-js",
+    "build": "npm run build-css && react-scripts build",
     "server": "node server/server.js",
     "client": "react-scripts start",
-    "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
   }
