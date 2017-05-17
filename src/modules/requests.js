@@ -3,8 +3,7 @@ import axios from 'axios';
 class Request {
 
   constructor() {
-    // this.baseUrl = 'https://danielak.herokuapp.com';
-    this.baseUrl = 'http://localhost:9000';
+    this.baseUrl = process.env.API_URL || 'http://localhost:9000';
   }
 
   getTest() {
