@@ -6,7 +6,7 @@ class App extends Component {
   render() {
     return (
       <div className="app">
-        Test2
+        Test auto deploy
       </div>
     );
   }
