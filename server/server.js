@@ -21,11 +21,11 @@ var path = require('path');
 
 app.use(express.static(path.resolve(__dirname, '..', 'build')));
 
-app.get('*', (req, res) => {
-  res.sendFile(path.resolve(__dirname, '..', 'build', 'index.html'));
-});
+// app.get('*', (req, res) => {
+//   res.sendFile(path.resolve(__dirname, '..', 'build', 'index.html'));
+// });
 
-app.get('/', function(request, response) {
+app.get('/api', function(request, response) {
   response.json('We\'re up and running!');
 });
 
