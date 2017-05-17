@@ -10,7 +10,7 @@ class App extends Component {
   }
 
   componentWillMount() {
-    axios.get('http://localhost:9000/api').then(response => this.setState(<p>{response.data}</p>));
+    axios.get('https://danielak.herokuapp.com/api').then(response => this.setState(<p>{response.data}</p>));
   }
 
   render() {
