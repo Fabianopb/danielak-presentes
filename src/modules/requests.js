@@ -3,7 +3,7 @@ import axios from 'axios';
 class Request {
 
   constructor() {
-    this.baseUrl = process.env.API_URL || 'http://localhost:9000';
+    this.baseUrl = process.env.REACT_APP_API_URL || 'http://localhost:9000';
   }
 
   getTest() {
