@@ -3,6 +3,7 @@ import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
 
 import productData from './products.json';
+import ProductCell from './productCell/productCell';
 import './products.css';
 
 class ProductsView extends Component {
@@ -19,7 +20,15 @@ class ProductsView extends Component {
   }
 
   componentWillMount() {
-    this.setState({ products: productData.map(product => <div key={ product.id } className="product-cell" onTouchTap={ () => this._handleOpen(product) }>{ product.name }</div>) });
+    this.setState({ products: productData.map((product) => {
+      return (
+        <ProductCell
+          key={ product.id }
+          product={ product }
+          onTouchTap={ () => this._handleOpen(product) }
+        />
+      );
+    })});
   }
 
   _handleOpen(product) {
