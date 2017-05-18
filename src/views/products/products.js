@@ -3,7 +3,7 @@ import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
 
 import productData from './products.json';
-import ProductCell from './productCell/productCell';
+import ProductCell from './components/productCell';
 import './products.css';
 
 class ProductsView extends Component {
