@@ -10,6 +10,10 @@ class Request {
     return axios.get(`${this.baseUrl}/api`);
   }
 
+  getProducts() {
+    return axios.get('../views/products.json');
+  }
+
 }
 
 export default Request = new Request();
