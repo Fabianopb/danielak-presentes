@@ -4,3 +4,17 @@
   color: #FFF;
   height: 50px;
 }
+
+.product-form {
+  display: flex;
+  flex-direction: column;
+
+  .inline-form {
+    display: flex;
+    flex-wrap: wrap;
+
+    *:not(:last-child) {
+      margin-right: 20px;
+    }
+  }
+}

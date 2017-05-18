@@ -12,7 +12,7 @@
     "dimensions": {
       "width": 14,
       "height": 3,
-      "lenght": 17,
+      "depth": 17,
       "weigth": 190
     },
     "isVisible": true,
@@ -31,7 +31,7 @@
     "dimensions": {
       "width": 14,
       "height": 3,
-      "lenght": 17,
+      "depth": 17,
       "weigth": 190
     },
     "isVisible": true,
@@ -50,7 +50,7 @@
     "dimensions": {
       "width": 14,
       "height": 3,
-      "lenght": 17,
+      "depth": 17,
       "weigth": 190
     },
     "isVisible": true,
