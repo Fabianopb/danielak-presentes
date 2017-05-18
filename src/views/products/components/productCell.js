@@ -6,7 +6,9 @@ class ProductCell extends Component {
     const product = this.props.product;
     return (
       <div className="product-cell" onTouchTap={ this.props.onTouchTap }>
-        { product.name }
+        <div className="image"></div>
+        <div className="title">{ product.name }</div>
+        <div className="current-price">{ product.currentPrice }</div>
       </div>
     );
   }

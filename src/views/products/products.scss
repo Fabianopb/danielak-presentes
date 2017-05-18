@@ -14,12 +14,22 @@
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-}
 
-.product-cell {
-  display: block;
-  margin: 20px;
-  width: 300px;
-  height: 300px;
-  background-color: lightgrey;
+  .product-cell {
+    margin: 20px;
+
+    .image {
+      width: 300px;
+      height: 240px;
+      background-color: lightgrey;
+    }
+
+    .title {
+
+    }
+
+    .current-price {
+      
+    }
+  }
 }

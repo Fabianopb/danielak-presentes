@@ -45,7 +45,12 @@ class ProductDialog extends Component {
         open={ this.state.isDialogOpen }
         onRequestClose={ this.props.handleClose }
       >
-        { this.state.product && this.state.product.description }
+        { this.state.product &&
+          <div className="dialog-content">
+            <div className="description">{ this.state.product.description }</div>
+            <div className="current-price">{ this.state.product.currentPrice }</div>
+          </div>
+        }
       </Dialog>
     );
   }
