@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
-import Dialog from 'material-ui/Dialog';
-import FlatButton from 'material-ui/FlatButton';
 
 import productData from './products.json';
 import ProductCell from './components/productCell';
+import ProductDialog from './components/productDialog';
 import './products.css';
 
 class ProductsView extends Component {
@@ -42,20 +41,6 @@ class ProductsView extends Component {
 
   render() {
 
-    const actions = [
-      <FlatButton
-        label="Cancel"
-        primary={ true }
-        onTouchTap={ this._handleClose }
-      />,
-      <FlatButton
-        label="Submit"
-        primary={ true }
-        keyboardFocused={ true }
-        onTouchTap={ this._handleClose }
-      />,
-    ];
-
     return (
       <div>
         <div className="hero-bar">
@@ -68,15 +53,12 @@ class ProductsView extends Component {
           <p>danielalpresentes@yahoo.com.br</p>
           <p>Whatsapp +55 11 99777 5245</p>
         </div>
-        <Dialog
-          title={ this.state.activeProduct && this.state.activeProduct.name }
-          actions={ actions }
-          modal={ false }
-          open={ this.state.isDialogOpen }
-          onRequestClose={ this._handleClose }
-        >
-          { this.state.activeProduct && this.state.activeProduct.description }
-        </Dialog>
+        <ProductDialog
+          isDialogOpen={ this.state.isDialogOpen }
+          handleOpen={ this._handleOpen }
+          handleClose={ this._handleClose }
+          product={ this.state.activeProduct }
+        />
       </div>
     );
   }
