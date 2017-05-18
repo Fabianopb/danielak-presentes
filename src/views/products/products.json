@@ -1,0 +1,59 @@
+[
+  {
+    "id": "asdfqwer",
+    "name": "caixinha de fotos",
+    "image": ["http://alksdjflkasjdflksad.com", "http://alksdjflkasjdflksad.com", "http://alksdjflkasjdflksad.com"],
+    "description": "caixa para fotógrafos encantarem seus clientes bla bla bla",
+    "currentPrice": "R$ 18,00",
+    "discountPrice": "R$ 16,00",
+    "tags": "fotogragia, fotógrafos, casamento",
+    "productionTime": 15,
+    "minAmount": 10,
+    "dimensions": {
+      "width": 14,
+      "height": 3,
+      "lenght": 17,
+      "weigth": 190
+    },
+    "isVisible": true,
+    "isFeatured": true
+  },
+  {
+    "id": "asdfzxcv",
+    "name": "caixinha de fotos",
+    "image": ["http://alksdjflkasjdflksad.com", "http://alksdjflkasjdflksad.com", "http://alksdjflkasjdflksad.com"],
+    "description": "caixa para fotógrafos encantarem seus clientes bla bla bla",
+    "currentPrice": "R$ 18,00",
+    "discountPrice": "R$ 16,00",
+    "tags": "fotogragia, fotógrafos, casamento",
+    "productionTime": 15,
+    "minAmount": 10,
+    "dimensions": {
+      "width": 14,
+      "height": 3,
+      "lenght": 17,
+      "weigth": 190
+    },
+    "isVisible": true,
+    "isFeatured": true
+  },
+  {
+    "id": "asdfpiuy",
+    "name": "caixinha de fotos",
+    "image": ["http://alksdjflkasjdflksad.com", "http://alksdjflkasjdflksad.com", "http://alksdjflkasjdflksad.com"],
+    "description": "caixa para fotógrafos encantarem seus clientes bla bla bla",
+    "currentPrice": "R$ 18,00",
+    "discountPrice": "R$ 16,00",
+    "tags": "fotogragia, fotógrafos, casamento",
+    "productionTime": 15,
+    "minAmount": 10,
+    "dimensions": {
+      "width": 14,
+      "height": 3,
+      "lenght": 17,
+      "weigth": 190
+    },
+    "isVisible": true,
+    "isFeatured": true
+  }
+]
