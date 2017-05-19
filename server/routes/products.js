@@ -16,13 +16,15 @@ router.route('/')
       return response.status(200).json(products);
     });
   })
-  // .post(bodyParser, function(request, response) {
-  //   Product.findById(request.payload._id, function(error, user) {
-  //     var beer = new Beer(request.body);
-  //     user.beers.push(beer);
-  //     saveData(user, error, response, 'Beer created!', beer);
-  //   });
-  // });
+  .post(bodyParser, function(request, response) {
+    var product = new Product(request.body);
+    product.save(function(error) {
+      if (error) {
+        return response.status(400).send(error);
+      }
+      return response.status(200).json({product: product});
+    });
+  });
 
 // router.route('/:id')
 //   .put(bodyParser, function(request, response) {

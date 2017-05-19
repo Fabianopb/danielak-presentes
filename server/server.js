@@ -7,15 +7,11 @@ var products = require('./routes/products');
 // var passport = require('passport');
 // app.use(passport.initialize());
 
-app.use('/products', products);
+app.use('/api/products', products);
 
 mongoose.connect(process.env.DANIK_MONGODB);
 
 app.use(express.static(path.resolve(__dirname, '..', 'build')));
-
-app.get('/api', function(request, response) {
-  response.json('Server with nodemon up and running!');
-});
 
 app.listen(process.env.PORT || 9000);
 console.log('Listening on port 9000...');
