@@ -8,12 +8,6 @@ var path = require('path');
 
 // app.use(passport.initialize());
 
-// app.use(function(req, res, next) {
-//   res.header('Access-Control-Allow-Origin', '*');
-//   res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization');
-//   next();
-// });
-
 // app.use('/user', users);
 // app.use('/beers', beers);
 
@@ -26,7 +20,7 @@ app.use(express.static(path.resolve(__dirname, '..', 'build')));
 // });
 
 app.get('/api', function(request, response) {
-  response.json('We\'re up and running!');
+  response.json('Server with nodemon up and running!');
 });
 
 app.listen(process.env.PORT || 9000);
