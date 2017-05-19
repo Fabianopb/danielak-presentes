@@ -3,6 +3,7 @@ import TextField from 'material-ui/TextField';
 import Checkbox from 'material-ui/Checkbox';
 import RaisedButton from 'material-ui/RaisedButton';
 
+import Request from '../../modules/requests';
 import './admin.css';
 
 class AdminView extends Component {
@@ -13,7 +14,7 @@ class AdminView extends Component {
   }
 
   _addProduct() {
-    const product = {
+    Request.postProduct({
       name: this._name.input.value,
       image: [this._image.input.value],
       description: this._description.input.value,
@@ -30,8 +31,11 @@ class AdminView extends Component {
       },
       isVisible: this._isVisible.state.switched,
       isFeatured: this._isFeatured.state.switched
-    };
-    console.log(product);
+    }).then((response) => {
+      console.log(response);
+    }).catch((error) => {
+      console.log(error.response);
+    });
   }
 
   render() {
@@ -67,8 +71,8 @@ class AdminView extends Component {
           </div>
           <Checkbox label="Visível" ref={ Checkbox => this._isVisible = Checkbox } />
           <Checkbox label="Em destaque" ref={ Checkbox => this._isFeatured = Checkbox } />
-          <RaisedButton label="Adicionar" onClick={ this._addProduct } />
         </div>
+        <RaisedButton label="Adicionar" onClick={ this._addProduct } />
       </div>
     );
   }

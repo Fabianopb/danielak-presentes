@@ -11,7 +11,7 @@ class Request {
   }
 
   postProduct(product) {
-    return axios.post(`${this.baseUrl}/api/products`, product, this.getHeaders());
+    return axios.post(`${this.baseUrl}/api/products`, product);
   }
 
 }

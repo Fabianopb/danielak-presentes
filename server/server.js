@@ -7,6 +7,12 @@ var products = require('./routes/products');
 // var passport = require('passport');
 // app.use(passport.initialize());
 
+app.use(function(req, res, next) {
+  res.header('Access-Control-Allow-Origin', 'http://localhost:3000');
+  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization');
+  next();
+});
+
 app.use('/api/products', products);
 
 mongoose.connect(process.env.DANIK_MONGODB);
