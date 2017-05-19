@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import productData from './products.json';
+import Request from '../../modules/requests';
 import ProductCell from './components/productCell';
 import ProductDialog from './components/productDialog';
 import './products.css';
@@ -19,15 +19,18 @@ class ProductsView extends Component {
   }
 
   componentWillMount() {
-    this.setState({ products: productData.map((product) => {
-      return (
-        <ProductCell
-          key={ product.id }
-          product={ product }
-          onTouchTap={ () => this._handleOpen(product) }
-        />
-      );
-    })});
+    Request.getProducts().then((response) => {
+      const products = response.data;
+      this.setState({ products: products.map((product) => {
+        return (
+          <ProductCell
+            key={ product._id }
+            product={ product }
+            onTouchTap={ () => this._handleOpen(product) }
+          />
+        );
+      })});
+    });
   }
 
   _handleOpen(product) {
