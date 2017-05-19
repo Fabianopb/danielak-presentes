@@ -14,7 +14,7 @@ var ProductSchema = new Schema({
     width: Number,
     height: Number,
     depth: Number,
-    weigth: Number
+    weight: Number
   },
   isVisible: Boolean,
   isFeatured: Boolean
