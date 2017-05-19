@@ -2,14 +2,12 @@ var express = require('express');
 var app = express();
 var path = require('path');
 var mongoose = require('mongoose');
-// var users = require('./routes/users');
-// var beers = require('./routes/beers');
-// var passport = require('passport');
+var products = require('./routes/products');
 
+// var passport = require('passport');
 // app.use(passport.initialize());
 
-// app.use('/user', users);
-// app.use('/beers', beers);
+app.use('/products', products);
 
 mongoose.connect(process.env.DANIK_MONGODB);
 
