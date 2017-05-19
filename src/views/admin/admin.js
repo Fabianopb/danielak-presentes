@@ -17,7 +17,7 @@ class AdminView extends Component {
     Request.postProduct({
       name: this._name.input.value,
       image: [this._image.input.value],
-      description: this._description.input.value,
+      description: this._description.input.refs.input.value,
       currentPrice: this._currentPrice.input.value,
       discountPrice: this._discountPrice.input.value,
       tags: this._tags.input.value,
