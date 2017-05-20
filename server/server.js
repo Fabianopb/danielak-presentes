@@ -7,9 +7,9 @@ var products = require('./routes/products');
 // var passport = require('passport');
 // app.use(passport.initialize());
 
-app.use(function(req, res, next) {
-  res.header('Access-Control-Allow-Origin', 'http://localhost:3000');
-  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization');
+app.use(function(request, response, next) {
+  response.header('Access-Control-Allow-Origin', 'http://localhost:3000');
+  response.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization');
   next();
 });
 
@@ -18,6 +18,10 @@ app.use('/api/products', products);
 mongoose.connect(process.env.DANIK_MONGODB);
 
 app.use(express.static(path.resolve(__dirname, '..', 'build')));
+
+app.get('*', (request, response) => {
+  response.sendFile(path.resolve(__dirname, '..', 'build', 'index.html'));
+});
 
 app.listen(process.env.PORT || 9000);
 console.log('Listening on port 9000...');
