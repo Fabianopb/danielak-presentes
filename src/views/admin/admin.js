@@ -10,13 +10,24 @@ class AdminView extends Component {
 
   constructor(props) {
     super(props);
+    this.state = {
+      products: null
+    };
     this._addProduct = this._addProduct.bind(this);
+  }
+
+  componentWillMount() {
+    Request.getProducts().then((response) => {
+      const products = response.data;
+      this.setState({ products: this._renderProducts(products) });
+    });
   }
 
   _addProduct() {
     Request.postProduct({
       name: this._name.input.value,
       image: [this._image.input.value],
+      storeLink: this._storeLink.input.value,
       description: this._description.input.refs.input.value,
       currentPrice: this._currentPrice.input.value,
       discountPrice: this._discountPrice.input.value,
@@ -32,10 +43,33 @@ class AdminView extends Component {
       isVisible: this._isVisible.state.switched,
       isFeatured: this._isFeatured.state.switched
     }).then((response) => {
-      console.log(response);
+      this._clearForm();
+      this.setState({ products: this.state.products.concat(this._renderProducts([response.data.product])) });
     }).catch((error) => {
       console.log(error.response);
     });
+  }
+
+  _renderProducts(products) {
+    return products.map(product => <div key={ product._id }>{ product.name }</div>);
+  }
+
+  _clearForm() {
+    this._name.input.value = null;
+    this._image.input.value = null;
+    this._storeLink.input.value = null;
+    this._description.input.refs.input.value = null;
+    this._currentPrice.input.value = null;
+    this._discountPrice.input.value = null;
+    this._tags.input.value = null;
+    this._productionTime.input.value = null;
+    this._minAmount.input.value = null;
+    this._width.input.value = null;
+    this._height.input.value = null;
+    this._depth.input.value = null;
+    this._weight.input.value = null;
+    this._isVisible.setState({switched: false});
+    this._isFeatured.setState({switched: false});
   }
 
   render() {
@@ -46,13 +80,14 @@ class AdminView extends Component {
         </div>
         <h3>Lista de produtos</h3>
         <div className="product-list">
-          Nenhum produto encontrado
+          { this.state.products || ( <div>Nenhum produto encontrado</div> ) }
         </div>
         <hr />
         <div className="product-form">
           <h3>Adicionar produto</h3>
           <TextField floatingLabelText="Nome do produto" ref={ TextField => this._name = TextField } />
           <TextField floatingLabelText="URL da imagem" ref={ TextField => this._image = TextField } />
+          <TextField floatingLabelText="Link da loja" ref={ TextField => this._storeLink = TextField } />
           <TextField floatingLabelText="Descrição" multiLine={ true } ref={ TextField => this._description = TextField } />
           <div className="inline-form">
             <TextField floatingLabelText="Preço" ref={ TextField => this._currentPrice = TextField } />
