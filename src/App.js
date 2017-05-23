@@ -5,6 +5,7 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
 import ProductsView from './views/products/products';
 import AdminView from './views/admin/admin';
+import ManageProductView from './views/manageProduct/manageProduct';
 import './App.css';
 
 injectTapEventPlugin();
@@ -17,7 +18,8 @@ class App extends Component {
         <Router>
           <div>
             <Route exact path="/" component={ ProductsView } />
-            <Route path="/admin" component={ AdminView } />
+            <Route exact path="/admin" component={ AdminView } />
+            <Route path="/admin/:product" component={ ManageProductView } />
           </div>
         </Router>
       </MuiThemeProvider>

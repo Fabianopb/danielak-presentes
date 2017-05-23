@@ -5,6 +5,16 @@
   height: 50px;
 }
 
+.add-product {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+
+  .icon {
+    margin-left: 12px;
+  }
+}
+
 .product-list {
 
   .name-row {
@@ -24,19 +34,5 @@
 
   .icon:not(:last-child) {
     margin-right: 10px;
-  }
-}
-
-.product-form {
-  display: flex;
-  flex-direction: column;
-
-  .inline-form {
-    display: flex;
-    flex-wrap: wrap;
-
-    *:not(:last-child) {
-      margin-right: 20px;
-    }
   }
 }
