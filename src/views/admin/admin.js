@@ -3,6 +3,7 @@ import { Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowCol
 import TextField from 'material-ui/TextField';
 import Checkbox from 'material-ui/Checkbox';
 import RaisedButton from 'material-ui/RaisedButton';
+import FontIcon from 'material-ui/FontIcon';
 
 import Request from '../../modules/requests';
 import './admin.css';
@@ -60,7 +61,10 @@ class AdminView extends Component {
             <div className="product-name">{ product.name }</div>
           </TableRowColumn>
           <TableRowColumn>{ product.currentPrice }</TableRowColumn>
-          <TableRowColumn>Edit | Remove</TableRowColumn>
+          <TableRowColumn>
+            <FontIcon className="icon icon-pencil" />
+            <FontIcon className="icon icon-bin" />
+          </TableRowColumn>
         </TableRow>
       );
     });
