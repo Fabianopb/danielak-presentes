@@ -5,6 +5,24 @@
   height: 50px;
 }
 
+.product-list {
+
+  .name-row {
+    display: flex;
+    align-items: center;
+
+    .thumbnail {
+      width: 40px;
+      height: 40px;
+      background-color: lightgrey;
+    }
+
+    .product-name {
+      margin-left: 20px;
+    }
+  }
+}
+
 .product-form {
   display: flex;
   flex-direction: column;

@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn } from 'material-ui/Table';
 import TextField from 'material-ui/TextField';
 import Checkbox from 'material-ui/Checkbox';
 import RaisedButton from 'material-ui/RaisedButton';
@@ -51,7 +52,18 @@ class AdminView extends Component {
   }
 
   _renderProducts(products) {
-    return products.map(product => <div key={ product._id }>{ product.name }</div>);
+    return products.map((product) => {
+      return (
+        <TableRow key={ product._id }>
+          <TableRowColumn className="name-row">
+            <div className="thumbnail"></div>
+            <div className="product-name">{ product.name }</div>
+          </TableRowColumn>
+          <TableRowColumn>{ product.currentPrice }</TableRowColumn>
+          <TableRowColumn>Edit | Remove</TableRowColumn>
+        </TableRow>
+      );
+    });
   }
 
   _clearForm() {
@@ -80,7 +92,18 @@ class AdminView extends Component {
         </div>
         <h3>Lista de produtos</h3>
         <div className="product-list">
-          { this.state.products || ( <div>Nenhum produto encontrado</div> ) }
+          <Table selectable={ false }>
+            <TableHeader displaySelectAll={ false } adjustForCheckbox={ false }>
+              <TableRow>
+                <TableHeaderColumn>Produto</TableHeaderColumn>
+                <TableHeaderColumn>Preço</TableHeaderColumn>
+                <TableHeaderColumn>Ações</TableHeaderColumn>
+              </TableRow>
+            </TableHeader>
+            <TableBody displayRowCheckbox={ false }>
+              { this.state.products }
+            </TableBody>
+          </Table>
         </div>
         <hr />
         <div className="product-form">
