@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn } from 'material-ui/Table';
 import FontIcon from 'material-ui/FontIcon';
-import { Link } from 'react-router-dom'
+import { Link } from 'react-router-dom';
 
 import Request from '../../modules/requests';
 import './admin.css';

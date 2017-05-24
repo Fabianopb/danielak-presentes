@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Redirect } from 'react-router-dom';
 import TextField from 'material-ui/TextField';
 import Checkbox from 'material-ui/Checkbox';
 import RaisedButton from 'material-ui/RaisedButton';
@@ -11,6 +12,7 @@ class ManageProductView extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      redirect: null,
       id: props.match.params.product
     }
     console.log(this.state.id);
@@ -44,6 +46,7 @@ class ManageProductView extends Component {
       isVisible: this._isVisible.state.switched,
       isFeatured: this._isFeatured.state.switched
     }).then((response) => {
+      this.setState({ redirect: <Redirect to='/admin' /> })
       console.log(response);
       this._clearForm();
     }).catch((error) => {
@@ -100,6 +103,7 @@ class ManageProductView extends Component {
           <Checkbox label="Em destaque" ref={ Checkbox => this._isFeatured = Checkbox } />
         </div>
         <RaisedButton label="Adicionar" onClick={ this._addProduct } />
+        { this.state.redirect }
       </div>
     );
   }
