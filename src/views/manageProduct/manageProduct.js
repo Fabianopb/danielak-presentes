@@ -13,17 +13,18 @@ class ManageProductView extends Component {
     super(props);
     this.state = {
       redirect: null,
-      id: props.match.params.product
+      id: props.match.params.id
     }
     this._addProduct = this._addProduct.bind(this);
   }
 
-  // componentWillMount() {
-  //   Request.getProducts().then((response) => {
-  //     const products = response.data;
-  //     this.setState({ products: this._renderProducts(products) });
-  //   });
-  // }
+  componentWillMount() {
+    Request.getProductById(this.state.id).then((response) => {
+      console.log(response);
+      // const products = response.data;
+      // this.setState({ products: this._renderProducts(products) });
+    });
+  }
 
   _addProduct() {
     Request.postProduct({

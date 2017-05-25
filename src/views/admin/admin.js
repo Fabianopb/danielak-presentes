@@ -16,7 +16,7 @@ class AdminView extends Component {
   }
 
   componentWillMount() {
-    Request.getProducts().then((response) => {
+    Request.getAllProducts().then((response) => {
       const products = response.data;
       this.setState({ products: this._renderProducts(products) });
     });

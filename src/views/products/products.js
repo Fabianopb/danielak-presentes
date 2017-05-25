@@ -19,7 +19,7 @@ class ProductsView extends Component {
   }
 
   componentWillMount() {
-    Request.getProducts().then((response) => {
+    Request.getAllProducts().then((response) => {
       const products = response.data;
       this.setState({ products: products.map((product) => {
         return (
