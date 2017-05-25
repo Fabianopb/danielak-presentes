@@ -12,7 +12,7 @@ var saveData = function(user, error, response, message, object) {
 
 router.route('/')
   .get(function(request, response) {
-    Product.find({}, function(error, products) {
+    Product.find(request.query, function(error, products) {
       return response.status(200).json(products);
     });
   })
