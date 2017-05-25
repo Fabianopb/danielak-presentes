@@ -6,7 +6,6 @@
     "axios": "^0.16.1",
     "body-parser": "^1.17.2",
     "express": "^4.15.2",
-    "material-ui": "^0.18.1",
     "mongoose": "^4.10.0",
     "react": "^15.5.4",
     "react-dom": "^15.5.4",
