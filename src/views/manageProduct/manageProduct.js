@@ -19,11 +19,30 @@ class ManageProductView extends Component {
   }
 
   componentWillMount() {
-    Request.getProductById(this.state.id).then((response) => {
-      console.log(response);
-      // const products = response.data;
-      // this.setState({ products: this._renderProducts(products) });
-    });
+    if (this.state.id) {
+      Request.getProductById(this.state.id).then((response) => {
+        const product = response.data[0];
+        // this._setProduct(product);
+      });
+    }
+  }
+
+  _setProduct(product) {
+    this._name.input.defaultValue = product.name;
+    this._image.input.value = product.image;
+    this._storeLink.input.value = product.storeLink;
+    this._description.input.refs.input.value = product.description;
+    this._currentPrice.input.value = product.currentPrice;
+    this._discountPrice.input.value = product.discountPrice;
+    this._tags.input.value = product.tags;
+    this._productionTime.input.value = product.productionTime;
+    this._minAmount.input.value = product.minAmount;
+    this._width.input.value = product.width;
+    this._height.input.value = product.height;
+    this._depth.input.value = product.depth;
+    this._weight.input.value = product.weight;
+    this._isVisible.setState({switched: product.isVisible});
+    this._isFeatured.setState({switched: product.isFeatured});
   }
 
   _addProduct() {
