@@ -32,7 +32,7 @@ class AdminView extends Component {
           </TableRowColumn>
           <TableRowColumn>{ product.currentPrice }</TableRowColumn>
           <TableRowColumn>
-            <Link to={ `/admin/${product._id}` } className="add-product">
+            <Link to={ `/admin/product/${product._id}` } className="add-product">
               <FontIcon className="icon icon-pencil" />
             </Link>
             <FontIcon className="icon icon-bin" />
@@ -49,7 +49,7 @@ class AdminView extends Component {
           DaniK - Admin View
         </div>
         <h3>Lista de produtos</h3>
-        <Link to="/admin/add-product" className="add-product">
+        <Link to="/admin/product/new" className="add-product">
           <h4>Adicionar Produto</h4>
           <FontIcon className="icon icon-plus" />
         </Link>

@@ -15,7 +15,6 @@ class ManageProductView extends Component {
       redirect: null,
       id: props.match.params.product
     }
-    console.log(this.state.id);
     this._addProduct = this._addProduct.bind(this);
   }
 

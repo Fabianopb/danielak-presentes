@@ -19,7 +19,7 @@ class App extends Component {
           <div>
             <Route exact path="/" component={ ProductsView } />
             <Route exact path="/admin" component={ AdminView } />
-            <Route path="/admin/:product" component={ ManageProductView } />
+            <Route path="/admin/product/:id" component={ ManageProductView } />
           </div>
         </Router>
       </MuiThemeProvider>
