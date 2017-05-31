@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
-import Dialog from 'material-ui/Dialog';
-import FlatButton from 'material-ui/FlatButton';
+import { Button, Modal } from 'semantic-ui-react';
 
 class ProductDialog extends Component {
 
@@ -22,36 +21,20 @@ class ProductDialog extends Component {
   }
 
   render() {
-
-    const actions = [
-      <FlatButton
-        label="Cancel"
-        primary={ true }
-        onTouchTap={ this.props.handleClose }
-      />,
-      <FlatButton
-        label="Submit"
-        primary={ true }
-        keyboardFocused={ true }
-        onTouchTap={ this.props.handleClose }
-      />,
-    ];
-
     return (
-      <Dialog
-        title={ this.state.product && this.state.product.name }
-        actions={ actions }
-        modal={ false }
-        open={ this.state.isDialogOpen }
-        onRequestClose={ this.props.handleClose }
-      >
-        { this.state.product &&
-          <div className="dialog-content">
-            <div className="description">{ this.state.product.description }</div>
-            <div className="current-price">{ this.state.product.currentPrice }</div>
-          </div>
-        }
-      </Dialog>
+      <Modal open={ this.state.isDialogOpen } onClose={ this.props.handleClose }>
+        <Modal.Header>
+          { this.state.product && this.state.product.name }
+        </Modal.Header>
+        <Modal.Content>
+          <p>{ this.state.product && this.state.product.description }</p>
+          <p>{ this.state.product && this.state.product.currentPrice }</p>
+        </Modal.Content>
+        <Modal.Actions>
+          <Button negative onClick={ this.props.handleClose }>No</Button>
+          <Button positive onClick={ this.props.handleClose }>Yes</Button>
+        </Modal.Actions>
+      </Modal>
     );
   }
 }

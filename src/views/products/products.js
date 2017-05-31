@@ -26,7 +26,7 @@ class ProductsView extends Component {
           <ProductCell
             key={ product._id }
             product={ product }
-            onTouchTap={ () => this._handleOpen(product) }
+            onClick={ () => this._handleOpen(product) }
           />
         );
       })});
