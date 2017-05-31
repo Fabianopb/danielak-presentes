@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import { Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn } from 'material-ui/Table';
-import FontIcon from 'material-ui/FontIcon';
+import { Table } from 'semantic-ui-react';
+// import FontIcon from 'material-ui/FontIcon';
 import { Link } from 'react-router-dom';
 
 import Request from '../../modules/requests';
@@ -25,19 +25,21 @@ class AdminView extends Component {
   _renderProducts(products) {
     return products.map((product) => {
       return (
-        <TableRow key={ product._id }>
-          <TableRowColumn className="name-row">
+        <Table.Row key={ product._id }>
+          <Table.Cell className="name-row">
             <div className="thumbnail"></div>
             <div className="product-name">{ product.name }</div>
-          </TableRowColumn>
-          <TableRowColumn>{ product.currentPrice }</TableRowColumn>
-          <TableRowColumn>
+          </Table.Cell>
+          <Table.Cell>
+            { product.currentPrice }
+          </Table.Cell>
+          <Table.Cell>
             <Link to={ `/admin/product/${product._id}` } className="add-product">
-              <FontIcon className="icon icon-pencil" />
+              {/*<FontIcon className="icon icon-pencil" />*/}
             </Link>
-            <FontIcon className="icon icon-bin" />
-          </TableRowColumn>
-        </TableRow>
+            {/*<FontIcon className="icon icon-bin" />*/}
+          </Table.Cell>
+        </Table.Row>
       );
     });
   }
@@ -51,20 +53,20 @@ class AdminView extends Component {
         <h3>Lista de produtos</h3>
         <Link to="/admin/product/new" className="add-product">
           <h4>Adicionar Produto</h4>
-          <FontIcon className="icon icon-plus" />
+          {/*<FontIcon className="icon icon-plus" />*/}
         </Link>
         <div className="product-list">
-          <Table selectable={ false }>
-            <TableHeader displaySelectAll={ false } adjustForCheckbox={ false }>
-              <TableRow>
-                <TableHeaderColumn>Produto</TableHeaderColumn>
-                <TableHeaderColumn>Preço</TableHeaderColumn>
-                <TableHeaderColumn>Ações</TableHeaderColumn>
-              </TableRow>
-            </TableHeader>
-            <TableBody displayRowCheckbox={ false }>
+          <Table singleLine>
+            <Table.Header>
+              <Table.Row>
+                <Table.HeaderCell>Produto</Table.HeaderCell>
+                <Table.HeaderCell>Preço</Table.HeaderCell>
+                <Table.HeaderCell>Ações</Table.HeaderCell>
+              </Table.Row>
+            </Table.Header>
+            <Table.Body>
               { this.state.products }
-            </TableBody>
+            </Table.Body>
           </Table>
         </div>
       </div>
