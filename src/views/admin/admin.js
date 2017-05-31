@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
-import { Table } from 'semantic-ui-react';
-// import FontIcon from 'material-ui/FontIcon';
+import { Table, Icon } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
 
 import Request from '../../modules/requests';
@@ -35,9 +34,9 @@ class AdminView extends Component {
           </Table.Cell>
           <Table.Cell>
             <Link to={ `/admin/product/${product._id}` } className="add-product">
-              {/*<FontIcon className="icon icon-pencil" />*/}
+              <Icon link name='pencil' />
             </Link>
-            {/*<FontIcon className="icon icon-bin" />*/}
+            <Icon link name='trash' />
           </Table.Cell>
         </Table.Row>
       );
@@ -53,7 +52,7 @@ class AdminView extends Component {
         <h3>Lista de produtos</h3>
         <Link to="/admin/product/new" className="add-product">
           <h4>Adicionar Produto</h4>
-          {/*<FontIcon className="icon icon-plus" />*/}
+          <Icon link name='plus' />
         </Link>
         <div className="product-list">
           <Table singleLine>
