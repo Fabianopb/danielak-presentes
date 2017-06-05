@@ -1,8 +1,5 @@
 import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
-import TextField from 'material-ui/TextField';
-import Checkbox from 'material-ui/Checkbox';
-import RaisedButton from 'material-ui/RaisedButton';
 
 import Request from '../../modules/requests';
 import './manageProduct.css';
@@ -99,7 +96,8 @@ class ManageProductView extends Component {
         </div>
         <h3>Adicionar produto</h3>
         <div className="product-form">
-          <TextField floatingLabelText="Nome do produto" ref={ TextField => this._name = TextField } />
+
+          {/*<TextField floatingLabelText="Nome do produto" ref={ TextField => this._name = TextField } />
           <TextField floatingLabelText="URL da imagem" ref={ TextField => this._image = TextField } />
           <TextField floatingLabelText="Link da loja" ref={ TextField => this._storeLink = TextField } />
           <TextField floatingLabelText="Descrição" multiLine={ true } ref={ TextField => this._description = TextField } />
@@ -119,9 +117,9 @@ class ManageProductView extends Component {
             <TextField floatingLabelText="Peso" ref={ TextField => this._weight = TextField } />
           </div>
           <Checkbox label="Visível" ref={ Checkbox => this._isVisible = Checkbox } />
-          <Checkbox label="Em destaque" ref={ Checkbox => this._isFeatured = Checkbox } />
+          <Checkbox label="Em destaque" ref={ Checkbox => this._isFeatured = Checkbox } />*/}
         </div>
-        <RaisedButton label="Adicionar" onClick={ this._addProduct } />
+        {/*<RaisedButton label="Adicionar" onClick={ this._addProduct } />*/}
         { this.state.redirect }
       </div>
     );
