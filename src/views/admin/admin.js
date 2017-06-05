@@ -33,10 +33,12 @@ class AdminView extends Component {
             { product.currentPrice }
           </Table.Cell>
           <Table.Cell>
-            <Link to={ `/admin/product/${product._id}` } className="add-product">
-              <Icon link name='pencil' />
+            <Link to={ `/admin/product/${product._id}` } >
+              <Icon name='pencil' />
             </Link>
-            <Icon link name='trash' />
+            <Link to={ `/admin` } >
+              <Icon name='trash' />
+            </Link>
           </Table.Cell>
         </Table.Row>
       );
@@ -50,10 +52,12 @@ class AdminView extends Component {
           DaniK - Admin View
         </div>
         <h3>Lista de produtos</h3>
-        <Link to="/admin/product/new" className="add-product">
-          <h4>Adicionar Produto</h4>
-          <Icon link name='plus' />
-        </Link>
+        <div className="add-product">
+          <Link to="/admin/product/new">
+            <div>Adicionar Produto</div>
+            <Icon name='plus' />
+          </Link>
+        </div>
         <div className="product-list">
           <Table singleLine>
             <Table.Header>
