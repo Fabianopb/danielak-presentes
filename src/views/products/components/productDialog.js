@@ -43,6 +43,6 @@ export default ProductDialog;
 
 ProductDialog.propTypes = {
   product: PropTypes.object,
-  isDialogOpen: PropTypes.boolean,
+  isDialogOpen: PropTypes.bool,
   handleClose: PropTypes.func
 };
