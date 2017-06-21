@@ -6,37 +6,36 @@ import Request from '../../modules/requests';
 import './admin.css';
 
 class AdminView extends Component {
-
-  constructor(props) {
+  constructor (props) {
     super(props);
     this.state = {
       products: null
     };
   }
 
-  componentWillMount() {
+  componentWillMount () {
     Request.getAllProducts().then((response) => {
       const products = response.data;
       this.setState({ products: this._renderProducts(products) });
     });
   }
 
-  _renderProducts(products) {
+  _renderProducts (products) {
     return products.map((product) => {
       return (
-        <Table.Row key={ product._id }>
-          <Table.Cell className="name-row">
-            <div className="thumbnail"></div>
-            <div className="product-name">{ product.name }</div>
+        <Table.Row key={product._id}>
+          <Table.Cell className='name-row'>
+            <div className='thumbnail' />
+            <div className='product-name'>{ product.name }</div>
           </Table.Cell>
           <Table.Cell>
             { product.currentPrice }
           </Table.Cell>
           <Table.Cell>
-            <Link to={ `/admin/product/${product._id}` } >
+            <Link to={`/admin/product/${product._id}`} >
               <Icon name='pencil' />
             </Link>
-            <Link to={ `/admin` } >
+            <Link to={`/admin`} >
               <Icon name='trash' />
             </Link>
           </Table.Cell>
@@ -45,20 +44,20 @@ class AdminView extends Component {
     });
   }
 
-  render() {
+  render () {
     return (
       <div>
-        <div className="admin-bar">
+        <div className='admin-bar'>
           DaniK - Admin View
         </div>
         <h3>Lista de produtos</h3>
-        <div className="add-product">
-          <Link to="/admin/product/new">
+        <div className='add-product'>
+          <Link to='/admin/product/new'>
             <div>Adicionar Produto</div>
             <Icon name='plus' />
           </Link>
         </div>
-        <div className="product-list">
+        <div className='product-list'>
           <Table singleLine>
             <Table.Header>
               <Table.Row>

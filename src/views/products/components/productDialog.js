@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { Button, Modal } from 'semantic-ui-react';
+import { PropTypes } from 'prop-types';
 
 class ProductDialog extends Component {
-
-  constructor(props) {
+  constructor (props) {
     super(props);
     this.state = {
       product: props.product,
@@ -11,7 +11,7 @@ class ProductDialog extends Component {
     };
   }
 
-  componentWillReceiveProps(nextProps) {
+  componentWillReceiveProps (nextProps) {
     if (nextProps.isDialogOpen !== this.state.isDialogOpen) {
       this.setState({ isDialogOpen: nextProps.isDialogOpen });
     }
@@ -20,9 +20,9 @@ class ProductDialog extends Component {
     }
   }
 
-  render() {
+  render () {
     return (
-      <Modal open={ this.state.isDialogOpen } onClose={ this.props.handleClose }>
+      <Modal open={this.state.isDialogOpen} onClose={this.props.handleClose}>
         <Modal.Header>
           { this.state.product && this.state.product.name }
         </Modal.Header>
@@ -31,8 +31,8 @@ class ProductDialog extends Component {
           <p>{ this.state.product && this.state.product.currentPrice }</p>
         </Modal.Content>
         <Modal.Actions>
-          <Button negative onClick={ this.props.handleClose }>No</Button>
-          <Button positive onClick={ this.props.handleClose }>Yes</Button>
+          <Button negative onClick={this.props.handleClose}>No</Button>
+          <Button positive onClick={this.props.handleClose}>Yes</Button>
         </Modal.Actions>
       </Modal>
     );
@@ -40,3 +40,9 @@ class ProductDialog extends Component {
 }
 
 export default ProductDialog;
+
+ProductDialog.propTypes = {
+  product: PropTypes.object,
+  isDialogOpen: PropTypes.boolean,
+  handleClose: PropTypes.func
+};
