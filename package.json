@@ -15,7 +15,16 @@
     "semantic-ui-react": "^0.68.3"
   },
   "devDependencies": {
+    "babel-eslint": "^7.2.3",
     "concurrently": "^3.4.0",
+    "eslint": "^4.0.0",
+    "eslint-config-standard": "^10.2.1",
+    "eslint-config-standard-react": "^5.0.0",
+    "eslint-plugin-import": "^2.3.0",
+    "eslint-plugin-node": "^5.0.0",
+    "eslint-plugin-promise": "^3.5.0",
+    "eslint-plugin-react": "^7.1.0",
+    "eslint-plugin-standard": "^3.0.1",
     "node-sass": "^4.5.3",
     "nodemon": "^1.11.0",
     "npm-run-all": "^4.0.2",
