@@ -1,48 +1,63 @@
 import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
 import { PropTypes } from 'prop-types';
+import { Form } from 'semantic-ui-react';
 
 import Request from '../../modules/requests';
 import './manageProduct.css';
+
+// const options = [
+//   { key: 'm', text: 'Male', value: 'male' },
+//   { key: 'f', text: 'Female', value: 'female' }
+// ];
 
 class ManageProductView extends Component {
   constructor (props) {
     super(props);
     this.state = {
+      product: {
+        name: '',
+        image: '',
+        storeLink: ''
+      },
+      value: null,
       redirect: null,
       id: props.match.params.id
     };
-    this._addProduct = this._addProduct.bind(this);
   }
 
   componentWillMount () {
-    if (this.state.id) {
+    if (this.state.id !== 'new') {
       Request.getProductById(this.state.id).then((response) => {
-        // const product = response.data[0];
-        // this._setProduct(product);
+        this.setProduct(response.data[0]);
       });
     }
   }
 
-  _setProduct (product) {
-    this._name.input.defaultValue = product.name;
-    this._image.input.value = product.image;
-    this._storeLink.input.value = product.storeLink;
-    this._description.input.refs.input.value = product.description;
-    this._currentPrice.input.value = product.currentPrice;
-    this._discountPrice.input.value = product.discountPrice;
-    this._tags.input.value = product.tags;
-    this._productionTime.input.value = product.productionTime;
-    this._minAmount.input.value = product.minAmount;
-    this._width.input.value = product.width;
-    this._height.input.value = product.height;
-    this._depth.input.value = product.depth;
-    this._weight.input.value = product.weight;
-    this._isVisible.setState({switched: product.isVisible});
-    this._isFeatured.setState({switched: product.isFeatured});
+  handleChange = (e, {value}) => this.setState({value});
+
+  setProduct = (product) => {
+    // TODO: product properties should always be present
+    product.storeLink = '';
+    this.setState({product});
+    // this._name.input.defaultValue = product.name;
+    // this._image.input.value = product.image;
+    // this._storeLink.input.value = product.storeLink;
+    // this._description.input.refs.input.value = product.description;
+    // this._currentPrice.input.value = product.currentPrice;
+    // this._discountPrice.input.value = product.discountPrice;
+    // this._tags.input.value = product.tags;
+    // this._productionTime.input.value = product.productionTime;
+    // this._minAmount.input.value = product.minAmount;
+    // this._width.input.value = product.width;
+    // this._height.input.value = product.height;
+    // this._depth.input.value = product.depth;
+    // this._weight.input.value = product.weight;
+    // this._isVisible.setState({switched: product.isVisible});
+    // this._isFeatured.setState({switched: product.isFeatured});
   }
 
-  _addProduct () {
+  addProduct = () => {
     Request.postProduct({
       name: this._name.input.value,
       image: [this._image.input.value],
@@ -64,13 +79,13 @@ class ManageProductView extends Component {
     }).then((response) => {
       this.setState({ redirect: <Redirect to='/admin' /> });
       console.log(response);
-      this._clearForm();
+      this.clearForm();
     }).catch((error) => {
       console.log(error.response);
     });
   }
 
-  _clearForm () {
+  clearForm = () => {
     this._name.input.value = null;
     this._image.input.value = null;
     this._storeLink.input.value = null;
@@ -88,6 +103,8 @@ class ManageProductView extends Component {
     this._isFeatured.setState({switched: false});
   }
 
+  handleInput = (e) => this.setState({product: {[e.target.name]: e.target.value}});
+
   render () {
     return (
       <div>
@@ -96,6 +113,23 @@ class ManageProductView extends Component {
         </div>
         <h3>Adicionar produto</h3>
         <div className='product-form'>
+          <Form>
+            <Form.Group widths='equal'>
+              <Form.Input label='Nome do produto' placeholder='Nome do produto' name='name' value={this.state.product.name} onChange={this.handleInput} />
+              <Form.Input label='URL da imagem' placeholder='URL da imagem' name='image' value={this.state.product.image} onChange={this.handleInput} />
+              <Form.Input label='Link da loja' placeholder='Link da loja' name='storeLink' value={this.state.product.storeLink} onChange={this.handleInput} />
+              {/* <Form.Select label='Gender' options={options} placeholder='Gender' /> */}
+            </Form.Group>
+            <Form.Group inline>
+              <label>Size</label>
+              <Form.Radio label='Small' value='sm' checked={this.state.value === 'sm'} onChange={this.handleChange} />
+              <Form.Radio label='Medium' value='md' checked={this.state.value === 'md'} onChange={this.handleChange} />
+              <Form.Radio label='Large' value='lg' checked={this.state.value === 'lg'} onChange={this.handleChange} />
+            </Form.Group>
+            <Form.TextArea label='About' placeholder='Tell us more about you...' />
+            <Form.Checkbox label='I agree to the Terms and Conditions' />
+            <Form.Button>Submit</Form.Button>
+          </Form>
 
           {/* <TextField floatingLabelText='Nome do produto' ref={ TextField => this._name = TextField } />
           <TextField floatingLabelText='URL da imagem' ref={ TextField => this._image = TextField } />
@@ -119,7 +153,7 @@ class ManageProductView extends Component {
           <Checkbox label='Visível' ref={ Checkbox => this._isVisible = Checkbox } />
           <Checkbox label='Em destaque' ref={ Checkbox => this._isFeatured = Checkbox } /> */}
         </div>
-        {/* <RaisedButton label='Adicionar' onClick={ this._addProduct } /> */}
+        {/* <RaisedButton label='Adicionar' onClick={ this.addProduct } /> */}
         { this.state.redirect }
       </div>
     );
