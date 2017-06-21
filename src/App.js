@@ -7,14 +7,13 @@ import ManageProductView from './views/manageProduct/manageProduct';
 import './App.css';
 
 class App extends Component {
-
-  render() {
+  render () {
     return (
       <Router>
         <div>
-          <Route exact path="/" component={ ProductsView } />
-          <Route exact path="/admin" component={ AdminView } />
-          <Route path="/admin/product/:id" component={ ManageProductView } />
+          <Route exact path='/' component={ProductsView} />
+          <Route exact path='/admin' component={AdminView} />
+          <Route path='/admin/product/:id' component={ManageProductView} />
         </div>
       </Router>
     );
