@@ -6,11 +6,6 @@ import { Form } from 'semantic-ui-react';
 import Request from '../../modules/requests';
 import './manageProduct.css';
 
-// const options = [
-//   { key: 'm', text: 'Male', value: 'male' },
-//   { key: 'f', text: 'Female', value: 'female' }
-// ];
-
 class ManageProductView extends Component {
   constructor (props) {
     super(props);
@@ -18,7 +13,21 @@ class ManageProductView extends Component {
       product: {
         name: '',
         image: '',
-        storeLink: ''
+        storeLink: '',
+        description: '',
+        currentPrice: 0,
+        discountPrice: 0,
+        tags: '',
+        productionTime: 0,
+        minAmount: 0,
+        dimensions: {
+          width: 0,
+          height: 0,
+          depth: 0,
+          weight: 0
+        },
+        isVisible: false,
+        isFeatured: false
       },
       value: null,
       redirect: null,
@@ -34,11 +43,20 @@ class ManageProductView extends Component {
     }
   }
 
-  handleChange = (e, {value}) => this.setState({value});
-
   setProduct = (product) => {
-    // TODO: product properties should always be present
-    product.storeLink = '';
+    // TODO: The state should reflect the backend object so the loop below can be removed
+    const stateProduct = this.state.product;
+    const stateDimensions = this.state.product.dimensions;
+    for (const prop in stateProduct) {
+      if (stateProduct.hasOwnProperty(prop) && !product[prop]) {
+        product[prop] = prop === 'isVisible' || prop === 'isFeatured' ? false : '';
+      }
+    }
+    for (const prop in stateDimensions) {
+      if (stateDimensions.hasOwnProperty(prop) && !product.dimensions[prop]) {
+        product.dimensions[prop] = '';
+      }
+    }
     this.setState({product});
     // this._name.input.defaultValue = product.name;
     // this._image.input.value = product.image;
@@ -105,7 +123,13 @@ class ManageProductView extends Component {
 
   handleInput = (e) => this.setState({product: {[e.target.name]: e.target.value}});
 
+  handleForm = (e) => {
+    e.preventDefault();
+    console.log(this.state.product);
+  }
+
   render () {
+    const product = this.state.product;
     return (
       <div>
         <div className='admin-bar'>
@@ -113,21 +137,30 @@ class ManageProductView extends Component {
         </div>
         <h3>Adicionar produto</h3>
         <div className='product-form'>
-          <Form>
+          <Form onSubmit={this.handleForm} >
             <Form.Group widths='equal'>
-              <Form.Input label='Nome do produto' placeholder='Nome do produto' name='name' value={this.state.product.name} onChange={this.handleInput} />
-              <Form.Input label='URL da imagem' placeholder='URL da imagem' name='image' value={this.state.product.image} onChange={this.handleInput} />
-              <Form.Input label='Link da loja' placeholder='Link da loja' name='storeLink' value={this.state.product.storeLink} onChange={this.handleInput} />
-              {/* <Form.Select label='Gender' options={options} placeholder='Gender' /> */}
+              <Form.Input label='Nome do produto' placeholder='Nome do produto' name='name' value={product.name} onChange={this.handleInput} />
+              <Form.Input label='URL da imagem' placeholder='URL da imagem' name='image' value={product.image} onChange={this.handleInput} />
+              <Form.Input label='Link da loja' placeholder='Link da loja' name='storeLink' value={product.storeLink} onChange={this.handleInput} />
             </Form.Group>
-            <Form.Group inline>
-              <label>Size</label>
-              <Form.Radio label='Small' value='sm' checked={this.state.value === 'sm'} onChange={this.handleChange} />
-              <Form.Radio label='Medium' value='md' checked={this.state.value === 'md'} onChange={this.handleChange} />
-              <Form.Radio label='Large' value='lg' checked={this.state.value === 'lg'} onChange={this.handleChange} />
+            <Form.TextArea label='Descrição' placeholder='Descrição do produto' name='description' value={product.description} onChange={this.handleInput} />
+            <Form.Group widths='equal'>
+              <Form.Input label='Preço' placeholder='Preço' name='currentPrice' value={product.currentPrice} onChange={this.handleInput} />
+              <Form.Input label='Preço com desconto' placeholder='Preço com desconto' name='discountPrice' value={product.discountPrice} onChange={this.handleInput} />
             </Form.Group>
-            <Form.TextArea label='About' placeholder='Tell us more about you...' />
-            <Form.Checkbox label='I agree to the Terms and Conditions' />
+            <Form.Input label='Tags' placeholder='Tags' name='tags' value={product.tags} onChange={this.handleInput} />
+            <Form.Group widths='equal'>
+              <Form.Input label='Tempo de produção' placeholder='Tempo de produção' name='productionTime' value={product.productionTime} onChange={this.handleInput} />
+              <Form.Input label='Quantidade mínima' placeholder='Quantidade mínima' name='minAmount' value={product.minAmount} onChange={this.handleInput} />
+            </Form.Group>
+            <Form.Group widths='equal'>
+              <Form.Input label='Altura' placeholder='Altura' name='height' value={product.dimensions.height} onChange={this.handleInput} />
+              <Form.Input label='Largura' placeholder='Largura' name='width' value={product.dimensions.width} onChange={this.handleInput} />
+              <Form.Input label='Profundidade' placeholder='Profundidade' name='depth' value={product.dimensions.depth} onChange={this.handleInput} />
+              <Form.Input label='Peso' placeholder='Peso' name='weight' value={product.dimensions.weight} onChange={this.handleInput} />
+            </Form.Group>
+            <Form.Checkbox label='Visível' name='isVisible' />
+            <Form.Checkbox label='Em destaque' name='isFeatured' />
             <Form.Button>Submit</Form.Button>
           </Form>
 
