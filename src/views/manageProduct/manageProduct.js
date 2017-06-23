@@ -44,7 +44,7 @@ class ManageProductView extends Component {
   }
 
   setProduct = (product) => {
-    // TODO: The state should reflect the backend object so the loops below can be removed
+    // TODO: The backend should save the entire object even if some fields are not required
     const stateProduct = this.state.product;
     for (const prop in stateProduct) {
       if (stateProduct.hasOwnProperty(prop) && !product[prop]) {
@@ -58,13 +58,12 @@ class ManageProductView extends Component {
     Request.postProduct(this.state.product).then((response) => {
       this.setState({ redirect: <Redirect to='/admin' /> });
       console.log(response);
-      this.clearForm();
     }).catch((error) => {
       console.log(error.response);
     });
   }
 
-  clearForm = () => this.setState({product: initialProductState});
+  // clearForm = () => this.setState({product: initialProductState});
 
   handleInput = (e) => {
     const product = Object.assign({}, this.state.product, {[e.target.name]: e.target.value});
@@ -73,8 +72,8 @@ class ManageProductView extends Component {
 
   handleForm = (e) => {
     e.preventDefault();
-    console.log(this.state.product);
-    this.clearForm();
+    // TODO: validate form before sending
+    this.addProduct();
   }
 
   render () {
