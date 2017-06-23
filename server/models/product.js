@@ -11,12 +11,10 @@ var ProductSchema = new Schema({
   tags: String,
   productionTime: Number,
   minAmount: Number,
-  dimensions: {
-    width: Number,
-    height: Number,
-    depth: Number,
-    weight: Number
-  },
+  width: Number,
+  height: Number,
+  depth: Number,
+  weight: Number,
   isVisible: Boolean,
   isFeatured: Boolean
 });
