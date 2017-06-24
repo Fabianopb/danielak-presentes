@@ -55,12 +55,17 @@ class ManageProductView extends Component {
   }
 
   addProduct = () => {
-    Request.postProduct(this.state.product).then((response) => {
-      this.setState({ redirect: <Redirect to='/admin' /> });
+    Request.postProduct(this.state.product).then(response => {
+      this.setState({redirect: <Redirect to='/admin' />});
       console.log(response);
-    }).catch((error) => {
-      console.log(error.response);
-    });
+    }).catch((error) => console.log(error.response));
+  }
+
+  updateProduct = () => {
+    Request.putProduct(this.state.product, this.state.id).then(response => {
+      this.setState({redirect: <Redirect to='/admin' />});
+      console.log(response);
+    }).catch(error => console.log(error.response));
   }
 
   // clearForm = () => this.setState({product: initialProductState});
@@ -70,10 +75,19 @@ class ManageProductView extends Component {
     this.setState({product});
   }
 
+  handleCheckbox = (e, data) => {
+    const product = Object.assign({}, this.state.product, {[data.name]: data.checked});
+    this.setState({product});
+  }
+
   handleForm = (e) => {
     e.preventDefault();
     // TODO: validate form before sending
-    this.addProduct();
+    if (this.state.id === 'new') {
+      this.addProduct();
+    } else {
+      this.updateProduct();
+    }
   }
 
   render () {
@@ -108,8 +122,8 @@ class ManageProductView extends Component {
               <Form.Input label='Profundidade' placeholder='Profundidade' name='depth' value={product.depth} onChange={this.handleInput} />
               <Form.Input label='Peso' placeholder='Peso' name='weight' value={product.weight} onChange={this.handleInput} />
             </Form.Group>
-            <Form.Checkbox label='Visível' name='isVisible' />
-            <Form.Checkbox label='Em destaque' name='isFeatured' />
+            <Form.Checkbox label='Visível' name='isVisible' checked={product.isVisible} onChange={this.handleCheckbox} />
+            <Form.Checkbox label='Em destaque' name='isFeatured' checked={product.isFeatured} onChange={this.handleCheckbox} />
             <Form.Button>Submit</Form.Button>
           </Form>
         </div>

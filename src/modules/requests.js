@@ -16,6 +16,10 @@ let Request = class Request {
   postProduct (product) {
     return axios.post(`${this.baseUrl}/api/products`, product);
   }
+
+  putProduct (product, id) {
+    return axios.put(`${this.baseUrl}/api/products/${id}`, product);
+  }
 };
 
 export default Request = new Request();
