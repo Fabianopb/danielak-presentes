@@ -20,6 +20,10 @@ let Request = class Request {
   putProduct (product, id) {
     return axios.put(`${this.baseUrl}/api/products/${id}`, product);
   }
+
+  deleteProduct (product, id) {
+    return axios.delete(`${this.baseUrl}/api/products/${id}`, product);
+  }
 };
 
 export default Request = new Request();

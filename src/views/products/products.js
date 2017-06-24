@@ -60,8 +60,10 @@ class ProductsView extends Component {
   }
 
   _handleOpen = (product) => {
-    this.setState({activeProduct: product});
-    this.setState({isDialogOpen: true});
+    this.setState({
+      activeProduct: product,
+      isDialogOpen: true
+    });
   }
 
   _handleClose = () => {

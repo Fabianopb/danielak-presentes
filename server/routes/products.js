@@ -28,14 +28,12 @@ router.route('/:id')
       Object.assign(product, request.body);
       handleOnSave(product, response, 'Product updated!');
     });
+  })
+  .delete(function (request, response) {
+    Product.remove({_id: request.params.id}, function (error) {
+      if (error) { return response.status(400).send(error); }
+      return response.status(200).json('Product removed');
+    });
   });
-
-// router.route('/:id')
-//   .delete(function(request, response) {
-//     Product.findById(request.payload._id, function(error, product) {
-//       product.beers.id(request.params.id).remove();
-//       handleOnSave(product, response, 'Beer removed!');
-//     });
-//   });
 
 module.exports = router;
