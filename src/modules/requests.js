@@ -2,7 +2,7 @@ import axios from 'axios';
 
 let Request = class Request {
   constructor () {
-    this.baseUrl = process.env.REACT_APP_API_URL || 'http://localhost:9000';
+    this.baseUrl = process.env.DANIK_CLIENT_URL || 'http://localhost:9000';
   }
 
   getAllProducts () {

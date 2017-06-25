@@ -7,7 +7,8 @@ var products = require('./routes/products');
 // var passport = require('passport');
 // app.use(passport.initialize());
 
-app.use(function(request, response, next) {
+app.use(function (request, response, next) {
+  console.log('x-forwarded-proto', request.headers['x-forwarded-proto']);
   response.header('Access-Control-Allow-Origin', 'http://localhost:3000');
   response.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization');
   response.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
@@ -25,4 +26,4 @@ app.get('*', (request, response) => {
 });
 
 app.listen(process.env.PORT || 9000);
-console.log('Listening on port 9000...');
+console.log('Server up and running...');
