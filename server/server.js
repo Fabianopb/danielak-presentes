@@ -7,15 +7,6 @@ var products = require('./routes/products');
 // var passport = require('passport');
 // app.use(passport.initialize());
 
-app.use(function (request, response, next) {
-  console.log('x-forwarded-proto', request.headers['x-forwarded-proto']);
-  console.log('request coming from', process.env.DANIK_CLIENT_URL || 'http://localhost:9000');
-  response.header('Access-Control-Allow-Origin', 'http://localhost:3000');
-  response.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization');
-  response.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
-  next();
-});
-
 app.use('/api/products', products);
 
 mongoose.connect(process.env.DANIK_MONGODB);

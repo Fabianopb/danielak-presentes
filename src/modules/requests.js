@@ -1,28 +1,24 @@
 import axios from 'axios';
 
 let Request = class Request {
-  constructor () {
-    this.baseUrl = process.env.DANIK_CLIENT_URL || 'http://localhost:9000';
-  }
-
   getAllProducts () {
-    return axios.get(`${this.baseUrl}/api/products`);
+    return axios.get(`/api/products`);
   }
 
   getProductById (productId) {
-    return axios.get(`${this.baseUrl}/api/products?_id=${productId}`);
+    return axios.get(`/api/products?_id=${productId}`);
   }
 
   postProduct (product) {
-    return axios.post(`${this.baseUrl}/api/products`, product);
+    return axios.post(`/api/products`, product);
   }
 
   putProduct (product, id) {
-    return axios.put(`${this.baseUrl}/api/products/${id}`, product);
+    return axios.put(`/api/products/${id}`, product);
   }
 
   deleteProduct (product, id) {
-    return axios.delete(`${this.baseUrl}/api/products/${id}`, product);
+    return axios.delete(`/api/products/${id}`, product);
   }
 };
 

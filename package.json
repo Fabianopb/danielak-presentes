@@ -2,6 +2,7 @@
   "name": "danielak",
   "version": "0.1.0",
   "private": true,
+  "proxy": "http://localhost:9000",
   "dependencies": {
     "axios": "^0.16.1",
     "body-parser": "^1.17.2",
