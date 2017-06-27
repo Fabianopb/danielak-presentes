@@ -71,7 +71,6 @@ class ProductsView extends Component {
         <div className='hero-bar'>
           DaniK
         </div>
-        <Button onClick={this.props.testActionCreator}>TEST</Button>
         <div className='product-grid'>
           {this.state.products}
         </div>

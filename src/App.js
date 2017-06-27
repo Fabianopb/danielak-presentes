@@ -1,12 +1,39 @@
 import React, { Component } from 'react';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
-import {bindActionCreators} from 'redux';
-import {connect} from 'react-redux';
+import {applyMiddleware, compose, createStore, combineReducers, bindActionCreators} from 'redux';
+import {Provider, connect} from 'react-redux';
 
 import ProductsView from './views/products/products';
 import AdminView from './views/admin/admin';
 import ManageProductView from './views/manageProduct/manageProduct';
 import './App.css';
+
+const initialState = {
+  test: 0
+};
+
+const middleware = [ /* add SagaMiddleware here */ ];
+const enhancers = [];
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+
+// Create Reducers and pass them to the App's store
+
+const testReducer = (test = initialState.test, action = {}) => {
+  if (action.type === 'TEST_ACTION') {
+    console.log('woot', test);
+    return test + 1;
+  }
+  return test;
+};
+
+const reducers = combineReducers({
+  test: testReducer
+});
+
+const store = createStore(
+  reducers,
+  composeEnhancers(applyMiddleware(...middleware), ...enhancers)
+);
 
 const testActionCreator = () => {
   return {
@@ -32,13 +59,15 @@ const ConnectedManageProductView = connect(mapStateToProps, mapDispatchToProps)(
 class App extends Component {
   render () {
     return (
-      <Router>
-        <div>
-          <Route exact path='/' component={ConnectedProductsView} />
-          <Route exact path='/admin' component={ConnectedAdminView} />
-          <Route path='/admin/product/:id' component={ConnectedManageProductView} />
-        </div>
-      </Router>
+      <Provider store={store}>
+        <Router>
+          <div>
+            <Route exact path='/' component={ConnectedProductsView} />
+            <Route exact path='/admin' component={ConnectedAdminView} />
+            <Route path='/admin/product/:id' component={ConnectedManageProductView} />
+          </div>
+        </Router>
+      </Provider>
     );
   }
 }
