@@ -41,27 +41,25 @@ class AdminView extends Component {
   }
 
   renderProducts = (products) => {
-    return products.map((product) => {
-      return (
-        <Table.Row key={product._id}>
-          <Table.Cell className='name-row'>
-            <div className='thumbnail' />
-            <div className='product-name'>{ product.name }</div>
-          </Table.Cell>
-          <Table.Cell>
-            { product.currentPrice }
-          </Table.Cell>
-          <Table.Cell>
-            <Link to={`/admin/product/${product._id}`}>
-              <Icon name='pencil' />
-            </Link>
-            <Link to={`#`}>
-              <Icon name='trash' onClick={() => this.openDialog(product)} />
-            </Link>
-          </Table.Cell>
-        </Table.Row>
-      );
-    });
+    return products.map((product) => (
+      <Table.Row key={product._id}>
+        <Table.Cell className='name-row'>
+          <div className='thumbnail' />
+          <div className='product-name'>{ product.name }</div>
+        </Table.Cell>
+        <Table.Cell>
+          { product.currentPrice }
+        </Table.Cell>
+        <Table.Cell>
+          <Link to={`/admin/product/${product._id}`}>
+            <Icon name='pencil' />
+          </Link>
+          <Link to={`#`}>
+            <Icon name='trash' onClick={() => this.openDialog(product)} />
+          </Link>
+        </Table.Cell>
+      </Table.Row>
+    ));
   }
 
   openDialog = (product) => {

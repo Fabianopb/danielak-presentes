@@ -1,23 +1,23 @@
 import axios from 'axios';
 
 let Request = class Request {
-  getAllProducts () {
+  getAllProducts = () => {
     return axios.get(`/api/products`);
   }
 
-  getProductById (productId) {
+  getProductById = (productId) => {
     return axios.get(`/api/products?_id=${productId}`);
   }
 
-  postProduct (product) {
+  postProduct = (product) => {
     return axios.post(`/api/products`, product);
   }
 
-  putProduct (product, id) {
+  putProduct = (product, id) => {
     return axios.put(`/api/products/${id}`, product);
   }
 
-  deleteProduct (product, id) {
+  deleteProduct = (product, id) => {
     return axios.delete(`/api/products/${id}`, product);
   }
 };

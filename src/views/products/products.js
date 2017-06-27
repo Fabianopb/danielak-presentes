@@ -5,34 +5,29 @@ import {Button, Modal} from 'semantic-ui-react';
 import Request from '../../modules/requests';
 import './products.css';
 
-const ProductCell = (props) => {
-  const product = props.product;
-  return (
-    <div className='product-cell'>
-      <div className='image' onClick={props.onClick} />
-      <div className='title'>{product.name}</div>
-      <div className='current-price'>{product.currentPrice}</div>
-    </div>
-  );
-};
+const ProductCell = (props) => (
+  <div className='product-cell'>
+    <div className='image' onClick={props.onClick} />
+    <div className='title'>{props.product.name}</div>
+    <div className='current-price'>{props.product.currentPrice}</div>
+  </div>
+);
 
-const ProductDialog = (props) => {
-  return (
-    <Modal open={props.isDialogOpen} onClose={props.handleClose}>
-      <Modal.Header>
-        {props.product && props.product.name}
-      </Modal.Header>
-      <Modal.Content>
-        <p>{props.product && props.product.description}</p>
-        <p>{props.product && props.product.currentPrice}</p>
-      </Modal.Content>
-      <Modal.Actions>
-        <Button negative onClick={props.handleClose}>No</Button>
-        <Button positive onClick={props.handleClose}>Yes</Button>
-      </Modal.Actions>
-    </Modal>
-  );
-};
+const ProductDialog = (props) => (
+  <Modal open={props.isDialogOpen} onClose={props.handleClose}>
+    <Modal.Header>
+      {props.product && props.product.name}
+    </Modal.Header>
+    <Modal.Content>
+      <p>{props.product && props.product.description}</p>
+      <p>{props.product && props.product.currentPrice}</p>
+    </Modal.Content>
+    <Modal.Actions>
+      <Button negative onClick={props.handleClose}>No</Button>
+      <Button positive onClick={props.handleClose}>Yes</Button>
+    </Modal.Actions>
+  </Modal>
+);
 
 class ProductsView extends Component {
   constructor (props) {
@@ -52,21 +47,21 @@ class ProductsView extends Component {
           <ProductCell
             key={product._id}
             product={product}
-            onClick={() => this._handleOpen(product)}
+            onClick={() => this.handleOpen(product)}
           />
         );
       })});
     });
   }
 
-  _handleOpen = (product) => {
+  handleOpen = (product) => {
     this.setState({
       activeProduct: product,
       isDialogOpen: true
     });
   }
 
-  _handleClose = () => {
+  handleClose = () => {
     this.setState({isDialogOpen: false});
   }
 
@@ -85,8 +80,8 @@ class ProductsView extends Component {
         </div>
         <ProductDialog
           isDialogOpen={this.state.isDialogOpen}
-          handleOpen={this._handleOpen}
-          handleClose={this._handleClose}
+          handleOpen={this.handleOpen}
+          handleClose={this.handleClose}
           product={this.state.activeProduct}
         />
       </div>
