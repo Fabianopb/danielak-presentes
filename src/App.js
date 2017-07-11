@@ -1,43 +1,20 @@
 import React, { Component } from 'react';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
-import { createStore, combineReducers, bindActionCreators } from 'redux';
+import { createStore, bindActionCreators } from 'redux';
 import { Provider, connect } from 'react-redux';
+
+import * as actionCreators from './modules/actions';
+import { combinedReducers } from './modules/reducers';
 
 import ProductsView from './views/products/products';
 import AdminView from './views/admin/admin';
 import ManageProductView from './views/manageProduct/manageProduct';
 import './App.css';
 
-const initialState = {
-  test: 0
-};
-
-// Create Reducers and pass them to the App's store
-
-const testReducer = (test = initialState.test, action = {}) => {
-  if (action.type === 'TEST_ACTION') {
-    console.log('woot', test);
-    return test + 1;
-  }
-  return test;
-};
-
-const reducers = combineReducers({
-  test: testReducer
-});
-
 const store = createStore(
-  reducers,
+  combinedReducers,
   window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
 );
-
-const testActionCreator = () => {
-  return {
-    type: 'TEST_ACTION'
-  };
-};
-
-// Create ConnectedApp which maps state and actions to the App's props
 
 const mapStateToProps = (state) => {
   return {
@@ -46,7 +23,7 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = (dispatch) =>
-  bindActionCreators({testActionCreator}, dispatch);
+  bindActionCreators(actionCreators, dispatch);
 
 const ConnectedProductsView = connect(mapStateToProps, mapDispatchToProps)(ProductsView);
 const ConnectedAdminView = connect(mapStateToProps, mapDispatchToProps)(AdminView);

@@ -69,7 +69,7 @@ class ProductsView extends Component {
     return (
       <div>
         <div className='hero-bar'>
-          DaniK
+          DaniK <button onClick={this.props.testActionCreator}>Do stuff</button>
         </div>
         <div className='product-grid'>
           {this.state.products}
