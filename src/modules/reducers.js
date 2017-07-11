@@ -1,19 +1,24 @@
 import { combineReducers } from 'redux';
+import { RECEIVE_PRODUCTS } from './actions';
 
 const initialState = {
-  test: 0
-};
-
-const testReducer = (test = initialState.test, action = {}) => {
-  if (action.type === 'TEST_ACTION') {
-    console.log('woot', test);
-    return test + 2;
+  products: {
+    isFetching: true,
+    data: []
   }
-  return test;
 };
 
-const combinedReducers = combineReducers({
-  test: testReducer
+function productsReducer (products = initialState.products, action = {}) {
+  switch (action.type) {
+    case RECEIVE_PRODUCTS:
+      return {...products, isFetching: false, data: action.data};
+    default:
+      return products;
+  }
+}
+
+const rootReducer = combineReducers({
+  products: productsReducer
 });
 
-export { combinedReducers };
+export { rootReducer };

@@ -1,29 +1,33 @@
 import React, { Component } from 'react';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
-import { createStore, bindActionCreators } from 'redux';
+import { applyMiddleware, compose, createStore, bindActionCreators } from 'redux';
 import { Provider, connect } from 'react-redux';
+import thunk from 'redux-thunk';
 
-import * as actionCreators from './modules/actions';
-import { combinedReducers } from './modules/reducers';
+import { fetchProducts } from './modules/actions';
+import { rootReducer } from './modules/reducers';
 
 import ProductsView from './views/products/products';
 import AdminView from './views/admin/admin';
 import ManageProductView from './views/manageProduct/manageProduct';
 import './App.css';
 
+const middleware = [thunk];
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+
 const store = createStore(
-  combinedReducers,
-  window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+  rootReducer,
+  composeEnhancers(applyMiddleware(...middleware))
 );
 
 const mapStateToProps = (state) => {
   return {
-    test: state.test
+    products: state.products
   };
 };
 
 const mapDispatchToProps = (dispatch) =>
-  bindActionCreators(actionCreators, dispatch);
+  bindActionCreators({fetchProducts}, dispatch);
 
 const ConnectedProductsView = connect(mapStateToProps, mapDispatchToProps)(ProductsView);
 const ConnectedAdminView = connect(mapStateToProps, mapDispatchToProps)(AdminView);

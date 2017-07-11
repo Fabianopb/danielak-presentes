@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {PropTypes} from 'prop-types';
 import {Button, Modal} from 'semantic-ui-react';
 
-import Request from '../../modules/requests';
+// import Request from '../../modules/requests';
 import './products.css';
 
 const ProductCell = (props) => (
@@ -12,6 +12,11 @@ const ProductCell = (props) => (
     <div className='current-price'>{props.product.currentPrice}</div>
   </div>
 );
+
+ProductCell.propTypes = {
+  product: PropTypes.object.isRequired,
+  onClick: PropTypes.func.isRequired
+};
 
 const ProductDialog = (props) => (
   <Modal open={props.isDialogOpen} onClose={props.handleClose}>
@@ -29,6 +34,12 @@ const ProductDialog = (props) => (
   </Modal>
 );
 
+ProductDialog.propTypes = {
+  product: PropTypes.object,
+  isDialogOpen: PropTypes.bool,
+  handleClose: PropTypes.func
+};
+
 class ProductsView extends Component {
   constructor (props) {
     super(props);
@@ -40,18 +51,19 @@ class ProductsView extends Component {
   }
 
   componentWillMount () {
-    Request.getAllProducts().then((response) => {
-      const products = response.data;
-      this.setState({products: products.map((product) => {
-        return (
-          <ProductCell
-            key={product._id}
-            product={product}
-            onClick={() => this.handleOpen(product)}
-          />
-        );
-      })});
-    });
+    this.props.fetchProducts();
+    // Request.getAllProducts().then((response) => {
+    //   const products = response.data;
+    //   this.setState({products: products.map((product) => {
+    //     return (
+    //       <ProductCell
+    //         key={product._id}
+    //         product={product}
+    //         onClick={() => this.handleOpen(product)}
+    //       />
+    //     );
+    //   })});
+    // });
   }
 
   handleOpen = (product) => {
@@ -66,13 +78,20 @@ class ProductsView extends Component {
   }
 
   render () {
+    const {isLoading, data} = this.props.products;
     return (
       <div>
         <div className='hero-bar'>
-          DaniK <button onClick={this.props.testActionCreator}>Do stuff</button>
+          DaniK
         </div>
         <div className='product-grid'>
-          {this.state.products}
+          {!isLoading && data.map(product => (
+            <ProductCell
+              key={product._id}
+              product={product}
+              onClick={() => this.handleOpen(product)}
+            />
+          ))}
         </div>
         <div className='contact-footer'>
           <p>danielalpresentes@yahoo.com.br</p>
@@ -89,15 +108,9 @@ class ProductsView extends Component {
   }
 }
 
-ProductCell.propTypes = {
-  product: PropTypes.object.isRequired,
-  onClick: PropTypes.func.isRequired
-};
-
-ProductDialog.propTypes = {
-  product: PropTypes.object,
-  isDialogOpen: PropTypes.bool,
-  handleClose: PropTypes.func
+ProductsView.propTypes = {
+  fetchProducts: PropTypes.func.isRequired,
+  products: PropTypes.object.isRequired
 };
 
 export default ProductsView;
