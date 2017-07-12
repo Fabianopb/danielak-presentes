@@ -1,11 +1,14 @@
 import React, {Component} from 'react';
 import {PropTypes} from 'prop-types';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
 import {Button, Modal, Dimmer, Loader} from 'semantic-ui-react';
+import { fetchProducts, openDialog, closeDialog } from '../../modules/actions';
 
 import './products.css';
 
 class ProductsView extends Component {
-  componentWillMount () {
+  componentDidMount () {
     this.props.fetchProducts();
   }
 
@@ -61,4 +64,11 @@ ProductsView.propTypes = {
   closeDialog: PropTypes.func.isRequired
 };
 
-export default ProductsView;
+const mapStateToProps = (state) => ({
+  products: state.products
+});
+
+const mapDispatchToProps = (dispatch) =>
+  bindActionCreators({fetchProducts, openDialog, closeDialog}, dispatch);
+
+export default connect(mapStateToProps, mapDispatchToProps)(ProductsView);

@@ -1,10 +1,8 @@
 import React, { Component } from 'react';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
-import { applyMiddleware, compose, createStore, bindActionCreators } from 'redux';
-import { Provider, connect } from 'react-redux';
+import { applyMiddleware, compose, createStore } from 'redux';
+import { Provider } from 'react-redux';
 import thunk from 'redux-thunk';
-
-import { fetchProducts, openDialog, closeDialog } from './modules/actions';
 import { rootReducer } from './modules/reducers';
 
 import ProductsView from './views/products/products';
@@ -20,28 +18,15 @@ const store = createStore(
   composeEnhancers(applyMiddleware(...middleware))
 );
 
-const mapStateToProps = (state) => {
-  return {
-    products: state.products
-  };
-};
-
-const mapDispatchToProps = (dispatch) =>
-  bindActionCreators({fetchProducts, openDialog, closeDialog}, dispatch);
-
-const ConnectedProductsView = connect(mapStateToProps, mapDispatchToProps)(ProductsView);
-const ConnectedAdminView = connect(mapStateToProps, mapDispatchToProps)(AdminView);
-const ConnectedManageProductView = connect(mapStateToProps, mapDispatchToProps)(ManageProductView);
-
 class App extends Component {
   render () {
     return (
       <Provider store={store}>
         <Router>
           <div>
-            <Route exact path='/' component={ConnectedProductsView} />
-            <Route exact path='/admin' component={ConnectedAdminView} />
-            <Route path='/admin/product/:id' component={ConnectedManageProductView} />
+            <Route exact path='/' component={ProductsView} />
+            <Route exact path='/admin' component={AdminView} />
+            <Route path='/admin/product/:id' component={ManageProductView} />
           </div>
         </Router>
       </Provider>
