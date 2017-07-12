@@ -4,7 +4,7 @@ import { applyMiddleware, compose, createStore, bindActionCreators } from 'redux
 import { Provider, connect } from 'react-redux';
 import thunk from 'redux-thunk';
 
-import { fetchProducts } from './modules/actions';
+import { fetchProducts, openDialog, closeDialog } from './modules/actions';
 import { rootReducer } from './modules/reducers';
 
 import ProductsView from './views/products/products';
@@ -27,7 +27,7 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = (dispatch) =>
-  bindActionCreators({fetchProducts}, dispatch);
+  bindActionCreators({fetchProducts, openDialog, closeDialog}, dispatch);
 
 const ConnectedProductsView = connect(mapStateToProps, mapDispatchToProps)(ProductsView);
 const ConnectedAdminView = connect(mapStateToProps, mapDispatchToProps)(AdminView);

@@ -2,83 +2,16 @@ import React, {Component} from 'react';
 import {PropTypes} from 'prop-types';
 import {Button, Modal, Dimmer, Loader} from 'semantic-ui-react';
 
-// import Request from '../../modules/requests';
 import './products.css';
 
-const ProductCell = (props) => (
-  <div className='product-cell'>
-    <div className='image' onClick={props.onClick} />
-    <div className='title'>{props.product.name}</div>
-    <div className='current-price'>{props.product.currentPrice}</div>
-  </div>
-);
-
-ProductCell.propTypes = {
-  product: PropTypes.object.isRequired,
-  onClick: PropTypes.func.isRequired
-};
-
-const ProductDialog = (props) => (
-  <Modal open={props.isDialogOpen} onClose={props.handleClose}>
-    <Modal.Header>
-      {props.product && props.product.name}
-    </Modal.Header>
-    <Modal.Content>
-      <p>{props.product && props.product.description}</p>
-      <p>{props.product && props.product.currentPrice}</p>
-    </Modal.Content>
-    <Modal.Actions>
-      <Button negative onClick={props.handleClose}>No</Button>
-      <Button positive onClick={props.handleClose}>Yes</Button>
-    </Modal.Actions>
-  </Modal>
-);
-
-ProductDialog.propTypes = {
-  product: PropTypes.object,
-  isDialogOpen: PropTypes.bool,
-  handleClose: PropTypes.func
-};
-
 class ProductsView extends Component {
-  constructor (props) {
-    super(props);
-    this.state = {
-      products: null,
-      activeProduct: null,
-      isDialogOpen: false
-    };
-  }
-
   componentWillMount () {
     this.props.fetchProducts();
-    // Request.getAllProducts().then((response) => {
-    //   const products = response.data;
-    //   this.setState({products: products.map((product) => {
-    //     return (
-    //       <ProductCell
-    //         key={product._id}
-    //         product={product}
-    //         onClick={() => this.handleOpen(product)}
-    //       />
-    //     );
-    //   })});
-    // });
-  }
-
-  handleOpen = (product) => {
-    this.setState({
-      activeProduct: product,
-      isDialogOpen: true
-    });
-  }
-
-  handleClose = () => {
-    this.setState({isDialogOpen: false});
   }
 
   render () {
-    const {isLoading, data} = this.props.products;
+    const {isLoading, data, isDialogOpen, activeProduct} = this.props.products;
+    const {openDialog, closeDialog} = this.props;
     return (
       <div>
         <div className='hero-bar'>
@@ -90,23 +23,32 @@ class ProductsView extends Component {
               <Loader />
             </Dimmer>
           ) : data.map(product => (
-            <ProductCell
-              key={product._id}
-              product={product}
-              onClick={() => this.handleOpen(product)}
-            />
+            <div className='product-cell' key={product._id}>
+              <div className='image' onClick={() => openDialog(product)} />
+              <div className='title'>{product.name}</div>
+              <div className='current-price'>{product.currentPrice}</div>
+            </div>
           ))}
         </div>
         <div className='contact-footer'>
           <p>danielalpresentes@yahoo.com.br</p>
           <p>Whatsapp +55 11 99777 5245</p>
         </div>
-        <ProductDialog
-          isDialogOpen={this.state.isDialogOpen}
-          handleOpen={this.handleOpen}
-          handleClose={this.handleClose}
-          product={this.state.activeProduct}
-        />
+        {activeProduct && (
+          <Modal open={isDialogOpen} onClose={closeDialog}>
+            <Modal.Header>
+              {activeProduct.name}
+            </Modal.Header>
+            <Modal.Content>
+              <p>{activeProduct.description}</p>
+              <p>{activeProduct.currentPrice}</p>
+            </Modal.Content>
+            <Modal.Actions>
+              <Button negative onClick={closeDialog}>No</Button>
+              <Button positive onClick={closeDialog}>Yes</Button>
+            </Modal.Actions>
+          </Modal>
+        )}
       </div>
     );
   }
@@ -114,7 +56,9 @@ class ProductsView extends Component {
 
 ProductsView.propTypes = {
   fetchProducts: PropTypes.func.isRequired,
-  products: PropTypes.object.isRequired
+  products: PropTypes.object.isRequired,
+  openDialog: PropTypes.func.isRequired,
+  closeDialog: PropTypes.func.isRequired
 };
 
 export default ProductsView;
