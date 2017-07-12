@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {PropTypes} from 'prop-types';
-import {Button, Modal} from 'semantic-ui-react';
+import {Button, Modal, Dimmer, Loader} from 'semantic-ui-react';
 
 // import Request from '../../modules/requests';
 import './products.css';
@@ -85,7 +85,11 @@ class ProductsView extends Component {
           DaniK
         </div>
         <div className='product-grid'>
-          {!isLoading && data.map(product => (
+          {isLoading ? (
+            <Dimmer active inverted>
+              <Loader />
+            </Dimmer>
+          ) : data.map(product => (
             <ProductCell
               key={product._id}
               product={product}
