@@ -1,8 +1,8 @@
-import React, {Component} from 'react';
-import {PropTypes} from 'prop-types';
+import React, { Component } from 'react';
+import { PropTypes } from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import {Button, Modal, Dimmer, Loader} from 'semantic-ui-react';
+import { Button, Modal, Dimmer, Loader } from 'semantic-ui-react';
 import { fetchProducts, openDialog, closeDialog } from '../../modules/actions';
 
 import './products.css';
@@ -13,7 +13,7 @@ class ProductsView extends Component {
   }
 
   render () {
-    const {isLoading, data, isDialogOpen, activeProduct} = this.props.products;
+    const {isFetching, data, isDialogOpen, activeProduct} = this.props.products;
     const {openDialog, closeDialog} = this.props;
     return (
       <div>
@@ -21,7 +21,7 @@ class ProductsView extends Component {
           DaniK
         </div>
         <div className='product-grid'>
-          {isLoading ? (
+          {isFetching ? (
             <Dimmer active inverted>
               <Loader />
             </Dimmer>
