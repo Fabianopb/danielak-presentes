@@ -4,35 +4,13 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { PropTypes } from 'prop-types';
 import { Table, Icon, Modal, Button, Header, Dimmer, Loader } from 'semantic-ui-react';
-import { fetchProducts, openDialog, closeDialog } from '../../modules/actions';
+import { fetchProducts, deleteProduct, openDialog, closeDialog } from '../../modules/actions';
 
 import './admin.css';
 
 class AdminView extends Component {
   componentDidMount () {
     this.props.fetchProducts();
-  }
-
-  renderProducts = (products) => {
-    return products.map((product) => (
-      <Table.Row key={product._id}>
-        <Table.Cell className='name-row'>
-          <div className='thumbnail' />
-          <div className='product-name'>{ product.name }</div>
-        </Table.Cell>
-        <Table.Cell>
-          { product.currentPrice }
-        </Table.Cell>
-        <Table.Cell>
-          <Link to={`/admin/product/${product._id}`}>
-            <Icon name='pencil' />
-          </Link>
-          <Link to={`#`}>
-            <Icon name='trash' onClick={() => this.openDialog(product)} />
-          </Link>
-        </Table.Cell>
-      </Table.Row>
-    ));
   }
 
   // deleteProduct = () => {
@@ -109,7 +87,7 @@ class AdminView extends Component {
               <Button basic color='red' inverted onClick={closeDialog} >
                 <Icon name='remove' /> No
               </Button>
-              <Button color='green' inverted onClick={() => console.error('handle delete')} >
+              <Button color='green' inverted onClick={() => this.props.deleteProduct(activeProduct._id)} >
                 <Icon name='checkmark' /> Yes
               </Button>
             </Modal.Actions>
@@ -123,6 +101,7 @@ class AdminView extends Component {
 AdminView.propTypes = {
   products: PropTypes.object.isRequired,
   fetchProducts: PropTypes.func.isRequired,
+  deleteProduct: PropTypes.func.isRequired,
   openDialog: PropTypes.func.isRequired,
   closeDialog: PropTypes.func.isRequired
 };
@@ -132,6 +111,6 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) =>
-  bindActionCreators({fetchProducts, openDialog, closeDialog}, dispatch);
+  bindActionCreators({fetchProducts, deleteProduct, openDialog, closeDialog}, dispatch);
 
 export default connect(mapStateToProps, mapDispatchToProps)(AdminView);
