@@ -13,17 +13,6 @@ class AdminView extends Component {
     this.props.fetchProducts();
   }
 
-  // deleteProduct = () => {
-  //   Request.deleteProduct(this.state.product, this.state.activeProduct._id).then(response => {
-  //     console.log(response);
-  //     const products = this.state.products;
-  //     const index = products.findIndex(product => product.key === this.state.activeProduct._id);
-  //     products.splice(index, 1);
-  //     this.setState({products});
-  //     this.closeDialog();
-  //   }).catch((error) => console.log(error.response));
-  // }
-
   render () {
     const {data, isFetching, isDialogOpen, activeProduct} = this.props.products;
     const {openDialog, closeDialog} = this.props;
