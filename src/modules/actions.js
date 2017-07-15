@@ -5,34 +5,33 @@ export const OPEN_DIALOG = (activeProduct) => ({type: 'OPEN_DIALOG', activeProdu
 export const CLOSE_DIALOG = () => ({type: 'CLOSE_DIALOG'});
 export const SPLICE_PRODUCT = () => ({type: 'SPLICE_PRODUCT'});
 
-function receiveProducts (response) {
+function receiveProducts (data) {
   return {
     type: RECEIVE_PRODUCTS,
-    data: response.data,
-    receivedAt: Date.now()
+    payload: {data}
+  };
+}
+
+function spliceProduct (id) {
+  return {
+    type: SPLICE_PRODUCT,
+    payload: {id}
   };
 }
 
 export function fetchProducts () {
   return (dispatch) => {
     return axios.get(`/api/products`)
-      .then(response => dispatch(receiveProducts(response)))
+      .then(response => dispatch(receiveProducts(response.data)))
       .catch(error => console.log(error));
-  };
-}
-
-function spliceProduct (response) {
-  console.log('response to splice', response);
-  return {
-    type: SPLICE_PRODUCT
   };
 }
 
 export function deleteProduct (id) {
   return (dispatch) => {
     return axios.delete(`/api/products/${id}`)
-      .then(response => dispatch(spliceProduct(response)))
-      .catch(error => console.log(error));
+      .then(() => dispatch(spliceProduct(id)),
+        error => console.log(error));
   };
 }
 
