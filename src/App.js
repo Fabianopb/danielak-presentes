@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
-import { BrowserRouter as Router, Route } from 'react-router-dom';
+import { Router, Route } from 'react-router-dom';
 import { applyMiddleware, compose, createStore } from 'redux';
 import { Provider } from 'react-redux';
 import thunk from 'redux-thunk';
+import history from './modules/history';
 import { rootReducer } from './modules/reducers';
 
 import ProductsView from './views/products/products';
@@ -22,7 +23,7 @@ class App extends Component {
   render () {
     return (
       <Provider store={store}>
-        <Router>
+        <Router history={history}>
           <div>
             <Route exact path='/' component={ProductsView} />
             <Route exact path='/admin' component={AdminView} />

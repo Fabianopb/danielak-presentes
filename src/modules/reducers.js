@@ -1,23 +1,42 @@
 import { combineReducers } from 'redux';
-import { RECEIVE_PRODUCTS, SPLICE_PRODUCT, OPEN_DIALOG, CLOSE_DIALOG } from './actions';
+import { START_REQUEST, RECEIVE_PRODUCTS, SPLICE_PRODUCT, OPEN_DIALOG, CLOSE_DIALOG } from './actions';
 
 const initialState = {
   products: {
-    isFetching: true,
+    isFetching: false,
     activeProduct: null,
     isDialogOpen: false,
-    data: []
+    data: [],
+    formProduct: {
+      name: '',
+      image: '',
+      storeLink: '',
+      description: '',
+      currentPrice: '',
+      discountPrice: '',
+      tags: '',
+      productionTime: '',
+      minAmount: '',
+      width: '',
+      height: '',
+      depth: '',
+      weight: '',
+      isVisible: false,
+      isFeatured: false
+    }
   }
 };
 
 function productsReducer (products = initialState.products, action = {}) {
   switch (action.type) {
+    case START_REQUEST:
+      return {...products, isFetching: action.isFetching};
     case RECEIVE_PRODUCTS:
-      return {...products, isFetching: false, data: action.payload.data};
+      return {...products, isFetching: false, data: action.data};
     case SPLICE_PRODUCT:
-      const index = products.data.findIndex(product => product._id === action.payload.id);
+      const index = products.data.findIndex(product => product._id === action.id);
       products.data.splice(index, 1);
-      return {...products, isDialogOpen: false};
+      return {...products, isFetching: false, isDialogOpen: false};
     case OPEN_DIALOG:
       return {...products, activeProduct: action.activeProduct, isDialogOpen: true};
     case CLOSE_DIALOG:
