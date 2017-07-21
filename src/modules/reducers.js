@@ -1,4 +1,5 @@
 import { combineReducers } from 'redux';
+import { reducer as formReducer } from 'redux-form';
 import { START_REQUEST, RECEIVE_PRODUCTS, RECEIVE_ONE_PRODUCT, SPLICE_PRODUCT, OPEN_DIALOG, CLOSE_DIALOG } from './actions';
 
 const initialState = {
@@ -32,7 +33,8 @@ function productsReducer (products = initialState.products, action = {}) {
 }
 
 const rootReducer = combineReducers({
-  products: productsReducer
+  products: productsReducer,
+  form: formReducer
 });
 
 export { rootReducer };
