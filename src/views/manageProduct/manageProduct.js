@@ -13,6 +13,7 @@ class ManageProductView extends Component {
     this.props.fetchProducts(this.props.match.params.id);
   }
 
+  // TODO: handle POST and PUT
   submitProduct = (values) => {
     console.log('submitting product', values);
   };

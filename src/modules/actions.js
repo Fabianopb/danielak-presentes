@@ -1,5 +1,6 @@
 import axios from 'axios';
 import history from './history';
+import { initialize } from 'redux-form';
 
 export const START_REQUEST = 'START_REQUEST';
 export const RECEIVE_PRODUCTS = 'RECEIVE_PRODUCTS';
@@ -47,6 +48,7 @@ export function fetchProducts (productId) {
     if (productId) {
       return axios.get(`/api/products?_id=${productId}`)
         .then(response => dispatch(receiveOneProduct(response.data)))
+        .then(response => dispatch(initialize('editProductForm', response.activeProduct)))
         .catch(error => console.log(error));
     }
     return axios.get(`/api/products`)

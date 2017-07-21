@@ -46,7 +46,7 @@ const ProductSchema = new Schema({
   minAmount: {
     type: Number,
     required: true,
-    default: null
+    default: 1
   },
   width: {
     type: Number,

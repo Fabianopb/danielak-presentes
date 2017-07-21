@@ -3,11 +3,23 @@ import PropTypes from 'prop-types';
 import { Field, reduxForm } from 'redux-form';
 import { Form } from 'semantic-ui-react';
 
-import { FormInput, FormTextArea } from '../../components/FormComponents';
+import { FormInput, FormTextArea, FormCheckbox } from '../../components/FormComponents';
 
 const validate = (values) => {
   const errors = {};
-  const requiredFields = ['eventTime', 'shift', 'crew', 'category', 'subcategory', 'item', 'description', 'correctiveActions'];
+  const requiredFields = [
+    'name',
+    'image',
+    'storeLink',
+    'description',
+    'currentPrice',
+    'productionTime',
+    'minAmount',
+    'height',
+    'width',
+    'depth',
+    'weight'
+  ];
   requiredFields.forEach(field => {
     if (!values[field]) {
       errors[field] = 'Field required';
@@ -18,7 +30,8 @@ const validate = (values) => {
 
 class EditProductForm extends Component {
   render () {
-    const { handleSubmit, pristine, submitting } = this.props;
+    const { handleSubmit,
+      pristine, submitting } = this.props;
     return (
       <div className='product-form'>
         <Form onSubmit={handleSubmit} >
@@ -43,8 +56,8 @@ class EditProductForm extends Component {
             <Field component={FormInput} label='Profundidade' placeholder='Profundidade' name='depth' />
             <Field component={FormInput} label='Peso' placeholder='Peso' name='weight' />
           </Form.Group>
-          {/* <Form.Checkbox label='Visível' name='isVisible' checked={product.isVisible} onChange={this.handleCheckbox} />
-        <Form.Checkbox label='Em destaque' name='isFeatured' checked={product.isFeatured} onChange={this.handleCheckbox} /> */}
+          <Field component={FormCheckbox} label='Visível' name='isVisible' />
+          <Field component={FormCheckbox} label='Em destaque' name='isFeatured' />
           <Form.Button disabled={submitting || pristine}>Submit</Form.Button>
         </Form>
       </div>
