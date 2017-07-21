@@ -4,64 +4,79 @@ const Schema = mongoose.Schema;
 const ProductSchema = new Schema({
   name: {
     type: String,
-    required: true
+    required: true,
+    default: null
   },
   image: {
-    type: [String],
-    required: true
+    // type: [String],
+    type: String,
+    required: true,
+    default: null
   },
   storeLink: {
     type: String,
-    required: true
+    required: true,
+    default: null
   },
   description: {
     type: String,
-    required: true
+    required: true,
+    default: null
   },
   currentPrice: {
     type: Number,
-    required: true
+    required: true,
+    default: null
   },
   discountPrice: {
     type: Number,
     required: false,
-    default: 0
+    default: null
   },
   tags: {
     type: String,
-    required: true
+    required: true,
+    default: null
   },
   productionTime: {
     type: Number,
-    required: true
+    required: true,
+    default: null
   },
   minAmount: {
     type: Number,
-    required: true
+    required: true,
+    default: null
   },
   width: {
     type: Number,
-    required: true
+    required: true,
+    default: null
   },
   height: {
     type: Number,
-    required: true
+    required: true,
+    default: null
   },
   depth: {
     type: Number,
-    required: true
+    required: true,
+    default: null
   },
   weight: {
     type: Number,
-    required: true
+    required: true,
+    default: null
   },
   isVisible: {
     type: Boolean,
-    required: true
+    required: true,
+    default: true
   },
   isFeatured: {
     type: Boolean,
-    required: true
+    required: true,
+    default: false
   }
 });
 

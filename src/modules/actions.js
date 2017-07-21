@@ -1,12 +1,13 @@
 import axios from 'axios';
 import history from './history';
 
-export const START_REQUEST = () => ({type: 'START_REQUEST'});
-export const RECEIVE_PRODUCTS = () => ({type: 'RECEIVE_PRODUCTS'});
-export const SPLICE_PRODUCT = () => ({type: 'SPLICE_PRODUCT'});
-export const ADD_PRODUCT = () => ({type: 'ADD_PRODUCT'});
-export const OPEN_DIALOG = (activeProduct) => ({type: 'OPEN_DIALOG', activeProduct});
-export const CLOSE_DIALOG = () => ({type: 'CLOSE_DIALOG'});
+export const START_REQUEST = 'START_REQUEST';
+export const RECEIVE_PRODUCTS = 'RECEIVE_PRODUCTS';
+export const RECEIVE_ONE_PRODUCT = 'RECEIVE_ONE_PRODUCT';
+export const SPLICE_PRODUCT = 'SPLICE_PRODUCT';
+export const ADD_PRODUCT = 'ADD_PRODUCT';
+export const OPEN_DIALOG = 'OPEN_DIALOG';
+export const CLOSE_DIALOG = 'CLOSE_DIALOG';
 
 function startRequest () {
   return {
@@ -22,6 +23,13 @@ function receiveProducts (data) {
   };
 }
 
+function receiveOneProduct (activeProduct) {
+  return {
+    type: RECEIVE_ONE_PRODUCT,
+    activeProduct
+  };
+}
+
 function spliceProduct (id) {
   return {
     type: SPLICE_PRODUCT,
@@ -33,9 +41,14 @@ function redirectTo (route) {
   history.push(route);
 }
 
-export function fetchProducts () {
+export function fetchProducts (productId) {
   return (dispatch) => {
     dispatch(startRequest());
+    if (productId) {
+      return axios.get(`/api/products?_id=${productId}`)
+        .then(response => dispatch(receiveOneProduct(response.data)))
+        .catch(error => console.log(error));
+    }
     return axios.get(`/api/products`)
       .then(response => dispatch(receiveProducts(response.data)))
       .catch(error => console.log(error));

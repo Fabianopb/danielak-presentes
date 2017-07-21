@@ -1,8 +1,11 @@
 import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
 import { PropTypes } from 'prop-types';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
 import { Form } from 'semantic-ui-react';
 
+import { fetchProducts } from '../../modules/actions';
 import Request from '../../modules/requests';
 import './manageProduct.css';
 
@@ -36,6 +39,7 @@ class ManageProductView extends Component {
   }
 
   componentWillMount () {
+    this.props.fetchProducts(this.props.match.params.id);
     if (this.state.id !== 'new') {
       Request.getProductById(this.state.id).then((response) => {
         this.setProduct(response.data[0]);
@@ -91,6 +95,7 @@ class ManageProductView extends Component {
   }
 
   render () {
+    const { isFetching, activeProduct } = this.props.products;
     const product = this.state.product;
 
     return (
@@ -134,7 +139,16 @@ class ManageProductView extends Component {
 }
 
 ManageProductView.propTypes = {
-  match: PropTypes.object.isRequired
+  match: PropTypes.object.isRequired,
+  fetchProducts: PropTypes.func.isRequired,
+  products: PropTypes.object.isRequired
 };
 
-export default ManageProductView;
+const mapStateToProps = (state) => ({
+  products: state.products
+});
+
+const mapDispatchToProps = (dispatch) =>
+  bindActionCreators({fetchProducts}, dispatch);
+
+export default connect(mapStateToProps, mapDispatchToProps)(ManageProductView);
