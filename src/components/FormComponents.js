@@ -11,7 +11,7 @@ const hasErrored = (touched, errorMessage) => {
 const FormInput = (field) => {
   const error = hasErrored(field.meta.touched, field.meta.error);
   return (
-    <Form.Field error={error} >
+    <Form.Field error={error} required={field.required} >
       <label>{field.label}</label>
       <Input {...field.input} type={field.type} placeholder={field.placeholder} />
       <div className='error-message'>{error && <span>{field.meta.error}</span>}</div>
@@ -22,7 +22,7 @@ const FormInput = (field) => {
 const FormTextArea = (field) => {
   const error = hasErrored(field.meta.touched, field.meta.error);
   return (
-    <Form.Field error={error} >
+    <Form.Field error={error} required={field.required} >
       <label>{field.label}</label>
       <TextArea {...field.input} type={field.type} placeholder={field.placeholder} />
       <div className='error-message'>{error && <span>{field.meta.error}</span>}</div>
@@ -33,7 +33,7 @@ const FormTextArea = (field) => {
 const FormCheckbox = (field) => {
   const error = hasErrored(field.meta.touched, field.meta.error);
   return (
-    <Form.Field error={error} >
+    <Form.Field error={error} required={field.required} >
       <Checkbox
         {...field.input}
         label={field.label}

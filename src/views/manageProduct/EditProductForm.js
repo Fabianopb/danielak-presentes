@@ -36,25 +36,25 @@ class EditProductForm extends Component {
       <div className='product-form'>
         <Form onSubmit={handleSubmit} >
           <Form.Group widths='equal'>
-            <Field component={FormInput} label='Nome do produto' placeholder='Nome do produto' name='name' />
-            <Field component={FormInput} label='URL da imagem' placeholder='URL da imagem' name='image' />
-            <Field component={FormInput} label='Link da loja' placeholder='Link da loja' name='storeLink' />
+            <Field component={FormInput} label='Nome do produto' placeholder='Nome do produto' name='name' required />
+            <Field component={FormInput} label='URL da imagem' placeholder='URL da imagem' name='image' required />
+            <Field component={FormInput} label='Link da loja' placeholder='Link da loja' name='storeLink' required />
           </Form.Group>
-          <Field component={FormTextArea} label='Descrição' placeholder='Descrição do produto' name='description' />
+          <Field component={FormTextArea} label='Descrição' placeholder='Descrição do produto' name='description' required />
           <Form.Group widths='equal'>
-            <Field component={FormInput} label='Preço' placeholder='Preço' name='currentPrice' />
+            <Field component={FormInput} label='Preço' placeholder='Preço' name='currentPrice' required />
             <Field component={FormInput} label='Preço com desconto' placeholder='Preço com desconto' name='discountPrice' />
           </Form.Group>
           <Field component={FormInput} label='Tags' placeholder='Tags' name='tags' />
           <Form.Group widths='equal'>
-            <Field component={FormInput} label='Tempo de produção' placeholder='Tempo de produção' name='productionTime' />
-            <Field component={FormInput} label='Quantidade mínima' placeholder='Quantidade mínima' name='minAmount' />
+            <Field component={FormInput} label='Tempo de produção' placeholder='Tempo de produção' name='productionTime' required />
+            <Field component={FormInput} label='Quantidade mínima' placeholder='Quantidade mínima' name='minAmount' required />
           </Form.Group>
           <Form.Group widths='equal'>
-            <Field component={FormInput} label='Altura' placeholder='Altura' name='height' />
-            <Field component={FormInput} label='Largura' placeholder='Largura' name='width' />
-            <Field component={FormInput} label='Profundidade' placeholder='Profundidade' name='depth' />
-            <Field component={FormInput} label='Peso' placeholder='Peso' name='weight' />
+            <Field component={FormInput} label='Altura' placeholder='Altura' name='height' required />
+            <Field component={FormInput} label='Largura' placeholder='Largura' name='width' required />
+            <Field component={FormInput} label='Profundidade' placeholder='Profundidade' name='depth' required />
+            <Field component={FormInput} label='Peso' placeholder='Peso' name='weight' required />
           </Form.Group>
           <Field component={FormCheckbox} label='Visível' name='isVisible' />
           <Field component={FormCheckbox} label='Em destaque' name='isFeatured' />
