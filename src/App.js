@@ -6,10 +6,10 @@ import thunk from 'redux-thunk';
 import history from './modules/history';
 import { rootReducer } from './modules/reducers';
 
-import ProductsView from './views/products/products';
-import AdminView from './views/admin/admin';
-import ManageProductView from './views/manageProduct/manageProduct';
-import './App.css';
+import ProductsView from './containers/ProductsView';
+import AdminView from './containers/AdminView';
+import ProductEditor from './containers/ProductEditor';
+import './styles/App.css';
 
 const middleware = [thunk];
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
@@ -27,7 +27,7 @@ class App extends Component {
           <div>
             <Route exact path='/' component={ProductsView} />
             <Route exact path='/admin' component={AdminView} />
-            <Route path='/admin/product/:id' component={ManageProductView} />
+            <Route path='/admin/product/:id' component={ProductEditor} />
           </div>
         </Router>
       </Provider>

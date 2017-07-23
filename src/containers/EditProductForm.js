@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Field, reduxForm } from 'redux-form';
 import { Form } from 'semantic-ui-react';
 
-import { FormInput, FormTextArea, FormCheckbox } from '../../components/FormComponents';
+import { FormInput, FormTextArea, FormCheckbox } from '../components/FormComponents';
 
 const validate = (values) => {
   const errors = {};
