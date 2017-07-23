@@ -14,7 +14,7 @@ router.route('/')
   .get(function (request, response) {
     if (request.query._id === 'new') {
       const newProduct = new Product();
-      return response.status(200).json(newProduct);
+      return response.status(200).json([newProduct]);
     }
     Product.find(request.query, function (error, products) {
       return response.status(200).json(products);

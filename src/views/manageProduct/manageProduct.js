@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { Dimmer, Loader } from 'semantic-ui-react';
 
 import EditProductForm from './EditProductForm';
-import { fetchProducts } from '../../modules/actions';
+import { fetchProducts, postProduct, putProduct } from '../../modules/actions';
 import './manageProduct.css';
 
 class ManageProductView extends Component {
@@ -13,9 +13,12 @@ class ManageProductView extends Component {
     this.props.fetchProducts(this.props.match.params.id);
   }
 
-  // TODO: handle POST and PUT
-  submitProduct = (values) => {
-    console.log('submitting product', values);
+  submitProduct = (product) => {
+    if (this.props.match.params.id === 'new') {
+      this.props.postProduct(product);
+    } else {
+      this.props.putProduct(product);
+    }
   };
 
   render () {
@@ -42,6 +45,8 @@ class ManageProductView extends Component {
 ManageProductView.propTypes = {
   match: PropTypes.object.isRequired,
   fetchProducts: PropTypes.func.isRequired,
+  postProduct: PropTypes.func.isRequired,
+  putProduct: PropTypes.func.isRequired,
   products: PropTypes.object.isRequired
 };
 
@@ -50,6 +55,6 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) =>
-  bindActionCreators({fetchProducts}, dispatch);
+  bindActionCreators({fetchProducts, postProduct, putProduct}, dispatch);
 
 export default connect(mapStateToProps, mapDispatchToProps)(ManageProductView);
