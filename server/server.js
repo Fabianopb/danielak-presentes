@@ -1,8 +1,8 @@
-var express = require('express');
-var app = express();
-var path = require('path');
-var mongoose = require('mongoose');
-var products = require('./routes/products');
+const express = require('express');
+const app = express();
+const path = require('path');
+const mongoose = require('mongoose');
+const products = require('./routes/products');
 
 // var passport = require('passport');
 // app.use(passport.initialize());
