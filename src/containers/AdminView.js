@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
+import axios from 'axios';
 import { Link } from 'react-router-dom';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { PropTypes } from 'prop-types';
-import { Table, Icon, Modal, Button, Header, Dimmer, Loader } from 'semantic-ui-react';
+import { Table, Icon, Modal, Button, Header, Dimmer, Loader, Form } from 'semantic-ui-react';
 import { fetchProducts, deleteProduct, openDialog, closeDialog } from '../modules/actions';
 
 import '../styles/admin.css';
@@ -11,6 +12,30 @@ import '../styles/admin.css';
 class AdminView extends Component {
   componentDidMount () {
     this.props.fetchProducts();
+    this.state = {
+      file: null
+    };
+  }
+
+  submitFile = (event) => {
+    event.preventDefault();
+    const formData = new FormData();
+    console.log(this.state.file[0]);
+    formData.append('file', this.state.file[0]);
+    for (const entry of formData.entries()) {
+      console.log(entry);
+    }
+    axios.post(`/api/products/test-upload`, formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data'
+      }
+    }).then(response => {
+      console.log(response.data);
+    }).catch(error => console.log(error));
+  }
+
+  handleFileUpload = (event) => {
+    this.setState({file: event.target.files});
   }
 
   render () {
@@ -21,6 +46,10 @@ class AdminView extends Component {
         <div className='admin-bar'>
           DaniK - Admin View
         </div>
+        <Form onSubmit={this.submitFile}>
+          <Form.Input label='upload file' type='file' onChange={this.handleFileUpload} />
+          <Button type='submit'>Send</Button>
+        </Form>
         <h3>Lista de produtos</h3>
         <div className='add-product'>
           <Link to='/admin/product/new'>
