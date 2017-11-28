@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+const path = require('path');
 const bodyParser = require('body-parser').json();
 const Product = require('../models/product');
 const AWS = require('aws-sdk');
@@ -21,6 +22,28 @@ const handleOnSave = function (product, response, message, object) {
     return response.status(200).json({message, object});
   });
 };
+
+const upload = multer({
+  fileFilter: (req, file, cb) => {
+    if (!/^image\/(jpe?g|png|gif)$/i.test(file.mimetype)) {
+      return cb(new Error('File type not supported!'), false);
+    }
+    cb(null, true);
+  },
+  storage: multerS3({
+    s3,
+    bucket: process.env.DANIK_S3_BUCKET,
+    contentType: multerS3.AUTO_CONTENT_TYPE,
+    acl: 'public-read',
+    metadata: (req, file, cb) => {
+      cb(null, {fieldName: file.fieldname});
+    },
+    key: (req, file, cb) => {
+      const extension = file.mimetype.split('/').pop();
+      cb(null, `${Date.now().toString()}.${extension}`);
+    }
+  })
+}).single('file');
 
 router.route('/')
   .get(function (request, response) {
@@ -57,25 +80,14 @@ router.route('/:id')
     });
   });
 
-const upload = multer({
-  storage: multerS3({
-    s3,
-    bucket: process.env.DANIK_S3_BUCKET,
-    contentType: multerS3.AUTO_CONTENT_TYPE,
-    acl: 'public-read',
-    metadata: (req, file, cb) => {
-      cb(null, {fieldName: file.fieldname});
-    },
-    key: (req, file, cb) => {
-      const extension = file.mimetype.split('/').pop();
-      cb(null, `${Date.now().toString()}.${extension}`);
-    }
-  })
-});
-
 router.route('/test-upload')
-  .post(upload.single('file'), (request, response, next) => {
-    return response.status(200).send(request.file);
+  .post((request, response) => {
+    upload(request, response, error => {
+      if (error) {
+        return response.status(403).send(error);
+      }
+      return response.status(200).send(request.file);
+    });
   });
 
 module.exports = router;
