@@ -40,7 +40,7 @@ const upload = multer({
     },
     key: (req, file, cb) => {
       const extension = file.mimetype.split('/').pop();
-      cb(null, `${Date.now().toString()}.${extension}`);
+      cb(null, `products/${Date.now().toString()}.${extension}`);
     }
   })
 }).single('file');
