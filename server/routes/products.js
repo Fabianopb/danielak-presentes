@@ -62,11 +62,13 @@ const upload = multer({
     s3,
     bucket: process.env.DANIK_S3_BUCKET,
     contentType: multerS3.AUTO_CONTENT_TYPE,
+    acl: 'public-read',
     metadata: (req, file, cb) => {
       cb(null, {fieldName: file.fieldname});
     },
     key: (req, file, cb) => {
-      cb(null, Date.now().toString());
+      const extension = file.mimetype.split('/').pop();
+      cb(null, `${Date.now().toString()}.${extension}`);
     }
   })
 });
