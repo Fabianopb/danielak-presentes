@@ -1,6 +1,5 @@
 const express = require('express');
 const router = express.Router();
-const path = require('path');
 const bodyParser = require('body-parser').json();
 const Product = require('../models/product');
 const AWS = require('aws-sdk');
