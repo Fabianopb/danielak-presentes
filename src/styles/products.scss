@@ -17,11 +17,11 @@
 
   .product-cell {
     margin: 20px;
+    width: 300px;
 
     .image {
-      width: 300px;
+      width: 100%;
       height: 240px;
-      background-color: lightgrey;
     }
 
     .title {
@@ -29,7 +29,13 @@
     }
 
     .current-price {
-      
+
     }
+  }
+}
+
+.product-modal {
+  .image {
+    width: 300px;
   }
 }
