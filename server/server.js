@@ -3,9 +3,9 @@ const app = express();
 const path = require('path');
 const mongoose = require('mongoose');
 const products = require('./routes/products');
+const passport = require('passport');
 
-// var passport = require('passport');
-// app.use(passport.initialize());
+app.use(passport.initialize());
 
 app.use('/api/products', products);
 
