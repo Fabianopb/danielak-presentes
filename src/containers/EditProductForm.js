@@ -1,8 +1,11 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
 import { Field, reduxForm } from 'redux-form';
 import { Form } from 'semantic-ui-react';
 
+import { setImageFile } from '../modules/actions';
 import { FormInput, FormTextArea, FormCheckbox } from '../components/FormComponents';
 
 const validate = (values) => {
@@ -37,9 +40,9 @@ class EditProductForm extends Component {
         <Form onSubmit={handleSubmit} >
           <Form.Group widths='equal'>
             <Field component={FormInput} label='Nome do produto' placeholder='Nome do produto' name='name' required />
-            <Field component={FormInput} label='URL da imagem' placeholder='URL da imagem' name='image' required />
             <Field component={FormInput} label='Link da loja' placeholder='Link da loja' name='storeLink' required />
           </Form.Group>
+          <Form.Input label='Imagem do produto' type='file' onChange={(event) => this.props.setImageFile(event)} />
           <Field component={FormTextArea} label='Descrição' placeholder='Descrição do produto' name='description' required />
           <Form.Group widths='equal'>
             <Field component={FormInput} label='Preço' placeholder='Preço' name='currentPrice' required />
@@ -67,8 +70,13 @@ class EditProductForm extends Component {
 
 EditProductForm.propTypes = {
   handleSubmit: PropTypes.func.isRequired,
+  setImageFile: PropTypes.func.isRequired,
   pristine: PropTypes.bool.isRequired,
   submitting: PropTypes.bool.isRequired
 };
 
-export default reduxForm({form: 'editProductForm', validate})(EditProductForm);
+const mapDispatchToProps = (dispatch) =>
+  bindActionCreators({setImageFile}, dispatch);
+
+const controlledProductForm = reduxForm({form: 'editProductForm', validate})(EditProductForm);
+export default connect(null, mapDispatchToProps)(controlledProductForm);

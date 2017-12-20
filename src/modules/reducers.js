@@ -1,6 +1,15 @@
 import { combineReducers } from 'redux';
 import { reducer as formReducer } from 'redux-form';
-import { START_REQUEST, END_REQUEST, ERROR_REQUEST, RECEIVE_PRODUCTS, SPLICE_PRODUCT, OPEN_DIALOG, CLOSE_DIALOG } from './actions';
+import {
+  START_REQUEST,
+  END_REQUEST,
+  ERROR_REQUEST,
+  RECEIVE_PRODUCTS,
+  SPLICE_PRODUCT,
+  OPEN_DIALOG,
+  CLOSE_DIALOG,
+  SET_IMAGE_FILE
+} from './actions';
 
 const initialState = {
   products: {
@@ -8,6 +17,7 @@ const initialState = {
     activeProduct: null,
     isDialogOpen: false,
     data: [],
+    imageFile: null,
     error: null
   }
 };
@@ -19,7 +29,7 @@ function productsReducer (products = initialState.products, action = {}) {
     case END_REQUEST:
       return {...products, isFetching: false};
     case ERROR_REQUEST:
-      return {...products, error: action.error};
+      return {...products, isFetching: false, error: action.error};
     case RECEIVE_PRODUCTS:
       return {...products, data: action.data};
     case SPLICE_PRODUCT:
@@ -30,6 +40,8 @@ function productsReducer (products = initialState.products, action = {}) {
       return {...products, activeProduct: action.activeProduct, isDialogOpen: true};
     case CLOSE_DIALOG:
       return {...products, isDialogOpen: false};
+    case SET_IMAGE_FILE:
+      return {...products, imageFile: action.files};
     default:
       return products;
   }

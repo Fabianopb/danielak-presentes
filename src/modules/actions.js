@@ -10,6 +10,7 @@ export const SPLICE_PRODUCT = 'SPLICE_PRODUCT';
 export const ADD_PRODUCT = 'ADD_PRODUCT';
 export const OPEN_DIALOG = 'OPEN_DIALOG';
 export const CLOSE_DIALOG = 'CLOSE_DIALOG';
+export const SET_IMAGE_FILE = 'SET_IMAGE_FILE';
 
 function startRequest () {
   return {
@@ -65,11 +66,18 @@ export function fetchProducts (productId) {
 }
 
 export function postProduct (product) {
-  return (dispatch) => {
+  return (dispatch, getState) => {
     dispatch(startRequest());
-    return axios.post(`/api/products`, product)
-      .then(response => dispatch(redirectTo('/admin')))
-      .then(() => dispatch(endRequest()))
+    const { imageFile } = getState().products;
+    const formData = new FormData();
+    formData.append('file', imageFile[0]);
+    return axios.post(`/api/products/upload-file`, formData, {headers: {'Content-Type': 'multipart/form-data'}})
+      .then(response => {
+        product.image = response.data.location;
+        return axios.post(`/api/products`, product)
+          .then(response => dispatch(redirectTo('/admin')))
+          .then(() => dispatch(endRequest()));
+      })
       .catch(error => dispatch(handleError(error)));
   };
 }
@@ -104,5 +112,12 @@ export function openDialog (activeProduct) {
 export function closeDialog () {
   return {
     type: CLOSE_DIALOG
+  };
+}
+
+export function setImageFile (event) {
+  return {
+    type: SET_IMAGE_FILE,
+    files: event.target.files
   };
 }
