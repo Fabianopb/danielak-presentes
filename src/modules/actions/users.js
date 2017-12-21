@@ -1,5 +1,6 @@
 import axios from 'axios';
 import moment from 'moment';
+import history from '../history';
 
 export const START_REQUEST = 'START_REQUEST';
 export const END_REQUEST = 'END_REQUEST';
@@ -26,21 +27,25 @@ function handleError (error) {
   };
 }
 
+function redirectTo (route) {
+  history.push(route);
+}
+
 function setSession (token, expiry) {
   localStorage.setItem('token', token);
   localStorage.setItem('expiry', expiry);
 }
 
-export function logIn (credentials) {
-  return async (dispatch) => {
+export function login (credentials) {
+  return (dispatch) => {
     dispatch(startRequest());
-    try {
-      const { data } = await axios.post(`/api/users/login`, credentials);
-      dispatch(setSession(data.token, data.expiry));
-    } catch (error) {
-      dispatch(handleError(error));
-    }
-    dispatch(endRequest());
+    axios.post(`/api/users/login`, credentials)
+      .then(response => {
+        setSession(response.data.token, response.data.expiry);
+        redirectTo('/admin');
+        dispatch(endRequest());
+      })
+      .catch(error => dispatch(handleError(error)));
   };
 }
 

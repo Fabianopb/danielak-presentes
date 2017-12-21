@@ -1,5 +1,3 @@
-import { combineReducers } from 'redux';
-import { reducer as formReducer } from 'redux-form';
 import {
   START_REQUEST,
   END_REQUEST,
@@ -22,7 +20,7 @@ const initialState = {
   }
 };
 
-function productsReducer (products = initialState.products, action = {}) {
+export function productsReducer (products = initialState.products, action = {}) {
   switch (action.type) {
     case START_REQUEST:
       return {...products, isFetching: true};
@@ -46,10 +44,3 @@ function productsReducer (products = initialState.products, action = {}) {
       return products;
   }
 }
-
-const rootReducer = combineReducers({
-  products: productsReducer,
-  form: formReducer
-});
-
-export { rootReducer };

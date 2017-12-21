@@ -25,7 +25,7 @@ class ManageProductView extends Component {
     const { isFetching } = this.props.products;
 
     return (
-      <div>
+      <div className='admin-view'>
         <div className='admin-bar'>
           DaniK - Admin View
         </div>

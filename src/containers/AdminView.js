@@ -17,7 +17,7 @@ class AdminView extends Component {
     const {data, isFetching, isDialogOpen, activeProduct} = this.props.products;
     const {openDialog, closeDialog} = this.props;
     return (
-      <div>
+      <div className='admin-view'>
         <div className='admin-bar'>
           DaniK - Admin View
         </div>

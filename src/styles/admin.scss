@@ -1,38 +1,54 @@
-.admin-bar {
-  padding: 12px;
-  background-color: #A9526B;
-  color: #FFF;
-  height: 50px;
-}
-
-.add-product {
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
-
-  .icon {
-    margin-left: 12px;
+.admin-view {
+  .admin-bar {
+    padding: 12px;
+    background-color: #A9526B;
+    color: #FFF;
+    height: 50px;
   }
-}
 
-.product-list {
-
-  .name-row {
+  .add-product {
     display: flex;
+    justify-content: flex-end;
     align-items: center;
 
-    .thumbnail {
-      width: 40px;
-      height: 40px;
-      background-color: lightgrey;
-    }
-
-    .product-name {
-      margin-left: 20px;
+    .icon {
+      margin-left: 12px;
     }
   }
 
-  .icon:not(:last-child) {
-    margin-right: 10px;
+  .product-list {
+
+    .name-row {
+      display: flex;
+      align-items: center;
+
+      .thumbnail {
+        width: 40px;
+        height: 40px;
+        background-color: lightgrey;
+      }
+
+      .product-name {
+        margin-left: 20px;
+      }
+    }
+
+    .icon:not(:last-child) {
+      margin-right: 10px;
+    }
+  }
+
+  .login-title {
+    text-align: center;
+  }
+
+  .login-container {
+    display: flex;
+    justify-content: center;
+
+    .login-form {
+      max-width: 300px;
+      flex: 1;
+    }
   }
 }

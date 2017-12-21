@@ -1,27 +1,22 @@
-.admin-bar {
-  padding: 12px;
-  background-color: #A9526B;
-  color: #FFF;
-  height: 50px;
-}
-
-.product-form {
-  display: flex;
-  flex-direction: column;
-
-  .inline-form {
+.admin-view {
+  .product-form {
     display: flex;
-    flex-wrap: wrap;
+    flex-direction: column;
 
-    *:not(:last-child) {
-      margin-right: 20px;
+    .inline-form {
+      display: flex;
+      flex-wrap: wrap;
+
+      *:not(:last-child) {
+        margin-right: 20px;
+      }
     }
-  }
 
-  .error-message {
-    color: #9F3A38;
-    font-size: 0.8rem;
-    font-weight: bold;
-    min-height: 20px;
+    .error-message {
+      color: #9F3A38;
+      font-size: 0.8rem;
+      font-weight: bold;
+      min-height: 20px;
+    }
   }
 }

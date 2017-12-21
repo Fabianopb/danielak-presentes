@@ -16,7 +16,7 @@ class ProductsView extends Component {
     const {isFetching, data, isDialogOpen, activeProduct} = this.props.products;
     const {openDialog, closeDialog} = this.props;
     return (
-      <div>
+      <div className='products-view'>
         <div className='hero-bar'>
           DaniK
         </div>
