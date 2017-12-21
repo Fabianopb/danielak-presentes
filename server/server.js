@@ -3,11 +3,13 @@ const app = express();
 const path = require('path');
 const mongoose = require('mongoose');
 const products = require('./routes/products');
+const users = require('./routes/users');
 const passport = require('passport');
 
 app.use(passport.initialize());
 
 app.use('/api/products', products);
+app.use('/api/users', users);
 
 mongoose.connect(process.env.DANIK_MONGODB);
 
