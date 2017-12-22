@@ -54,6 +54,12 @@ export function clearSession () {
   localStorage.removeItem('expiry');
 }
 
-export function isSessionValid () {
-  return moment(localStorage.getItem('expiry')).isAfter(moment());
+export function validateSession () {
+  return (dispatch) => {
+    const isSessionValid = moment(localStorage.getItem('expiry')).isAfter(moment());
+    if (!isSessionValid) {
+      clearSession();
+      redirectTo('/login');
+    }
+  };
 }

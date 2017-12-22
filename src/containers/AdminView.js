@@ -5,10 +5,15 @@ import { connect } from 'react-redux';
 import { PropTypes } from 'prop-types';
 import { Table, Icon, Modal, Button, Header, Dimmer, Loader } from 'semantic-ui-react';
 import { fetchProducts, deleteProduct, openDialog, closeDialog } from '../modules/actions/products';
+import { validateSession } from '../modules/actions/users';
 
 import '../styles/admin.css';
 
 class AdminView extends Component {
+  componentWillMount () {
+    this.props.validateSession();
+  }
+
   componentDidMount () {
     this.props.fetchProducts();
   }
@@ -92,7 +97,8 @@ AdminView.propTypes = {
   fetchProducts: PropTypes.func.isRequired,
   deleteProduct: PropTypes.func.isRequired,
   openDialog: PropTypes.func.isRequired,
-  closeDialog: PropTypes.func.isRequired
+  closeDialog: PropTypes.func.isRequired,
+  validateSession: PropTypes.func.isRequired
 };
 
 const mapStateToProps = (state) => ({
@@ -100,6 +106,6 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) =>
-  bindActionCreators({fetchProducts, deleteProduct, openDialog, closeDialog}, dispatch);
+  bindActionCreators({fetchProducts, deleteProduct, openDialog, closeDialog, validateSession}, dispatch);
 
 export default connect(mapStateToProps, mapDispatchToProps)(AdminView);
