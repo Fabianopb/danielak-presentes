@@ -7,7 +7,7 @@ import {
   OPEN_DIALOG,
   CLOSE_DIALOG,
   SET_IMAGE_FILE
-} from './actions';
+} from '../actions/products';
 
 const initialState = {
   products: {

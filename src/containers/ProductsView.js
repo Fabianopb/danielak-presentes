@@ -3,7 +3,7 @@ import { PropTypes } from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { Button, Modal, Dimmer, Loader } from 'semantic-ui-react';
-import { fetchProducts, openDialog, closeDialog } from '../modules/actions';
+import { fetchProducts, openDialog, closeDialog } from '../modules/actions/products';
 
 import '../styles/products.css';
 

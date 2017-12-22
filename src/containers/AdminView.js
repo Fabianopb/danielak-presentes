@@ -4,7 +4,7 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { PropTypes } from 'prop-types';
 import { Table, Icon, Modal, Button, Header, Dimmer, Loader } from 'semantic-ui-react';
-import { fetchProducts, deleteProduct, openDialog, closeDialog } from '../modules/actions';
+import { fetchProducts, deleteProduct, openDialog, closeDialog } from '../modules/actions/products';
 
 import '../styles/admin.css';
 

@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { Field, reduxForm } from 'redux-form';
 import { Form } from 'semantic-ui-react';
 
-import { setImageFile } from '../modules/actions';
+import { setImageFile } from '../modules/actions/products';
 import { FormInput, FormTextArea, FormCheckbox } from '../components/FormComponents';
 
 const validate = (values) => {

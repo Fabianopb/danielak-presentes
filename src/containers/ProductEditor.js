@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { Dimmer, Loader } from 'semantic-ui-react';
 
 import EditProductForm from './EditProductForm';
-import { fetchProducts, postProduct, putProduct } from '../modules/actions';
+import { fetchProducts, postProduct, putProduct } from '../modules/actions/products';
 import '../styles/manageProduct.css';
 
 class ManageProductView extends Component {

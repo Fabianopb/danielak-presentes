@@ -5,7 +5,7 @@ import { Provider } from 'react-redux';
 import thunk from 'redux-thunk';
 import { reducer as formReducer } from 'redux-form';
 import history from './modules/history';
-import { productsReducer } from './modules/reducers';
+import { productsReducer } from './modules/reducers/products';
 import { usersReducer } from './modules/reducers/users';
 import ProductsView from './containers/ProductsView';
 import AdminView from './containers/AdminView';

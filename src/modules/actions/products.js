@@ -1,5 +1,5 @@
 import axios from 'axios';
-import history from './history';
+import history from '../history';
 import { initialize } from 'redux-form';
 
 export const START_REQUEST = 'START_REQUEST';
