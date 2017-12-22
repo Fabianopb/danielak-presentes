@@ -7,7 +7,7 @@ import { isSessionValid } from '../modules/actions/users';
 
 class PrivateRoute extends Component {
   render () {
-    const { component, ...rest } = this.props;
+    const { component: Component, ...rest } = this.props;
     return (
       <Route {...rest} render={() => (
         this.props.isSessionValid() ? (
