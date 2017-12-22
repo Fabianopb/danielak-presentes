@@ -36,6 +36,11 @@ function setSession (token, expiry) {
   localStorage.setItem('expiry', expiry);
 }
 
+function clearSession () {
+  localStorage.removeItem('token');
+  localStorage.removeItem('expiry');
+}
+
 export function login (credentials) {
   return (dispatch) => {
     dispatch(startRequest());
@@ -49,9 +54,11 @@ export function login (credentials) {
   };
 }
 
-export function clearSession () {
-  localStorage.removeItem('token');
-  localStorage.removeItem('expiry');
+export function logout () {
+  return () => {
+    clearSession();
+    redirectTo('/');
+  };
 }
 
 export function isSessionValid () {

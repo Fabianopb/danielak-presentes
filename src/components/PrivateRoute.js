@@ -3,7 +3,7 @@ import { Route, Redirect } from 'react-router-dom';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { PropTypes } from 'prop-types';
-import { isSessionValid } from '../modules/actions/users';
+import { isSessionValid, logout } from '../modules/actions/users';
 
 import '../styles/App.css';
 
@@ -14,7 +14,10 @@ class PrivateRoute extends Component {
       <Route {...rest} render={props => (
         this.props.isSessionValid() ? (
           <div className='private-route'>
-            <div className='header'>Danik - Admin view</div>
+            <div className='header'>
+              <div>Danik - Admin View</div>
+              <div className='logout' onClick={this.props.logout}>Logout</div>
+            </div>
             <Component {...props} />
           </div>
         ) : (
@@ -29,10 +32,11 @@ class PrivateRoute extends Component {
 
 PrivateRoute.propTypes = {
   component: PropTypes.func.isRequired,
-  isSessionValid: PropTypes.func.isRequired
+  isSessionValid: PropTypes.func.isRequired,
+  logout: PropTypes.func.isRequired
 };
 
 const mapDispatchToProps = (dispatch) =>
-  bindActionCreators({isSessionValid}, dispatch);
+  bindActionCreators({isSessionValid, logout}, dispatch);
 
 export default connect(null, mapDispatchToProps)(PrivateRoute);
