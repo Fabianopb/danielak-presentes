@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Route, Redirect } from 'react-router-dom';
+import { Route } from 'react-router-dom';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { PropTypes } from 'prop-types';
@@ -7,27 +7,25 @@ import { isSessionValid } from '../modules/actions/users';
 
 import '../styles/App.css';
 
-class PrivateRoute extends Component {
+class PublicRoute extends Component {
   render () {
     const { component: Component, ...rest } = this.props;
     return (
       <Route {...rest} render={props => (
-        this.props.isSessionValid() ? (
-          <div className='private-route'>
-            <div className='header'>Danik - Admin view</div>
-            <Component {...props} />
+        <div className='public-route'>
+          <div className='header'>DanielaK Presentes</div>
+          <Component {...props} />
+          <div className='footer'>
+            <p>danielalpresentes@yahoo.com.br</p>
+            <p>Whatsapp +55 11 99777 5245</p>
           </div>
-        ) : (
-          <Redirect to={{
-            pathname: '/login'
-          }} />
-        )
+        </div>
       )} />
     );
   }
 }
 
-PrivateRoute.propTypes = {
+PublicRoute.propTypes = {
   component: PropTypes.func.isRequired,
   isSessionValid: PropTypes.func.isRequired
 };
@@ -35,4 +33,4 @@ PrivateRoute.propTypes = {
 const mapDispatchToProps = (dispatch) =>
   bindActionCreators({isSessionValid}, dispatch);
 
-export default connect(null, mapDispatchToProps)(PrivateRoute);
+export default connect(null, mapDispatchToProps)(PublicRoute);

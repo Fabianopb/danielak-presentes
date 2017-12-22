@@ -26,9 +26,6 @@ class ManageProductView extends Component {
 
     return (
       <div className='admin-view'>
-        <div className='admin-bar'>
-          DaniK - Admin View
-        </div>
         <h3>Adicionar produto</h3>
         {isFetching ? (
           <Dimmer active inverted>

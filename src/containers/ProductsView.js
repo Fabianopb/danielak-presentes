@@ -17,9 +17,6 @@ class ProductsView extends Component {
     const {openDialog, closeDialog} = this.props;
     return (
       <div className='products-view'>
-        <div className='hero-bar'>
-          DaniK
-        </div>
         <div className='product-grid'>
           {isFetching ? (
             <Dimmer active inverted>
@@ -32,10 +29,6 @@ class ProductsView extends Component {
               <div className='current-price'>{product.currentPrice}</div>
             </div>
           ))}
-        </div>
-        <div className='contact-footer'>
-          <p>danielalpresentes@yahoo.com.br</p>
-          <p>Whatsapp +55 11 99777 5245</p>
         </div>
         {activeProduct && (
           <Modal className='product-modal' open={isDialogOpen} onClose={closeDialog}>

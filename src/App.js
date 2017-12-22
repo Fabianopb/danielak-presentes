@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Router, Route, Switch } from 'react-router-dom';
+import { Router, Switch } from 'react-router-dom';
 import { applyMiddleware, compose, createStore, combineReducers } from 'redux';
 import { Provider } from 'react-redux';
 import thunk from 'redux-thunk';
@@ -7,6 +7,7 @@ import { reducer as formReducer } from 'redux-form';
 import history from './modules/history';
 import { productsReducer } from './modules/reducers/products';
 import { usersReducer } from './modules/reducers/users';
+import PublicRoute from './components/PublicRoute';
 import PrivateRoute from './components/PrivateRoute';
 import ProductsView from './containers/ProductsView';
 import AdminView from './containers/AdminView';
@@ -34,8 +35,8 @@ class App extends Component {
       <Provider store={store}>
         <Router history={history}>
           <Switch>
-            <Route exact path='/' component={ProductsView} />
-            <Route exact path='/login' component={LoginView} />
+            <PublicRoute exact path='/' component={ProductsView} />
+            <PublicRoute exact path='/login' component={LoginView} />
             <PrivateRoute exact path='/admin' component={AdminView} />
             <PrivateRoute path='/admin/product/:id' component={ProductEditor} />
           </Switch>

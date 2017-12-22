@@ -18,9 +18,6 @@ class AdminView extends Component {
     const {openDialog, closeDialog} = this.props;
     return (
       <div className='admin-view'>
-        <div className='admin-bar'>
-          DaniK - Admin View
-        </div>
         <h3>Lista de produtos</h3>
         <div className='add-product'>
           <Link to='/admin/product/new'>

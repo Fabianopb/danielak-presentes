@@ -13,9 +13,6 @@ class LoginView extends Component {
     const { isLogging } = this.props.users;
     return (
       <div className='admin-view'>
-        <div className='admin-bar'>
-          DaniK - Admin View
-        </div>
         <h3 className='login-title'>Login</h3>
         {isLogging ? (
           <Dimmer active inverted>
