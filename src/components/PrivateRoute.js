@@ -9,9 +9,9 @@ class PrivateRoute extends Component {
   render () {
     const { component: Component, ...rest } = this.props;
     return (
-      <Route {...rest} render={() => (
+      <Route {...rest} render={props => (
         this.props.isSessionValid() ? (
-          <Component />
+          <Component {...props} />
         ) : (
           <Redirect to={{
             pathname: '/login'

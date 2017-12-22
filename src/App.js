@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Router, Route } from 'react-router-dom';
+import { Router, Route, Switch } from 'react-router-dom';
 import { applyMiddleware, compose, createStore, combineReducers } from 'redux';
 import { Provider } from 'react-redux';
 import thunk from 'redux-thunk';
@@ -33,12 +33,12 @@ class App extends Component {
     return (
       <Provider store={store}>
         <Router history={history}>
-          <div>
+          <Switch>
             <Route exact path='/' component={ProductsView} />
             <Route exact path='/login' component={LoginView} />
             <PrivateRoute exact path='/admin' component={AdminView} />
             <PrivateRoute path='/admin/product/:id' component={ProductEditor} />
-          </div>
+          </Switch>
         </Router>
       </Provider>
     );
