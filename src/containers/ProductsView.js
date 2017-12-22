@@ -24,7 +24,12 @@ class ProductsView extends Component {
             </Dimmer>
           ) : data.map(product => (
             <div className='product-cell' key={product._id}>
-              <img className='image' src={product.image} alt='N/A' onClick={() => openDialog(product)} />
+              <img
+                className='image'
+                src={product.image[product.featuredImageIndex]}
+                alt='N/A'
+                onClick={() => openDialog(product)}
+              />
               <div className='title'>{product.name}</div>
               <div className='current-price'>{product.currentPrice}</div>
             </div>
@@ -36,7 +41,7 @@ class ProductsView extends Component {
               {activeProduct.name}
             </Modal.Header>
             <Modal.Content>
-              <img className='image' src={activeProduct.image} alt='N/A' />
+              <img className='image' src={activeProduct.image[activeProduct.featuredImageIndex]} alt='N/A' />
               <p>{activeProduct.description}</p>
               <p>{activeProduct.currentPrice}</p>
             </Modal.Content>

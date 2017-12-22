@@ -27,7 +27,6 @@ router.route('/')
   })
   .post(bodyParser, function (request, response) {
     const product = new Product(request.body);
-    console.log(JSON.stringify(product));
     handleOnSave(product, response, 'New product saved!');
   });
 

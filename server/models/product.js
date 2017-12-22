@@ -8,10 +8,14 @@ const ProductSchema = new Schema({
     default: null
   },
   image: {
-    // type: [String],
-    type: String,
+    type: [String],
     required: true,
-    default: null
+    default: []
+  },
+  featuredImageIndex: {
+    type: Number,
+    required: true,
+    default: 0
   },
   storeLink: {
     type: String,

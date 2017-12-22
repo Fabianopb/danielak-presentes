@@ -43,7 +43,7 @@ class AdminView extends Component {
                 {data.map((product) => (
                   <Table.Row key={product._id}>
                     <Table.Cell className='name-row'>
-                      <img className='thumbnail' src={product.image} alt='N/A' />
+                      <img className='thumbnail' src={product.image[product.featuredImageIndex]} alt='N/A' />
                       <div className='product-name'>{ product.name }</div>
                     </Table.Cell>
                     <Table.Cell>

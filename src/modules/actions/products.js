@@ -91,7 +91,7 @@ export function postProduct (product) {
     formData.append('file', imageFile[0]);
     axios.post(`/api/files/upload-file`, formData, {headers: {'Content-Type': 'multipart/form-data'}})
       .then(response => {
-        product.image = response.data.location;
+        product.image.push(response.data.location);
         return axios.post(`/api/products`, product);
       })
       .then(() => {
@@ -117,7 +117,7 @@ export function putProduct (product) {
     }
     axios.all(promises)
       .then(axios.spread((deleteResponse, uploadResponse) => {
-        product.image = uploadResponse.data.location;
+        product.image.push(uploadResponse.data.location);
         return axios.put(`/api/products/${product._id}`, product);
       }))
       .then(() => {
