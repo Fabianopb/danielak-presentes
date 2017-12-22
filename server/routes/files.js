@@ -48,7 +48,7 @@ router.route('/delete-file')
   .post(bodyParser, (request, response) => {
     const params = {
       Bucket: process.env.DANIK_S3_BUCKET,
-      Key: `products/${request.body.name}`
+      Key: request.body.name
     };
     s3.deleteObject(params, (error, data) => {
       if (error) {

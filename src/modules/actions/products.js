@@ -102,13 +102,18 @@ export function putProduct (product) {
 }
 
 export function deleteProduct (id) {
-  return (dispatch) => {
-    dispatch(startRequest());
-    axios.delete(`/api/products/${id}`)
-      .then(() => {
+  return (dispatch, getState) => {
+    const { activeProduct } = getState().products;
+    const name = activeProduct.image.replace('https://danielak-products.s3.amazonaws.com/', '');
+    const promises = [
+      axios.post('/api/files/delete-file', { name }),
+      axios.delete(`/api/products/${id}`)
+    ];
+    axios.all(promises)
+      .then(axios.spread(() => {
         dispatch(spliceProduct(id));
         dispatch(endRequest());
-      })
+      }))
       .catch(error => dispatch(handleError(error)));
   };
 }
