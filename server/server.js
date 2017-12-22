@@ -2,12 +2,14 @@ const express = require('express');
 const app = express();
 const path = require('path');
 const mongoose = require('mongoose');
+const files = require('./routes/files');
 const products = require('./routes/products');
 const users = require('./routes/users');
 const passport = require('passport');
 
 app.use(passport.initialize());
 
+app.use('/api/files', files);
 app.use('/api/products', products);
 app.use('/api/users', users);
 

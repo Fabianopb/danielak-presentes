@@ -76,7 +76,7 @@ export function postProduct (product) {
     const { imageFile } = getState().products;
     const formData = new FormData();
     formData.append('file', imageFile[0]);
-    axios.post(`/api/products/upload-file`, formData, {headers: {'Content-Type': 'multipart/form-data'}})
+    axios.post(`/api/files/upload-file`, formData, {headers: {'Content-Type': 'multipart/form-data'}})
       .then(response => {
         product.image = response.data.location;
         return axios.post(`/api/products`, product);
