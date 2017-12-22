@@ -53,15 +53,20 @@ export function fetchProducts (productId) {
   return (dispatch) => {
     dispatch(startRequest());
     if (productId) {
-      return axios.get(`/api/products?_id=${productId}`)
-        .then(response => dispatch(initialize('editProductForm', response.data[0])))
-        .then(() => dispatch(endRequest()))
+      axios.get(`/api/products?_id=${productId}`)
+        .then(response => {
+          dispatch(initialize('editProductForm', response.data[0]));
+          dispatch(endRequest());
+        })
+        .catch(error => dispatch(handleError(error)));
+    } else {
+      axios.get(`/api/products`)
+        .then(response => {
+          dispatch(receiveProducts(response.data));
+          dispatch(endRequest());
+        })
         .catch(error => dispatch(handleError(error)));
     }
-    return axios.get(`/api/products`)
-      .then(response => dispatch(receiveProducts(response.data)))
-      .then(() => dispatch(endRequest()))
-      .catch(error => dispatch(handleError(error)));
   };
 }
 
@@ -71,12 +76,14 @@ export function postProduct (product) {
     const { imageFile } = getState().products;
     const formData = new FormData();
     formData.append('file', imageFile[0]);
-    return axios.post(`/api/products/upload-file`, formData, {headers: {'Content-Type': 'multipart/form-data'}})
+    axios.post(`/api/products/upload-file`, formData, {headers: {'Content-Type': 'multipart/form-data'}})
       .then(response => {
         product.image = response.data.location;
-        return axios.post(`/api/products`, product)
-          .then(response => dispatch(redirectTo('/admin')))
-          .then(() => dispatch(endRequest()));
+        return axios.post(`/api/products`, product);
+      })
+      .then(() => {
+        redirectTo('/admin');
+        dispatch(endRequest());
       })
       .catch(error => dispatch(handleError(error)));
   };
@@ -85,9 +92,11 @@ export function postProduct (product) {
 export function putProduct (product) {
   return (dispatch) => {
     dispatch(startRequest());
-    return axios.put(`/api/products/${product._id}`, product)
-      .then(response => dispatch(redirectTo('/admin')))
-      .then(() => dispatch(endRequest()))
+    axios.put(`/api/products/${product._id}`, product)
+      .then(response => {
+        redirectTo('/admin');
+        dispatch(endRequest());
+      })
       .catch(error => dispatch(handleError(error)));
   };
 }
@@ -95,9 +104,11 @@ export function putProduct (product) {
 export function deleteProduct (id) {
   return (dispatch) => {
     dispatch(startRequest());
-    return axios.delete(`/api/products/${id}`)
-      .then(() => dispatch(spliceProduct(id)))
-      .then(() => dispatch(endRequest()))
+    axios.delete(`/api/products/${id}`)
+      .then(() => {
+        dispatch(spliceProduct(id));
+        dispatch(endRequest());
+      })
       .catch(error => dispatch(handleError(error)));
   };
 }
