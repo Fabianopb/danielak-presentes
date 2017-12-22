@@ -11,6 +11,7 @@ export const ADD_PRODUCT = 'ADD_PRODUCT';
 export const OPEN_DIALOG = 'OPEN_DIALOG';
 export const CLOSE_DIALOG = 'CLOSE_DIALOG';
 export const SET_IMAGE_FILE = 'SET_IMAGE_FILE';
+export const SET_ACTIVE_PRODUCT = 'SET_ACTIVE_PRODUCT';
 
 function startRequest () {
   return {
@@ -38,6 +39,13 @@ function spliceProduct (id) {
   };
 }
 
+function setActiveProduct (activeProduct) {
+  return {
+    type: SET_ACTIVE_PRODUCT,
+    activeProduct
+  };
+}
+
 function handleError (error) {
   return {
     type: ERROR_REQUEST,
@@ -47,6 +55,11 @@ function handleError (error) {
 
 function redirectTo (route) {
   history.push(route);
+}
+
+function getImageName (getState) {
+  const { activeProduct } = getState().products;
+  return activeProduct.image.replace('https://danielak-products.s3.amazonaws.com/', '');
 }
 
 export function fetchProducts (productId) {
@@ -90,10 +103,24 @@ export function postProduct (product) {
 }
 
 export function putProduct (product) {
-  return (dispatch) => {
+  return (dispatch, getState) => {
     dispatch(startRequest());
-    axios.put(`/api/products/${product._id}`, product)
-      .then(response => {
+    dispatch(setActiveProduct(product));
+    const { imageFile } = getState().products;
+    const promises = [];
+    if (imageFile) {
+      const name = getImageName(getState);
+      const formData = new FormData();
+      formData.append('file', imageFile[0]);
+      promises.push(axios.post('/api/files/delete-file', { name }));
+      promises.push(axios.post(`/api/files/upload-file`, formData, {headers: {'Content-Type': 'multipart/form-data'}}));
+    }
+    axios.all(promises)
+      .then(axios.spread((deleteResponse, uploadResponse) => {
+        product.image = uploadResponse.data.location;
+        return axios.put(`/api/products/${product._id}`, product);
+      }))
+      .then(() => {
         redirectTo('/admin');
         dispatch(endRequest());
       })
@@ -103,8 +130,8 @@ export function putProduct (product) {
 
 export function deleteProduct (id) {
   return (dispatch, getState) => {
-    const { activeProduct } = getState().products;
-    const name = activeProduct.image.replace('https://danielak-products.s3.amazonaws.com/', '');
+    dispatch(startRequest());
+    const name = getImageName(getState);
     const promises = [
       axios.post('/api/files/delete-file', { name }),
       axios.delete(`/api/products/${id}`)

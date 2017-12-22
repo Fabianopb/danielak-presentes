@@ -6,7 +6,8 @@ import {
   SPLICE_PRODUCT,
   OPEN_DIALOG,
   CLOSE_DIALOG,
-  SET_IMAGE_FILE
+  SET_IMAGE_FILE,
+  SET_ACTIVE_PRODUCT
 } from '../actions/products';
 
 const initialState = {
@@ -25,7 +26,7 @@ export function productsReducer (products = initialState.products, action = {}) 
     case START_REQUEST:
       return {...products, isFetching: true};
     case END_REQUEST:
-      return {...products, isFetching: false};
+      return {...products, isFetching: false, imageFile: null};
     case ERROR_REQUEST:
       return {...products, isFetching: false, error: action.error};
     case RECEIVE_PRODUCTS:
@@ -34,6 +35,8 @@ export function productsReducer (products = initialState.products, action = {}) 
       const index = products.data.findIndex(product => product._id === action.id);
       products.data.splice(index, 1);
       return {...products, isDialogOpen: false};
+    case SET_ACTIVE_PRODUCT:
+      return {...products, activeProduct: action.activeProduct};
     case OPEN_DIALOG:
       return {...products, activeProduct: action.activeProduct, isDialogOpen: true};
     case CLOSE_DIALOG:
