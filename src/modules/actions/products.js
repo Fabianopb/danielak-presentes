@@ -1,4 +1,5 @@
 import axios from 'axios';
+import _ from 'lodash';
 import history from '../history';
 import { initialize } from 'redux-form';
 
@@ -57,9 +58,13 @@ function redirectTo (route) {
   history.push(route);
 }
 
-function getImageName (getState) {
+function getImageUrl (getState) {
   const { activeProduct } = getState().products;
-  return activeProduct.image.replace('https://danielak-products.s3.amazonaws.com/', '');
+  return activeProduct.image[activeProduct.featuredImageIndex];
+}
+
+function getImageNameFromUrl (url) {
+  return url.substring(url.substring(url.lastIndexOf('/'), 0).lastIndexOf('/') + 1);
 }
 
 export function fetchProducts (productId) {
@@ -108,16 +113,24 @@ export function putProduct (product) {
     dispatch(setActiveProduct(product));
     const { imageFile } = getState().products;
     const promises = [];
+    let imageUrl = '';
+    let imageName = '';
     if (imageFile) {
-      const name = getImageName(getState);
+      imageUrl = getImageUrl(getState);
+      imageName = getImageNameFromUrl(imageUrl);
       const formData = new FormData();
       formData.append('file', imageFile[0]);
-      promises.push(axios.post('/api/files/delete-file', { name }));
+      promises.push(axios.post('/api/files/delete-file', { name: imageName }));
       promises.push(axios.post(`/api/files/upload-file`, formData, {headers: {'Content-Type': 'multipart/form-data'}}));
     }
     axios.all(promises)
       .then(axios.spread((deleteResponse, uploadResponse) => {
-        product.image.push(uploadResponse.data.location);
+        if (imageFile) {
+          _.remove(product.image, url => {
+            return url === imageUrl;
+          });
+          product.image.push(uploadResponse.data.location);
+        }
         return axios.put(`/api/products/${product._id}`, product);
       }))
       .then(() => {
@@ -131,9 +144,10 @@ export function putProduct (product) {
 export function deleteProduct (id) {
   return (dispatch, getState) => {
     dispatch(startRequest());
-    const name = getImageName(getState);
+    const imageUrl = getImageUrl(getState);
+    const imageName = getImageNameFromUrl(imageUrl);
     const promises = [
-      axios.post('/api/files/delete-file', { name }),
+      axios.post('/api/files/delete-file', { name: imageName }),
       axios.delete(`/api/products/${id}`)
     ];
     axios.all(promises)
