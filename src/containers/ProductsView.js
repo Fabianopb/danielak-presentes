@@ -41,7 +41,9 @@ class ProductsView extends Component {
               {activeProduct.name}
             </Modal.Header>
             <Modal.Content>
-              <img className='image' src={activeProduct.image[activeProduct.featuredImageIndex]} alt='N/A' />
+              <div className='product-container'>
+                <img className='image' src={activeProduct.image[activeProduct.featuredImageIndex]} alt='N/A' />
+              </div>
               <p>{activeProduct.description}</p>
               <p>{activeProduct.currentPrice}</p>
             </Modal.Content>
