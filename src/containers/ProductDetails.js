@@ -24,7 +24,13 @@ class ProductsView extends Component {
         ) : (
           <div>
             { activeProduct ? (
-              <div>{activeProduct.name}</div>
+              <div>
+                <div>
+                  <img src={activeProduct.image[activeProduct.featuredImageIndex]} alt='N/A' />
+                  <div>{activeProduct.name}</div>
+                </div>
+                <div>{activeProduct.description}</div>
+              </div>
             ) : (
               <div>Produto não encontrado</div>
             ) }
