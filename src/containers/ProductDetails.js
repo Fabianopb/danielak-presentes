@@ -4,9 +4,15 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { Dimmer, Loader } from 'semantic-ui-react';
 
+import { getProductDetails } from '../modules/actions/products';
+
 import '../styles/products.css';
 
 class ProductsView extends Component {
+  componentDidMount () {
+    this.props.getProductDetails(this.props.match.params.id);
+  }
+
   render () {
     const {isFetching, activeProduct} = this.props.products;
     return (
@@ -16,7 +22,13 @@ class ProductsView extends Component {
             <Loader />
           </Dimmer>
         ) : (
-          <div>{ activeProduct.name }</div>
+          <div>
+            { activeProduct ? (
+              <div>{activeProduct.name}</div>
+            ) : (
+              <div>Produto não encontrado</div>
+            ) }
+          </div>
         ) }
       </div>
     );
@@ -24,6 +36,8 @@ class ProductsView extends Component {
 }
 
 ProductsView.propTypes = {
+  getProductDetails: PropTypes.func.isRequired,
+  match: PropTypes.object.isRequired,
   products: PropTypes.object.isRequired
 };
 
@@ -32,6 +46,6 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) =>
-  bindActionCreators({}, dispatch);
+  bindActionCreators({getProductDetails}, dispatch);
 
 export default connect(mapStateToProps, mapDispatchToProps)(ProductsView);

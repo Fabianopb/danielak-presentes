@@ -68,6 +68,18 @@ function getImageNameFromUrl (url) {
   return url.substring(url.substring(url.lastIndexOf('/'), 0).lastIndexOf('/') + 1);
 }
 
+export function getProductDetails (productId) {
+  return (dispatch) => {
+    dispatch(startRequest());
+    axios.get(`/api/products?_id=${productId}`)
+      .then(response => {
+        dispatch(setActiveProduct(response.data[0]));
+        dispatch(endRequest());
+      })
+      .catch(error => dispatch(handleError(error)));
+  };
+}
+
 export function fetchProducts (productId) {
   return (dispatch) => {
     dispatch(startRequest());
@@ -182,7 +194,6 @@ export function setImageFile (event) {
 
 export function showProductDetails (product) {
   return (dispatch) => {
-    dispatch(setActiveProduct(product));
-    redirectTo(`/product/${product.id}`);
+    redirectTo(`/product/${product._id}`);
   };
 }
