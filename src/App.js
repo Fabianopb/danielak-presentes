@@ -10,6 +10,7 @@ import { usersReducer } from './modules/reducers/users';
 import PublicRoute from './components/PublicRoute';
 import PrivateRoute from './components/PrivateRoute';
 import ProductsView from './containers/ProductsView';
+import ProductDetails from './containers/ProductDetails';
 import AdminView from './containers/AdminView';
 import LoginView from './containers/LoginView';
 import ProductEditor from './containers/ProductEditor';
@@ -36,6 +37,7 @@ class App extends Component {
         <Router history={history}>
           <Switch>
             <PublicRoute exact path='/' component={ProductsView} />
+            <PublicRoute exact path='/product/:id' component={ProductDetails} />
             <PublicRoute exact path='/login' component={LoginView} />
             <PrivateRoute exact path='/admin' component={AdminView} />
             <PrivateRoute path='/admin/product/:id' component={ProductEditor} />

@@ -13,6 +13,7 @@ export const OPEN_DIALOG = 'OPEN_DIALOG';
 export const CLOSE_DIALOG = 'CLOSE_DIALOG';
 export const SET_IMAGE_FILE = 'SET_IMAGE_FILE';
 export const SET_ACTIVE_PRODUCT = 'SET_ACTIVE_PRODUCT';
+export const SHOW_PRODUCT_DETAILS = 'SHOW_PRODUCT_DETAILS';
 
 function startRequest () {
   return {
@@ -176,5 +177,12 @@ export function setImageFile (event) {
   return {
     type: SET_IMAGE_FILE,
     files: event.target.files
+  };
+}
+
+export function showProductDetails (product) {
+  return (dispatch) => {
+    dispatch(setActiveProduct(product));
+    redirectTo(`/product/${product.id}`);
   };
 }

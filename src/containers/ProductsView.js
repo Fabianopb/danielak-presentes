@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import { PropTypes } from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { Button, Modal, Dimmer, Loader } from 'semantic-ui-react';
-import { fetchProducts, openDialog, closeDialog } from '../modules/actions/products';
+import { Dimmer, Loader } from 'semantic-ui-react';
+import { fetchProducts, showProductDetails } from '../modules/actions/products';
 
 import '../styles/products.css';
 
@@ -13,8 +13,7 @@ class ProductsView extends Component {
   }
 
   render () {
-    const {isFetching, data, isDialogOpen, activeProduct} = this.props.products;
-    const {openDialog, closeDialog} = this.props;
+    const {isFetching, data} = this.props.products;
     return (
       <div className='products-view'>
         <div className='product-grid'>
@@ -28,31 +27,13 @@ class ProductsView extends Component {
                 className='image'
                 src={product.image[product.featuredImageIndex]}
                 alt='N/A'
-                onClick={() => openDialog(product)}
+                onClick={() => this.props.showProductDetails(product)}
               />
               <div className='title'>{product.name}</div>
               <div className='current-price'>{product.currentPrice}</div>
             </div>
           ))}
         </div>
-        {activeProduct && (
-          <Modal className='product-modal' open={isDialogOpen} onClose={closeDialog}>
-            <Modal.Header>
-              {activeProduct.name}
-            </Modal.Header>
-            <Modal.Content>
-              <div className='product-container'>
-                <img className='image' src={activeProduct.image[activeProduct.featuredImageIndex]} alt='N/A' />
-              </div>
-              <p>{activeProduct.description}</p>
-              <p>{activeProduct.currentPrice}</p>
-            </Modal.Content>
-            <Modal.Actions>
-              <Button negative onClick={closeDialog}>No</Button>
-              <Button positive onClick={closeDialog}>Yes</Button>
-            </Modal.Actions>
-          </Modal>
-        )}
       </div>
     );
   }
@@ -60,9 +41,8 @@ class ProductsView extends Component {
 
 ProductsView.propTypes = {
   fetchProducts: PropTypes.func.isRequired,
-  products: PropTypes.object.isRequired,
-  openDialog: PropTypes.func.isRequired,
-  closeDialog: PropTypes.func.isRequired
+  showProductDetails: PropTypes.func.isRequired,
+  products: PropTypes.object.isRequired
 };
 
 const mapStateToProps = (state) => ({
@@ -70,6 +50,6 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) =>
-  bindActionCreators({fetchProducts, openDialog, closeDialog}, dispatch);
+  bindActionCreators({fetchProducts, showProductDetails}, dispatch);
 
 export default connect(mapStateToProps, mapDispatchToProps)(ProductsView);
