@@ -1,29 +1,24 @@
 .products-view {
-  .featured-products {
-    border: 1px solid;
-    margin: 16px 20px;
-  }
+  padding: 20px;
 
-  .product-grid {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
+  .products-grid {
+
+    .featured-products {
+      border: 1px solid;
+      margin: 16px 20px;
+    }
 
     .product-cell {
-      margin: 20px;
-      width: 300px;
-      overflow: hidden;
+      display: flex !important;
+      flex-direction: column;
+      justify-content: space-between;
+      border-left: 1px solid #eee;
+      border-bottom: 1px solid #eee;
 
-      .image {
-        height: 240px;
-      }
-
-      .title {
-
-      }
-
-      .current-price {
-
+      .image, .details {
+        width: 100%;
+        max-width: 300px;
+        align-self: center;
       }
     }
   }
