@@ -1,5 +1,6 @@
 .products-view {
   padding: 20px;
+  margin: 0 40px;
 
   .products-grid {
     border-right: 1px solid #eee;
@@ -36,5 +37,17 @@
     .image {
       height: 240px;
     }
+  }
+}
+
+@media screen and (min-width: 1200px) {
+  .products-view {
+    margin: 0 10%;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .products-view {
+    margin: 0;
   }
 }
