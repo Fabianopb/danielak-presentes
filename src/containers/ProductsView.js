@@ -16,13 +16,13 @@ class ProductsView extends Component {
     const {isFetching, data} = this.props.products;
     return (
       <div className='products-view'>
-        <Grid className='products-grid' columns={3} padded>
+        <Grid className='products-grid' padded>
           {isFetching ? (
             <Dimmer active inverted>
               <Loader />
             </Dimmer>
           ) : data.map(product => (
-            <Grid.Column className='product-cell' key={product._id}>
+            <Grid.Column className='product-cell' key={product._id} mobile={16} tablet={8} computer={4}>
               <img
                 className='image'
                 src={product.image[product.featuredImageIndex]}
