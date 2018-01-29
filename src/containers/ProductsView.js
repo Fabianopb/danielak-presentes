@@ -16,6 +16,7 @@ class ProductsView extends Component {
     const {isFetching, data} = this.props.products;
     return (
       <div className='products-view'>
+        <h2>Os mais vendidos</h2>
         <Grid className='products-grid' padded>
           {isFetching ? (
             <Dimmer active inverted>
@@ -31,7 +32,9 @@ class ProductsView extends Component {
               />
               <div className='details'>
                 <div className='title'>{product.name}</div>
-                <div className='current-price'>{product.currentPrice}</div>
+                <div className='current-price'>
+                  <div>R$ {product.currentPrice.toFixed(2)}</div>
+                </div>
               </div>
             </Grid.Column>
           ))}

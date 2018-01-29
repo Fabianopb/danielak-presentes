@@ -1,10 +1,8 @@
 .products-view {
-  padding: 20px;
+  padding: 40px 20px;
   margin: 0 40px;
 
   .products-grid {
-    border-right: 1px solid #eee;
-    border-top: 1px solid #eee;
 
     .featured-products {
       border: 1px solid;
@@ -13,15 +11,36 @@
 
     .product-cell {
       display: flex !important;
+      margin-bottom: 64px;
       flex-direction: column;
       justify-content: space-between;
-      border-left: 1px solid #eee;
-      border-bottom: 1px solid #eee;
 
       .image, .details {
         width: 100%;
         max-width: 300px;
         align-self: center;
+      }
+
+      .details {
+        display: flex;
+        margin-top: 8px;
+
+        .title {
+          flex: 2;
+          min-height: 40px;
+          font-size: 0.9rem;
+          text-transform: uppercase;
+        }
+
+        .current-price {
+          flex: 1;
+          display: flex;
+          justify-content: flex-end;
+          align-items: flex-end;
+          font-weight: bold;
+          font-size: 1.2rem;
+          color: #A2BB49;
+        }
       }
     }
   }
