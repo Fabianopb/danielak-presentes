@@ -1,60 +1,50 @@
+@import 'colors';
+
 .products-view {
   padding: 40px 20px;
   margin: 0 40px;
 
   .products-grid {
-
-    .featured-products {
-      border: 1px solid;
-      margin: 16px 20px;
-    }
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
 
     .product-cell {
-      display: flex !important;
-      margin-bottom: 64px;
+      display: flex;
       flex-direction: column;
-      justify-content: space-between;
+      margin: 16px;
+      padding: 8px;
+      border: 1px solid $cadillac;
+      border-radius: 8px;
+      overflow: hidden;
 
-      .image, .details {
-        width: 100%;
-        max-width: 300px;
-        align-self: center;
+      .image-container {
+        width: 280px;
+        height: 304px;
+        overflow: hidden;
+        background-color: $brilliant-white;
+
+        img {
+          width: 280px;
+        }
       }
 
-      .details {
-        display: flex;
+      .title {
         margin-top: 8px;
-
-        .title {
-          flex: 2;
-          min-height: 40px;
-          font-size: 0.9rem;
-          text-transform: uppercase;
-        }
-
-        .current-price {
-          flex: 1;
-          display: flex;
-          justify-content: flex-end;
-          align-items: flex-end;
-          font-weight: bold;
-          font-size: 1.2rem;
-          color: #A2BB49;
-        }
+        height: 40px;
+        width: 280px;
+        font-size: 0.9rem;
+        font-weight: bold;
+        text-transform: uppercase;
+        text-align: center;
       }
-    }
-  }
-}
 
-.product-modal {
-
-  .product-container {
-    margin: 20px;
-    width: 300px;
-    overflow: hidden;
-
-    .image {
-      height: 240px;
+      .current-price {
+        margin-top: 8px;
+        font-size: 1.3rem;
+        text-align: right;
+        color: $very-berry;
+      }
     }
   }
 }

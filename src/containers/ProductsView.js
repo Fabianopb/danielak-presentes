@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { PropTypes } from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { Grid, Dimmer, Loader } from 'semantic-ui-react';
+import { Dimmer, Loader, Divider } from 'semantic-ui-react';
 import { fetchProducts, showProductDetails } from '../modules/actions/products';
 
 import '../styles/products.css';
@@ -17,28 +17,28 @@ class ProductsView extends Component {
     return (
       <div className='products-view'>
         <h2>Os mais vendidos</h2>
-        <Grid className='products-grid' padded>
+        <Divider />
+        <div className='products-grid'>
           {isFetching ? (
             <Dimmer active inverted>
               <Loader />
             </Dimmer>
           ) : data.map(product => (
-            <Grid.Column className='product-cell' key={product._id} mobile={16} tablet={8} computer={4}>
-              <img
-                className='image'
-                src={product.image[product.featuredImageIndex]}
-                alt='N/A'
-                onClick={() => this.props.showProductDetails(product)}
-              />
-              <div className='details'>
-                <div className='title'>{product.name}</div>
-                <div className='current-price'>
-                  <div>R$ {product.currentPrice.toFixed(2)}</div>
-                </div>
+            <div className='product-cell' key={product._id}>
+              <div className='image-container'>
+                <img
+                  src={product.image[product.featuredImageIndex]}
+                  alt='N/A'
+                  onClick={() => this.props.showProductDetails(product)}
+                />
               </div>
-            </Grid.Column>
+              <div className='title'>{product.name}</div>
+              <div className='current-price'>
+                <div>R$ {product.currentPrice.toFixed(2)}</div>
+              </div>
+            </div>
           ))}
-        </Grid>
+        </div>
       </div>
     );
   }
