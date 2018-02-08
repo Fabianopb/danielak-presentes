@@ -1,0 +1,22 @@
+/*
+Breakpoints:
+- xs: width < 768px
+- sm: 768px <= width < 992px
+- md: 992px <= width < 1200px
+- lg: 1200px <= width < 1920px
+- xl: width > 1920px
+*/
+
+$sm-or-less: '(max-width: 991px)';
+$md-or-less: '(max-width: 1199px)';
+$lg-or-less: '(max-width: 1919px)';
+
+$sm-or-greater: '(min-width: 768px)';
+$md-or-greater: '(min-width: 992px)';
+$lg-or-greater: '(min-width: 1200px)';
+
+$xs: '(max-width: 767px)';
+$sm: $sm-or-greater ' and ' $sm-or-less;
+$md: $md-or-greater ' and ' $md-or-less;
+$lg: $lg-or-greater ' and ' $lg-or-less;
+$xl: '(min-width: 1920px)';
