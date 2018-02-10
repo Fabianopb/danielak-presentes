@@ -46,39 +46,36 @@
 .product-details {
   padding: 20px;
 
-  .detail-container {
+  .ui.image {
+    padding: 16px;
+  }
 
-    .ui.image {
-      padding: 16px;
+  .description-container {
+    padding: 16px;
+
+    .title {
+      margin-bottom: 16px;
+      font-size: 1.4rem;
     }
 
-    .description-container {
-      padding: 16px;
+    .price {
+      margin-bottom: 16px;
+      font-size: 1.6rem;
+      color: $very-berry;
+    }
 
-      .title {
-        margin-bottom: 16px;
-        font-size: 1.4rem;
-      }
+    .ui.button {
+      background-color: $very-berry;
+      color: $brilliant-white;
+      margin-bottom: 16px;
+    }
 
-      .price {
-        margin-bottom: 16px;
-        font-size: 1.6rem;
-        color: $very-berry;
-      }
+    .ui.button:hover {
+      background-color: darken($very-berry, 10%);
+    }
 
-      .ui.button {
-        background-color: $very-berry;
-        color: $brilliant-white;
-        margin-bottom: 16px;
-      }
-
-      .ui.button:hover {
-        background-color: darken($very-berry, 10%);
-      }
-
-      .ui.button:active {
-        background-color: darken($very-berry, 20%);
-      }
+    .ui.button:active {
+      background-color: darken($very-berry, 20%);
     }
   }
 }

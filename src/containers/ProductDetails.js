@@ -3,8 +3,6 @@ import { PropTypes } from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { Dimmer, Loader, Button, Icon, Divider, Grid, Image } from 'semantic-ui-react';
-import MediaQuery from 'react-responsive';
-import { lgOrGreater } from '../modules/breakpoints';
 import { getProductDetails } from '../modules/actions/products';
 
 import '../styles/products.css';
@@ -21,36 +19,33 @@ class ProductDetails extends Component {
   render () {
     const {isFetching, activeProduct} = this.props.products;
     return (
-      <div className='product-details flex-row'>
-        <MediaQuery query={lgOrGreater}>
-          <div className='flex-1' />
-        </MediaQuery>
+      <Grid className='product-details'>
+        <Grid.Column width={2} only='computer' />
+        <Grid.Column width={1} only='widescreen' />
         { isFetching ? (
           <Dimmer active inverted>
             <Loader />
           </Dimmer>
         ) : (
-          <div className='flex-6'>
+          <Grid.Column computer={12} widescreen={10} width={16}>
             { activeProduct ? (
               <div>
-                <div className='detail-container flex-row'>
-                  <Grid stackable columns={2}>
-                    <Grid.Column>
-                      <Image src={activeProduct.image[activeProduct.featuredImageIndex]} />
-                    </Grid.Column>
-                    <Grid.Column>
-                      <div className='description-container flex-column cross-axis-baseline'>
-                        <div className='title'>{activeProduct.name}</div>
-                        <div className='price'>R$ {activeProduct.currentPrice.toFixed(2)}</div>
-                        <Button icon labelPosition='left' onClick={() => this.goToShop(activeProduct.storeLink)}>
-                          <Icon name='shop' />
-                          Ver na minha lojinha
-                        </Button>
-                        <div>{activeProduct.description}</div>
-                      </div>
-                    </Grid.Column>
-                  </Grid>
-                </div>
+                <Grid stackable columns={2}>
+                  <Grid.Column>
+                    <Image src={activeProduct.image[activeProduct.featuredImageIndex]} />
+                  </Grid.Column>
+                  <Grid.Column>
+                    <div className='description-container flex-column cross-axis-baseline'>
+                      <div className='title'>{activeProduct.name}</div>
+                      <div className='price'>R$ {activeProduct.currentPrice.toFixed(2)}</div>
+                      <Button icon labelPosition='left' onClick={() => this.goToShop(activeProduct.storeLink)}>
+                        <Icon name='shop' />
+                        Ver na minha lojinha
+                      </Button>
+                      <div>{activeProduct.description}</div>
+                    </div>
+                  </Grid.Column>
+                </Grid>
                 <Divider />
                 <h3>Detalhes do produto e entrega</h3>
                 <div>Peso: {activeProduct.weight} g</div>
@@ -61,12 +56,11 @@ class ProductDetails extends Component {
             ) : (
               <div>Produto não encontrado</div>
             ) }
-          </div>
+          </Grid.Column>
         ) }
-        <MediaQuery query={lgOrGreater}>
-          <div className='flex-1' />
-        </MediaQuery>
-      </div>
+        <Grid.Column width={2} only='computer' />
+        <Grid.Column width={1} only='widescreen' />
+      </Grid>
     );
   }
 }
