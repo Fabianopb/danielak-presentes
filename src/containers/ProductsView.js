@@ -2,9 +2,7 @@ import React, { Component } from 'react';
 import { PropTypes } from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { Dimmer, Loader, Divider } from 'semantic-ui-react';
-import MediaQuery from 'react-responsive';
-import { lgOrGreater } from '../modules/breakpoints';
+import { Dimmer, Loader, Divider, Grid } from 'semantic-ui-react';
 import { fetchProducts, showProductDetails } from '../modules/actions/products';
 
 import '../styles/products.css';
@@ -17,14 +15,13 @@ class ProductsView extends Component {
   render () {
     const {isFetching, data} = this.props.products;
     return (
-      <div className='products-view flex-row'>
-        <MediaQuery query={lgOrGreater}>
-          <div className='flex-1' />
-        </MediaQuery>
-        <div className='flex-6'>
+      <Grid className='products-view'>
+        <Grid.Column width={2} only='computer' />
+        <Grid.Column width={1} only='widescreen' />
+        <Grid.Column computer={12} widescreen={10} width={16}>
           <h2>Os mais vendidos</h2>
           <Divider />
-          <div className='products-grid flex-wrap main-axis-center'>
+          <div className='flex-wrap main-axis-center'>
             {isFetching ? (
               <Dimmer active inverted>
                 <Loader />
@@ -45,11 +42,10 @@ class ProductsView extends Component {
               </div>
             ))}
           </div>
-        </div>
-        <MediaQuery query={lgOrGreater}>
-          <div className='flex-1' />
-        </MediaQuery>
-      </div>
+        </Grid.Column>
+        <Grid.Column width={2} only='computer' />
+        <Grid.Column width={1} only='widescreen' />
+      </Grid>
     );
   }
 }

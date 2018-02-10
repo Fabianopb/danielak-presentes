@@ -3,42 +3,39 @@
 .products-view {
   padding: 20px;
 
-  .products-grid {
+  .product-cell {
+    margin: 16px;
+    padding: 8px;
+    border: 1px solid $cadillac;
+    border-radius: 8px;
+    overflow: hidden;
 
-    .product-cell {
-      margin: 16px;
-      padding: 8px;
-      border: 1px solid $cadillac;
-      border-radius: 8px;
+    .image-container {
+      width: 280px;
+      height: 304px;
       overflow: hidden;
+      background-color: $brilliant-white;
 
-      .image-container {
+      img {
         width: 280px;
-        height: 304px;
-        overflow: hidden;
-        background-color: $brilliant-white;
-
-        img {
-          width: 280px;
-        }
       }
+    }
 
-      .title {
-        margin-top: 8px;
-        height: 40px;
-        width: 280px;
-        font-size: 0.9rem;
-        font-weight: bold;
-        text-transform: uppercase;
-        text-align: center;
-      }
+    .title {
+      margin-top: 8px;
+      height: 40px;
+      width: 280px;
+      font-size: 0.9rem;
+      font-weight: bold;
+      text-transform: uppercase;
+      text-align: center;
+    }
 
-      .current-price {
-        margin-top: 8px;
-        font-size: 1.3rem;
-        text-align: right;
-        color: $very-berry;
-      }
+    .current-price {
+      margin-top: 8px;
+      font-size: 1.3rem;
+      text-align: right;
+      color: $very-berry;
     }
   }
 }
