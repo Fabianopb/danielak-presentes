@@ -1,17 +1,11 @@
 @import 'colors';
 
 .products-view {
-  padding: 40px 20px;
-  margin: 0 40px;
+  padding: 20px;
 
   .products-grid {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
 
     .product-cell {
-      display: flex;
-      flex-direction: column;
       margin: 16px;
       padding: 8px;
       border: 1px solid $cadillac;
@@ -50,27 +44,15 @@
 }
 
 .product-details {
-  padding: 40px 20px;
-  margin: 0 40px;
+  padding: 20px;
 
   .detail-container {
-    display: flex;
 
-    .image-container {
-      flex: 1;
+    .ui.image {
       padding: 16px;
-
-      img {
-        width: 100%;
-        max-width: 560px;
-      }
     }
 
     .description-container {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      align-items: baseline;
       padding: 16px;
 
       .title {
@@ -97,24 +79,6 @@
       .ui.button:active {
         background-color: darken($very-berry, 20%);
       }
-
-    }
-  }
-}
-
-@media screen and (min-width: 1200px) {
-  .products-view, .product-details {
-    margin: 0 10%;
-  }
-}
-
-@media screen and (max-width: 768px) {
-  .products-view, .product-details {
-    margin: 0;
-  }
-  .product-details {
-    .detail-container {
-      flex-direction: column;
     }
   }
 }
