@@ -1,8 +1,10 @@
+
+
 import React, { Component } from 'react';
 import { PropTypes } from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { Dimmer, Loader, Divider, Grid } from 'semantic-ui-react';
+import { Dimmer, Loader, Divider, Grid, Image } from 'semantic-ui-react';
 import { fetchProducts, showProductDetails } from '../modules/actions/products';
 
 import '../styles/products.css';
@@ -27,19 +29,20 @@ class ProductsView extends Component {
                 <Loader />
               </Dimmer>
             ) : data.map(product => (
-              <div className='product-cell flex-column' key={product._id}>
-                <div className='image-container'>
-                  <img
+              <Grid className='product-cell' key={product._id} columns={1}>
+                <Grid.Column className='image-container'>
+                  <Image
                     src={product.image[product.featuredImageIndex]}
-                    alt='N/A'
                     onClick={() => this.props.showProductDetails(product)}
                   />
-                </div>
-                <div className='title'>{product.name}</div>
-                <div className='current-price'>
-                  <div>R$ {product.currentPrice.toFixed(2)}</div>
-                </div>
-              </div>
+                </Grid.Column>
+                <Grid.Column className='title'>
+                  {product.name}
+                </Grid.Column>
+                <Grid.Column className='current-price'>
+                  R$ {product.currentPrice.toFixed(2)}
+                </Grid.Column>
+              </Grid>
             ))}
           </div>
         </Grid.Column>

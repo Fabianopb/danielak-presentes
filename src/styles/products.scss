@@ -4,27 +4,21 @@
   padding: 20px;
 
   .product-cell {
+    width: 280px;
     margin: 16px;
     padding: 8px;
-    border: 1px solid $cadillac;
+    border: 1px solid $brilliant-white;
     border-radius: 8px;
-    overflow: hidden;
 
     .image-container {
-      width: 280px;
-      height: 304px;
+      height: 240px;
       overflow: hidden;
+      padding: 0 !important;
       background-color: $brilliant-white;
-
-      img {
-        width: 280px;
-      }
     }
 
     .title {
-      margin-top: 8px;
       height: 40px;
-      width: 280px;
       font-size: 0.9rem;
       font-weight: bold;
       text-transform: uppercase;
@@ -32,7 +26,6 @@
     }
 
     .current-price {
-      margin-top: 8px;
       font-size: 1.3rem;
       text-align: right;
       color: $very-berry;
