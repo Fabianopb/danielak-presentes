@@ -34,7 +34,7 @@ export function productsReducer (products = initialState.products, action = {}) 
     case SPLICE_PRODUCT:
       const index = products.data.findIndex(product => product._id === action.id);
       products.data.splice(index, 1);
-      return {...products, isDialogOpen: false};
+      return {...products};
     case SET_ACTIVE_PRODUCT:
       return {...products, activeProduct: action.activeProduct};
     case OPEN_DIALOG:
