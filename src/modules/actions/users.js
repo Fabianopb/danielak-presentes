@@ -2,65 +2,63 @@ import axios from 'axios';
 import moment from 'moment';
 import history from '../history';
 
+/* -------------------------- */
+/*           ACTIONS          */
+/* -------------------------- */
 export const START_REQUEST = 'START_REQUEST';
 export const END_REQUEST = 'END_REQUEST';
 export const ERROR_REQUEST = 'ERROR_REQUEST';
-
 export const LOG_IN = 'LOG_IN';
 
-function startRequest () {
-  return {
-    type: START_REQUEST
-  };
-}
+/* -------------------------- */
+/*      ACTIONS CREATORS      */
+/* -------------------------- */
+const startRequest = () => ({type: START_REQUEST});
+const endRequest = () => ({type: END_REQUEST});
+const handleError = (error) => ({type: ERROR_REQUEST, error});
+// const login = () => ({type: LOG_IN});
 
-function endRequest () {
-  return {
-    type: END_REQUEST
-  };
-}
-
-function handleError (error) {
-  return {
-    type: ERROR_REQUEST,
-    error
-  };
-}
-
-function redirectTo (route) {
+/* -------------------------- */
+/*       PRIVATE METHODS      */
+/* -------------------------- */
+const _redirectTo = (route) => {
   history.push(route);
-}
+};
 
-function setSession (token, expiry) {
+const _setSession = (token, expiry) => {
   localStorage.setItem('token', token);
   localStorage.setItem('expiry', expiry);
-}
+};
 
-function clearSession () {
+const _clearSession = () => {
   localStorage.removeItem('token');
   localStorage.removeItem('expiry');
-}
+};
 
-export function login (credentials) {
-  return (dispatch) => {
-    dispatch(startRequest());
-    axios.post(`/api/users/login`, credentials)
-      .then(response => {
-        setSession(response.data.token, response.data.expiry);
-        redirectTo('/admin');
-        dispatch(endRequest());
-      })
-      .catch(error => dispatch(handleError(error)));
+/* -------------------------- */
+/*           THUNKS           */
+/* -------------------------- */
+export const login = (credentials) => {
+  return async (dispatch) => {
+    try {
+      dispatch(startRequest());
+      const response = await axios.post(`/api/users/login`, credentials);
+      _setSession(response.data.token, response.data.expiry);
+      _redirectTo('/admin');
+      dispatch(endRequest());
+    } catch (error) {
+      dispatch(handleError(error));
+    }
   };
-}
+};
 
-export function logout () {
+export const logout = () => {
   return () => {
-    clearSession();
-    redirectTo('/');
+    _clearSession();
+    _redirectTo('/');
   };
-}
+};
 
-export function isSessionValid () {
+export const isSessionValid = () => {
   return () => moment(localStorage.getItem('expiry')).isAfter(moment());
-}
+};
