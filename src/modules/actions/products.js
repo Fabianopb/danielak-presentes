@@ -69,14 +69,22 @@ function getImageNameFromUrl (url) {
 }
 
 export function getProductDetails (productId) {
-  return (dispatch) => {
-    dispatch(startRequest());
-    axios.get(`/api/products?_id=${productId}`)
-      .then(response => {
-        dispatch(setActiveProduct(response.data[0]));
-        dispatch(endRequest());
-      })
-      .catch(error => dispatch(handleError(error)));
+  return async (dispatch, getState) => {
+    try {
+      dispatch(startRequest());
+      const products = getState().products.data;
+      let activeProduct;
+      if (products.length > 0) {
+        activeProduct = _.find(products, {_id: productId});
+      } else {
+        const response = await axios.get(`/api/products?_id=${productId}`);
+        activeProduct = response.data[0];
+      }
+      dispatch(setActiveProduct(activeProduct));
+      dispatch(endRequest());
+    } catch (error) {
+      dispatch(handleError(error));
+    }
   };
 }
 
