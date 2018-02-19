@@ -3,72 +3,54 @@ import _ from 'lodash';
 import history from '../history';
 import { initialize } from 'redux-form';
 
+/* -------------------------- */
+/*           ACTIONS          */
+/* -------------------------- */
 export const START_REQUEST = 'START_REQUEST';
 export const END_REQUEST = 'END_REQUEST';
 export const ERROR_REQUEST = 'ERROR_REQUEST';
 export const RECEIVE_PRODUCTS = 'RECEIVE_PRODUCTS';
 export const SPLICE_PRODUCT = 'SPLICE_PRODUCT';
 export const ADD_PRODUCT = 'ADD_PRODUCT';
+export const SET_ACTIVE_PRODUCT = 'SET_ACTIVE_PRODUCT';
 export const OPEN_DIALOG = 'OPEN_DIALOG';
 export const CLOSE_DIALOG = 'CLOSE_DIALOG';
 export const SET_IMAGE_FILE = 'SET_IMAGE_FILE';
-export const SET_ACTIVE_PRODUCT = 'SET_ACTIVE_PRODUCT';
-export const SHOW_PRODUCT_DETAILS = 'SHOW_PRODUCT_DETAILS';
 
-function startRequest () {
-  return {
-    type: START_REQUEST
-  };
-}
+/* -------------------------- */
+/*      ACTIONS CREATORS      */
+/* -------------------------- */
+const startRequest = () => ({type: START_REQUEST});
+const endRequest = () => ({type: END_REQUEST});
+const errorRequest = (error) => ({type: ERROR_REQUEST, error});
+const receiveProducts = (data) => ({type: RECEIVE_PRODUCTS, data});
+const spliceProduct = (id) => ({type: SPLICE_PRODUCT, id});
+// const addProduct = () => ({type: ADD_PRODUCT});
+const setActiveProduct = (activeProduct) => ({type: SET_ACTIVE_PRODUCT, activeProduct});
+export const openDialog = (activeProduct) => ({type: OPEN_DIALOG, activeProduct});
+export const closeDialog = () => ({type: CLOSE_DIALOG});
+export const setImageFile = (event) => ({type: SET_IMAGE_FILE, files: event.target.files});
 
-function receiveProducts (data) {
-  return {
-    type: RECEIVE_PRODUCTS,
-    data
-  };
-}
-
-function endRequest () {
-  return {
-    type: END_REQUEST
-  };
-}
-
-function spliceProduct (id) {
-  return {
-    type: SPLICE_PRODUCT,
-    id
-  };
-}
-
-function setActiveProduct (activeProduct) {
-  return {
-    type: SET_ACTIVE_PRODUCT,
-    activeProduct
-  };
-}
-
-function handleError (error) {
-  return {
-    type: ERROR_REQUEST,
-    error
-  };
-}
-
-function redirectTo (route) {
+/* -------------------------- */
+/*       PRIVATE METHODS      */
+/* -------------------------- */
+const _redirectTo = (route) => {
   history.push(route);
-}
+};
 
-function getImageUrl (getState) {
+const _getImageUrl = (getState) => {
   const { activeProduct } = getState().products;
   return activeProduct.image[activeProduct.featuredImageIndex];
-}
+};
 
-function getImageNameFromUrl (url) {
+const _getImageNameFromUrl = (url) => {
   return url.substring(url.substring(url.lastIndexOf('/'), 0).lastIndexOf('/') + 1);
-}
+};
 
-export function getProductDetails (productId) {
+/* -------------------------- */
+/*           THUNKS           */
+/* -------------------------- */
+export const getProductDetails = (productId) => {
   return async (dispatch, getState) => {
     try {
       dispatch(startRequest());
@@ -83,12 +65,12 @@ export function getProductDetails (productId) {
       dispatch(setActiveProduct(activeProduct));
       dispatch(endRequest());
     } catch (error) {
-      dispatch(handleError(error));
+      dispatch(errorRequest(error));
     }
   };
-}
+};
 
-export function fetchProducts (productId) {
+export const fetchProducts = (productId) => {
   return (dispatch) => {
     dispatch(startRequest());
     if (productId) {
@@ -97,19 +79,19 @@ export function fetchProducts (productId) {
           dispatch(initialize('editProductForm', response.data[0]));
           dispatch(endRequest());
         })
-        .catch(error => dispatch(handleError(error)));
+        .catch(error => dispatch(errorRequest(error)));
     } else {
       axios.get(`/api/products`)
         .then(response => {
           dispatch(receiveProducts(response.data));
           dispatch(endRequest());
         })
-        .catch(error => dispatch(handleError(error)));
+        .catch(error => dispatch(errorRequest(error)));
     }
   };
-}
+};
 
-export function postProduct (product) {
+export const postProduct = (product) => {
   return (dispatch, getState) => {
     dispatch(startRequest());
     const { imageFile } = getState().products;
@@ -121,14 +103,14 @@ export function postProduct (product) {
         return axios.post(`/api/products`, product);
       })
       .then(() => {
-        redirectTo('/admin');
+        _redirectTo('/admin');
         dispatch(endRequest());
       })
-      .catch(error => dispatch(handleError(error)));
+      .catch(error => dispatch(errorRequest(error)));
   };
-}
+};
 
-export function putProduct (product) {
+export const putProduct = (product) => {
   return (dispatch, getState) => {
     dispatch(startRequest());
     dispatch(setActiveProduct(product));
@@ -137,8 +119,8 @@ export function putProduct (product) {
     let imageUrl = '';
     let imageName = '';
     if (imageFile) {
-      imageUrl = getImageUrl(getState);
-      imageName = getImageNameFromUrl(imageUrl);
+      imageUrl = _getImageUrl(getState);
+      imageName = _getImageNameFromUrl(imageUrl);
       const formData = new FormData();
       formData.append('file', imageFile[0]);
       promises.push(axios.post('/api/files/delete-file', { name: imageName }));
@@ -155,18 +137,18 @@ export function putProduct (product) {
         return axios.put(`/api/products/${product._id}`, product);
       }))
       .then(() => {
-        redirectTo('/admin');
+        _redirectTo('/admin');
         dispatch(endRequest());
       })
-      .catch(error => dispatch(handleError(error)));
+      .catch(error => dispatch(errorRequest(error)));
   };
-}
+};
 
-export function deleteProduct (id) {
+export const deleteProduct = (id) => {
   return (dispatch, getState) => {
     dispatch(startRequest());
-    const imageUrl = getImageUrl(getState);
-    const imageName = getImageNameFromUrl(imageUrl);
+    const imageUrl = _getImageUrl(getState);
+    const imageName = _getImageNameFromUrl(imageUrl);
     const promises = [
       axios.post('/api/files/delete-file', { name: imageName }),
       axios.delete(`/api/products/${id}`)
@@ -176,32 +158,12 @@ export function deleteProduct (id) {
         dispatch(spliceProduct(id));
         dispatch(endRequest());
       }))
-      .catch(error => dispatch(handleError(error)));
+      .catch(error => dispatch(errorRequest(error)));
   };
-}
+};
 
-export function openDialog (activeProduct) {
-  return {
-    type: OPEN_DIALOG,
-    activeProduct
-  };
-}
-
-export function closeDialog () {
-  return {
-    type: CLOSE_DIALOG
-  };
-}
-
-export function setImageFile (event) {
-  return {
-    type: SET_IMAGE_FILE,
-    files: event.target.files
-  };
-}
-
-export function showProductDetails (product) {
+export const showProductDetails = (product) => {
   return (dispatch) => {
-    redirectTo(`/product/${product._id}`);
+    _redirectTo(`/product/${product._id}`);
   };
-}
+};
