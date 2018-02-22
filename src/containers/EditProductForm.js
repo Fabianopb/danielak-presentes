@@ -4,6 +4,7 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { Field, reduxForm } from 'redux-form';
 import { Form } from 'semantic-ui-react';
+import { Prompt } from 'react-router-dom';
 
 import { setImageFile } from '../modules/actions/products';
 import { FormInput, FormTextArea, FormCheckbox } from '../components/FormComponents';
@@ -35,8 +36,7 @@ const validate = (values) => {
 
 class EditProductForm extends Component {
   render () {
-    const { handleSubmit,
-      pristine, submitting } = this.props;
+    const { handleSubmit, imageFile, pristine, submitting } = this.props;
     return (
       <div className='product-form'>
         <Form onSubmit={handleSubmit} >
@@ -44,7 +44,7 @@ class EditProductForm extends Component {
             <Field component={FormInput} formLabel='Nome do produto' placeholder='Nome do produto' name='name' required />
             <Field component={FormInput} formLabel='Link da loja' placeholder='Link da loja' name='storeLink' required />
           </Form.Group>
-          <Form.Input formLabel='Imagem do produto' type='file' onChange={(event) => this.props.setImageFile(event)} />
+          <Form.Input label='Imagem do produto' type='file' onChange={(event) => this.props.setImageFile(event)} />
           <Field component={FormTextArea} formLabel='Descrição' placeholder='Descrição do produto' name='description' required />
           <Form.Group widths='equal'>
             <Field component={FormInput}
@@ -88,6 +88,12 @@ class EditProductForm extends Component {
           <Field component={FormCheckbox} formLabel='Em destaque' name='isFeatured' />
           <Form.Button disabled={submitting || pristine}>Submit</Form.Button>
         </Form>
+        <Prompt
+          when={(imageFile && imageFile.length > 0) || submitting || !pristine}
+          message={() =>
+            'O formulário não foi enviado, se você sair da página o conteúdo não será salvo!'
+          }
+        />
       </div>
     );
   }
@@ -96,12 +102,17 @@ class EditProductForm extends Component {
 EditProductForm.propTypes = {
   handleSubmit: PropTypes.func.isRequired,
   setImageFile: PropTypes.func.isRequired,
+  imageFile: PropTypes.array.isRequired,
   pristine: PropTypes.bool.isRequired,
   submitting: PropTypes.bool.isRequired
 };
+
+const mapStateToProps = (state) => ({
+  imageFile: state.products.imageFile
+});
 
 const mapDispatchToProps = (dispatch) =>
   bindActionCreators({setImageFile}, dispatch);
 
 const controlledProductForm = reduxForm({form: 'editProductForm', validate})(EditProductForm);
-export default connect(null, mapDispatchToProps)(controlledProductForm);
+export default connect(mapStateToProps, mapDispatchToProps)(controlledProductForm);
