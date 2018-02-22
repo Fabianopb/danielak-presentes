@@ -25,8 +25,8 @@ class LoginForm extends Component {
     return (
       <div className='login-form'>
         <Form onSubmit={handleSubmit} >
-          <Field component={FormInput} label='e-mail' placeholder='e-mail' name='email' required />
-          <Field component={FormInput} label='password' type='password' placeholder='password' name='password' required />
+          <Field component={FormInput} formLabel='e-mail' placeholder='e-mail' name='email' required />
+          <Field component={FormInput} formLabel='password' type='password' placeholder='password' name='password' required />
           <Form.Button disabled={submitting || pristine}>Login</Form.Button>
         </Form>
       </div>
