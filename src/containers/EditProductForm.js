@@ -9,6 +9,7 @@ import { setImageFile } from '../modules/actions/products';
 import { FormInput, FormTextArea, FormCheckbox } from '../components/FormComponents';
 
 const validate = (values) => {
+  console.log(values);
   const errors = {};
   const requiredFields = [
     'name',
@@ -25,9 +26,10 @@ const validate = (values) => {
   ];
   requiredFields.forEach(field => {
     if (!values[field]) {
-      errors[field] = 'Field required';
+      errors[field] = 'Campo obrigatório';
     }
   });
+
   return errors;
 };
 
@@ -39,28 +41,51 @@ class EditProductForm extends Component {
       <div className='product-form'>
         <Form onSubmit={handleSubmit} >
           <Form.Group widths='equal'>
-            <Field component={FormInput} label='Nome do produto' placeholder='Nome do produto' name='name' required />
-            <Field component={FormInput} label='Link da loja' placeholder='Link da loja' name='storeLink' required />
+            <Field component={FormInput} formLabel='Nome do produto' placeholder='Nome do produto' name='name' required />
+            <Field component={FormInput} formLabel='Link da loja' placeholder='Link da loja' name='storeLink' required />
           </Form.Group>
-          <Form.Input label='Imagem do produto' type='file' onChange={(event) => this.props.setImageFile(event)} />
-          <Field component={FormTextArea} label='Descrição' placeholder='Descrição do produto' name='description' required />
+          <Form.Input formLabel='Imagem do produto' type='file' onChange={(event) => this.props.setImageFile(event)} />
+          <Field component={FormTextArea} formLabel='Descrição' placeholder='Descrição do produto' name='description' required />
           <Form.Group widths='equal'>
-            <Field component={FormInput} label='Preço' placeholder='Preço' name='currentPrice' required />
-            <Field component={FormInput} label='Preço com desconto' placeholder='Preço com desconto' name='discountPrice' />
+            <Field component={FormInput}
+              type='number'
+              label='R$' formLabel='Preço'
+              name='currentPrice' placeholder='Preço'
+              required />
+            <Field component={FormInput}
+              type='number'
+              label='R$' formLabel='Preço com desconto'
+              name='discountPrice' placeholder='Preço com desconto' />
           </Form.Group>
-          <Field component={FormInput} label='Tags' placeholder='Tags' name='tags' />
+          <Field component={FormInput} formLabel='Tags' placeholder='Tags' name='tags' />
           <Form.Group widths='equal'>
-            <Field component={FormInput} label='Tempo de produção' placeholder='Tempo de produção' name='productionTime' required />
-            <Field component={FormInput} label='Quantidade mínima' placeholder='Quantidade mínima' name='minAmount' required />
+            <Field component={FormInput} type='number' formLabel='Dias para produção' placeholder='Dias para produção' name='productionTime' required />
+            <Field component={FormInput} type='number' formLabel='Quantidade mínima' placeholder='Quantidade mínima' name='minAmount' required />
           </Form.Group>
           <Form.Group widths='equal'>
-            <Field component={FormInput} label='Altura' placeholder='Altura' name='height' required />
-            <Field component={FormInput} label='Largura' placeholder='Largura' name='width' required />
-            <Field component={FormInput} label='Profundidade' placeholder='Profundidade' name='depth' required />
-            <Field component={FormInput} label='Peso' placeholder='Peso' name='weight' required />
+            <Field component={FormInput}
+              type='number'
+              label='cm' labelPosition='right' formLabel='Altura'
+              name='height' placeholder='Altura'
+              required />
+            <Field component={FormInput}
+              type='number'
+              label='cm' labelPosition='right' formLabel='Largura'
+              name='width' placeholder='Largura'
+              required />
+            <Field component={FormInput}
+              type='number'
+              label='cm' labelPosition='right' formLabel='Profundidade'
+              name='depth' placeholder='Profundidade'
+              required />
+            <Field component={FormInput}
+              type='number'
+              label='g' labelPosition='right' formLabel='Peso'
+              name='weight' placeholder='Peso'
+              required />
           </Form.Group>
-          <Field component={FormCheckbox} label='Visível' name='isVisible' />
-          <Field component={FormCheckbox} label='Em destaque' name='isFeatured' />
+          <Field component={FormCheckbox} formLabel='Visível' name='isVisible' />
+          <Field component={FormCheckbox} formLabel='Em destaque' name='isFeatured' />
           <Form.Button disabled={submitting || pristine}>Submit</Form.Button>
         </Form>
       </div>
