@@ -1,14 +1,32 @@
+@import 'colors';
+
 .admin-view {
   .product-form {
     display: flex;
     flex-direction: column;
 
-    .inline-form {
+    .file-drop {
       display: flex;
-      flex-wrap: wrap;
+      justify-content: center;
+      align-items: center;
+      margin-bottom: 24px;
+      padding: 8px;
+      width: 160px;
+      height: 160px;
+      background-color: $brilliant-white;
+      border-width: 1px;
+      border-color: $cadillac;
+      border-style: dashed;
+      border-radius: 8px;
+      overflow: hidden;
+      cursor: pointer;
 
-      *:not(:last-child) {
-        margin-right: 20px;
+      .file-drop-text {
+        text-align: center;
+      }
+
+      .image-preview {
+        width: 100%;
       }
     }
 

@@ -42,6 +42,7 @@ export function productsReducer (products = initialState.products, action = {}) 
     case CLOSE_DIALOG:
       return {...products, isDialogOpen: false};
     case SET_IMAGE_FILE:
+      console.log(action.files);
       return {...products, imageFile: action.files};
     default:
       return products;

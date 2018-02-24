@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import { Field, reduxForm } from 'redux-form';
 import { Form } from 'semantic-ui-react';
 import { Prompt } from 'react-router-dom';
+import Dropzone from 'react-dropzone'
 
 import { setImageFile } from '../modules/actions/products';
 import { FormInput, FormTextArea, FormCheckbox } from '../components/FormComponents';
@@ -30,7 +31,6 @@ const validate = (values) => {
       errors[field] = 'Campo obrigatório';
     }
   });
-
   return errors;
 };
 
@@ -44,7 +44,10 @@ class EditProductForm extends Component {
             <Field component={FormInput} formLabel='Nome do produto' placeholder='Nome do produto' name='name' required />
             <Field component={FormInput} formLabel='Link da loja' placeholder='Link da loja' name='storeLink' required />
           </Form.Group>
-          <Form.Input label='Imagem do produto' type='file' onChange={(event) => this.props.setImageFile(event)} />
+          <Dropzone className='file-drop' onDrop={this.props.setImageFile} >
+            {!imageFile && <div className='file-drop-text'>Faça upload da imagem aqui</div>}
+            {imageFile && <img className='image-preview' src={imageFile[0].preview} />}
+          </Dropzone>
           <Field component={FormTextArea} formLabel='Descrição' placeholder='Descrição do produto' name='description' required />
           <Form.Group widths='equal'>
             <Field component={FormInput}
@@ -102,7 +105,7 @@ class EditProductForm extends Component {
 EditProductForm.propTypes = {
   handleSubmit: PropTypes.func.isRequired,
   setImageFile: PropTypes.func.isRequired,
-  imageFile: PropTypes.array.isRequired,
+  imageFile: PropTypes.array,
   pristine: PropTypes.bool.isRequired,
   submitting: PropTypes.bool.isRequired
 };

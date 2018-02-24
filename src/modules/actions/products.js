@@ -29,7 +29,7 @@ const spliceProduct = (id) => ({type: SPLICE_PRODUCT, id});
 const setActiveProduct = (activeProduct) => ({type: SET_ACTIVE_PRODUCT, activeProduct});
 export const openDialog = (activeProduct) => ({type: OPEN_DIALOG, activeProduct});
 export const closeDialog = () => ({type: CLOSE_DIALOG});
-export const setImageFile = (event) => ({type: SET_IMAGE_FILE, files: event.target.files});
+export const setImageFile = (files) => ({type: SET_IMAGE_FILE, files});
 
 /* -------------------------- */
 /*       PRIVATE METHODS      */
