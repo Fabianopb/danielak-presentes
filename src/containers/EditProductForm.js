@@ -2,16 +2,15 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { Field, reduxForm } from 'redux-form';
+import { Field, reduxForm, formValueSelector } from 'redux-form';
 import { Form } from 'semantic-ui-react';
 import { Prompt } from 'react-router-dom';
-import Dropzone from 'react-dropzone'
+import Dropzone from 'react-dropzone';
 
-import { setImageFile } from '../modules/actions/products';
+import { handleFileDrop } from '../modules/actions/products';
 import { FormInput, FormTextArea, FormCheckbox } from '../components/FormComponents';
 
 const validate = (values) => {
-  console.log(values);
   const errors = {};
   const requiredFields = [
     'name',
@@ -36,7 +35,7 @@ const validate = (values) => {
 
 class EditProductForm extends Component {
   render () {
-    const { handleSubmit, imageFile, pristine, submitting } = this.props;
+    const { handleSubmit, images, pristine, submitting } = this.props;
     return (
       <div className='product-form'>
         <Form onSubmit={handleSubmit} >
@@ -44,9 +43,11 @@ class EditProductForm extends Component {
             <Field component={FormInput} formLabel='Nome do produto' placeholder='Nome do produto' name='name' required />
             <Field component={FormInput} formLabel='Link da loja' placeholder='Link da loja' name='storeLink' required />
           </Form.Group>
-          <Dropzone className='file-drop' onDrop={this.props.setImageFile} >
-            {!imageFile && <div className='file-drop-text'>Faça upload da imagem aqui</div>}
-            {imageFile && <img className='image-preview' src={imageFile[0].preview} />}
+          <Dropzone className='file-drop' onDrop={this.props.handleFileDrop} >
+            { images && images.length === 0
+              ? <div className='file-drop-text'>Faça upload da imagem aqui</div>
+              : images && <img className='image-preview' alt={images[0].preview || images[0]} src={images[0].preview || images[0]} />
+            }
           </Dropzone>
           <Field component={FormTextArea} formLabel='Descrição' placeholder='Descrição do produto' name='description' required />
           <Form.Group widths='equal'>
@@ -92,7 +93,7 @@ class EditProductForm extends Component {
           <Form.Button disabled={submitting || pristine}>Submit</Form.Button>
         </Form>
         <Prompt
-          when={(imageFile && imageFile.length > 0) || submitting || !pristine}
+          when={submitting || !pristine}
           message={() =>
             'O formulário não foi enviado, se você sair da página o conteúdo não será salvo!'
           }
@@ -104,18 +105,18 @@ class EditProductForm extends Component {
 
 EditProductForm.propTypes = {
   handleSubmit: PropTypes.func.isRequired,
-  setImageFile: PropTypes.func.isRequired,
-  imageFile: PropTypes.array,
+  handleFileDrop: PropTypes.func.isRequired,
   pristine: PropTypes.bool.isRequired,
-  submitting: PropTypes.bool.isRequired
+  submitting: PropTypes.bool.isRequired,
+  images: PropTypes.array
 };
 
 const mapStateToProps = (state) => ({
-  imageFile: state.products.imageFile
+  images: formValueSelector('editProductForm')(state, 'image')
 });
 
 const mapDispatchToProps = (dispatch) =>
-  bindActionCreators({setImageFile}, dispatch);
+  bindActionCreators({handleFileDrop}, dispatch);
 
 const controlledProductForm = reduxForm({form: 'editProductForm', validate})(EditProductForm);
 export default connect(mapStateToProps, mapDispatchToProps)(controlledProductForm);

@@ -1,7 +1,7 @@
 import axios from 'axios';
 import _ from 'lodash';
 import history from '../history';
-import { initialize } from 'redux-form';
+import { initialize, change } from 'redux-form';
 
 /* -------------------------- */
 /*           ACTIONS          */
@@ -15,7 +15,6 @@ export const ADD_PRODUCT = 'ADD_PRODUCT';
 export const SET_ACTIVE_PRODUCT = 'SET_ACTIVE_PRODUCT';
 export const OPEN_DIALOG = 'OPEN_DIALOG';
 export const CLOSE_DIALOG = 'CLOSE_DIALOG';
-export const SET_IMAGE_FILE = 'SET_IMAGE_FILE';
 
 /* -------------------------- */
 /*      ACTIONS CREATORS      */
@@ -29,7 +28,6 @@ const spliceProduct = (id) => ({type: SPLICE_PRODUCT, id});
 const setActiveProduct = (activeProduct) => ({type: SET_ACTIVE_PRODUCT, activeProduct});
 export const openDialog = (activeProduct) => ({type: OPEN_DIALOG, activeProduct});
 export const closeDialog = () => ({type: CLOSE_DIALOG});
-export const setImageFile = (files) => ({type: SET_IMAGE_FILE, files});
 
 /* -------------------------- */
 /*       PRIVATE METHODS      */
@@ -76,6 +74,7 @@ export const fetchProducts = (productId) => {
       dispatch(startRequest());
       if (productId) {
         const response = await axios.get(`/api/products?_id=${productId}`);
+        dispatch(setActiveProduct(response.data[0]));
         dispatch(initialize('editProductForm', response.data[0]));
       } else {
         const response = await axios.get(`/api/products`);
@@ -92,11 +91,10 @@ export const postProduct = (product) => {
   return async (dispatch, getState) => {
     try {
       dispatch(startRequest());
-      const { imageFile } = getState().products;
       const formData = new FormData();
-      formData.append('file', imageFile[0]);
+      formData.append('file', product.image[0]);
       const uploadResponse = await axios.post(`/api/files/upload-file`, formData, {headers: {'Content-Type': 'multipart/form-data'}});
-      product.image.push(uploadResponse.data.location);
+      product.image = [uploadResponse.data.location];
       const postResponse = await axios.post(`/api/products`, product);
       console.log('product created!', postResponse);
       // TODO: could dispatch a success notification
@@ -112,19 +110,17 @@ export const putProduct = (product) => {
   return async (dispatch, getState) => {
     try {
       dispatch(startRequest());
-      dispatch(setActiveProduct(product));
-      const { imageFile } = getState().products;
-      if (imageFile) {
+      if (typeof product.image[0] === 'object') {
         const imageUrl = _getImageUrl(getState);
         const imageName = _getImageNameFromUrl(imageUrl);
         const formData = new FormData();
-        formData.append('file', imageFile[0]);
+        formData.append('file', product.image[0]);
         const [, uploadResponse] = await axios.all([
           axios.post('/api/files/delete-file', { name: imageName }),
           axios.post(`/api/files/upload-file`, formData, {headers: {'Content-Type': 'multipart/form-data'}})
         ]);
-        _.remove(product.image, url => (url === imageUrl));
-        product.image.push(uploadResponse.data.location);
+        // _.remove(product.image, url => (url === imageUrl));
+        product.image = [uploadResponse.data.location];
       }
       const putResponse = await axios.put(`/api/products/${product._id}`, product);
       console.log(putResponse);
@@ -161,5 +157,11 @@ export const deleteProduct = (id) => {
 export const showProductDetails = (product) => {
   return (dispatch) => {
     _redirectTo(`/product/${product._id}`);
+  };
+};
+
+export const handleFileDrop = (files) => {
+  return (dispatch) => {
+    dispatch(change('editProductForm', 'image', files));
   };
 };
