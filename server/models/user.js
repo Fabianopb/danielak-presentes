@@ -25,7 +25,7 @@ UserSchema.methods.validPassword = function (password) {
 
 UserSchema.methods.generateJwt = () => {
   const expiry = new Date();
-  expiry.setMinutes(expiry.getMinutes() + 30);
+  expiry.setMinutes(expiry.getMinutes() + 120);
 
   const token = jwt.sign({
     _id: this._id,
