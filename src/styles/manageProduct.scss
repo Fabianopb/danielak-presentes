@@ -1,6 +1,11 @@
 @import 'colors';
 
 .admin-view {
+  .add-product-header {
+    display: flex;
+    justify-content: space-between;
+  }
+
   .product-form {
     display: flex;
     flex-direction: column;

@@ -10,7 +10,6 @@ export const START_REQUEST = 'START_REQUEST';
 export const END_REQUEST = 'END_REQUEST';
 export const ERROR_REQUEST = 'ERROR_REQUEST';
 export const RECEIVE_PRODUCTS = 'RECEIVE_PRODUCTS';
-export const SPLICE_PRODUCT = 'SPLICE_PRODUCT';
 export const ADD_PRODUCT = 'ADD_PRODUCT';
 export const SET_ACTIVE_PRODUCT = 'SET_ACTIVE_PRODUCT';
 export const OPEN_DIALOG = 'OPEN_DIALOG';
@@ -23,8 +22,6 @@ const startRequest = () => ({type: START_REQUEST});
 const endRequest = () => ({type: END_REQUEST});
 const errorRequest = (error) => ({type: ERROR_REQUEST, error});
 const receiveProducts = (data) => ({type: RECEIVE_PRODUCTS, data});
-const spliceProduct = (id) => ({type: SPLICE_PRODUCT, id});
-// const addProduct = () => ({type: ADD_PRODUCT});
 const setActiveProduct = (activeProduct) => ({type: SET_ACTIVE_PRODUCT, activeProduct});
 export const openDialog = (activeProduct) => ({type: OPEN_DIALOG, activeProduct});
 export const closeDialog = () => ({type: CLOSE_DIALOG});
@@ -146,7 +143,7 @@ export const deleteProduct = (id) => {
       ]);
       console.log(deleteFileResponse, deleteProductResponse);
       // TODO: could dispatch a success notification
-      dispatch(spliceProduct(id));
+      _redirectTo('/admin');
       dispatch(endRequest());
     } catch (error) {
       dispatch(errorRequest(error));
@@ -157,6 +154,12 @@ export const deleteProduct = (id) => {
 export const showProductDetails = (product) => {
   return (dispatch) => {
     _redirectTo(`/product/${product._id}`);
+  };
+};
+
+export const showProductEditor = (productId) => {
+  return (dispatch) => {
+    _redirectTo(`/admin/product/${productId}`);
   };
 };
 

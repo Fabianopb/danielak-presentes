@@ -3,7 +3,6 @@ import {
   END_REQUEST,
   ERROR_REQUEST,
   RECEIVE_PRODUCTS,
-  SPLICE_PRODUCT,
   OPEN_DIALOG,
   CLOSE_DIALOG,
   SET_ACTIVE_PRODUCT
@@ -29,10 +28,6 @@ export function productsReducer (products = initialState.products, action = {}) 
       return {...products, isFetching: false, error: action.error};
     case RECEIVE_PRODUCTS:
       return {...products, data: action.data};
-    case SPLICE_PRODUCT:
-      const index = products.data.findIndex(product => product._id === action.id);
-      products.data.splice(index, 1);
-      return {...products};
     case SET_ACTIVE_PRODUCT:
       return {...products, activeProduct: action.activeProduct};
     case OPEN_DIALOG:
