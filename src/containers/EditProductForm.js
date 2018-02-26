@@ -38,7 +38,6 @@ class EditProductForm extends Component {
   render () {
     const { handleSubmit, images, pristine, submitting } = this.props;
     const dropzones = images && images.length + 1;
-    console.log(images, dropzones);
     return (
       <div className='product-form'>
         <Form onSubmit={handleSubmit} >
@@ -47,9 +46,9 @@ class EditProductForm extends Component {
             <Field component={FormInput} formLabel='Link da loja' placeholder='Link da loja' name='storeLink' required />
           </Form.Group>
           <div className='dropzone-area'>
-            { _.times(dropzones, (n) =>
+            { images && _.times(dropzones, (n) =>
               <Dropzone key={n} className='file-drop' onDrop={this.props.handleFileDrop} >
-                { images && !images[n]
+                { !images[n]
                   ? <div className='file-drop-text'>Faça upload da imagem aqui</div>
                   : <img className='image-preview' src={images[n].preview || images[n]} alt={n} />
                 }
