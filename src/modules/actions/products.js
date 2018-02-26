@@ -163,10 +163,30 @@ export const showProductEditor = (productId) => {
   };
 };
 
+function timeout (ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
+
 export const handleFileDrop = (files) => {
-  return (dispatch, getState) => {
-    const images = _.cloneDeep(getState().form.editProductForm.values.image);
-    images.push(files[0]);
-    dispatch(change('editProductForm', 'image', images));
+  return async (dispatch, getState) => {
+    try {
+      const images = _.cloneDeep(getState().form.editProductForm.values.image);
+      const imageIndex = images.length;
+      images[imageIndex] = 'uploading';
+      dispatch(change('editProductForm', 'image', images));
+      const imageFile = files[0];
+      // const formData = new FormData();
+      // formData.append('file', imageFile);
+      await timeout(3000);
+      // // const uploadResponse = await axios.post(`/api/files/upload-file`, formData, {headers: {'Content-Type': 'multipart/form-data'}});
+      // // product.image = [uploadResponse.data.location];
+      // const images = _.cloneDeep(getState().form.editProductForm.values.image);
+      images[imageIndex] = imageFile;
+      console.log('image change in thunk', images);
+      dispatch(change('editProductForm', 'image', []));
+      dispatch(change('editProductForm', 'image', images));
+    } catch (error) {
+      dispatch(errorRequest(error));
+    }
   };
 };

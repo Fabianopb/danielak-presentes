@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { Field, reduxForm, formValueSelector } from 'redux-form';
-import { Form } from 'semantic-ui-react';
+import { Form, Segment } from 'semantic-ui-react';
 import { Prompt } from 'react-router-dom';
 import Dropzone from 'react-dropzone';
 import _ from 'lodash';
@@ -34,10 +34,21 @@ const validate = (values) => {
   return errors;
 };
 
+const getDropzoneContent = (image, index) => {
+  if (!image) {
+    return <div className='file-drop-text'>Faça upload da imagem aqui</div>;
+  } else if (image && image === 'uploading') {
+    return <Segment loading />;
+  } else if (image && image.preview) {
+    return <img className='image-preview' src={image.preview || image} alt={index} />;
+  }
+};
+
 class EditProductForm extends Component {
   render () {
     const { handleSubmit, images, pristine, submitting } = this.props;
     const dropzones = images && images.length + 1;
+    console.log(images);
     return (
       <div className='product-form'>
         <Form onSubmit={handleSubmit} >
@@ -47,11 +58,8 @@ class EditProductForm extends Component {
           </Form.Group>
           <div className='dropzone-area'>
             { images && _.times(dropzones, (n) =>
-              <Dropzone key={n} className='file-drop' onDrop={this.props.handleFileDrop} >
-                { !images[n]
-                  ? <div className='file-drop-text'>Faça upload da imagem aqui</div>
-                  : <img className='image-preview' src={images[n].preview || images[n]} alt={n} />
-                }
+              <Dropzone key={n} className='file-drop' onDrop={this.props.handleFileDrop} disabled={!!images[n]} >
+                {() => getDropzoneContent(images[n], n)}
               </Dropzone>
             )}
           </div>
