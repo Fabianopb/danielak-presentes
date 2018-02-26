@@ -10,28 +10,32 @@
     display: flex;
     flex-direction: column;
 
-    .file-drop {
+    .dropzone-area {
       display: flex;
-      justify-content: center;
-      align-items: center;
-      margin-bottom: 24px;
-      padding: 8px;
-      width: 160px;
-      height: 160px;
-      background-color: $brilliant-white;
-      border-width: 1px;
-      border-color: $cadillac;
-      border-style: dashed;
-      border-radius: 8px;
-      overflow: hidden;
-      cursor: pointer;
 
-      .file-drop-text {
-        text-align: center;
-      }
+      .file-drop {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-bottom: 24px;
+        padding: 8px;
+        width: 160px;
+        height: 160px;
+        background-color: $brilliant-white;
+        border-width: 1px;
+        border-color: $cadillac;
+        border-style: dashed;
+        border-radius: 8px;
+        overflow: hidden;
+        cursor: pointer;
 
-      .image-preview {
-        width: 100%;
+        .file-drop-text {
+          text-align: center;
+        }
+
+        .image-preview {
+          width: 100%;
+        }
       }
     }
 

@@ -164,7 +164,9 @@ export const showProductEditor = (productId) => {
 };
 
 export const handleFileDrop = (files) => {
-  return (dispatch) => {
-    dispatch(change('editProductForm', 'image', files));
+  return (dispatch, getState) => {
+    const images = _.cloneDeep(getState().form.editProductForm.values.image);
+    images.push(files[0]);
+    dispatch(change('editProductForm', 'image', images));
   };
 };

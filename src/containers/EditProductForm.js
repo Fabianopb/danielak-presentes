@@ -6,6 +6,7 @@ import { Field, reduxForm, formValueSelector } from 'redux-form';
 import { Form } from 'semantic-ui-react';
 import { Prompt } from 'react-router-dom';
 import Dropzone from 'react-dropzone';
+import _ from 'lodash';
 
 import { handleFileDrop } from '../modules/actions/products';
 import { FormInput, FormTextArea, FormCheckbox } from '../components/FormComponents';
@@ -36,6 +37,8 @@ const validate = (values) => {
 class EditProductForm extends Component {
   render () {
     const { handleSubmit, images, pristine, submitting } = this.props;
+    const dropzones = images && images.length + 1;
+    console.log(images, dropzones);
     return (
       <div className='product-form'>
         <Form onSubmit={handleSubmit} >
@@ -43,12 +46,16 @@ class EditProductForm extends Component {
             <Field component={FormInput} formLabel='Nome do produto' placeholder='Nome do produto' name='name' required />
             <Field component={FormInput} formLabel='Link da loja' placeholder='Link da loja' name='storeLink' required />
           </Form.Group>
-          <Dropzone className='file-drop' onDrop={this.props.handleFileDrop} >
-            { images && images.length === 0
-              ? <div className='file-drop-text'>Faça upload da imagem aqui</div>
-              : images && <img className='image-preview' alt={images[0].preview || images[0]} src={images[0].preview || images[0]} />
-            }
-          </Dropzone>
+          <div className='dropzone-area'>
+            { _.times(dropzones, (n) =>
+              <Dropzone key={n} className='file-drop' onDrop={this.props.handleFileDrop} >
+                { images && !images[n]
+                  ? <div className='file-drop-text'>Faça upload da imagem aqui</div>
+                  : <img className='image-preview' src={images[n].preview || images[n]} alt={n} />
+                }
+              </Dropzone>
+            )}
+          </div>
           <Field component={FormTextArea} formLabel='Descrição' placeholder='Descrição do produto' name='description' required />
           <Form.Group widths='equal'>
             <Field component={FormInput}
