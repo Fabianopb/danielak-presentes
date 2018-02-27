@@ -55,7 +55,7 @@ const DropzoneContent = ({image, deleteImage}) => {
 
 DropzoneContent.propTypes = {
   deleteImage: PropTypes.func.isRequired,
-  image: PropTypes.string.isRequired
+  image: PropTypes.string
 };
 
 class EditProductForm extends Component {

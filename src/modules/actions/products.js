@@ -100,21 +100,10 @@ export const postProduct = (product) => {
 };
 
 export const putProduct = (product) => {
-  return async (dispatch, getState) => {
+  console.log(product);
+  return async (dispatch) => {
     try {
       dispatch(startRequest());
-      if (typeof product.image[0] === 'object') {
-        const imageUrl = _getImageUrl(getState);
-        const imageName = _getImageNameFromUrl(imageUrl);
-        const formData = new FormData();
-        formData.append('file', product.image[0]);
-        const [, uploadResponse] = await axios.all([
-          axios.post('/api/files/delete-file', { name: imageName }),
-          axios.post(`/api/files/upload-file`, formData, {headers: {'Content-Type': 'multipart/form-data'}})
-        ]);
-        // _.remove(product.image, url => (url === imageUrl));
-        product.image = [uploadResponse.data.location];
-      }
       const putResponse = await axios.put(`/api/products/${product._id}`, product);
       console.log(putResponse);
       // TODO: could dispatch a success notification
