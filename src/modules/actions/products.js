@@ -84,29 +84,14 @@ export const fetchProducts = (productId) => {
   };
 };
 
-export const postProduct = (product) => {
-  return async (dispatch, getState) => {
-    try {
-      dispatch(startRequest());
-      const postResponse = await axios.post(`/api/products`, product);
-      console.log('product created!', postResponse);
-      // TODO: could dispatch a success notification
-      _redirectTo('/admin');
-      dispatch(endRequest());
-    } catch (error) {
-      dispatch(errorRequest(error));
-    }
-  };
-};
-
-export const putProduct = (product) => {
-  console.log(product);
+export const upsertProduct = (product) => {
   return async (dispatch) => {
     try {
       dispatch(startRequest());
-      const putResponse = await axios.put(`/api/products/${product._id}`, product);
-      console.log(putResponse);
-      // TODO: could dispatch a success notification
+      const upsertResponse = product._id
+        ? await axios.put(`/api/products/${product._id}`, product)
+        : await axios.post(`/api/products`, product);
+      console.log(upsertResponse);
       _redirectTo('/admin');
       dispatch(endRequest());
     } catch (error) {

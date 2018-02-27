@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 import { Dimmer, Loader, Icon, Modal, Button, Header } from 'semantic-ui-react';
 
 import EditProductForm from './EditProductForm';
-import { fetchProducts, postProduct, putProduct, openDialog, closeDialog, deleteProduct } from '../modules/actions/products';
+import { fetchProducts, upsertProduct, openDialog, closeDialog, deleteProduct } from '../modules/actions/products';
 import '../styles/manageProduct.css';
 
 class ManageProductView extends Component {
@@ -16,10 +16,9 @@ class ManageProductView extends Component {
 
   submitProduct = (product) => {
     if (this.props.match.params.id === 'new') {
-      this.props.postProduct(product);
-    } else {
-      this.props.putProduct(product);
+      delete product._id;
     }
+    this.props.upsertProduct(product);
   };
 
   render () {
@@ -65,8 +64,7 @@ class ManageProductView extends Component {
 ManageProductView.propTypes = {
   match: PropTypes.object.isRequired,
   fetchProducts: PropTypes.func.isRequired,
-  postProduct: PropTypes.func.isRequired,
-  putProduct: PropTypes.func.isRequired,
+  upsertProduct: PropTypes.func.isRequired,
   openDialog: PropTypes.func.isRequired,
   closeDialog: PropTypes.func.isRequired,
   deleteProduct: PropTypes.func.isRequired,
@@ -82,6 +80,6 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) =>
-  bindActionCreators({fetchProducts, postProduct, putProduct, openDialog, closeDialog, deleteProduct}, dispatch);
+  bindActionCreators({fetchProducts, upsertProduct, openDialog, closeDialog, deleteProduct}, dispatch);
 
 export default connect(mapStateToProps, mapDispatchToProps)(ManageProductView);
