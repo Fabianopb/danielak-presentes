@@ -14,10 +14,12 @@
       display: flex;
 
       .file-drop {
+        position: relative;
         display: flex;
         justify-content: center;
         align-items: center;
         margin-bottom: 24px;
+        margin-right: 16px;
         padding: 8px;
         width: 160px;
         height: 160px;
@@ -26,7 +28,7 @@
         border-color: $cadillac;
         border-style: dashed;
         border-radius: 8px;
-        overflow: hidden;
+        // overflow: hidden;
         cursor: pointer;
 
         .file-drop-text {
@@ -41,6 +43,14 @@
 
         .image-preview {
           width: 100%;
+        }
+
+        .delete-button {
+          position: absolute;
+          right: -10px;
+          top: -10px;
+          z-index: 20;
+          border-radius: 18px;
         }
       }
     }

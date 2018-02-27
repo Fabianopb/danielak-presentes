@@ -147,6 +147,25 @@ export const deleteProduct = (id) => {
   };
 };
 
+export const deleteImage = (imageUrl) => {
+  return async (dispatch, getState) => {
+    try {
+      const images = _.cloneDeep(getState().form.editProductForm.values.image);
+      const imageIndex = _.findIndex(images, image => image === imageUrl);
+      const imageName = _getImageNameFromUrl(imageUrl);
+      images.splice(imageIndex, 1, 'uploading');
+      dispatch(change('editProductForm', 'image', images));
+      const deleteFileResponse = await axios.post('/api/files/delete-file', { name: imageName });
+      console.log(deleteFileResponse);
+      images.splice(imageIndex, 1);
+      dispatch(change('editProductForm', 'image', null));
+      dispatch(change('editProductForm', 'image', images));
+    } catch (error) {
+      dispatch(errorRequest(error));
+    }
+  };
+};
+
 export const showProductDetails = (product) => {
   return (dispatch) => {
     _redirectTo(`/product/${product._id}`);
@@ -170,7 +189,7 @@ export const handleFileDrop = (files) => {
       formData.append('file', files[0]);
       const uploadResponse = await axios.post(`/api/files/upload-file`, formData, {headers: {'Content-Type': 'multipart/form-data'}});
       images[imageIndex] = uploadResponse.data.location;
-      dispatch(change('editProductForm', 'image', []));
+      dispatch(change('editProductForm', 'image', null));
       dispatch(change('editProductForm', 'image', images));
       // TODO: could dispatch a success notification
     } catch (error) {
