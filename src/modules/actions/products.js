@@ -88,10 +88,6 @@ export const postProduct = (product) => {
   return async (dispatch, getState) => {
     try {
       dispatch(startRequest());
-      const formData = new FormData();
-      formData.append('file', product.image[0]);
-      const uploadResponse = await axios.post(`/api/files/upload-file`, formData, {headers: {'Content-Type': 'multipart/form-data'}});
-      product.image = [uploadResponse.data.location];
       const postResponse = await axios.post(`/api/products`, product);
       console.log('product created!', postResponse);
       // TODO: could dispatch a success notification
@@ -163,10 +159,6 @@ export const showProductEditor = (productId) => {
   };
 };
 
-function timeout (ms) {
-  return new Promise(resolve => setTimeout(resolve, ms));
-}
-
 export const handleFileDrop = (files) => {
   return async (dispatch, getState) => {
     try {
@@ -174,17 +166,13 @@ export const handleFileDrop = (files) => {
       const imageIndex = images.length;
       images[imageIndex] = 'uploading';
       dispatch(change('editProductForm', 'image', images));
-      const imageFile = files[0];
-      // const formData = new FormData();
-      // formData.append('file', imageFile);
-      await timeout(3000);
-      // // const uploadResponse = await axios.post(`/api/files/upload-file`, formData, {headers: {'Content-Type': 'multipart/form-data'}});
-      // // product.image = [uploadResponse.data.location];
-      // const images = _.cloneDeep(getState().form.editProductForm.values.image);
-      images[imageIndex] = imageFile;
-      console.log('image change in thunk', images);
+      const formData = new FormData();
+      formData.append('file', files[0]);
+      const uploadResponse = await axios.post(`/api/files/upload-file`, formData, {headers: {'Content-Type': 'multipart/form-data'}});
+      images[imageIndex] = uploadResponse.data.location;
       dispatch(change('editProductForm', 'image', []));
       dispatch(change('editProductForm', 'image', images));
+      // TODO: could dispatch a success notification
     } catch (error) {
       dispatch(errorRequest(error));
     }

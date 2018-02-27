@@ -34,13 +34,13 @@ const validate = (values) => {
   return errors;
 };
 
-const getDropzoneContent = (image, index) => {
+const getDropzoneContent = (image) => {
   if (!image) {
     return <div className='file-drop-text'>Faça upload da imagem aqui</div>;
   } else if (image && image === 'uploading') {
     return <Segment loading />;
-  } else if (image && image.preview) {
-    return <img className='image-preview' src={image.preview || image} alt={index} />;
+  } else if (image && image !== 'uploading') {
+    return <img className='image-preview' src={image} alt={image} />;
   }
 };
 
@@ -48,7 +48,6 @@ class EditProductForm extends Component {
   render () {
     const { handleSubmit, images, pristine, submitting } = this.props;
     const dropzones = images && images.length + 1;
-    console.log(images);
     return (
       <div className='product-form'>
         <Form onSubmit={handleSubmit} >
@@ -59,7 +58,7 @@ class EditProductForm extends Component {
           <div className='dropzone-area'>
             { images && _.times(dropzones, (n) =>
               <Dropzone key={n} className='file-drop' onDrop={this.props.handleFileDrop} disabled={!!images[n]} >
-                {() => getDropzoneContent(images[n], n)}
+                {() => getDropzoneContent(images[n])}
               </Dropzone>
             )}
           </div>
