@@ -108,7 +108,7 @@ export const deleteProduct = (id) => {
       const imageUrl = _getImageUrl(getState);
       const imageName = _getImageNameFromUrl(imageUrl);
       const [deleteFileResponse, deleteProductResponse] = await axios.all([
-        axios.post('/api/files/delete-file', { name: imageName }),
+        axios.post('/api/files/delete-file', { images: [imageName] }),
         axios.delete(`/api/products/${id}`)
       ]);
       console.log(deleteFileResponse, deleteProductResponse);
@@ -129,7 +129,7 @@ export const deleteImage = (imageUrl) => {
       const imageName = _getImageNameFromUrl(imageUrl);
       images.splice(imageIndex, 1, 'uploading');
       dispatch(change('editProductForm', 'image', images));
-      const deleteFileResponse = await axios.post('/api/files/delete-file', { name: imageName });
+      const deleteFileResponse = await axios.post('/api/files/delete-file', { images: [imageName] });
       console.log(deleteFileResponse);
       images.splice(imageIndex, 1);
       dispatch(change('editProductForm', 'image', null));

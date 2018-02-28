@@ -4,6 +4,7 @@ const bodyParser = require('body-parser').json();
 const AWS = require('aws-sdk');
 const multer = require('multer');
 const multerS3 = require('multer-s3');
+const _ = require('lodash');
 
 AWS.config.update({
   accessKeyId: process.env.DANIK_AWS_ACCESS_KEY_ID,
@@ -46,11 +47,16 @@ router.route('/upload-file')
 
 router.route('/delete-file')
   .post(bodyParser, (request, response) => {
+    const imagesArray = request.body.images;
     const params = {
       Bucket: process.env.DANIK_S3_BUCKET,
-      Key: request.body.name
+      Delete: {
+        Objects: _.map(imagesArray, (image) => {
+          return { Key: image };
+        })
+      }
     };
-    s3.deleteObject(params, (error, data) => {
+    s3.deleteObjects(params, (error, data) => {
       if (error) {
         return response.status(400).send(error);
       }
