@@ -34,35 +34,10 @@ const validate = (values) => {
   return errors;
 };
 
-const DropzoneContent = ({image, deleteImage}) => {
-  if (!image) {
-    return <div className='file-drop-text'>Faça upload da imagem aqui</div>;
-  } else if (image && image === 'uploading') {
-    return (
-      <Segment loading />
-    );
-  } else if (image && image !== 'uploading') {
-    return (
-      <div>
-        <Button className='delete-button' icon color='red' onClick={() => deleteImage(image)}>
-          <Icon name='delete' />
-        </Button>
-        <img className='image-preview' src={image} alt={image} />
-      </div>
-    );
-  }
-};
-
-DropzoneContent.propTypes = {
-  deleteImage: PropTypes.func.isRequired,
-  image: PropTypes.string
-};
-
 class EditProductForm extends Component {
   render () {
     const { handleSubmit, images, pristine, submitting } = this.props;
-    const dropzones = images && images.length + 1;
-    console.log(dropzones);
+    const hasDropzone = images && images.length < 5 && !_.some(images, image => image === 'uploading');
     return (
       <div className='product-form'>
         <Form onSubmit={handleSubmit} >
@@ -71,11 +46,26 @@ class EditProductForm extends Component {
             <Field component={FormInput} formLabel='Link da loja' placeholder='Link da loja' name='storeLink' required />
           </Form.Group>
           <div className='dropzone-area'>
-            { images && _.times(dropzones, (n) =>
-              <Dropzone key={n} className='file-drop' onDrop={this.props.handleFileDrop} disabled={!!images[n]} >
-                <DropzoneContent image={images[n]} deleteImage={this.props.deleteImage} />
+            { images && _.map(images, image => (
+              <div key={image} className='preview-container'>
+                { image === 'uploading'
+                  ? <Segment loading />
+                  : <div>
+                    <Button className='delete-button' icon color='red' onClick={() => this.props.deleteImage(image)}>
+                      <Icon name='delete' />
+                    </Button>
+                    <img className='image-preview' src={image} alt={image} />
+                  </div>
+                }
+              </div>
+            ))}
+            { hasDropzone &&
+              <Dropzone
+                className='file-drop'
+                onDrop={this.props.handleFileDrop} >
+                <div className='file-drop-text'>Faça upload da imagem aqui</div>
               </Dropzone>
-            )}
+            }
           </div>
           <Field component={FormTextArea} formLabel='Descrição' placeholder='Descrição do produto' name='description' required />
           <Form.Group widths='equal'>

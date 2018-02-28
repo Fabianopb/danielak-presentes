@@ -1,6 +1,23 @@
 @import 'colors';
 
 .admin-view {
+
+  @mixin image-box {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 24px;
+    margin-right: 16px;
+    padding: 8px;
+    width: 160px;
+    height: 160px;
+    background-color: $brilliant-white;
+    border-width: 1px;
+    border-color: $cadillac;
+    border-style: dashed;
+    border-radius: 8px;
+  }
+
   .add-product-header {
     display: flex;
     justify-content: space-between;
@@ -13,27 +30,9 @@
     .dropzone-area {
       display: flex;
 
-      .file-drop {
+      .preview-container {
         position: relative;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        margin-bottom: 24px;
-        margin-right: 16px;
-        padding: 8px;
-        width: 160px;
-        height: 160px;
-        background-color: $brilliant-white;
-        border-width: 1px;
-        border-color: $cadillac;
-        border-style: dashed;
-        border-radius: 8px;
-        // overflow: hidden;
-        cursor: pointer;
-
-        .file-drop-text {
-          text-align: center;
-        }
+        @include image-box;
 
         .ui.segment {
           margin: 0;
@@ -51,6 +50,20 @@
           top: -10px;
           z-index: 20;
           border-radius: 18px;
+        }
+      }
+
+      .file-drop {
+        @include image-box;
+        // overflow: hidden;
+        cursor: pointer;
+
+        &[aria-disabled="true"] {
+          border-color: #666;
+        }
+
+        .file-drop-text {
+          text-align: center;
         }
       }
     }
