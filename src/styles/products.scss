@@ -2,7 +2,7 @@
 
 @mixin disabled-price {
   margin-right: 8px;
-  color: #bbb;
+  color: $silver;
   text-decoration: line-through;
 }
 
