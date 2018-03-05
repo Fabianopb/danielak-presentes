@@ -37,7 +37,14 @@ class ProductDetails extends Component {
                   <Grid.Column>
                     <div className='description-container flex-column cross-axis-baseline'>
                       <div className='title'>{activeProduct.name}</div>
-                      <div className='price'>R$ {activeProduct.currentPrice.toFixed(2)}</div>
+                      <div className='price'>
+                        <span className={activeProduct.discountPrice && 'disabled-price'}>
+                          R$ {activeProduct.currentPrice.toFixed(2)}
+                        </span>
+                        {activeProduct.discountPrice &&
+                          `R$ ${activeProduct.discountPrice.toFixed(2)}`
+                        }
+                      </div>
                       <Button icon labelPosition='left' onClick={() => this.goToShop(activeProduct.storeLink)}>
                         <Icon name='shop' />
                         Ver na minha lojinha

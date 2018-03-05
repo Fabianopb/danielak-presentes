@@ -1,5 +1,11 @@
 @import 'colors';
 
+@mixin disabled-price {
+  margin-right: 8px;
+  color: #bbb;
+  text-decoration: line-through;
+}
+
 .products-view {
   padding: 20px;
 
@@ -29,6 +35,11 @@
       font-size: 1.3rem;
       text-align: right;
       color: $very-berry;
+
+      .disabled-price {
+        @include disabled-price;
+        font-size: 1.2rem;
+      }
     }
   }
 }
@@ -52,6 +63,11 @@
       margin-bottom: 16px;
       font-size: 1.6rem;
       color: $very-berry;
+
+      .disabled-price {
+        @include disabled-price;
+        font-size: 1.4rem;
+      }
     }
 
     .ui.button {

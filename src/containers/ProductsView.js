@@ -38,7 +38,10 @@ class ProductsView extends Component {
                   {product.name}
                 </Grid.Column>
                 <Grid.Column className='current-price'>
-                  R$ {product.currentPrice.toFixed(2)}
+                  <span className={product.discountPrice && 'disabled-price'}>R$ {product.currentPrice.toFixed(2)}</span>
+                  {product.discountPrice &&
+                    `R$ ${product.discountPrice.toFixed(2)}`
+                  }
                 </Grid.Column>
               </Grid>
             ))}
