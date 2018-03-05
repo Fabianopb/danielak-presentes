@@ -33,10 +33,10 @@ const upload = multer({
       cb(null, `products/${Date.now().toString()}.${extension}`);
     }
   })
-}).single('file');
+});
 
 router.route('/upload-file')
-  .post(upload, (request, response, next) => {
+  .post(upload.single('file'), (request, response, next) => {
     return response.status(200).send(request.file);
   });
 
