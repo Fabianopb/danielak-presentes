@@ -33,11 +33,6 @@ const _redirectTo = (route) => {
   history.push(route);
 };
 
-const _getImageUrl = (getState) => {
-  const { activeProduct } = getState().products;
-  return activeProduct.image[activeProduct.featuredImageIndex];
-};
-
 const _getImageNameFromUrl = (url) => {
   return url.substring(url.substring(url.lastIndexOf('/'), 0).lastIndexOf('/') + 1);
 };
