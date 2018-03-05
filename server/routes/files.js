@@ -36,13 +36,8 @@ const upload = multer({
 }).single('file');
 
 router.route('/upload-file')
-  .post((request, response) => {
-    upload(request, response, error => {
-      if (error) {
-        return response.status(400).send(error);
-      }
-      return response.status(200).send(request.file);
-    });
+  .post(upload, (request, response, next) => {
+    return response.status(200).send(request.file);
   });
 
 router.route('/delete-file')
