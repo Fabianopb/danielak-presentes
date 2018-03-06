@@ -2,9 +2,11 @@ const express = require('express');
 const router = express.Router();
 const bodyParser = require('body-parser').json();
 const AWS = require('aws-sdk');
-const multer = require('multer');
-const multerS3 = require('multer-s3');
 const _ = require('lodash');
+const sharp = require('sharp');
+const multiparty = require('multiparty');
+const fileType = require('file-type');
+const readChunk = require('read-chunk');
 
 AWS.config.update({
   accessKeyId: process.env.DANIK_AWS_ACCESS_KEY_ID,
@@ -13,31 +15,35 @@ AWS.config.update({
 
 const s3 = new AWS.S3();
 
-const upload = multer({
-  fileFilter: (req, file, cb) => {
-    if (!/^image\/(jpe?g|png|gif)$/i.test(file.mimetype)) {
-      return cb(new Error('File type not supported!'), false);
-    }
-    cb(null, true);
-  },
-  storage: multerS3({
-    s3,
-    bucket: process.env.DANIK_S3_BUCKET,
-    contentType: multerS3.AUTO_CONTENT_TYPE,
-    acl: 'public-read',
-    metadata: (req, file, cb) => {
-      cb(null, {fieldName: file.fieldname});
-    },
-    key: (req, file, cb) => {
-      const extension = file.mimetype.split('/').pop();
-      cb(null, `products/${Date.now().toString()}.${extension}`);
-    }
-  })
-});
-
 router.route('/upload-file')
-  .post(upload.single('file'), (request, response, next) => {
-    return response.status(200).send(request.file);
+  .post((request, response) => {
+    const form = new multiparty.Form();
+    form.parse(request, (error, fields, files) => {
+      if (error) {
+        return response.status(400).send(error);
+      }
+      const filePath = files.file[0].path;
+      const buffer = readChunk.sync(filePath, 0, 4100);
+      const type = fileType(buffer);
+      console.log('file type: ', type);
+      sharp(filePath)
+        .resize(100)
+        .toBuffer()
+        .then(fileBuffer => {
+          const params = {
+            ACL: 'public-read',
+            Body: fileBuffer,
+            Bucket: process.env.DANIK_S3_BUCKET,
+            ContentType: type.mime,
+            Key: `products/${Date.now().toString()}.${type.ext}`
+          };
+          s3.upload(params, (error, data) => {
+            if (error) return response.status(400).send(error);
+            console.log(data);
+          });
+        })
+        .catch(err => response.status(400).send(err));
+    });
   });
 
 router.route('/delete-file')
