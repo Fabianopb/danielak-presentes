@@ -6,14 +6,28 @@ const _ = require('lodash');
 const sharp = require('sharp');
 const multiparty = require('multiparty');
 const fileType = require('file-type');
-const readChunk = require('read-chunk');
+const fs = require('fs');
+const bluebird = require('bluebird');
 
 AWS.config.update({
   accessKeyId: process.env.DANIK_AWS_ACCESS_KEY_ID,
   secretAccessKey: process.env.DANIK_AWS_SECRET_ACCESS_KEY
 });
 
+AWS.config.setPromisesDependency(bluebird);
+
 const s3 = new AWS.S3();
+
+const uploadFile = (buffer, name, type) => {
+  const params = {
+    ACL: 'public-read',
+    Body: buffer,
+    Bucket: process.env.DANIK_S3_BUCKET,
+    ContentType: type.mime,
+    Key: `${name}.${type.ext}`
+  };
+  return s3.upload(params).promise();
+};
 
 router.route('/upload-file')
   .post((request, response) => {
@@ -23,26 +37,22 @@ router.route('/upload-file')
         return response.status(400).send(error);
       }
       const filePath = files.file[0].path;
-      const buffer = readChunk.sync(filePath, 0, 4100);
-      const type = fileType(buffer);
-      console.log('file type: ', type);
+      const largeFileBuffer = fs.readFileSync(filePath);
+      const type = fileType(largeFileBuffer);
+      const timestamp = Date.now().toString();
+      const largeFileName = `products/${timestamp}-lg`;
       sharp(filePath)
         .resize(100)
         .toBuffer()
-        .then(fileBuffer => {
-          const params = {
-            ACL: 'public-read',
-            Body: fileBuffer,
-            Bucket: process.env.DANIK_S3_BUCKET,
-            ContentType: type.mime,
-            Key: `products/${Date.now().toString()}.${type.ext}`
-          };
-          s3.upload(params, (error, data) => {
-            if (error) return response.status(400).send(error);
-            console.log(data);
-          });
+        .then(smallFileBuffer => {
+          const smallFileName = `products/${timestamp}-sm`;
+          bluebird.all([
+            uploadFile(largeFileBuffer, largeFileName, type),
+            uploadFile(smallFileBuffer, smallFileName, type)])
+            .then(data => response.status(200).send(data))
+            .catch(error => response.status(400).send(error));
         })
-        .catch(err => response.status(400).send(err));
+        .catch(error => response.status(400).send(error));
     });
   });
 
