@@ -12,33 +12,34 @@ import { handleFileDrop, deleteImage } from '../modules/actions/products';
 import { FormInput, FormTextArea, FormCheckbox } from '../components/FormComponents';
 
 const validate = (values) => {
-  const errors = {};
-  const requiredFields = [
-    'name',
-    'image',
-    'storeLink',
-    'description',
-    'currentPrice',
-    'productionTime',
-    'minAmount',
-    'height',
-    'width',
-    'depth',
-    'weight'
-  ];
-  requiredFields.forEach(field => {
-    if (!values[field]) {
-      errors[field] = 'Campo obrigatório';
-    }
-  });
-  return errors;
+  if (!_.isEmpty(values)) {
+    const errors = {};
+    const requiredFields = [
+      'name',
+      'storeLink',
+      'description',
+      'currentPrice',
+      'productionTime',
+      'minAmount',
+      'height',
+      'width',
+      'depth',
+      'weight'
+    ];
+    requiredFields.forEach(field => {
+      if (!values[field]) {
+        errors[field] = 'Campo obrigatório';
+      }
+    });
+    return errors;
+  }
 };
 
 class EditProductForm extends Component {
   render () {
     const { handleSubmit, images, pristine, submitting } = this.props;
-    const hasDropzone = images && images.length < 5 && !_.some(images, image => image === 'uploading');
-    console.log(images);
+    const isSomeImageUploading = _.some(images, image => image === 'uploading');
+    const hasDropzone = images && images.length < 5 && !isSomeImageUploading;
     return (
       <div className='product-form'>
         <Form onSubmit={handleSubmit} >
@@ -109,10 +110,10 @@ class EditProductForm extends Component {
           </Form.Group>
           <Field component={FormCheckbox} formLabel='Visível' name='isVisible' />
           <Field component={FormCheckbox} formLabel='Em destaque' name='isFeatured' />
-          <Form.Button disabled={submitting || pristine}>Submit</Form.Button>
+          <Form.Button disabled={submitting || pristine || isSomeImageUploading}>Submit</Form.Button>
         </Form>
         <Prompt
-          when={submitting || !pristine}
+          when={submitting || !pristine || isSomeImageUploading}
           message={() =>
             'O formulário não foi enviado, se você sair da página o conteúdo não será salvo!'
           }
