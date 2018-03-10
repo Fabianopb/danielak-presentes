@@ -38,6 +38,7 @@ class EditProductForm extends Component {
   render () {
     const { handleSubmit, images, pristine, submitting } = this.props;
     const hasDropzone = images && images.length < 5 && !_.some(images, image => image === 'uploading');
+    console.log(images);
     return (
       <div className='product-form'>
         <Form onSubmit={handleSubmit} >

@@ -30,7 +30,7 @@ class ProductsView extends Component {
               <Grid className='product-cell' key={product._id} columns={1}>
                 <Grid.Column className='image-container'>
                   <Image
-                    src={product.image[product.featuredImageIndex]}
+                    src={product.image[product.featuredImageIndex].large}
                     onClick={() => this.props.showProductDetails(product)}
                   />
                 </Grid.Column>

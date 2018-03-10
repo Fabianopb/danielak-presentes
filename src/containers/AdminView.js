@@ -43,7 +43,7 @@ class AdminView extends Component {
                   <Table.Row key={product._id} onClick={() => showProductEditor(product._id)}>
                     <Table.Cell className='name-row'>
                       <div className='thumbnail-container'>
-                        <img className='thumbnail' src={product.image[product.featuredImageIndex]} alt='N/A' />
+                        <img className='thumbnail' src={product.image[product.featuredImageIndex].small} alt='N/A' />
                       </div>
                       <div className='product-name'>{ product.name }</div>
                     </Table.Cell>

@@ -8,7 +8,10 @@ const ProductSchema = new Schema({
     default: null
   },
   image: {
-    type: [String],
+    type: [{
+      large: String,
+      small: String
+    }],
     default: []
   },
   featuredImageIndex: {

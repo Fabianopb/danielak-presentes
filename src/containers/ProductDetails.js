@@ -32,7 +32,7 @@ class ProductDetails extends Component {
               <div>
                 <Grid stackable columns={2}>
                   <Grid.Column>
-                    <Image src={activeProduct.image[activeProduct.featuredImageIndex]} />
+                    <Image src={activeProduct.image[activeProduct.featuredImageIndex].large} />
                   </Grid.Column>
                   <Grid.Column>
                     <div className='description-container flex-column cross-axis-baseline'>
