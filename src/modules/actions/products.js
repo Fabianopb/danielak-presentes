@@ -116,15 +116,16 @@ export const deleteProduct = (id) => {
   };
 };
 
-export const deleteImage = (imageUrl) => {
+export const deleteImage = (imageObject) => {
   return async (dispatch, getState) => {
     try {
       const images = _.cloneDeep(getState().form.editProductForm.values.image);
-      const imageIndex = _.findIndex(images, image => image === imageUrl);
-      const imageName = _getImageNameFromUrl(imageUrl);
+      const imageIndex = _.findIndex(images, image => _.isEqual(image, imageObject));
+      const largeImageName = _getImageNameFromUrl(imageObject.large);
+      const smallImageName = _getImageNameFromUrl(imageObject.small);
       images.splice(imageIndex, 1, 'uploading');
       dispatch(change('editProductForm', 'image', images));
-      const deleteFileResponse = await axios.post('/api/files/delete-file', { images: [imageName] });
+      const deleteFileResponse = await axios.post('/api/files/delete-file', { images: [largeImageName, smallImageName] });
       console.log(deleteFileResponse);
       images.splice(imageIndex, 1);
       dispatch(change('editProductForm', 'image', null));
@@ -157,7 +158,10 @@ export const handleFileDrop = (files) => {
       const formData = new FormData();
       formData.append('file', files[0]);
       const uploadResponse = await axios.post(`/api/files/upload-file`, formData, {headers: {'Content-Type': 'multipart/form-data'}});
-      images[imageIndex] = uploadResponse.data.location;
+      images[imageIndex] = {
+        large: uploadResponse.data[0].Location,
+        small: uploadResponse.data[1].Location
+      };
       dispatch(change('editProductForm', 'image', null));
       dispatch(change('editProductForm', 'image', images));
       // TODO: could dispatch a success notification

@@ -46,15 +46,15 @@ class EditProductForm extends Component {
             <Field component={FormInput} formLabel='Link da loja' placeholder='Link da loja' name='storeLink' required />
           </Form.Group>
           <div className='dropzone-area'>
-            { images && _.map(images, image => (
-              <div key={image} className='preview-container'>
+            { images && _.map(images, (image, index) => (
+              <div key={index} className='preview-container'>
                 { image === 'uploading'
                   ? <Segment loading />
                   : <div>
                     <Button className='delete-button' icon color='red' onClick={() => this.props.deleteImage(image)}>
                       <Icon name='delete' />
                     </Button>
-                    <img className='image-preview' src={image} alt={image} />
+                    <img className='image-preview' src={image.small} alt={image.small} />
                   </div>
                 }
               </div>
