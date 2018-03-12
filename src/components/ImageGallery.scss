@@ -1,0 +1,30 @@
+@import '../styles/colors';
+
+:local(.imageGallery) {
+
+  .thumbnails-container {
+    display: flex;
+    flex-wrap: wrap;
+
+    .thumbnail-box {
+      position: relative;
+
+      .selected-overlay {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        position: absolute;
+        top: 16px;
+        left: 16px;
+        width: 100px;
+        height: 100px;
+        background-color: $brilliant-white;
+        opacity: 0.75;
+      }
+
+      .selectable {
+        cursor: pointer;
+      }
+    }
+  }
+}

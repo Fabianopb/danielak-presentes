@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import { PropTypes } from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { Dimmer, Loader, Button, Icon, Divider, Grid, Image } from 'semantic-ui-react';
+import { Dimmer, Loader, Button, Icon, Divider, Grid } from 'semantic-ui-react';
+import ImageGallery from '../components/ImageGallery';
 import { getProductDetails } from '../modules/actions/products';
 
 import '../styles/products.css';
@@ -12,7 +13,7 @@ class ProductDetails extends Component {
     this.props.getProductDetails(this.props.match.params.id);
   }
 
-  goToShop = (url) => {
+  goToShop (url) {
     window.open(url, '_blank');
   }
 
@@ -32,7 +33,7 @@ class ProductDetails extends Component {
               <div>
                 <Grid stackable columns={2}>
                   <Grid.Column>
-                    <Image src={activeProduct.image[activeProduct.featuredImageIndex].large} />
+                    <ImageGallery images={activeProduct.image} selectedIndex={activeProduct.featuredImageIndex} />
                   </Grid.Column>
                   <Grid.Column>
                     <div className='description-container flex-column cross-axis-baseline'>
