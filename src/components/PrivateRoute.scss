@@ -1,0 +1,15 @@
+@import '../assets/colors';
+
+.private-route {
+  .header {
+    display: flex;
+    justify-content: space-between;
+    padding: 12px;
+    background-color: $cadillac;
+    color: #FFF;
+    height: 50px;
+  }
+  .logout {
+    cursor: pointer;
+  }
+}

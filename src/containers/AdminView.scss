@@ -18,7 +18,7 @@
       .thumbnail-container {
         width: 40px;
         overflow: hidden;
-        
+
         .thumbnail {
           height: 40px;
         }
@@ -31,20 +31,6 @@
 
     .icon:not(:last-child) {
       margin-right: 10px;
-    }
-  }
-
-  .login-title {
-    text-align: center;
-  }
-
-  .login-container {
-    display: flex;
-    justify-content: center;
-
-    .login-form {
-      max-width: 300px;
-      flex: 1;
     }
   }
 }

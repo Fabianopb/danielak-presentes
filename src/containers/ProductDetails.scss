@@ -1,0 +1,49 @@
+@import '../assets/colors';
+
+.product-details {
+  padding: 20px;
+
+  .ui.image {
+    padding: 16px;
+  }
+
+  .description-container {
+    padding: 16px;
+
+    .title {
+      margin-bottom: 16px;
+      font-size: 1.4rem;
+    }
+
+    .price {
+      margin-bottom: 16px;
+      font-size: 1.6rem;
+      color: $very-berry;
+
+      .disabled-price {
+        margin-right: 8px;
+        color: $silver;
+        text-decoration: line-through;
+        font-size: 1.4rem;
+      }
+    }
+
+    .ui.button {
+      background-color: $very-berry;
+      color: $brilliant-white;
+      margin-bottom: 16px;
+    }
+
+    .ui.button:hover {
+      background-color: darken($very-berry, 10%);
+    }
+
+    .ui.button:active {
+      background-color: darken($very-berry, 20%);
+    }
+
+    .description {
+      white-space: pre-line;
+    }
+  }
+}

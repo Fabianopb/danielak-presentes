@@ -1,0 +1,41 @@
+@import '../assets/colors';
+
+.products-view {
+  padding: 20px;
+
+  .product-cell {
+    width: 280px;
+    margin: 16px;
+    padding: 8px;
+    border: 1px solid $brilliant-white;
+    border-radius: 8px;
+
+    .image-container {
+      height: 240px;
+      overflow: hidden;
+      padding: 0 !important;
+      background-color: $brilliant-white;
+    }
+
+    .title {
+      height: 40px;
+      font-size: 0.9rem;
+      font-weight: bold;
+      text-transform: uppercase;
+      text-align: center;
+    }
+
+    .current-price {
+      font-size: 1.3rem;
+      text-align: right;
+      color: $very-berry;
+
+      .disabled-price {
+        margin-right: 8px;
+        color: $silver;
+        text-decoration: line-through;
+        font-size: 1.2rem;
+      }
+    }
+  }
+}

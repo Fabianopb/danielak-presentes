@@ -6,7 +6,7 @@ import ImageGallery from '../components/ImageGallery';
 import { getProductDetails } from '../modules/actions/products';
 import { currencyFormat } from '../modules/helpers';
 
-import '../styles/products.css';
+import './ProductDetails.css';
 
 class ProductDetails extends Component {
   componentDidMount () {

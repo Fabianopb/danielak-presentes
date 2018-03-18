@@ -14,7 +14,7 @@ import ProductDetails from './containers/ProductDetails';
 import AdminView from './containers/AdminView';
 import LoginView from './containers/LoginView';
 import ProductEditor from './containers/ProductEditor';
-import './styles/App.css';
+import './App.css';
 
 const middleware = [thunk];
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;

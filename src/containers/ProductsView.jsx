@@ -5,7 +5,7 @@ import { Dimmer, Loader, Divider, Grid, Image } from 'semantic-ui-react';
 import { fetchProducts, showProductDetails } from '../modules/actions/products';
 import { currencyFormat } from '../modules/helpers';
 
-import '../styles/products.css';
+import './ProductsView.css';
 
 class ProductsView extends Component {
   componentDidMount () {

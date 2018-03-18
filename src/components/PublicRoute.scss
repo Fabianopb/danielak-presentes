@@ -1,0 +1,10 @@
+@import '../assets/colors';
+
+.public-route {
+  .header, .footer {
+    padding: 12px;
+    background-color: $cadillac;
+    color: #FFF;
+    height: 100px;
+  }
+}

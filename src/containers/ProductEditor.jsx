@@ -7,7 +7,7 @@ import { Dimmer, Loader, Icon, Modal, Button, Header } from 'semantic-ui-react';
 
 import EditProductForm from '../components/EditProductForm';
 import { fetchProducts, upsertProduct, openDialog, closeDialog, deleteProduct, handleFileDrop, deleteImage } from '../modules/actions/products';
-import '../styles/manageProduct.css';
+import './ProductEditor.css';
 
 class ManageProductView extends Component {
   componentWillMount () {
@@ -25,7 +25,7 @@ class ManageProductView extends Component {
     const { isFetching, activeProduct, isDialogOpen, openDialog, closeDialog,
       deleteProduct, images, handleFileDrop, deleteImage } = this.props;
     return (
-      <div className='admin-view'>
+      <div className='product-editor'>
         <div className='add-product-header'>
           <h3>Adicionar produto</h3>
           <Link to='#'>

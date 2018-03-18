@@ -5,13 +5,13 @@ import { Dimmer, Loader } from 'semantic-ui-react';
 import { login } from '../modules/actions/users';
 
 import LoginForm from '../components/LoginForm';
-import '../styles/admin.css';
+import './LoginView.css';
 
 class LoginView extends Component {
   render () {
     const { isLogging } = this.props.users;
     return (
-      <div className='admin-view'>
+      <div className='login-view'>
         <h3 className='login-title'>Login</h3>
         {isLogging ? (
           <Dimmer active inverted>
