@@ -32,47 +32,42 @@ const uploadFile = (buffer, name, type) => {
 router.route('/upload-file')
   .post((request, response) => {
     const form = new multiparty.Form();
-    form.parse(request, (error, fields, files) => {
-      if (error) {
-        return response.status(400).send(error);
+    form.parse(request, async (error, fields, files) => {
+      if (error) response.status(400).send(error);
+      try {
+        const filePath = files.file[0].path;
+        const largeFileBuffer = fs.readFileSync(filePath);
+        const type = fileType(largeFileBuffer);
+        const timestamp = Date.now().toString();
+        const largeFileName = `products/${timestamp}-lg`;
+        const smallFileBuffer = await sharp(filePath).resize(100).toBuffer();
+        const smallFileName = `products/${timestamp}-sm`;
+        const data = await bluebird.all([
+          uploadFile(largeFileBuffer, largeFileName, type),
+          uploadFile(smallFileBuffer, smallFileName, type)
+        ]);
+        return response.status(200).send(data);
+      } catch (error) {
+        throw response.status(400).send(error);
       }
-      const filePath = files.file[0].path;
-      const largeFileBuffer = fs.readFileSync(filePath);
-      const type = fileType(largeFileBuffer);
-      const timestamp = Date.now().toString();
-      const largeFileName = `products/${timestamp}-lg`;
-      sharp(filePath)
-        .resize(100)
-        .toBuffer()
-        .then(smallFileBuffer => {
-          const smallFileName = `products/${timestamp}-sm`;
-          bluebird.all([
-            uploadFile(largeFileBuffer, largeFileName, type),
-            uploadFile(smallFileBuffer, smallFileName, type)])
-            .then(data => response.status(200).send(data))
-            .catch(error => response.status(400).send(error));
-        })
-        .catch(error => response.status(400).send(error));
     });
   });
 
 router.route('/delete-file')
-  .post(bodyParser, (request, response) => {
-    const imagesArray = request.body.images;
-    const params = {
-      Bucket: process.env.DANIK_S3_BUCKET,
-      Delete: {
-        Objects: _.map(imagesArray, (image) => {
-          return { Key: image };
-        })
-      }
-    };
-    s3.deleteObjects(params, (error, data) => {
-      if (error) {
-        return response.status(400).send(error);
-      }
+  .post(bodyParser, async (request, response) => {
+    try {
+      const imagesArray = request.body.images;
+      const params = {
+        Bucket: process.env.DANIK_S3_BUCKET,
+        Delete: {
+          Objects: _.map(imagesArray, (image) => ({ Key: image }))
+        }
+      };
+      const data = await s3.deleteObjects(params).promise();
       return response.status(200).send(data);
-    });
+    } catch (error) {
+      return response.status(400).send(error);
+    }
   });
 
 module.exports = router;
