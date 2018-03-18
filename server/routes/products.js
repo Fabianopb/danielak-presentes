@@ -3,48 +3,47 @@ const router = express.Router();
 const bodyParser = require('body-parser').json();
 const Product = require('../models/product');
 
-const handleOnSave = function (product, response, message, object) {
-  product.save(function (error) {
-    if (error) {
+router.route('/')
+  .get(async (request, response) => {
+    try {
+      if (request.query._id === 'new') {
+        const newProduct = new Product();
+        return response.status(200).json([newProduct]);
+      }
+      const products = await Product.find(request.query);
+      return response.status(200).json(products);
+    } catch (error) {
       return response.status(400).send(error);
     }
-    return response.status(200).json({message, object});
-  });
-};
-
-router.route('/')
-  .get(function (request, response) {
-    if (request.query._id === 'new') {
-      const newProduct = new Product();
-      return response.status(200).json([newProduct]);
-    }
-    Product.find(request.query, function (error, products) {
-      if (error) {
-        return response.status(400).send(error);
-      }
-      return response.status(200).json(products);
-    });
   })
-  .post(bodyParser, function (request, response) {
-    const product = new Product(request.body);
-    handleOnSave(product, response, 'New product saved!');
+  .post(bodyParser, async (request, response) => {
+    try {
+      const product = new Product(request.body);
+      await product.save();
+      return response.status(200).json({message: 'New product saved!'});
+    } catch (error) {
+      return response.status(400).send(error);
+    }
   });
 
 router.route('/:id')
-  .put(bodyParser, function (request, response) {
-    Product.findById(request.params.id, function (error, product) {
-      if (error) {
-        return response.status(400).send(error);
-      }
+  .put(bodyParser, async (request, response) => {
+    try {
+      const product = await Product.findById(request.params.id);
       Object.assign(product, request.body);
-      handleOnSave(product, response, 'Product updated!');
-    });
+      await product.save();
+      return response.status(200).json({message: 'Product updated'});
+    } catch (error) {
+      return response.status(400).send(error);
+    }
   })
-  .delete(function (request, response) {
-    Product.remove({_id: request.params.id}, function (error) {
-      if (error) { return response.status(400).send(error); }
-      return response.status(200).json('Product removed');
-    });
+  .delete(async (request, response) => {
+    try {
+      await Product.remove({_id: request.params.id});
+      return response.status(200).json({message: 'Product removed'});
+    } catch (error) {
+      return response.status(400).send(error);
+    }
   });
 
 module.exports = router;
