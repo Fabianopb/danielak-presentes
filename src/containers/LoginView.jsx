@@ -1,11 +1,10 @@
 import React, { Component } from 'react';
-import { bindActionCreators } from 'redux';
 import { PropTypes } from 'prop-types';
 import { connect } from 'react-redux';
 import { Dimmer, Loader } from 'semantic-ui-react';
 import { login } from '../modules/actions/users';
 
-import LoginForm from './LoginForm';
+import LoginForm from '../components/LoginForm';
 import '../styles/admin.css';
 
 class LoginView extends Component {
@@ -37,7 +36,4 @@ const mapStateToProps = (state) => ({
   users: state.users
 });
 
-const mapDispatchToProps = (dispatch) =>
-  bindActionCreators({login}, dispatch);
-
-export default connect(mapStateToProps, mapDispatchToProps)(LoginView);
+export default connect(mapStateToProps, {login})(LoginView);

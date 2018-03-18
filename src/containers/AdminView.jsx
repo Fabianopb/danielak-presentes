@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { PropTypes } from 'prop-types';
 import { Table, Icon, Dimmer, Loader } from 'semantic-ui-react';
@@ -71,7 +70,4 @@ const mapStateToProps = (state) => ({
   products: state.products
 });
 
-const mapDispatchToProps = (dispatch) =>
-  bindActionCreators({fetchProducts, showProductEditor}, dispatch);
-
-export default connect(mapStateToProps, mapDispatchToProps)(AdminView);
+export default connect(mapStateToProps, {fetchProducts, showProductEditor})(AdminView);

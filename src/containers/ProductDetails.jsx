@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { PropTypes } from 'prop-types';
-import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { Dimmer, Loader, Button, Icon, Divider, Grid } from 'semantic-ui-react';
 import ImageGallery from '../components/ImageGallery';
@@ -82,7 +81,4 @@ const mapStateToProps = (state) => ({
   products: state.products
 });
 
-const mapDispatchToProps = (dispatch) =>
-  bindActionCreators({getProductDetails}, dispatch);
-
-export default connect(mapStateToProps, mapDispatchToProps)(ProductDetails);
+export default connect(mapStateToProps, {getProductDetails})(ProductDetails);

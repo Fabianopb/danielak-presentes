@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { PropTypes } from 'prop-types';
-import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { Dimmer, Loader, Divider, Grid, Image } from 'semantic-ui-react';
 import { fetchProducts, showProductDetails } from '../modules/actions/products';
@@ -65,7 +64,4 @@ const mapStateToProps = (state) => ({
   products: state.products
 });
 
-const mapDispatchToProps = (dispatch) =>
-  bindActionCreators({fetchProducts, showProductDetails}, dispatch);
-
-export default connect(mapStateToProps, mapDispatchToProps)(ProductsView);
+export default connect(mapStateToProps, {fetchProducts, showProductDetails})(ProductsView);
