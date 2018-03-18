@@ -7,24 +7,18 @@ require('../config/passport');
 
 // TODO: create endpoint to initialize admin user if non-existing
 router.route('/register')
-  .get((request, response) => {
-    User.find({}, function (error, users) {
-      if (error) {
-        return response.status(400).send(error);
-      }
-      if (users.length > 0) {
-        return response.status(400).send('Admin user already exists');
-      }
+  .get(async (request, response) => {
+    try {
+      const users = await User.find({});
+      if (users.length > 0) throw new Error('Admin user already exists');
       const user = new User();
       user.email = process.env.DANIK_USERNAME;
       user.setPassword(process.env.DANIK_PASSWORD);
-      user.save(error => {
-        if (error) {
-          return response.status(400).send(error);
-        }
-        return response.status(200).json('Admin user generated!');
-      });
-    });
+      await user.save();
+      return response.status(200).json('Admin user generated!');
+    } catch (error) {
+      return response.status(400).send(error);
+    }
   });
 
 router.route('/login')

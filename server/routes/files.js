@@ -33,7 +33,7 @@ router.route('/upload-file')
   .post((request, response) => {
     const form = new multiparty.Form();
     form.parse(request, async (error, fields, files) => {
-      if (error) response.status(400).send(error);
+      if (error) throw new Error(error);
       try {
         const filePath = files.file[0].path;
         const largeFileBuffer = fs.readFileSync(filePath);
