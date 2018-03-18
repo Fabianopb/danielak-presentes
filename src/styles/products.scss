@@ -83,5 +83,9 @@
     .ui.button:active {
       background-color: darken($very-berry, 20%);
     }
+
+    .description {
+      white-space: pre-line;
+    }
   }
 }

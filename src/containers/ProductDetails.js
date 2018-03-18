@@ -50,7 +50,7 @@ class ProductDetails extends Component {
                         <Icon name='shop' />
                         Ver na minha lojinha
                       </Button>
-                      <div>{activeProduct.description}</div>
+                      <div className='description'>{activeProduct.description}</div>
                     </div>
                   </Grid.Column>
                 </Grid>
