@@ -1,14 +1,10 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { bindActionCreators } from 'redux';
-import { connect } from 'react-redux';
-import { Field, reduxForm, formValueSelector } from 'redux-form';
+import { Field, reduxForm } from 'redux-form';
 import { Form, Segment, Button, Icon } from 'semantic-ui-react';
 import { Prompt } from 'react-router-dom';
 import Dropzone from 'react-dropzone';
 import _ from 'lodash';
-
-import { handleFileDrop, deleteImage } from '../modules/actions/products';
 import { FormInput, FormTextArea, FormCheckbox } from '../components/FormComponents';
 
 const validate = (values) => {
@@ -37,7 +33,7 @@ const validate = (values) => {
 
 class EditProductForm extends Component {
   render () {
-    const { handleSubmit, images, pristine, submitting } = this.props;
+    const { handleSubmit, images, pristine, submitting, handleFileDrop, deleteImage } = this.props;
     const isSomeImageUploading = _.some(images, image => image === 'uploading');
     const hasDropzone = images && images.length < 5 && !isSomeImageUploading;
     return (
@@ -53,7 +49,7 @@ class EditProductForm extends Component {
                 { image === 'uploading'
                   ? <Segment loading />
                   : <div>
-                    <Button className='delete-button' icon color='red' onClick={() => this.props.deleteImage(image)}>
+                    <Button className='delete-button' icon color='red' onClick={() => deleteImage(image)}>
                       <Icon name='delete' />
                     </Button>
                     <img className='image-preview' src={image.small} alt={image.small} />
@@ -64,7 +60,7 @@ class EditProductForm extends Component {
             { hasDropzone &&
               <Dropzone
                 className='file-drop'
-                onDrop={this.props.handleFileDrop} >
+                onDrop={handleFileDrop} >
                 <div className='file-drop-text'>Faça upload da imagem aqui</div>
               </Dropzone>
             }
@@ -132,12 +128,4 @@ EditProductForm.propTypes = {
   images: PropTypes.array
 };
 
-const mapStateToProps = (state) => ({
-  images: formValueSelector('editProductForm')(state, 'image')
-});
-
-const mapDispatchToProps = (dispatch) =>
-  bindActionCreators({handleFileDrop, deleteImage}, dispatch);
-
-const controlledProductForm = reduxForm({form: 'editProductForm', validate})(EditProductForm);
-export default connect(mapStateToProps, mapDispatchToProps)(controlledProductForm);
+export default reduxForm({form: 'editProductForm', validate})(EditProductForm);

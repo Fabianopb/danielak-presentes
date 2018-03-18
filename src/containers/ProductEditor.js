@@ -2,10 +2,11 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { PropTypes } from 'prop-types';
 import { connect } from 'react-redux';
+import { formValueSelector } from 'redux-form';
 import { Dimmer, Loader, Icon, Modal, Button, Header } from 'semantic-ui-react';
 
-import EditProductForm from './EditProductForm';
-import { fetchProducts, upsertProduct, openDialog, closeDialog, deleteProduct } from '../modules/actions/products';
+import EditProductForm from '../components/EditProductForm';
+import { fetchProducts, upsertProduct, openDialog, closeDialog, deleteProduct, handleFileDrop, deleteImage } from '../modules/actions/products';
 import '../styles/manageProduct.css';
 
 class ManageProductView extends Component {
@@ -21,8 +22,8 @@ class ManageProductView extends Component {
   };
 
   render () {
-    const { isFetching, activeProduct, isDialogOpen,
-      openDialog, closeDialog, deleteProduct } = this.props;
+    const { isFetching, activeProduct, isDialogOpen, openDialog, closeDialog,
+      deleteProduct, images, handleFileDrop, deleteImage } = this.props;
     return (
       <div className='admin-view'>
         <div className='add-product-header'>
@@ -39,7 +40,12 @@ class ManageProductView extends Component {
             <Loader />
           </Dimmer>
         ) : (
-          <EditProductForm onSubmit={this.submitProduct} />
+          <EditProductForm
+            images={images}
+            handleFileDrop={handleFileDrop}
+            deleteImage={deleteImage}
+            onSubmit={this.submitProduct}
+          />
         )}
         <Modal open={isDialogOpen} onClose={closeDialog} basic size='small'>
           <Header icon='trash' content='Apagar produto' />
@@ -69,15 +75,19 @@ ManageProductView.propTypes = {
   deleteProduct: PropTypes.func.isRequired,
   isFetching: PropTypes.bool.isRequired,
   isDialogOpen: PropTypes.bool.isRequired,
-  activeProduct: PropTypes.object
+  activeProduct: PropTypes.object,
+  handleFileDrop: PropTypes.func.isRequired,
+  deleteImage: PropTypes.func.isRequired,
+  images: PropTypes.array
 };
 
 const mapStateToProps = (state) => ({
   isFetching: state.products.isFetching,
   activeProduct: state.products.activeProduct,
-  isDialogOpen: state.products.isDialogOpen
+  isDialogOpen: state.products.isDialogOpen,
+  images: formValueSelector('editProductForm')(state, 'image')
 });
 
 export default connect(mapStateToProps, {
-  fetchProducts, upsertProduct, openDialog, closeDialog, deleteProduct
+  fetchProducts, upsertProduct, openDialog, closeDialog, deleteProduct, handleFileDrop, deleteImage
 })(ManageProductView);
