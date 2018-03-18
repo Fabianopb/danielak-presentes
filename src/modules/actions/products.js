@@ -100,10 +100,11 @@ export const deleteProduct = (id) => {
     try {
       dispatch(startRequest());
       dispatch(closeDialog());
-      const imagesUrlArray = getState().products.activeProduct.image;
-      const imageNames = _.map(imagesUrlArray, imageUrl => _getImageNameFromUrl(imageUrl));
+      const imageObjectsArray = getState().products.activeProduct.image;
+      const largeImageNames = _.map(imageObjectsArray, imageObject => _getImageNameFromUrl(imageObject.large));
+      const smallImageNames = _.map(imageObjectsArray, imageObject => _getImageNameFromUrl(imageObject.small));
       const [deleteFileResponse, deleteProductResponse] = await axios.all([
-        axios.post('/api/files/delete-file', { images: imageNames }),
+        axios.post('/api/files/delete-file', { images: _.concat(largeImageNames, smallImageNames) }),
         axios.delete(`/api/products/${id}`)
       ]);
       console.log(deleteFileResponse, deleteProductResponse);

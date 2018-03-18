@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { PropTypes } from 'prop-types';
-import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { Dimmer, Loader, Icon, Modal, Button, Header } from 'semantic-ui-react';
 
@@ -79,7 +78,6 @@ const mapStateToProps = (state) => ({
   isDialogOpen: state.products.isDialogOpen
 });
 
-const mapDispatchToProps = (dispatch) =>
-  bindActionCreators({fetchProducts, upsertProduct, openDialog, closeDialog, deleteProduct}, dispatch);
-
-export default connect(mapStateToProps, mapDispatchToProps)(ManageProductView);
+export default connect(mapStateToProps, {
+  fetchProducts, upsertProduct, openDialog, closeDialog, deleteProduct
+})(ManageProductView);
