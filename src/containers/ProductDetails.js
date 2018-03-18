@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import { Dimmer, Loader, Button, Icon, Divider, Grid } from 'semantic-ui-react';
 import ImageGallery from '../components/ImageGallery';
 import { getProductDetails } from '../modules/actions/products';
+import { currencyFormat } from '../modules/helpers';
 
 import '../styles/products.css';
 
@@ -40,11 +41,9 @@ class ProductDetails extends Component {
                       <div className='title'>{activeProduct.name}</div>
                       <div className='price'>
                         <span className={activeProduct.discountPrice && 'disabled-price'}>
-                          R$ {activeProduct.currentPrice.toFixed(2)}
+                          { currencyFormat(activeProduct.currentPrice) }
                         </span>
-                        {activeProduct.discountPrice &&
-                          `R$ ${activeProduct.discountPrice.toFixed(2)}`
-                        }
+                        { activeProduct.discountPrice && currencyFormat(activeProduct.discountPrice) }
                       </div>
                       <Button icon labelPosition='left' onClick={() => this.goToShop(activeProduct.storeLink)}>
                         <Icon name='shop' />

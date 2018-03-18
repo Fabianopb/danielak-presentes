@@ -4,6 +4,7 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { Dimmer, Loader, Divider, Grid, Image } from 'semantic-ui-react';
 import { fetchProducts, showProductDetails } from '../modules/actions/products';
+import { currencyFormat } from '../modules/helpers';
 
 import '../styles/products.css';
 
@@ -38,10 +39,10 @@ class ProductsView extends Component {
                   {product.name}
                 </Grid.Column>
                 <Grid.Column className='current-price'>
-                  <span className={product.discountPrice && 'disabled-price'}>R$ {product.currentPrice.toFixed(2)}</span>
-                  {product.discountPrice &&
-                    `R$ ${product.discountPrice.toFixed(2)}`
-                  }
+                  <span className={product.discountPrice && 'disabled-price'}>
+                    { currencyFormat(product.currentPrice) }
+                  </span>
+                  { product.discountPrice && currencyFormat(product.discountPrice) }
                 </Grid.Column>
               </Grid>
             ))}
