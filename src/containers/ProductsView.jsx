@@ -27,23 +27,23 @@ class ProductsView extends Component {
                 <Loader />
               </Dimmer>
             ) : data.map(product => (
-              <Grid className='product-cell' key={product._id} columns={1}>
-                <Grid.Column className='image-container'>
+              <div className='product-cell' key={product._id}>
+                <div className='image-container'>
                   <Image
                     src={product.image[product.featuredImageIndex].large}
                     onClick={() => this.props.showProductDetails(product)}
                   />
-                </Grid.Column>
-                <Grid.Column className='title'>
+                </div>
+                <div className='title'>
                   {product.name}
-                </Grid.Column>
-                <Grid.Column className='current-price'>
+                </div>
+                <div className='current-price'>
                   <span className={product.discountPrice && 'disabled-price'}>
                     { currencyFormat(product.currentPrice) }
                   </span>
                   { product.discountPrice && currencyFormat(product.discountPrice) }
-                </Grid.Column>
-              </Grid>
+                </div>
+              </div>
             ))}
           </div>
         </Grid.Column>
