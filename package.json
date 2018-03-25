@@ -60,6 +60,7 @@
     "build": "npm run build-css && react-scripts build",
     "server": "nodemon server/server.js",
     "client": "react-scripts start",
+    "devdb": "sudo mongod --dbpath /data/danik/ --port 29019",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
   }
