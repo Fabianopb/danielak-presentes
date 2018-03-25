@@ -14,7 +14,9 @@ class PublicRoute extends Component {
       <Route {...rest} render={props => (
         <div className='public-route'>
           <div className='header'>DanielaK Presentes</div>
-          <Component {...props} />
+          <div className='route-layout'>
+            <Component {...props} />
+          </div>
           <div className='footer'>
             <p>danielalpresentes@yahoo.com.br</p>
             <p>Whatsapp +55 11 99777 5245</p>

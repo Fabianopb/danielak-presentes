@@ -8,8 +8,20 @@
     background-color: $cadillac;
     color: #FFF;
     height: 50px;
+
+    .actions {
+      display: flex;
+
+      .logout {
+        cursor: pointer;
+      }
+
+      .home-link {
+        color: $brilliant-white;
+      }
+    }
   }
-  .logout {
-    cursor: pointer;
+  .route-layout {
+    padding: 16px;
   }
 }
