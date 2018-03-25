@@ -5,7 +5,7 @@ import { PropTypes } from 'prop-types';
 import { Table, Icon, Dimmer, Loader } from 'semantic-ui-react';
 import { fetchProducts, showProductEditor } from '../modules/actions/products';
 
-import './AdminView.css';
+import './AdminView.scss';
 
 class AdminView extends Component {
   componentDidMount () {

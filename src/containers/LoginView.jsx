@@ -5,7 +5,7 @@ import { Dimmer, Loader } from 'semantic-ui-react';
 import { login } from '../modules/actions/users';
 
 import LoginForm from '../components/LoginForm';
-import './LoginView.css';
+import './LoginView.scss';
 
 class LoginView extends Component {
   render () {

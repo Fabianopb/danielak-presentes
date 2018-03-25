@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Image, Icon } from 'semantic-ui-react';
 import { PropTypes } from 'prop-types';
 import _ from 'lodash';
-import styles from './ImageGallery.css';
+import styles from './ImageGallery.scss';
 
 class ImageGallery extends Component {
   state = {

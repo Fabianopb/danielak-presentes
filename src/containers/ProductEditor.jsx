@@ -7,7 +7,7 @@ import { Dimmer, Loader, Icon, Modal, Button, Header } from 'semantic-ui-react';
 
 import EditProductForm from '../components/EditProductForm';
 import { fetchProducts, upsertProduct, openDialog, closeDialog, deleteProduct, handleFileDrop, deleteImage } from '../modules/actions/products';
-import './ProductEditor.css';
+import './ProductEditor.scss';
 
 class ManageProductView extends Component {
   componentWillMount () {

@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { PropTypes } from 'prop-types';
 import { isSessionValid } from '../modules/actions/users';
 
-import './PublicRoute.css';
+import './PublicRoute.scss';
 
 class PublicRoute extends Component {
   render () {

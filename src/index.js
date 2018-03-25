@@ -16,7 +16,7 @@ import AdminView from './containers/AdminView';
 import LoginView from './containers/LoginView';
 import ProductEditor from './containers/ProductEditor';
 import 'semantic-ui-css/semantic.min.css';
-import './index.css';
+import './index.scss';
 
 const middleware = [thunk];
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;

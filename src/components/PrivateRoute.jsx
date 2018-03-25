@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { PropTypes } from 'prop-types';
 import { isSessionValid, logout } from '../modules/actions/users';
 
-import './PrivateRoute.css';
+import './PrivateRoute.scss';
 
 class PrivateRoute extends Component {
   render () {
