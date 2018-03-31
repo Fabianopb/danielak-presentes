@@ -5,7 +5,7 @@
   "proxy": "http://localhost:9000",
   "engines": {
     "node": "8.10.x",
-    "npm": "5.7.x"
+    "yarn": "1.x"
   },
   "dependencies": {
     "aws-sdk": "^2.91.0",
