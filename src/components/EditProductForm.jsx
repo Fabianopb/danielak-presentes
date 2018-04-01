@@ -5,7 +5,8 @@ import { Form, Segment, Button, Icon } from 'semantic-ui-react';
 import { Prompt } from 'react-router-dom';
 import Dropzone from 'react-dropzone';
 import _ from 'lodash';
-import { FormInput, FormTextArea, FormCheckbox } from '../components/FormComponents';
+import { FormInput, FormCheckbox } from '../components/FormComponents';
+import RichTextArea from '../components/RichTextArea';
 
 const validate = (values) => {
   if (!_.isEmpty(values)) {
@@ -13,7 +14,6 @@ const validate = (values) => {
     const requiredFields = [
       'name',
       'storeLink',
-      'description',
       'currentPrice',
       'productionTime',
       'minAmount',
@@ -27,11 +27,14 @@ const validate = (values) => {
         errors[field] = 'Campo obrigatório';
       }
     });
+    if (values.description.replace(/<(.|\n)*?>/g, '') === '') {
+      errors.description = 'Campo obrigatório';
+    }
     return errors;
   }
 };
 
-const EditProductForm = ({ handleSubmit, handleFileDrop, deleteImage, pristine, submitting, images }) => {
+const EditProductForm = ({ handleSubmit, handleFileDrop, deleteImage, pristine, submitting, images, touch }) => {
   const isSomeImageUploading = _.some(images, image => image === 'uploading');
   const hasDropzone = images && images.length < 5 && !isSomeImageUploading;
   return (
@@ -63,7 +66,7 @@ const EditProductForm = ({ handleSubmit, handleFileDrop, deleteImage, pristine, 
             </Dropzone>
           }
         </div>
-        <Field component={FormTextArea} formLabel='Descrição' placeholder='Descrição do produto' name='description' required />
+        <Field component={RichTextArea} formLabel='Preço' name='description' handleTouch={touch} required />
         <Form.Group widths='equal'>
           <Field component={FormInput}
             type='number'
@@ -120,6 +123,7 @@ EditProductForm.propTypes = {
   handleSubmit: PropTypes.func.isRequired,
   handleFileDrop: PropTypes.func.isRequired,
   deleteImage: PropTypes.func.isRequired,
+  touch: PropTypes.func.isRequired,
   pristine: PropTypes.bool.isRequired,
   submitting: PropTypes.bool.isRequired,
   images: PropTypes.array

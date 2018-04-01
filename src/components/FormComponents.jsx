@@ -1,12 +1,8 @@
 import React from 'react';
+import _ from 'lodash';
 import { Form, Input, TextArea, Checkbox } from 'semantic-ui-react';
 
-const hasErrored = (touched, errorMessage) => {
-  if (touched && errorMessage) {
-    return true;
-  }
-  return false;
-};
+const hasErrored = (touched, errorMessage) => (touched && !_.isUndefined(errorMessage));
 
 const FormInput = (field) => {
   const error = hasErrored(field.meta.touched, field.meta.error);

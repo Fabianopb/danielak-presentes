@@ -1,37 +1,42 @@
-import React, { Component } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import ReactQuill from 'react-quill';
+import _ from 'lodash';
 import 'react-quill/dist/quill.snow.css';
 import './RichTextArea.scss';
 
-class RichTextArea extends Component {
-  state = {
-    value: ''
-  };
+const hasErrored = (touched, errorMessage) => (touched && !_.isUndefined(errorMessage));
 
-  modules = {
-    toolbar: [
-      ['bold', 'italic', 'underline'],
-      [{'list': 'ordered'}, {'list': 'bullet'}, {'indent': '-1'}, {'indent': '+1'}]
-    ]
-  };
+const modules = {
+  toolbar: [
+    ['bold', 'italic', 'underline'],
+    [{'list': 'ordered'}, {'list': 'bullet'}, {'indent': '-1'}, {'indent': '+1'}]
+  ]
+};
 
-  handleChange = (value) => {
-    console.log(value);
-    this.setState({value});
-  };
-
-  render () {
-    return (
+const RichTextArea = ({meta, input, handleTouch, formLabel, required}) => {
+  const error = hasErrored(meta.touched, meta.error);
+  const { value, onChange } = input;
+  return (
+    <div className={`field quill-wrapper ${error && 'error'}`}>
+      <label className={`${required && 'required'}`}>{formLabel}</label>
       <ReactQuill
-        value={this.state.value}
-        modules={this.modules}
-        onChange={this.handleChange}
+        value={value}
+        modules={modules}
+        onChange={value => onChange(value)}
+        onFocus={() => handleTouch(input.name)}
       />
-    );
-  }
-}
+      <div className='error-message'>{error && <span>{meta.error}</span>}</div>
+    </div>
+  );
+};
 
 RichTextArea.propTypes = {
+  required: PropTypes.bool,
+  formLabel: PropTypes.string.isRequired,
+  meta: PropTypes.object.isRequired,
+  input: PropTypes.object.isRequired,
+  handleTouch: PropTypes.func.isRequired
 };
 
 export default RichTextArea;
