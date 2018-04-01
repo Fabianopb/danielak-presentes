@@ -66,7 +66,7 @@ const EditProductForm = ({ handleSubmit, handleFileDrop, deleteImage, pristine, 
             </Dropzone>
           }
         </div>
-        <Field component={RichTextArea} formLabel='Preço' name='description' handleTouch={touch} required />
+        <Field component={RichTextArea} formLabel='Descrição' name='description' handleTouch={touch} required />
         <Form.Group widths='equal'>
           <Field component={FormInput}
             type='number'
