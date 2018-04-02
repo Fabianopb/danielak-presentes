@@ -2,12 +2,12 @@ import React, { Component } from 'react';
 import { PropTypes } from 'prop-types';
 import { connect } from 'react-redux';
 import { Dimmer, Loader } from 'semantic-ui-react';
-import { login } from '../modules/actions/users';
+import { login } from '../../modules/actions/users';
 
-import LoginForm from '../components/LoginForm';
-import styles from './LoginView.module.scss';
+import LoginForm from '../../forms/Login/Login';
+import styles from './LoginPage.module.scss';
 
-class LoginView extends Component {
+class LoginPage extends Component {
   render () {
     const { isLogging } = this.props.users;
     return (
@@ -27,7 +27,7 @@ class LoginView extends Component {
   }
 }
 
-LoginView.propTypes = {
+LoginPage.propTypes = {
   users: PropTypes.object.isRequired,
   login: PropTypes.func.isRequired
 };
@@ -36,4 +36,4 @@ const mapStateToProps = (state) => ({
   users: state.users
 });
 
-export default connect(mapStateToProps, {login})(LoginView);
+export default connect(mapStateToProps, { login })(LoginPage);

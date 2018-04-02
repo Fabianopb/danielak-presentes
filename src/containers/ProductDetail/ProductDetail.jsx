@@ -2,15 +2,15 @@ import React, { Component } from 'react';
 import { PropTypes } from 'prop-types';
 import { connect } from 'react-redux';
 import { Dimmer, Loader, Button, Icon, Divider, Grid } from 'semantic-ui-react';
-import ImageGallery from '../components/ImageGallery';
-import { getProductDetails } from '../modules/actions/products';
-import { currencyFormat } from '../modules/helpers';
+import ImageGallery from '../../components/ImageGallery/ImageGallery';
+import { getProductDetail } from '../../modules/actions/products';
+import { currencyFormat } from '../../modules/helpers';
 
-import styles from './ProductDetails.module.scss';
+import styles from './ProductDetail.module.scss';
 
-class ProductDetails extends Component {
+class ProductDetail extends Component {
   componentDidMount () {
-    this.props.getProductDetails(this.props.match.params.id);
+    this.props.getProductDetail(this.props.match.params.id);
   }
 
   goToShop (url) {
@@ -71,8 +71,8 @@ class ProductDetails extends Component {
   }
 }
 
-ProductDetails.propTypes = {
-  getProductDetails: PropTypes.func.isRequired,
+ProductDetail.propTypes = {
+  getProductDetail: PropTypes.func.isRequired,
   match: PropTypes.object.isRequired,
   products: PropTypes.object.isRequired
 };
@@ -81,4 +81,4 @@ const mapStateToProps = (state) => ({
   products: state.products
 });
 
-export default connect(mapStateToProps, {getProductDetails})(ProductDetails);
+export default connect(mapStateToProps, {getProductDetail})(ProductDetail);

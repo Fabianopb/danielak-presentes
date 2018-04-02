@@ -2,11 +2,11 @@ import React, { Component } from 'react';
 import { Route, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { PropTypes } from 'prop-types';
-import { isSessionValid, logout } from '../modules/actions/users';
+import { isSessionValid, logout } from '../../modules/actions/users';
 
-import styles from './PrivateRoute.module.scss';
+import styles from './RoutePrivate.module.scss';
 
-class PrivateRoute extends Component {
+class RoutePrivate extends Component {
   render () {
     const { component: Component, ...rest } = this.props;
     return (
@@ -35,10 +35,10 @@ class PrivateRoute extends Component {
   }
 }
 
-PrivateRoute.propTypes = {
+RoutePrivate.propTypes = {
   component: PropTypes.func.isRequired,
   isSessionValid: PropTypes.func.isRequired,
   logout: PropTypes.func.isRequired
 };
 
-export default connect(null, {isSessionValid, logout})(PrivateRoute);
+export default connect(null, {isSessionValid, logout})(RoutePrivate);

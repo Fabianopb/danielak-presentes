@@ -27,8 +27,8 @@ class ImageGallery extends Component {
           { _.map(images, (image, index) => (
             <div key={index} className={styles.thumbnailBox}>
               { selectedImageIndex === index ? [
-                <Image className={styles.image} src={images[index].small} />,
-                <div className={styles.selectedOverlay}>
+                <Image key='image' className={styles.image} src={images[index].small} />,
+                <div key='overlay' className={styles.selectedOverlay}>
                   <Icon disabled name='search' size='large' />
                 </div>
               ] : (

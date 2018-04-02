@@ -3,11 +3,11 @@ import { Route } from 'react-router-dom';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { PropTypes } from 'prop-types';
-import { isSessionValid } from '../modules/actions/users';
+import { isSessionValid } from '../../modules/actions/users';
 
-import styles from './PublicRoute.module.scss';
+import styles from './RoutePublic.module.scss';
 
-class PublicRoute extends Component {
+class RoutePublic extends Component {
   render () {
     const { component: Component, ...rest } = this.props;
     return (
@@ -27,7 +27,7 @@ class PublicRoute extends Component {
   }
 }
 
-PublicRoute.propTypes = {
+RoutePublic.propTypes = {
   component: PropTypes.func.isRequired,
   isSessionValid: PropTypes.func.isRequired
 };
@@ -35,4 +35,4 @@ PublicRoute.propTypes = {
 const mapDispatchToProps = (dispatch) =>
   bindActionCreators({isSessionValid}, dispatch);
 
-export default connect(null, mapDispatchToProps)(PublicRoute);
+export default connect(null, mapDispatchToProps)(RoutePublic);

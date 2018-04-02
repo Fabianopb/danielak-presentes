@@ -8,13 +8,13 @@ import { reducer as formReducer } from 'redux-form';
 import history from './modules/history';
 import { productsReducer } from './modules/reducers/products';
 import { usersReducer } from './modules/reducers/users';
-import PublicRoute from './components/PublicRoute';
-import PrivateRoute from './components/PrivateRoute';
-import ProductsView from './containers/ProductsView';
-import ProductDetails from './containers/ProductDetails';
-import AdminView from './containers/AdminView';
-import LoginView from './containers/LoginView';
-import ProductEditor from './containers/ProductEditor';
+import RoutePublic from './components/RoutePublic/RoutePublic';
+import RoutePrivate from './components/RoutePrivate/RoutePrivate';
+import ProductGrid from './containers/ProductGrid/ProductGrid';
+import ProductDetail from './containers/ProductDetail/ProductDetail';
+import AdminMain from './containers/AdminMain/AdminMain';
+import LoginPage from './containers/LoginPage/LoginPage';
+import AdminProduct from './containers/AdminProduct/AdminProduct';
 import 'semantic-ui-css/semantic.min.css';
 import './index.scss';
 
@@ -36,11 +36,11 @@ ReactDOM.render(
   <Provider store={store}>
     <Router history={history}>
       <Switch>
-        <PublicRoute exact path='/' component={ProductsView} />
-        <PublicRoute exact path='/product/:id' component={ProductDetails} />
-        <PublicRoute exact path='/login' component={LoginView} />
-        <PrivateRoute exact path='/admin' component={AdminView} />
-        <PrivateRoute path='/admin/product/:id' component={ProductEditor} />
+        <RoutePublic exact path='/' component={ProductGrid} />
+        <RoutePublic exact path='/product/:id' component={ProductDetail} />
+        <RoutePublic exact path='/login' component={LoginPage} />
+        <RoutePrivate exact path='/admin' component={AdminMain} />
+        <RoutePrivate path='/admin/product/:id' component={AdminProduct} />
       </Switch>
     </Router>
   </Provider>,

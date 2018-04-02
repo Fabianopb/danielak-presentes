@@ -5,9 +5,9 @@ import { Form, Segment, Button, Icon } from 'semantic-ui-react';
 import { Prompt } from 'react-router-dom';
 import Dropzone from 'react-dropzone';
 import _ from 'lodash';
-import { FormInput, FormCheckbox } from '../components/FormComponents';
-import RichTextArea from '../components/RichTextArea';
-import styles from './EditProductForm.module.scss';
+import { FormInput, FormCheckbox } from '../../components/FormComponents/FormComponents';
+import RichTextArea from '../../components/RichTextArea/RichTextArea';
+import styles from './Product.module.scss';
 
 const validate = (values) => {
   if (!_.isEmpty(values)) {
@@ -35,7 +35,7 @@ const validate = (values) => {
   }
 };
 
-const EditProductForm = ({ handleSubmit, handleFileDrop, deleteImage, pristine, submitting, images, touch }) => {
+const Product = ({ handleSubmit, handleFileDrop, deleteImage, pristine, submitting, images, touch }) => {
   const isSomeImageUploading = _.some(images, image => image === 'uploading');
   const hasDropzone = images && images.length < 5 && !isSomeImageUploading;
   return (
@@ -120,7 +120,7 @@ const EditProductForm = ({ handleSubmit, handleFileDrop, deleteImage, pristine, 
   );
 };
 
-EditProductForm.propTypes = {
+Product.propTypes = {
   handleSubmit: PropTypes.func.isRequired,
   handleFileDrop: PropTypes.func.isRequired,
   deleteImage: PropTypes.func.isRequired,
@@ -130,4 +130,4 @@ EditProductForm.propTypes = {
   images: PropTypes.array
 };
 
-export default reduxForm({form: 'editProductForm', validate})(EditProductForm);
+export default reduxForm({form: 'editProductForm', validate})(Product);

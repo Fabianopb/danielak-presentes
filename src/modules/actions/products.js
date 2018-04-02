@@ -40,7 +40,7 @@ const _getImageNameFromUrl = (url) => {
 /* -------------------------- */
 /*           THUNKS           */
 /* -------------------------- */
-export const getProductDetails = (productId) => {
+export const getProductDetail = (productId) => {
   return async (dispatch, getState) => {
     try {
       dispatch(startRequest());
@@ -137,13 +137,13 @@ export const deleteImage = (imageObject) => {
   };
 };
 
-export const showProductDetails = (product) => {
+export const showProductDetail = (product) => {
   return (dispatch) => {
     _redirectTo(`/product/${product._id}`);
   };
 };
 
-export const showProductEditor = (productId) => {
+export const showAdminProduct = (productId) => {
   return (dispatch) => {
     _redirectTo(`/admin/product/${productId}`);
   };

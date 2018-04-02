@@ -2,12 +2,12 @@ import React, { Component } from 'react';
 import { PropTypes } from 'prop-types';
 import { connect } from 'react-redux';
 import { Dimmer, Loader, Divider, Grid, Image } from 'semantic-ui-react';
-import { fetchProducts, showProductDetails } from '../modules/actions/products';
-import { currencyFormat } from '../modules/helpers';
+import { fetchProducts, showProductDetail } from '../../modules/actions/products';
+import { currencyFormat } from '../../modules/helpers';
 
-import styles from './ProductsView.module.scss';
+import styles from './ProductGrid.module.scss';
 
-class ProductsView extends Component {
+class ProductGrid extends Component {
   componentDidMount () {
     this.props.fetchProducts();
   }
@@ -31,7 +31,7 @@ class ProductsView extends Component {
                 <div className={styles.imageContainer}>
                   <Image
                     src={product.image[product.featuredImageIndex].large}
-                    onClick={() => this.props.showProductDetails(product)}
+                    onClick={() => this.props.showProductDetail(product)}
                   />
                 </div>
                 <div className={styles.title}>
@@ -54,9 +54,9 @@ class ProductsView extends Component {
   }
 }
 
-ProductsView.propTypes = {
+ProductGrid.propTypes = {
   fetchProducts: PropTypes.func.isRequired,
-  showProductDetails: PropTypes.func.isRequired,
+  showProductDetail: PropTypes.func.isRequired,
   products: PropTypes.object.isRequired
 };
 
@@ -64,4 +64,4 @@ const mapStateToProps = (state) => ({
   products: state.products
 });
 
-export default connect(mapStateToProps, {fetchProducts, showProductDetails})(ProductsView);
+export default connect(mapStateToProps, {fetchProducts, showProductDetail})(ProductGrid);

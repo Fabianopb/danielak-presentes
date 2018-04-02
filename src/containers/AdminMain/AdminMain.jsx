@@ -3,18 +3,18 @@ import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { PropTypes } from 'prop-types';
 import { Table, Icon, Dimmer, Loader } from 'semantic-ui-react';
-import { fetchProducts, showProductEditor } from '../modules/actions/products';
+import { fetchProducts, showAdminProduct } from '../../modules/actions/products';
 
-import styles from './AdminView.module.scss';
+import styles from './AdminMain.module.scss';
 
-class AdminView extends Component {
+class AdminMain extends Component {
   componentDidMount () {
     this.props.fetchProducts();
   }
 
   render () {
     const { data, isFetching } = this.props.products;
-    const { showProductEditor } = this.props;
+    const { showAdminProduct } = this.props;
     return (
       <div>
         <h3>Lista de produtos</h3>
@@ -39,7 +39,7 @@ class AdminView extends Component {
               </Table.Header>
               <Table.Body>
                 {data.map((product) => (
-                  <Table.Row key={product._id} onClick={() => showProductEditor(product._id)}>
+                  <Table.Row key={product._id} onClick={() => showAdminProduct(product._id)}>
                     <Table.Cell className={styles.nameRow}>
                       <div className={styles.thumbnailContainer}>
                         <img className={styles.thumbnail} src={product.image[product.featuredImageIndex].small} alt='N/A' />
@@ -60,14 +60,14 @@ class AdminView extends Component {
   }
 }
 
-AdminView.propTypes = {
+AdminMain.propTypes = {
   products: PropTypes.object.isRequired,
   fetchProducts: PropTypes.func.isRequired,
-  showProductEditor: PropTypes.func.isRequired
+  showAdminProduct: PropTypes.func.isRequired
 };
 
 const mapStateToProps = (state) => ({
   products: state.products
 });
 
-export default connect(mapStateToProps, {fetchProducts, showProductEditor})(AdminView);
+export default connect(mapStateToProps, {fetchProducts, showAdminProduct})(AdminMain);

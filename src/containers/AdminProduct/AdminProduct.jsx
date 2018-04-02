@@ -5,9 +5,18 @@ import { connect } from 'react-redux';
 import { formValueSelector } from 'redux-form';
 import { Dimmer, Loader, Icon, Modal, Button, Header } from 'semantic-ui-react';
 
-import EditProductForm from '../components/EditProductForm';
-import { fetchProducts, upsertProduct, openDialog, closeDialog, deleteProduct, handleFileDrop, deleteImage } from '../modules/actions/products';
-import styles from './ProductEditor.module.scss';
+import ProductForm from '../../forms/Product/Product';
+import {
+  fetchProducts,
+  upsertProduct,
+  openDialog,
+  closeDialog,
+  deleteProduct,
+  handleFileDrop,
+  deleteImage
+} from '../../modules/actions/products';
+
+import styles from './AdminProduct.module.scss';
 
 class ManageProductView extends Component {
   componentWillMount () {
@@ -40,7 +49,7 @@ class ManageProductView extends Component {
             <Loader />
           </Dimmer>
         ) : (
-          <EditProductForm
+          <ProductForm
             images={images}
             handleFileDrop={handleFileDrop}
             deleteImage={deleteImage}
