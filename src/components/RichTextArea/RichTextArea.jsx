@@ -24,7 +24,7 @@ const RichTextArea = ({meta, input, handleTouch, formLabel, required}) => {
         value={value}
         modules={modules}
         onChange={value => onChange(value)}
-        onFocus={() => handleTouch(input.name)}
+        onBlur={() => handleTouch(input.name)}
       />
       <div className={styles.errorMessage}>{error && <span>{meta.error}</span>}</div>
     </div>
