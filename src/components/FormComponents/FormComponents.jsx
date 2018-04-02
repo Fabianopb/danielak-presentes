@@ -1,6 +1,7 @@
 import React from 'react';
 import _ from 'lodash';
 import { Form, Input, TextArea, Checkbox } from 'semantic-ui-react';
+import styles from './FormComponents.module.scss';
 
 const hasErrored = (touched, errorMessage) => (touched && !_.isUndefined(errorMessage));
 
@@ -15,7 +16,7 @@ const FormInput = (field) => {
         {...field.input}
         type={field.type}
         placeholder={field.placeholder} />
-      <div className='error-message'>{error && <span>{field.meta.error}</span>}</div>
+      <div className={styles.errorMessage}>{error && <span>{field.meta.error}</span>}</div>
     </Form.Field>
   );
 };
@@ -26,7 +27,7 @@ const FormTextArea = (field) => {
     <Form.Field error={error} required={field.required} >
       <label>{field.formLabel}</label>
       <TextArea {...field.input} type={field.type} placeholder={field.placeholder} />
-      <div className='error-message'>{error && <span>{field.meta.error}</span>}</div>
+      <div className={styles.errorMessage}>{error && <span>{field.meta.error}</span>}</div>
     </Form.Field>
   );
 };
