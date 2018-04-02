@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Route, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { PropTypes } from 'prop-types';
-import { isSessionValid, logout } from '../../modules/actions/users';
+import { isSessionValid, logout } from '../../actions/users';
 
 import styles from './RoutePrivate.module.scss';
 

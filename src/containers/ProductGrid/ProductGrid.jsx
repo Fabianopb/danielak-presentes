@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { PropTypes } from 'prop-types';
 import { connect } from 'react-redux';
 import { Dimmer, Loader, Divider, Grid, Image } from 'semantic-ui-react';
-import { fetchProducts, showProductDetail } from '../../modules/actions/products';
+import { fetchProducts, showProductDetail } from '../../actions/products';
 import { currencyFormat } from '../../modules/helpers';
 
 import styles from './ProductGrid.module.scss';

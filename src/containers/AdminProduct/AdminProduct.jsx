@@ -14,7 +14,7 @@ import {
   deleteProduct,
   handleFileDrop,
   deleteImage
-} from '../../modules/actions/products';
+} from '../../actions/products';
 
 import styles from './AdminProduct.module.scss';
 

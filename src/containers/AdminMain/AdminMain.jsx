@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { PropTypes } from 'prop-types';
 import { Table, Icon, Dimmer, Loader } from 'semantic-ui-react';
-import { fetchProducts, showAdminProduct } from '../../modules/actions/products';
+import { fetchProducts, showAdminProduct } from '../../actions/products';
 
 import styles from './AdminMain.module.scss';
 

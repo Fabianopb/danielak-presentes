@@ -1,6 +1,6 @@
 import axios from 'axios';
 import moment from 'moment';
-import history from '../history';
+import history from '../modules/history';
 
 /* -------------------------- */
 /*           ACTIONS          */

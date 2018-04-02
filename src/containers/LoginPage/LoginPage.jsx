@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { PropTypes } from 'prop-types';
 import { connect } from 'react-redux';
 import { Dimmer, Loader } from 'semantic-ui-react';
-import { login } from '../../modules/actions/users';
+import { login } from '../../actions/users';
 
 import LoginForm from '../../forms/Login/Login';
 import styles from './LoginPage.module.scss';

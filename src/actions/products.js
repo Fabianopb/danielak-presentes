@@ -1,6 +1,6 @@
 import axios from 'axios';
 import _ from 'lodash';
-import history from '../history';
+import history from '../modules/history';
 import { initialize, change } from 'redux-form';
 
 /* -------------------------- */

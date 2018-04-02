@@ -3,7 +3,7 @@ import { PropTypes } from 'prop-types';
 import { connect } from 'react-redux';
 import { Dimmer, Loader, Button, Icon, Divider, Grid } from 'semantic-ui-react';
 import ImageGallery from '../../components/ImageGallery/ImageGallery';
-import { getProductDetail } from '../../modules/actions/products';
+import { getProductDetail } from '../../actions/products';
 import { currencyFormat } from '../../modules/helpers';
 
 import styles from './ProductDetail.module.scss';
