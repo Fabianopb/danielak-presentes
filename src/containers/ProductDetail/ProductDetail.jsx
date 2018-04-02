@@ -48,16 +48,16 @@ class ProductDetail extends Component {
                         <Icon name='shop' />
                         Ver na minha lojinha
                       </Button>
-                      <div className={styles.description} dangerouslySetInnerHTML={{__html: activeProduct.description}} />
+                      <h3>Detalhes do produto e entrega</h3>
+                      <div>Peso: {activeProduct.weight} g</div>
+                      <div>Dimensões: {activeProduct.width} (C) x {activeProduct.depth} (L) x {activeProduct.height} (A)</div>
+                      <div>Quantidade mínima do pedido: {activeProduct.minAmount}</div>
+                      <div>Tempo esperado para produção: {activeProduct.productionTime} dias úteis.</div>
                     </div>
                   </Grid.Column>
                 </Grid>
                 <Divider />
-                <h3>Detalhes do produto e entrega</h3>
-                <div>Peso: {activeProduct.weight} g</div>
-                <div>Dimensões: {activeProduct.width} (C) x {activeProduct.depth} (L) x {activeProduct.height} (A)</div>
-                <div>Quantidade mínima do pedido: {activeProduct.minAmount}</div>
-                <div>Tempo esperado para produção: {activeProduct.productionTime} dias úteis.</div>
+                <div className={styles.description} dangerouslySetInnerHTML={{__html: activeProduct.description}} />
               </div>
             ) : (
               <div>Produto não encontrado</div>
