@@ -57,7 +57,7 @@ class ProductDetail extends Component {
                 <div>Peso: {activeProduct.weight} g</div>
                 <div>Dimensões: {activeProduct.width} (C) x {activeProduct.depth} (L) x {activeProduct.height} (A)</div>
                 <div>Quantidade mínima do pedido: {activeProduct.minAmount}</div>
-                <div>Tempo esperado para produção: {activeProduct.productionTime}</div>
+                <div>Tempo esperado para produção: {activeProduct.productionTime} dias úteis.</div>
               </div>
             ) : (
               <div>Produto não encontrado</div>
