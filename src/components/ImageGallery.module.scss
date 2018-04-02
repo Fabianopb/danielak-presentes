@@ -1,0 +1,32 @@
+@import '../assets/colors';
+
+.image {
+  padding: 16px;
+}
+
+.thumbnailsContainer {
+  display: flex;
+  flex-wrap: wrap;
+
+  .thumbnailBox {
+    position: relative;
+
+    .selectedOverlay {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: absolute;
+      top: 16px;
+      left: 16px;
+      width: 100px;
+      height: 100px;
+      background-color: $brilliant-white;
+      opacity: 0.75;
+    }
+
+    .selectable {
+      cursor: pointer;
+      padding: 16px;
+    }
+  }
+}

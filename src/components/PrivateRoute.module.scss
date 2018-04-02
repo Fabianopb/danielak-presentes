@@ -1,0 +1,25 @@
+@import '../assets/colors';
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  padding: 12px;
+  background-color: $cadillac;
+  color: #FFF;
+  height: 50px;
+
+  .actions {
+    display: flex;
+
+    .logout {
+      cursor: pointer;
+    }
+
+    .homeLink {
+      color: $brilliant-white;
+    }
+  }
+}
+.routeLayout {
+  padding: 16px;
+}

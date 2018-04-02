@@ -7,7 +7,7 @@ import { Dimmer, Loader, Icon, Modal, Button, Header } from 'semantic-ui-react';
 
 import EditProductForm from '../components/EditProductForm';
 import { fetchProducts, upsertProduct, openDialog, closeDialog, deleteProduct, handleFileDrop, deleteImage } from '../modules/actions/products';
-import './ProductEditor.scss';
+import styles from './ProductEditor.module.scss';
 
 class ManageProductView extends Component {
   componentWillMount () {
@@ -25,8 +25,8 @@ class ManageProductView extends Component {
     const { isFetching, activeProduct, isDialogOpen, openDialog, closeDialog,
       deleteProduct, images, handleFileDrop, deleteImage } = this.props;
     return (
-      <div className='product-editor'>
-        <div className='add-product-header'>
+      <div>
+        <div className={styles.addProductHeader}>
           <h3>Adicionar produto</h3>
           <Link to='#'>
             <Button icon labelPosition='right' color='red' onClick={() => openDialog(activeProduct)}>
@@ -47,16 +47,16 @@ class ManageProductView extends Component {
             onSubmit={this.submitProduct}
           />
         )}
-        <Modal open={isDialogOpen} onClose={closeDialog} basic size='small'>
+        <Modal open={isDialogOpen} onClose={closeDialog} size='small'>
           <Header icon='trash' content='Apagar produto' />
           <Modal.Content>
             <p>Tem certeza que deseja apagar o produto <em>{activeProduct && activeProduct.name}</em>?</p>
           </Modal.Content>
           <Modal.Actions>
-            <Button basic color='red' inverted onClick={closeDialog} >
+            <Button basic color='red' onClick={closeDialog} >
               <Icon name='remove' /> No
             </Button>
-            <Button color='green' inverted onClick={() => deleteProduct(activeProduct._id)} >
+            <Button color='green' onClick={() => deleteProduct(activeProduct._id)} >
               <Icon name='checkmark' /> Yes
             </Button>
           </Modal.Actions>

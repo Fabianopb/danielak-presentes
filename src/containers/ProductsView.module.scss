@@ -1,16 +1,16 @@
 @import '../assets/colors';
 
-.products-view {
+.productsView {
   padding: 20px;
 
-  .product-cell {
+  .productCell {
     width: 280px;
     margin: 16px;
     padding: 8px;
     border: 1px solid $brilliant-white;
     box-shadow: 1px 1px 2px 0px $silver;
 
-    .image-container {
+    .imageContainer {
       height: 240px;
       overflow: hidden;
       padding: 0 !important;
@@ -25,12 +25,12 @@
       text-align: center;
     }
 
-    .current-price {
+    .currentPrice {
       font-size: 1.3rem;
       text-align: right;
       color: $very-berry;
 
-      .disabled-price {
+      .disabledPrice {
         margin-right: 8px;
         color: $silver;
         text-decoration: line-through;

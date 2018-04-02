@@ -5,7 +5,7 @@ import { PropTypes } from 'prop-types';
 import { Table, Icon, Dimmer, Loader } from 'semantic-ui-react';
 import { fetchProducts, showProductEditor } from '../modules/actions/products';
 
-import './AdminView.scss';
+import styles from './AdminView.module.scss';
 
 class AdminView extends Component {
   componentDidMount () {
@@ -16,15 +16,15 @@ class AdminView extends Component {
     const { data, isFetching } = this.props.products;
     const { showProductEditor } = this.props;
     return (
-      <div className='admin-view'>
+      <div>
         <h3>Lista de produtos</h3>
-        <div className='add-product'>
+        <div className={styles.addProduct}>
           <Link to='/admin/product/new'>
             <div>Adicionar Produto</div>
             <Icon name='plus' />
           </Link>
         </div>
-        <div className='product-list'>
+        <div className={styles.productList}>
           {isFetching ? (
             <Dimmer active inverted>
               <Loader />
@@ -40,11 +40,11 @@ class AdminView extends Component {
               <Table.Body>
                 {data.map((product) => (
                   <Table.Row key={product._id} onClick={() => showProductEditor(product._id)}>
-                    <Table.Cell className='name-row'>
-                      <div className='thumbnail-container'>
-                        <img className='thumbnail' src={product.image[product.featuredImageIndex].small} alt='N/A' />
+                    <Table.Cell className={styles.nameRow}>
+                      <div className={styles.thumbnailContainer}>
+                        <img className={styles.thumbnail} src={product.image[product.featuredImageIndex].small} alt='N/A' />
                       </div>
-                      <div className='product-name'>{ product.name }</div>
+                      <div className={styles.productName}>{ product.name }</div>
                     </Table.Cell>
                     <Table.Cell>
                       { product.currentPrice }

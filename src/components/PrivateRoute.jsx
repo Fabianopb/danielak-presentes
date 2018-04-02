@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { PropTypes } from 'prop-types';
 import { isSessionValid, logout } from '../modules/actions/users';
 
-import './PrivateRoute.scss';
+import styles from './PrivateRoute.module.scss';
 
 class PrivateRoute extends Component {
   render () {
@@ -12,16 +12,16 @@ class PrivateRoute extends Component {
     return (
       <Route {...rest} render={props =>
         this.props.isSessionValid() ? (
-          <div className='private-route'>
-            <div className='header'>
+          <div>
+            <div className={styles.header}>
               <div>Danik - Admin View</div>
-              <div className='actions'>
-                <div className='logout' onClick={this.props.logout}>Logout</div>
+              <div className={styles.actions}>
+                <div className={styles.logout} onClick={this.props.logout}>Logout</div>
                 <div>&nbsp;&nbsp;/&nbsp;&nbsp;</div>
-                <a className='home-link' href='/' target='_blank'>Ver site</a>
+                <a className={styles.homeLink} href='/' target='_blank'>Ver site</a>
               </div>
             </div>
-            <div className='route-layout'>
+            <div className={styles.routeLayout}>
               <Component {...props} />
             </div>
           </div>

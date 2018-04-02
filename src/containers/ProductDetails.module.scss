@@ -1,13 +1,9 @@
 @import '../assets/colors';
 
-.product-details {
+.productDetails {
   padding: 20px;
 
-  .ui.image {
-    padding: 16px;
-  }
-
-  .description-container {
+  .descriptionContainer {
     padding: 16px;
 
     .title {
@@ -20,26 +16,12 @@
       font-size: 1.6rem;
       color: $very-berry;
 
-      .disabled-price {
+      .disabledPrice {
         margin-right: 8px;
         color: $silver;
         text-decoration: line-through;
         font-size: 1.4rem;
       }
-    }
-
-    .ui.button {
-      background-color: $very-berry;
-      color: $brilliant-white;
-      margin-bottom: 16px;
-    }
-
-    .ui.button:hover {
-      background-color: darken($very-berry, 10%);
-    }
-
-    .ui.button:active {
-      background-color: darken($very-berry, 20%);
     }
 
     .description {

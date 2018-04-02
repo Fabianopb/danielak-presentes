@@ -4,6 +4,7 @@ import { Field, reduxForm } from 'redux-form';
 import { Form } from 'semantic-ui-react';
 
 import { FormInput } from '../components/FormComponents';
+import styles from './LoginForm.module.scss';
 
 const validate = (values) => {
   const errors = {};
@@ -23,7 +24,7 @@ class LoginForm extends Component {
   render () {
     const { handleSubmit, pristine, submitting } = this.props;
     return (
-      <div className='login-form'>
+      <div className={styles.loginForm}>
         <Form onSubmit={handleSubmit} >
           <Field component={FormInput} formLabel='e-mail' placeholder='e-mail' name='email' required />
           <Field component={FormInput} formLabel='password' type='password' placeholder='password' name='password' required />

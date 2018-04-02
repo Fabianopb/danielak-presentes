@@ -6,7 +6,7 @@ import ImageGallery from '../components/ImageGallery';
 import { getProductDetails } from '../modules/actions/products';
 import { currencyFormat } from '../modules/helpers';
 
-import './ProductDetails.scss';
+import styles from './ProductDetails.module.scss';
 
 class ProductDetails extends Component {
   componentDidMount () {
@@ -20,7 +20,7 @@ class ProductDetails extends Component {
   render () {
     const {isFetching, activeProduct} = this.props.products;
     return (
-      <Grid className='product-details'>
+      <Grid className={styles.productDetails}>
         <Grid.Column width={2} only='computer' />
         <Grid.Column width={1} only='widescreen' />
         { isFetching ? (
@@ -36,19 +36,19 @@ class ProductDetails extends Component {
                     <ImageGallery images={activeProduct.image} selectedIndex={activeProduct.featuredImageIndex} />
                   </Grid.Column>
                   <Grid.Column>
-                    <div className='description-container flex-column cross-axis-baseline'>
-                      <div className='title'>{activeProduct.name}</div>
-                      <div className='price'>
-                        <span className={activeProduct.discountPrice && 'disabled-price'}>
+                    <div className={`${styles.descriptionContainer} flex-column cross-axis-baseline`}>
+                      <div className={styles.title}>{activeProduct.name}</div>
+                      <div className={styles.price}>
+                        <span className={activeProduct.discountPrice && styles.disabledPrice}>
                           { currencyFormat(activeProduct.currentPrice) }
                         </span>
                         { activeProduct.discountPrice && currencyFormat(activeProduct.discountPrice) }
                       </div>
-                      <Button icon labelPosition='left' onClick={() => this.goToShop(activeProduct.storeLink)}>
+                      <Button primary icon labelPosition='left' onClick={() => this.goToShop(activeProduct.storeLink)}>
                         <Icon name='shop' />
                         Ver na minha lojinha
                       </Button>
-                      <div className='description' dangerouslySetInnerHTML={{__html: activeProduct.description}} />
+                      <div className={styles.description} dangerouslySetInnerHTML={{__html: activeProduct.description}} />
                     </div>
                   </Grid.Column>
                 </Grid>

@@ -7,6 +7,7 @@ import Dropzone from 'react-dropzone';
 import _ from 'lodash';
 import { FormInput, FormCheckbox } from '../components/FormComponents';
 import RichTextArea from '../components/RichTextArea';
+import styles from './EditProductForm.module.scss';
 
 const validate = (values) => {
   if (!_.isEmpty(values)) {
@@ -38,31 +39,31 @@ const EditProductForm = ({ handleSubmit, handleFileDrop, deleteImage, pristine, 
   const isSomeImageUploading = _.some(images, image => image === 'uploading');
   const hasDropzone = images && images.length < 5 && !isSomeImageUploading;
   return (
-    <div className='product-form'>
+    <div className={styles.productForm}>
       <Form onSubmit={handleSubmit} >
         <Form.Group widths='equal'>
           <Field component={FormInput} formLabel='Nome do produto' placeholder='Nome do produto' name='name' required />
           <Field component={FormInput} formLabel='Link da loja' placeholder='Link da loja' name='storeLink' required />
         </Form.Group>
-        <div className='dropzone-area'>
+        <div className={styles.dropzoneArea}>
           { images && _.map(images, (image, index) => (
-            <div key={index} className='preview-container'>
+            <div key={index} className={styles.previewContainer}>
               { image === 'uploading'
-                ? <Segment loading />
+                ? <Segment className={styles.loading} loading />
                 : <div>
-                  <Button className='delete-button' icon color='red' onClick={() => deleteImage(image)}>
+                  <Button className={styles.deleteButton} icon color='red' onClick={() => deleteImage(image)}>
                     <Icon name='delete' />
                   </Button>
-                  <img className='image-preview' src={image.small} alt={image.small} />
+                  <img className={styles.imagePreview} src={image.small} alt={image.small} />
                 </div>
               }
             </div>
           ))}
           { hasDropzone &&
             <Dropzone
-              className='file-drop'
+              className={styles.fileDrop}
               onDrop={handleFileDrop} >
-              <div className='file-drop-text'>Faça upload da imagem aqui</div>
+              <div className={styles.fileDropText}>Faça upload da imagem aqui</div>
             </Dropzone>
           }
         </div>

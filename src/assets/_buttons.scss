@@ -1,0 +1,15 @@
+.ui {
+  .primary.button {
+    background-color: $very-berry;
+    color: $brilliant-white;
+    margin-bottom: 16px;
+  }
+
+  .ui.primary.button:hover {
+    background-color: darken($very-berry, 10%);
+  }
+
+  .ui.primary.button:active, .ui.primary.button:focus {
+    background-color: darken($very-berry, 20%);
+  }
+}

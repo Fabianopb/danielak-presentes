@@ -5,7 +5,7 @@ import { Dimmer, Loader, Divider, Grid, Image } from 'semantic-ui-react';
 import { fetchProducts, showProductDetails } from '../modules/actions/products';
 import { currencyFormat } from '../modules/helpers';
 
-import './ProductsView.scss';
+import styles from './ProductsView.module.scss';
 
 class ProductsView extends Component {
   componentDidMount () {
@@ -15,7 +15,7 @@ class ProductsView extends Component {
   render () {
     const {isFetching, data} = this.props.products;
     return (
-      <Grid className='products-view'>
+      <Grid className={styles.productsView}>
         <Grid.Column width={2} only='computer' />
         <Grid.Column width={1} only='widescreen' />
         <Grid.Column computer={12} widescreen={10} width={16}>
@@ -27,18 +27,18 @@ class ProductsView extends Component {
                 <Loader />
               </Dimmer>
             ) : data.map(product => (
-              <div className='product-cell' key={product._id}>
-                <div className='image-container'>
+              <div className={styles.productCell} key={product._id}>
+                <div className={styles.imageContainer}>
                   <Image
                     src={product.image[product.featuredImageIndex].large}
                     onClick={() => this.props.showProductDetails(product)}
                   />
                 </div>
-                <div className='title'>
+                <div className={styles.title}>
                   {product.name}
                 </div>
-                <div className='current-price'>
-                  <span className={product.discountPrice && 'disabled-price'}>
+                <div className={styles.currentPrice}>
+                  <span className={product.discountPrice && styles.disabledPrice}>
                     { currencyFormat(product.currentPrice) }
                   </span>
                   { product.discountPrice && currencyFormat(product.discountPrice) }

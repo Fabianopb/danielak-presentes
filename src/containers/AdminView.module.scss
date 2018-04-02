@@ -1,0 +1,26 @@
+.addProduct {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.productList {
+
+  .nameRow {
+    display: flex;
+    align-items: center;
+
+    .thumbnailContainer {
+      width: 40px;
+      overflow: hidden;
+
+      .thumbnail {
+        height: 40px;
+      }
+    }
+
+    .productName {
+      margin-left: 20px;
+    }
+  }
+}
