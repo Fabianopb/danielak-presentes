@@ -38,9 +38,19 @@ router.route('/upload-file')
         const filePath = files.file[0].path;
         const largeFileBuffer = fs.readFileSync(filePath);
         const type = fileType(largeFileBuffer);
+        if (!type) {
+          throw new Error('Formato de arquivo inválido');
+        }
         const timestamp = Date.now().toString();
         const largeFileName = `products/${timestamp}-lg`;
-        const smallFileBuffer = await sharp(filePath).resize(100).toBuffer();
+        const metadata = await sharp(filePath).metadata();
+        if (!/^(jpg|jpeg|png)$/.test(metadata.format)) {
+          throw new Error('Formato de arquivo inválido');
+        }
+        if (metadata.width < 580 || metadata.height < 580) {
+          throw new Error('Altura ou largura menor que 580 pixels');
+        }
+        const smallFileBuffer = await sharp(filePath).resize(140).toBuffer();
         const smallFileName = `products/${timestamp}-sm`;
         const data = await bluebird.all([
           uploadFile(largeFileBuffer, largeFileName, type),
@@ -48,7 +58,7 @@ router.route('/upload-file')
         ]);
         return response.status(200).send(data);
       } catch (error) {
-        throw response.status(400).send(error);
+        return response.status(400).send(error);
       }
     });
   });
