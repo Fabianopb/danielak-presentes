@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Field, reduxForm } from 'redux-form';
-import { Form, Segment, Button, Icon } from 'semantic-ui-react';
+import { Form, Segment, Button, Icon, Popup } from 'semantic-ui-react';
 import { Prompt } from 'react-router-dom';
 import Dropzone from 'react-dropzone';
 import _ from 'lodash';
@@ -45,6 +45,14 @@ const Product = ({ handleSubmit, handleFileDrop, deleteImage, pristine, submitti
           <Field component={FormInput} formLabel='Nome do produto' placeholder='Nome do produto' name='name' required />
           <Field component={FormInput} formLabel='Link da loja' placeholder='Link da loja' name='storeLink' required />
         </Form.Group>
+        <div className='ui form field inline'>
+          <label>Upload de imagens</label>
+          <Popup
+            trigger={<Icon name='question' circular />}
+            content='Altura e largura devem ser maiores que 580px'
+            position='top left'
+          />
+        </div>
         <div className={styles.dropzoneArea}>
           { images && _.map(images, (image, index) => (
             <div key={index} className={styles.previewContainer}>

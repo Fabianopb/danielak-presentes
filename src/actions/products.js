@@ -167,7 +167,7 @@ export const handleFileDrop = (files) => {
       dispatch(change('editProductForm', 'image', images));
       // TODO: could dispatch a success notification
     } catch (error) {
-      console.log(error.response);
+      console.log(error.response.data.error);
       // TODO: could dispatch an error notification
       const images = _.cloneDeep(getState().form.editProductForm.values.image);
       const originalImages = _.slice(images, 0, -1);
