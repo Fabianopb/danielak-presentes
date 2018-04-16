@@ -2,6 +2,7 @@ import axios from 'axios';
 import _ from 'lodash';
 import history from '../modules/history';
 import { initialize, change } from 'redux-form';
+import Notifications from 'react-notification-system-redux';
 
 /* -------------------------- */
 /*           ACTIONS          */
@@ -149,6 +150,11 @@ export const showAdminProduct = (productId) => {
   };
 };
 
+const notificationOpts = {
+  position: 'tc',
+  autoDismiss: 5
+};
+
 export const handleFileDrop = (files) => {
   return async (dispatch, getState) => {
     try {
@@ -167,12 +173,12 @@ export const handleFileDrop = (files) => {
       dispatch(change('editProductForm', 'image', images));
       // TODO: could dispatch a success notification
     } catch (error) {
-      console.log(error.response.data.error);
-      // TODO: could dispatch an error notification
       const images = _.cloneDeep(getState().form.editProductForm.values.image);
       const originalImages = _.slice(images, 0, -1);
       dispatch(change('editProductForm', 'image', originalImages));
-      dispatch(errorRequest(error));
+      dispatch(errorRequest(error.response.data.error));
+      notificationOpts.title = getState().products.error;
+      dispatch(Notifications.error(notificationOpts));
     }
   };
 };
