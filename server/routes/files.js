@@ -58,7 +58,6 @@ router.route('/upload-file')
         ]);
         return response.status(200).send(data);
       } catch (error) {
-        // return response.status(400).send(error);
         return response.status(500).json({ error: error.toString() });
       }
     });
