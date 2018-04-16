@@ -15,10 +15,6 @@ class NotificationsManager extends React.Component {
   }
 }
 
-// NotificationsManager.contextTypes = {
-//   store: PropTypes.object
-// };
-
 NotificationsManager.propTypes = {
   notifications: PropTypes.array
 };
