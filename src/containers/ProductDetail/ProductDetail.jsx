@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { PropTypes } from 'prop-types';
 import { connect } from 'react-redux';
-import { Dimmer, Loader, Button, Icon, Divider, Grid } from 'semantic-ui-react';
+import { Dimmer, Loader, Button, Icon, Grid } from 'semantic-ui-react';
 import ImageGallery from '../../components/ImageGallery/ImageGallery';
 import { getProductDetail } from '../../actions/products';
 import { currencyFormat } from '../../modules/helpers';
@@ -32,11 +32,11 @@ class ProductDetail extends Component {
             { activeProduct ? (
               <div>
                 <Grid stackable columns={2}>
-                  <Grid.Column>
+                  <Grid.Column className={styles.frame}>
                     <ImageGallery images={activeProduct.image} selectedIndex={activeProduct.featuredImageIndex} />
                   </Grid.Column>
-                  <Grid.Column>
-                    <div className={`${styles.descriptionContainer} flex-column cross-axis-baseline`}>
+                  <Grid.Column className={styles.frame}>
+                    <div className={`${styles.detailsContainer} flex-column cross-axis-baseline`}>
                       <div className={styles.title}>{activeProduct.name}</div>
                       <div className={styles.price}>
                         <span className={activeProduct.discountPrice && styles.disabledPrice}>
@@ -56,8 +56,11 @@ class ProductDetail extends Component {
                     </div>
                   </Grid.Column>
                 </Grid>
-                <Divider />
-                <div className={styles.description} dangerouslySetInnerHTML={{__html: activeProduct.description}} />
+                <Grid>
+                  <Grid.Column className={styles.description}>
+                    <div dangerouslySetInnerHTML={{__html: activeProduct.description}} />
+                  </Grid.Column>
+                </Grid>
               </div>
             ) : (
               <div>Produto não encontrado</div>

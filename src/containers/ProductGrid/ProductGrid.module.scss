@@ -8,7 +8,7 @@
     margin: 16px;
     padding: 8px;
     border: 1px solid $brilliant-white;
-    box-shadow: 1px 1px 2px 0px $silver;
+    box-shadow: $box-shadow;
 
     .imageContainer {
       height: 240px;
