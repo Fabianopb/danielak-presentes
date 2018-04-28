@@ -27,12 +27,9 @@ class ProductGrid extends Component {
                 <Loader />
               </Dimmer>
             ) : data.map(product => (
-              <div className={styles.productCell} key={product._id}>
+              <div className={styles.productCell} key={product._id} onClick={() => this.props.showProductDetail(product)}>
                 <div className={styles.imageContainer}>
-                  <Image
-                    src={product.image[product.featuredImageIndex].large}
-                    onClick={() => this.props.showProductDetail(product)}
-                  />
+                  <Image src={product.image[product.featuredImageIndex].large} />
                 </div>
                 <div className={styles.title}>
                   {product.name}
