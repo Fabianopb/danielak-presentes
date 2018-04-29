@@ -39,7 +39,7 @@ class ManageProductView extends Component {
           <h3>Adicionar produto</h3>
           <Link to='#'>
             <Button icon labelPosition='right' color='red' onClick={() => openDialog(activeProduct)}>
-              Deletar
+              Remover
               <Icon name='trash' />
             </Button>
           </Link>

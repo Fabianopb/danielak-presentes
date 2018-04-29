@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { PropTypes } from 'prop-types';
-import { Table, Icon, Dimmer, Loader } from 'semantic-ui-react';
+import { Table, Icon, Dimmer, Loader, Button, Divider } from 'semantic-ui-react';
 import { fetchProducts, showAdminProduct } from '../../actions/products';
 import { fetchCategories } from '../../actions/categories';
 
@@ -20,11 +20,13 @@ class AdminMain extends Component {
     const { showAdminProduct } = this.props;
     return (
       <div>
-        <h3>Lista de produtos</h3>
-        <div className={styles.addProduct}>
+        <div className={styles.mgmtHeader}>
+          <h2>Lista de produtos</h2>
           <Link to='/admin/product/new'>
-            <div>Adicionar Produto</div>
-            <Icon name='plus' />
+            <Button basic icon labelPosition='right' color='blue'>
+              Adicionar Produto
+              <Icon name='plus' />
+            </Button>
           </Link>
         </div>
         <div className={styles.productList}>
@@ -58,16 +60,38 @@ class AdminMain extends Component {
             </Table>
           )}
         </div>
-        <h3>Lista de categorias</h3>
+        <Divider />
+        <div className={styles.mgmtHeader}>
+          <h2>Lista de categorias</h2>
+          <Link to='#'>
+            <Button basic icon labelPosition='right' color='blue'>
+              Adicionar Categoria
+              <Icon name='plus' />
+            </Button>
+          </Link>
+        </div>
         <div className={styles.productList}>
           {catIsFetching ? (
             <Dimmer active inverted>
               <Loader />
             </Dimmer>
           ) : (
-            <div>
-              {catData.map(cat => <div key={cat._id}>{cat.name}</div>)}
-            </div>
+            <Table singleLine selectable>
+              <Table.Header>
+                <Table.Row>
+                  <Table.HeaderCell>Categoria</Table.HeaderCell>
+                  <Table.HeaderCell>Descrição</Table.HeaderCell>
+                </Table.Row>
+              </Table.Header>
+              <Table.Body>
+                {catData.map((category) => (
+                  <Table.Row key={category._id}>
+                    <Table.Cell>{category.name}</Table.Cell>
+                    <Table.Cell>{category.description}</Table.Cell>
+                  </Table.Row>
+                ))}
+              </Table.Body>
+            </Table>
           )}
         </div>
       </div>

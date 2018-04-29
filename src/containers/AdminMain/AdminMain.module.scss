@@ -1,7 +1,8 @@
-.addProduct {
+.mgmtHeader {
   display: flex;
-  justify-content: flex-end;
-  align-items: center;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 16px;
 }
 
 .productList {
