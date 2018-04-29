@@ -8,6 +8,7 @@ import { reducer as formReducer } from 'redux-form';
 import {reducer as notificationsReducer} from 'react-notification-system-redux';
 import history from './modules/history';
 import { productsReducer } from './reducers/products';
+import categoriesReducer from './reducers/categories';
 import { usersReducer } from './reducers/users';
 import RoutePublic from './components/RoutePublic/RoutePublic';
 import RoutePrivate from './components/RoutePrivate/RoutePrivate';
@@ -25,6 +26,7 @@ const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
 const rootReducer = combineReducers({
   products: productsReducer,
+  categories: categoriesReducer,
   users: usersReducer,
   form: formReducer,
   notifications: notificationsReducer

@@ -4,16 +4,19 @@ import { connect } from 'react-redux';
 import { PropTypes } from 'prop-types';
 import { Table, Icon, Dimmer, Loader } from 'semantic-ui-react';
 import { fetchProducts, showAdminProduct } from '../../actions/products';
+import { fetchCategories } from '../../actions/categories';
 
 import styles from './AdminMain.module.scss';
 
 class AdminMain extends Component {
   componentDidMount () {
     this.props.fetchProducts();
+    this.props.fetchCategories();
   }
 
   render () {
-    const { data, isFetching } = this.props.products;
+    const { data: prodData, isFetching: prodIsFetching } = this.props.products;
+    const { data: catData, isFetching: catIsFetching } = this.props.categories;
     const { showAdminProduct } = this.props;
     return (
       <div>
@@ -25,7 +28,7 @@ class AdminMain extends Component {
           </Link>
         </div>
         <div className={styles.productList}>
-          {isFetching ? (
+          {prodIsFetching ? (
             <Dimmer active inverted>
               <Loader />
             </Dimmer>
@@ -38,7 +41,7 @@ class AdminMain extends Component {
                 </Table.Row>
               </Table.Header>
               <Table.Body>
-                {data.map((product) => (
+                {prodData.map((product) => (
                   <Table.Row key={product._id} onClick={() => showAdminProduct(product._id)}>
                     <Table.Cell className={styles.nameRow}>
                       <div className={styles.thumbnailContainer}>
@@ -55,6 +58,18 @@ class AdminMain extends Component {
             </Table>
           )}
         </div>
+        <h3>Lista de categorias</h3>
+        <div className={styles.productList}>
+          {catIsFetching ? (
+            <Dimmer active inverted>
+              <Loader />
+            </Dimmer>
+          ) : (
+            <div>
+              {catData.map(cat => <div key={cat._id}>{cat.name}</div>)}
+            </div>
+          )}
+        </div>
       </div>
     );
   }
@@ -62,12 +77,22 @@ class AdminMain extends Component {
 
 AdminMain.propTypes = {
   products: PropTypes.object.isRequired,
+  categories: PropTypes.object.isRequired,
   fetchProducts: PropTypes.func.isRequired,
-  showAdminProduct: PropTypes.func.isRequired
+  showAdminProduct: PropTypes.func.isRequired,
+  fetchCategories: PropTypes.func.isRequired
 };
 
 const mapStateToProps = (state) => ({
-  products: state.products
+  products: state.products,
+  categories: state.categories
 });
 
-export default connect(mapStateToProps, {fetchProducts, showAdminProduct})(AdminMain);
+export default connect(
+  mapStateToProps,
+  {
+    fetchProducts,
+    showAdminProduct,
+    fetchCategories
+  }
+)(AdminMain);
