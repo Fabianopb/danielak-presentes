@@ -17,6 +17,9 @@ class RoutePublic extends Component {
           <div className={styles.header}>
             <img className={styles.logo} src={danikLogo} alt='logo' />
           </div>
+          <div className={styles.menu}>
+            Menu
+          </div>
           <div className={styles.routeLayout}>
             <Component {...props} />
           </div>
