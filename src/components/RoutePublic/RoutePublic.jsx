@@ -3,6 +3,7 @@ import { Route } from 'react-router-dom';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { PropTypes } from 'prop-types';
+import danikLogo from '../../assets/danik-logo.png';
 import { isSessionValid } from '../../actions/users';
 
 import styles from './RoutePublic.module.scss';
@@ -13,7 +14,9 @@ class RoutePublic extends Component {
     return (
       <Route {...rest} render={props => (
         <div>
-          <div className={styles.header}>DanielaK Presentes</div>
+          <div className={styles.header}>
+            <img className={styles.logo} src={danikLogo} alt='logo' />
+          </div>
           <div className={styles.routeLayout}>
             <Component {...props} />
           </div>

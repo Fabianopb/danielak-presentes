@@ -1,12 +1,16 @@
 @import '../../assets/colors';
 
 .header, .footer {
+  display: flex;
   padding: 12px;
   background-color: $cadillac;
   color: #FFF;
-  height: 100px;
 }
 
 .routeLayout {
   padding: 16px;
+}
+
+.logo {
+  height: 80px;
 }
