@@ -116,7 +116,16 @@ const Product = ({ handleSubmit, handleFileDrop, deleteImage, pristine, submitti
         </Form.Group>
         <Field component={FormCheckbox} formLabel='Visível' name='isVisible' />
         <Field component={FormCheckbox} formLabel='Em destaque' name='isFeatured' />
-        <Form.Button disabled={submitting || pristine || isSomeImageUploading}>Submit</Form.Button>
+        <Form.Button
+          className={styles.submitWrapper}
+          icon
+          labelPosition='right'
+          color='blue'
+          disabled={submitting || pristine || isSomeImageUploading}
+        >
+          Salvar
+          <Icon name='check' />
+        </Form.Button>
       </Form>
       <Prompt
         when={submitting || !pristine || isSomeImageUploading}

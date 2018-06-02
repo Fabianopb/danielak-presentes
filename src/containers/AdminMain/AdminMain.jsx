@@ -44,7 +44,7 @@ class AdminMain extends Component {
               </Table.Header>
               <Table.Body>
                 {prodData.map((product) => (
-                  <Table.Row key={product._id} onClick={() => showAdminProduct(product._id)}>
+                  <Table.Row className={styles.clickableRow} key={product._id} onClick={() => showAdminProduct(product._id)}>
                     <Table.Cell className={styles.nameRow}>
                       <div className={styles.thumbnailContainer}>
                         <img className={styles.thumbnail} src={product.image[product.featuredImageIndex].small} alt='N/A' />
@@ -78,7 +78,7 @@ class AdminMain extends Component {
           ) : (
             <Table singleLine selectable>
               <Table.Header>
-                <Table.Row>
+                <Table.Row className={styles.clickableRow}>
                   <Table.HeaderCell>Categoria</Table.HeaderCell>
                   <Table.HeaderCell>Descrição</Table.HeaderCell>
                 </Table.Row>

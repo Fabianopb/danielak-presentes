@@ -1,4 +1,10 @@
 .addProductHeader {
   display: flex;
   justify-content: space-between;
+
+  .actionButtons {
+    button:first-child {
+      margin-right: 16px;
+    }
+  }
 }

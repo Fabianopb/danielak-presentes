@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
 import { PropTypes } from 'prop-types';
 import { connect } from 'react-redux';
 import { formValueSelector } from 'redux-form';
 import { Dimmer, Loader, Icon, Modal, Button, Header } from 'semantic-ui-react';
+import history from '../../modules/history';
 
 import ProductForm from '../../forms/Product/Product';
 import {
@@ -37,12 +37,15 @@ class ManageProductView extends Component {
       <div>
         <div className={styles.addProductHeader}>
           <h3>Adicionar produto</h3>
-          <Link to='#'>
+          <div className={styles.actionButtons}>
+            <Button basic icon labelPosition='right' color='blue' onClick={() => history.goBack()}>
+              Voltar<Icon name='chevron left' />
+            </Button>
             <Button icon labelPosition='right' color='red' onClick={() => openDialog(activeProduct)}>
               Remover
               <Icon name='trash' />
             </Button>
-          </Link>
+          </div>
         </div>
         {isFetching ? (
           <Dimmer active inverted>
@@ -62,11 +65,11 @@ class ManageProductView extends Component {
             <p>Tem certeza que deseja apagar o produto <em>{activeProduct && activeProduct.name}</em>?</p>
           </Modal.Content>
           <Modal.Actions>
-            <Button basic color='red' onClick={closeDialog} >
-              <Icon name='remove' /> No
+            <Button basic icon labelPosition='right' color='blue' onClick={closeDialog} >
+              Cancelar<Icon name='ban' />
             </Button>
-            <Button color='green' onClick={() => deleteProduct(activeProduct._id)} >
-              <Icon name='checkmark' /> Yes
+            <Button icon labelPosition='right' color='red' onClick={() => deleteProduct(activeProduct._id)} >
+              Remover<Icon name='remove' />
             </Button>
           </Modal.Actions>
         </Modal>
