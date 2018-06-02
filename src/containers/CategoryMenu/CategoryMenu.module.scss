@@ -9,7 +9,13 @@
   height: 32px;
   box-shadow: $box-shadow;
 
-  div:not(:last-child) {
-    margin-right: 16px;
+  .menuItem {
+    cursor: pointer;
+    font-weight: 600;
+    color: $body-font-color;
+
+    &:not(:last-child) {
+      margin-right: 16px;
+    }
   }
 }

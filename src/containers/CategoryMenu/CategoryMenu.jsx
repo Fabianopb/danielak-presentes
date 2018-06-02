@@ -16,14 +16,15 @@ class CategoryMenu extends Component {
     const { data } = this.props.categories;
     return (
       <div className={styles.menu}>
-        {_.map(data, category => <div key={category._id}>{category.name}</div>)}
+        <div className={styles.menuItem}>Todas</div>
+        {_.map(data, category => <div className={styles.menuItem} key={category._id}>{category.name}</div>)}
       </div>
     );
   }
 }
 
 CategoryMenu.propTypes = {
-  categories: PropTypes.array.isRequired,
+  categories: PropTypes.object.isRequired,
   fetchCategories: PropTypes.func.isRequired
 };
 
