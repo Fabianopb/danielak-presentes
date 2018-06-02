@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import { PropTypes } from 'prop-types';
 import danikLogo from '../../assets/danik-logo.png';
 import { isSessionValid } from '../../actions/users';
+import CategoryMenu from '../../containers/CategoryMenu/CategoryMenu';
 
 import styles from './RoutePublic.module.scss';
 
@@ -17,14 +18,12 @@ class RoutePublic extends Component {
           <div className={styles.header}>
             <img className={styles.logo} src={danikLogo} alt='logo' />
           </div>
-          <div className={styles.menu}>
-            Menu
-          </div>
+          <CategoryMenu />
           <div className={styles.routeLayout}>
             <Component {...props} />
           </div>
           <div className={styles.footer}>
-            <p>danielalpresentes@yahoo.com.br</p>
+            <p>danielakpresentes@yahoo.com.br</p>
             <p>Whatsapp +55 11 99777 5245</p>
           </div>
         </div>

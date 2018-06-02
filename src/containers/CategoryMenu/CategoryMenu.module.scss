@@ -1,0 +1,11 @@
+@import '../../assets/colors';
+
+.menu {
+  padding: 0 16px;
+  display: flex;
+  align-items: center;
+  background-color: $cherry-blossom;
+  color: $body-font-color;
+  height: 32px;
+  box-shadow: $box-shadow;
+}
