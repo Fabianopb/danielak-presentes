@@ -3,6 +3,12 @@
 .productDetails {
   padding: 20px;
 
+  .backButtonWrapper {
+    padding: 32px 0 16px 0;
+    // height: 50px;
+    text-align: right;
+  }
+
   .frame {
     padding: 4px;
     margin: 8px;
