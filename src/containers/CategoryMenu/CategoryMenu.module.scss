@@ -8,4 +8,8 @@
   color: $body-font-color;
   height: 32px;
   box-shadow: $box-shadow;
+
+  div:not(:last-child) {
+    margin-right: 16px;
+  }
 }
