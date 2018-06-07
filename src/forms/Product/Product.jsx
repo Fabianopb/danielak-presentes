@@ -158,4 +158,4 @@ Product.propTypes = {
   images: PropTypes.array
 };
 
-export default reduxForm({form: 'editProductForm', validate})(Product);
+export default reduxForm({form: 'editProductForm', validate, destroyOnUnmount: false})(Product);

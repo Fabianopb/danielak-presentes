@@ -4,6 +4,11 @@ import history from '../modules/history';
 import { initialize, change } from 'redux-form';
 import Notifications from 'react-notification-system-redux';
 
+const notificationOpts = {
+  position: 'tc',
+  autoDismiss: 5
+};
+
 /* -------------------------- */
 /*           ACTIONS          */
 /* -------------------------- */
@@ -89,9 +94,11 @@ export const upsertProduct = (product) => {
         : await axios.post(`/api/products`, product);
       console.log(upsertResponse);
       _redirectTo('/admin');
-      dispatch(endRequest());
     } catch (error) {
-      dispatch(errorRequest(error));
+      notificationOpts.title = error.response.data.error;
+      dispatch(Notifications.error(notificationOpts));
+    } finally {
+      dispatch(endRequest());
     }
   };
 };
@@ -148,11 +155,6 @@ export const showAdminProduct = (productId) => {
   return (dispatch) => {
     _redirectTo(`/admin/product/${productId}`);
   };
-};
-
-const notificationOpts = {
-  position: 'tc',
-  autoDismiss: 5
 };
 
 export const handleFileDrop = (files) => {
