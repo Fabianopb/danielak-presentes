@@ -13,7 +13,7 @@ router.route('/')
       const products = await Product.find(request.query);
       return response.status(200).json(products);
     } catch (error) {
-      return response.status(400).send(error);
+      return response.status(400).json({ error: error.toString() });
     }
   })
   .post(bodyParser, async (request, response) => {
@@ -22,7 +22,7 @@ router.route('/')
       await product.save();
       return response.status(200).json({message: 'New product saved!'});
     } catch (error) {
-      return response.status(400).send(error);
+      return response.status(400).json({ error: error.toString() });
     }
   });
 
@@ -34,7 +34,7 @@ router.route('/:id')
       await product.save();
       return response.status(200).json({message: 'Product updated'});
     } catch (error) {
-      return response.status(400).send(error);
+      return response.status(400).json({ error: error.toString() });
     }
   })
   .delete(async (request, response) => {
@@ -42,7 +42,7 @@ router.route('/:id')
       await Product.remove({_id: request.params.id});
       return response.status(200).json({message: 'Product removed'});
     } catch (error) {
-      return response.status(400).send(error);
+      return response.status(400).json({ error: error.toString() });
     }
   });
 

@@ -29,6 +29,11 @@ const ProductSchema = new Schema({
     required: true,
     default: ''
   },
+  category: {
+    type: mongoose.Schema.Types.ObjectId,
+    required: true,
+    default: null
+  },
   currentPrice: {
     type: Number,
     required: true,
