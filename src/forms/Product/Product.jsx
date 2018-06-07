@@ -15,6 +15,7 @@ const validate = (values) => {
     const requiredFields = [
       'name',
       'storeLink',
+      'category',
       'currentPrice',
       'productionTime',
       'minAmount',
@@ -35,9 +36,10 @@ const validate = (values) => {
   }
 };
 
-const Product = ({ handleSubmit, handleFileDrop, deleteImage, pristine, submitting, images, touch }) => {
+const Product = ({ handleSubmit, handleFileDrop, deleteImage, pristine, submitting, images, touch, categories }) => {
   const isSomeImageUploading = _.some(images, image => image === 'uploading');
   const hasDropzone = images && images.length < 5 && !isSomeImageUploading;
+  const catOptions = _.map(categories, cat => ({ text: cat.name, value: cat._id }));
   return (
     <div className={styles.productForm}>
       <Form onSubmit={handleSubmit} >
@@ -50,7 +52,8 @@ const Product = ({ handleSubmit, handleFileDrop, deleteImage, pristine, submitti
           formLabel='Categoria'
           placeholder='Escolha uma categoria'
           name='category'
-          options={[{text: 'one', value: '1'}, {text: 'two', value: '2'}]}
+          options={catOptions}
+          required
         />
         <div className='ui form field inline'>
           <label>Upload de imagens</label>
@@ -151,6 +154,7 @@ Product.propTypes = {
   touch: PropTypes.func.isRequired,
   pristine: PropTypes.bool.isRequired,
   submitting: PropTypes.bool.isRequired,
+  categories: PropTypes.array.isRequired,
   images: PropTypes.array
 };
 

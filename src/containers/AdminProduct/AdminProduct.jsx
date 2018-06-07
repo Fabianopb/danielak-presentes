@@ -15,11 +15,13 @@ import {
   handleFileDrop,
   deleteImage
 } from '../../actions/products';
+import { fetchCategories } from '../../actions/categories';
 
 import styles from './AdminProduct.module.scss';
 
 class ManageProductView extends Component {
   componentWillMount () {
+    this.props.fetchCategories();
     this.props.fetchProducts(this.props.match.params.id);
   }
 
@@ -31,8 +33,9 @@ class ManageProductView extends Component {
   };
 
   render () {
-    const { isFetching, activeProduct, isDialogOpen, openDialog, closeDialog,
+    const { isFetching: isFetchingProducts, activeProduct, isDialogOpen, openDialog, closeDialog,
       deleteProduct, images, handleFileDrop, deleteImage } = this.props;
+    const { isFetching: isFetchingCategories, data: categories } = this.props.categories;
     return (
       <div>
         <div className={styles.addProductHeader}>
@@ -47,7 +50,7 @@ class ManageProductView extends Component {
             </Button>
           </div>
         </div>
-        {isFetching ? (
+        {isFetchingProducts || isFetchingCategories ? (
           <Dimmer active inverted>
             <Loader />
           </Dimmer>
@@ -57,6 +60,7 @@ class ManageProductView extends Component {
             handleFileDrop={handleFileDrop}
             deleteImage={deleteImage}
             onSubmit={this.submitProduct}
+            categories={categories}
           />
         )}
         <Modal open={isDialogOpen} onClose={closeDialog} size='small'>
@@ -90,16 +94,26 @@ ManageProductView.propTypes = {
   activeProduct: PropTypes.object,
   handleFileDrop: PropTypes.func.isRequired,
   deleteImage: PropTypes.func.isRequired,
-  images: PropTypes.array
+  fetchCategories: PropTypes.func.isRequired,
+  images: PropTypes.array,
+  categories: PropTypes.object.isRequired
 };
 
 const mapStateToProps = (state) => ({
   isFetching: state.products.isFetching,
   activeProduct: state.products.activeProduct,
   isDialogOpen: state.products.isDialogOpen,
+  categories: state.categories,
   images: formValueSelector('editProductForm')(state, 'image')
 });
 
 export default connect(mapStateToProps, {
-  fetchProducts, upsertProduct, openDialog, closeDialog, deleteProduct, handleFileDrop, deleteImage
+  fetchProducts,
+  upsertProduct,
+  openDialog,
+  closeDialog,
+  deleteProduct,
+  handleFileDrop,
+  deleteImage,
+  fetchCategories
 })(ManageProductView);
