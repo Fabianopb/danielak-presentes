@@ -1,6 +1,6 @@
 import React from 'react';
 import _ from 'lodash';
-import { Form, Input, TextArea, Checkbox } from 'semantic-ui-react';
+import { Form, Input, TextArea, Checkbox, Dropdown } from 'semantic-ui-react';
 import styles from './FormComponents.module.scss';
 
 const hasErrored = (touched, errorMessage) => (touched && !_.isUndefined(errorMessage));
@@ -48,4 +48,19 @@ const FormCheckbox = (field) => {
   );
 };
 
-export {FormInput, FormTextArea, FormCheckbox};
+const FormDropdown = (field) => {
+  const error = hasErrored(field.meta.touched, field.meta.error);
+  return (
+    <Form.Field error={error} required={field.required}>
+      <label>{field.formLabel}</label>
+      <Dropdown
+        placeholder={field.placeholder}
+        onChange={(param, data) => field.input.onChange(data.value)}
+        selection
+        options={field.options}
+      />
+    </Form.Field>
+  );
+};
+
+export {FormInput, FormTextArea, FormCheckbox, FormDropdown};

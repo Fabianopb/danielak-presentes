@@ -5,7 +5,7 @@ import { Form, Segment, Button, Icon, Popup } from 'semantic-ui-react';
 import { Prompt } from 'react-router-dom';
 import Dropzone from 'react-dropzone';
 import _ from 'lodash';
-import { FormInput, FormCheckbox } from '../../components/FormComponents/FormComponents';
+import { FormInput, FormCheckbox, FormDropdown } from '../../components/FormComponents/FormComponents';
 import RichTextArea from '../../components/RichTextArea/RichTextArea';
 import styles from './Product.module.scss';
 
@@ -45,6 +45,13 @@ const Product = ({ handleSubmit, handleFileDrop, deleteImage, pristine, submitti
           <Field component={FormInput} formLabel='Nome do produto' placeholder='Nome do produto' name='name' required />
           <Field component={FormInput} formLabel='Link da loja' placeholder='Link da loja' name='storeLink' required />
         </Form.Group>
+        <Field
+          component={FormDropdown}
+          formLabel='Categoria'
+          placeholder='Escolha uma categoria'
+          name='category'
+          options={[{text: 'one', value: '1'}, {text: 'two', value: '2'}]}
+        />
         <div className='ui form field inline'>
           <label>Upload de imagens</label>
           <Popup
