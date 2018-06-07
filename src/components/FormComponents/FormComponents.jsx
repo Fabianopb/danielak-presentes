@@ -55,6 +55,7 @@ const FormDropdown = (field) => {
       <label>{field.formLabel}</label>
       <Dropdown
         placeholder={field.placeholder}
+        value={field.input.value}
         onChange={(param, data) => field.input.onChange(data.value)}
         selection
         options={field.options}
