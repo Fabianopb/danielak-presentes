@@ -6,6 +6,10 @@ const Category = require('../models/category');
 router.route('/')
   .get(async (request, response) => {
     try {
+      if (request.query._id === 'new') {
+        const newCategory = new Category();
+        return response.status(200).json([newCategory]);
+      }
       const categories = await Category.find(request.query);
       return response.status(200).json(categories);
     } catch (error) {

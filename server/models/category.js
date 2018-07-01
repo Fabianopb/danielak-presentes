@@ -4,11 +4,13 @@ const Schema = mongoose.Schema;
 const CategorySchema = new Schema({
   name: {
     type: String,
-    required: true
+    required: true,
+    default: null
   },
   description: {
     type: String,
-    required: true
+    required: true,
+    default: null
   },
   removed: {
     type: Boolean,

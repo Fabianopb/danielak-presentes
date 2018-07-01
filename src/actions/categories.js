@@ -1,6 +1,7 @@
 import axios from 'axios';
-// import _ from 'lodash';
+import { initialize } from 'redux-form';
 import Notifications from 'react-notification-system-redux';
+import history from '../modules/history';
 
 /* -------------------------- */
 /*           ACTIONS          */
@@ -19,6 +20,9 @@ const receiveCategories = (data) => ({type: RECEIVE_CATEGORIES, data});
 /* -------------------------- */
 /*       PRIVATE METHODS      */
 /* -------------------------- */
+const _redirectTo = (route) => {
+  history.push(route);
+};
 
 /* -------------------------- */
 /*           THUNKS           */
@@ -35,9 +39,10 @@ export const fetchCategories = (categoryId) => {
       dispatch(startRequest());
       if (categoryId) {
         console.log(categoryId);
-        // const response = await axios.get(`/api/categories?_id=${categoryId}`);
+        const response = await axios.get(`/api/categories?_id=${categoryId}`);
         // dispatch(setActiveProduct(response.data[0]));
-        // dispatch(initialize('editProductForm', response.data[0]));
+        console.log(response.data[0]);
+        dispatch(initialize('CategoryForm', response.data[0]));
       } else {
         const response = await axios.get(`/api/categories`);
         dispatch(receiveCategories(response.data));
@@ -46,6 +51,24 @@ export const fetchCategories = (categoryId) => {
     } catch (error) {
       notificationOpts.title = 'Something went wrong :(';
       dispatch(Notifications.error(notificationOpts));
+    }
+  };
+};
+
+export const addCategory = category => {
+  return async dispatch => {
+    try {
+      dispatch(startRequest());
+      const response = await axios.post('/api/categories', category);
+      console.log(response);
+      _redirectTo('/admin');
+      notificationOpts.title = 'Categoria inserida com sucesso!';
+      dispatch(Notifications.success(notificationOpts));
+    } catch (error) {
+      notificationOpts.title = 'Something went wrong :(';
+      dispatch(Notifications.error(notificationOpts));
+    } finally {
+      dispatch(endRequest());
     }
   };
 };

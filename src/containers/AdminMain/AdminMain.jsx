@@ -63,7 +63,7 @@ class AdminMain extends Component {
         <Divider />
         <div className={styles.mgmtHeader}>
           <h2>Lista de categorias</h2>
-          <Link to='#'>
+          <Link to='/admin/category/new'>
             <Button basic icon labelPosition='right' color='blue'>
               Adicionar Categoria
               <Icon name='plus' />

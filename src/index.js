@@ -17,6 +17,7 @@ import ProductDetail from './containers/ProductDetail/ProductDetail';
 import AdminMain from './containers/AdminMain/AdminMain';
 import LoginPage from './containers/LoginPage/LoginPage';
 import AdminProduct from './containers/AdminProduct/AdminProduct';
+import AdminCategory from './containers/AdminCategory/AdminCategory';
 import NotificationsManager from './containers/Notifications/Notifications';
 import 'semantic-ui-css/semantic.min.css';
 import './index.scss';
@@ -47,6 +48,7 @@ ReactDOM.render(
           <RoutePublic exact path='/login' component={LoginPage} />
           <RoutePrivate exact path='/admin' component={AdminMain} />
           <RoutePrivate path='/admin/product/:id' component={AdminProduct} />
+          <RoutePrivate path='/admin/category/:id' component={AdminCategory} />
         </Switch>
         <NotificationsManager />
       </div>

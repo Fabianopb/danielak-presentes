@@ -36,6 +36,7 @@ class ManageProductView extends Component {
     const { isFetching: isFetchingProducts, activeProduct, isDialogOpen, openDialog, closeDialog,
       deleteProduct, images, handleFileDrop, deleteImage } = this.props;
     const { isFetching: isFetchingCategories, data: categories } = this.props.categories;
+    const { params } = this.props.match;
     return (
       <div>
         <div className={styles.addProductHeader}>
@@ -44,7 +45,13 @@ class ManageProductView extends Component {
             <Button basic icon labelPosition='right' color='blue' onClick={() => history.goBack()}>
               Voltar<Icon name='chevron left' />
             </Button>
-            <Button icon labelPosition='right' color='red' onClick={() => openDialog(activeProduct)}>
+            <Button
+              icon
+              labelPosition='right'
+              color='red'
+              disabled={params.id === 'new'}
+              onClick={() => openDialog(activeProduct)}
+            >
               Remover
               <Icon name='trash' />
             </Button>
