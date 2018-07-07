@@ -1,4 +1,5 @@
 import axios from 'axios';
+import _ from 'lodash';
 import { initialize } from 'redux-form';
 import Notifications from 'react-notification-system-redux';
 import history from '../modules/history';
@@ -9,6 +10,9 @@ import history from '../modules/history';
 export const START_REQUEST = 'START_REQUEST';
 export const END_REQUEST = 'END_REQUEST';
 export const RECEIVE_CATEGORIES = 'RECEIVE_CATEGORIES';
+export const SET_ACTIVE_CATEGORY = 'SET_ACTIVE_CATEGORY';
+export const OPEN_DIALOG = 'OPEN_DIALOG';
+export const CLOSE_DIALOG = 'CLOSE_DIALOG';
 
 /* -------------------------- */
 /*      ACTIONS CREATORS      */
@@ -16,6 +20,9 @@ export const RECEIVE_CATEGORIES = 'RECEIVE_CATEGORIES';
 const startRequest = () => ({type: START_REQUEST});
 const endRequest = () => ({type: END_REQUEST});
 const receiveCategories = (data) => ({type: RECEIVE_CATEGORIES, data});
+const setActiveCategory = (activeCategory) => ({type: SET_ACTIVE_CATEGORY, activeCategory});
+export const openDialog = () => ({type: OPEN_DIALOG});
+export const closeDialog = () => ({type: CLOSE_DIALOG});
 
 /* -------------------------- */
 /*       PRIVATE METHODS      */
@@ -38,11 +45,10 @@ export const fetchCategories = (categoryId) => {
     try {
       dispatch(startRequest());
       if (categoryId) {
-        console.log(categoryId);
         const response = await axios.get(`/api/categories?_id=${categoryId}`);
-        // dispatch(setActiveProduct(response.data[0]));
-        console.log(response.data[0]);
-        dispatch(initialize('CategoryForm', response.data[0]));
+        const category = response.data[0];
+        dispatch(initialize('CategoryForm', category));
+        dispatch(setActiveCategory(category));
       } else {
         const response = await axios.get(`/api/categories`);
         dispatch(receiveCategories(response.data));
@@ -59,10 +65,10 @@ export const upsertCategory = category => {
   return async dispatch => {
     try {
       dispatch(startRequest());
-      const upsertResponse = category._id
+      const response = category._id
         ? await axios.put(`/api/categories/${category._id}`, category)
         : await axios.post(`/api/categories`, category);
-      console.log(upsertResponse);
+      console.log(response);
       _redirectTo('/admin');
       notificationOpts.title = 'Categorias atualizadas com sucesso!';
       dispatch(Notifications.success(notificationOpts));
@@ -76,29 +82,31 @@ export const upsertCategory = category => {
 };
 
 export const showAdminCategory = (categoryId) => {
-  return (dispatch) => {
+  return (dispatch, getState) => {
+    const categories = _.cloneDeep(getState().categories.data);
+    const activeCategory = _.find(categories, cat => cat._id === categoryId);
+    console.log('activeCategory', activeCategory);
+    dispatch(setActiveCategory(activeCategory));
     _redirectTo(`/admin/category/${categoryId}`);
   };
 };
 
-// export const deleteProduct = (id) => {
-//   return async (dispatch, getState) => {
-//     try {
-//       dispatch(startRequest());
-//       dispatch(closeDialog());
-//       const imageObjectsArray = getState().products.activeProduct.image;
-//       const largeImageNames = _.map(imageObjectsArray, imageObject => _getImageNameFromUrl(imageObject.large));
-//       const smallImageNames = _.map(imageObjectsArray, imageObject => _getImageNameFromUrl(imageObject.small));
-//       const [deleteFileResponse, deleteProductResponse] = await axios.all([
-//         axios.post('/api/files/delete-file', { images: _.concat(largeImageNames, smallImageNames) }),
-//         axios.delete(`/api/products/${id}`)
-//       ]);
-//       console.log(deleteFileResponse, deleteProductResponse);
-//       // TODO: could dispatch a success notification
-//       _redirectTo('/admin');
-//       dispatch(endRequest());
-//     } catch (error) {
-//       dispatch(errorRequest(error));
-//     }
-//   };
-// };
+export const deleteCategory = (categoryId) => {
+  return async (dispatch) => {
+    try {
+      dispatch(startRequest());
+      dispatch(closeDialog());
+      const response = await axios.delete(`/api/categories/${categoryId}`);
+      console.log(response);
+      // TODO: could dispatch a success notification
+      _redirectTo('/admin');
+      notificationOpts.title = 'Categoria excluida com sucesso!';
+      dispatch(Notifications.success(notificationOpts));
+    } catch (error) {
+      notificationOpts.title = 'Algo deu errado :(';
+      dispatch(Notifications.error(notificationOpts));
+    } finally {
+      dispatch(endRequest());
+    }
+  };
+};
