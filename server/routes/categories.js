@@ -39,9 +39,7 @@ router.route('/:id')
   })
   .delete(async (request, response) => {
     try {
-      const category = await Category.findById(request.params.id);
-      Object.assign(category, { removed: true });
-      await category.save();
+      await Category.remove({_id: request.params.id});
       return response.status(200).json({message: 'Category removed'});
     } catch (error) {
       return response.status(400).send(error);
