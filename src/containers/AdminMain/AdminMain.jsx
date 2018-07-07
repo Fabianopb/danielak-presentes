@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { PropTypes } from 'prop-types';
 import { Table, Icon, Dimmer, Loader, Button, Divider } from 'semantic-ui-react';
+import _ from 'lodash';
 import { fetchProducts, showAdminProduct } from '../../actions/products';
 import { fetchCategories, showAdminCategory } from '../../actions/categories';
 
@@ -30,7 +31,7 @@ class AdminMain extends Component {
           </Link>
         </div>
         <div className={styles.productList}>
-          {prodIsFetching ? (
+          {prodIsFetching || catIsFetching ? (
             <Dimmer active inverted>
               <Loader />
             </Dimmer>
@@ -39,23 +40,30 @@ class AdminMain extends Component {
               <Table.Header>
                 <Table.Row>
                   <Table.HeaderCell>Produto</Table.HeaderCell>
+                  <Table.HeaderCell>Categoria</Table.HeaderCell>
                   <Table.HeaderCell>Preço</Table.HeaderCell>
                 </Table.Row>
               </Table.Header>
               <Table.Body>
-                {prodData.map((product) => (
-                  <Table.Row className={styles.clickableRow} key={product._id} onClick={() => showAdminProduct(product._id)}>
-                    <Table.Cell className={styles.nameRow}>
-                      <div className={styles.thumbnailContainer}>
-                        <img className={styles.thumbnail} src={product.image[product.featuredImageIndex].small} alt='N/A' />
-                      </div>
-                      <div className={styles.productName}>{ product.name }</div>
-                    </Table.Cell>
-                    <Table.Cell>
-                      { product.currentPrice }
-                    </Table.Cell>
-                  </Table.Row>
-                ))}
+                {prodData.map((product) => {
+                  const category = _.find(catData, cat => cat._id === product.category);
+                  return (
+                    <Table.Row className={styles.clickableRow} key={product._id} onClick={() => showAdminProduct(product._id)}>
+                      <Table.Cell className={styles.nameRow}>
+                        <div className={styles.thumbnailContainer}>
+                          <img className={styles.thumbnail} src={product.image[product.featuredImageIndex].small} alt='N/A' />
+                        </div>
+                        <div className={styles.productName}>{ product.name }</div>
+                      </Table.Cell>
+                      <Table.Cell>
+                        { category ? category.name : '---' }
+                      </Table.Cell>
+                      <Table.Cell>
+                        { product.currentPrice }
+                      </Table.Cell>
+                    </Table.Row>
+                  );
+                })}
               </Table.Body>
             </Table>
           )}
