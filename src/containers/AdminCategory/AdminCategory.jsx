@@ -5,7 +5,7 @@ import { Dimmer, Loader, Icon, Button } from 'semantic-ui-react';
 import history from '../../modules/history';
 
 import CategoryForm from '../../forms/Category/CategoryForm';
-import { fetchCategories, addCategory } from '../../actions/categories';
+import { fetchCategories, upsertCategory } from '../../actions/categories';
 
 import styles from './AdminCategory.module.scss';
 
@@ -17,9 +17,8 @@ class AdminCategory extends Component {
   submitCategory = (category) => {
     if (this.props.match.params.id === 'new') {
       delete category._id;
-      this.props.addCategory(category);
     }
-    // this.props.upsertProduct(category);
+    this.props.upsertCategory(category);
   };
 
   render () {
@@ -74,7 +73,7 @@ class AdminCategory extends Component {
 AdminCategory.propTypes = {
   match: PropTypes.object.isRequired,
   fetchCategories: PropTypes.func.isRequired,
-  addCategory: PropTypes.func.isRequired,
+  upsertCategory: PropTypes.func.isRequired,
   categories: PropTypes.object.isRequired
 };
 
@@ -82,4 +81,4 @@ const mapStateToProps = (state) => ({
   categories: state.categories
 });
 
-export default connect(mapStateToProps, {fetchCategories, addCategory})(AdminCategory);
+export default connect(mapStateToProps, {fetchCategories, upsertCategory})(AdminCategory);

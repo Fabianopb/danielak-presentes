@@ -55,17 +55,19 @@ export const fetchCategories = (categoryId) => {
   };
 };
 
-export const addCategory = category => {
+export const upsertCategory = category => {
   return async dispatch => {
     try {
       dispatch(startRequest());
-      const response = await axios.post('/api/categories', category);
-      console.log(response);
+      const upsertResponse = category._id
+        ? await axios.put(`/api/categories/${category._id}`, category)
+        : await axios.post(`/api/categories`, category);
+      console.log(upsertResponse);
       _redirectTo('/admin');
-      notificationOpts.title = 'Categoria inserida com sucesso!';
+      notificationOpts.title = 'Categorias atualizadas com sucesso!';
       dispatch(Notifications.success(notificationOpts));
     } catch (error) {
-      notificationOpts.title = 'Something went wrong :(';
+      notificationOpts.title = 'Algo deu errado :(';
       dispatch(Notifications.error(notificationOpts));
     } finally {
       dispatch(endRequest());
@@ -73,21 +75,11 @@ export const addCategory = category => {
   };
 };
 
-// export const upsertProduct = (category) => {
-//   return async (dispatch) => {
-//     try {
-//       dispatch(startRequest());
-//       const upsertResponse = product._id
-//         ? await axios.put(`/api/products/${product._id}`, product)
-//         : await axios.post(`/api/products`, product);
-//       console.log(upsertResponse);
-//       _redirectTo('/admin');
-//       dispatch(endRequest());
-//     } catch (error) {
-//       dispatch(errorRequest(error));
-//     }
-//   };
-// };
+export const showAdminCategory = (categoryId) => {
+  return (dispatch) => {
+    _redirectTo(`/admin/category/${categoryId}`);
+  };
+};
 
 // export const deleteProduct = (id) => {
 //   return async (dispatch, getState) => {
@@ -109,9 +101,4 @@ export const addCategory = category => {
 //       dispatch(errorRequest(error));
 //     }
 //   };
-// };
-
-// const notificationOpts = {
-//   position: 'tc',
-//   autoDismiss: 5
 // };

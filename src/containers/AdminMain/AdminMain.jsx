@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { PropTypes } from 'prop-types';
 import { Table, Icon, Dimmer, Loader, Button, Divider } from 'semantic-ui-react';
 import { fetchProducts, showAdminProduct } from '../../actions/products';
-import { fetchCategories } from '../../actions/categories';
+import { fetchCategories, showAdminCategory } from '../../actions/categories';
 
 import styles from './AdminMain.module.scss';
 
@@ -17,7 +17,7 @@ class AdminMain extends Component {
   render () {
     const { data: prodData, isFetching: prodIsFetching } = this.props.products;
     const { data: catData, isFetching: catIsFetching } = this.props.categories;
-    const { showAdminProduct } = this.props;
+    const { showAdminProduct, showAdminCategory } = this.props;
     return (
       <div>
         <div className={styles.mgmtHeader}>
@@ -78,14 +78,14 @@ class AdminMain extends Component {
           ) : (
             <Table singleLine selectable>
               <Table.Header>
-                <Table.Row className={styles.clickableRow}>
+                <Table.Row>
                   <Table.HeaderCell>Categoria</Table.HeaderCell>
                   <Table.HeaderCell>Descrição</Table.HeaderCell>
                 </Table.Row>
               </Table.Header>
               <Table.Body>
                 {catData.map((category) => (
-                  <Table.Row key={category._id}>
+                  <Table.Row className={styles.clickableRow} key={category._id} onClick={() => showAdminCategory(category._id)}>
                     <Table.Cell>{category.name}</Table.Cell>
                     <Table.Cell>{category.description}</Table.Cell>
                   </Table.Row>
@@ -104,7 +104,8 @@ AdminMain.propTypes = {
   categories: PropTypes.object.isRequired,
   fetchProducts: PropTypes.func.isRequired,
   showAdminProduct: PropTypes.func.isRequired,
-  fetchCategories: PropTypes.func.isRequired
+  fetchCategories: PropTypes.func.isRequired,
+  showAdminCategory: PropTypes.func.isRequired
 };
 
 const mapStateToProps = (state) => ({
@@ -117,6 +118,7 @@ export default connect(
   {
     fetchProducts,
     showAdminProduct,
-    fetchCategories
+    fetchCategories,
+    showAdminCategory
   }
 )(AdminMain);
