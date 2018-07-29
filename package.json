@@ -12,6 +12,7 @@
     "axios": "^0.16.1",
     "bluebird": "^3.5.1",
     "body-parser": "^1.17.2",
+    "classnames": "^2.2.6",
     "express": "^4.15.2",
     "express-jwt": "^5.3.0",
     "file-type": "^7.6.0",

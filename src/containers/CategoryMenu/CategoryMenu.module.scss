@@ -14,9 +14,18 @@
 
     .menuItem {
       cursor: pointer;
-      font-weight: 600;
       color: $body-font-color;
       margin-right: 16px;
+
+      &:hover {
+        color: $cadillac;
+      }
+
+      &.activeItem {
+        font-weight: 600;
+        color: $cadillac;
+        text-decoration: underline;
+      }
     }
   }
 }

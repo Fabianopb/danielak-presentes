@@ -27,7 +27,7 @@ export const CLOSE_DIALOG = 'CLOSE_DIALOG';
 const startRequest = () => ({type: START_REQUEST});
 const endRequest = () => ({type: END_REQUEST});
 const errorRequest = (error) => ({type: ERROR_REQUEST, error});
-const receiveProducts = (data) => ({type: RECEIVE_PRODUCTS, data});
+export const receiveProducts = (data) => ({type: RECEIVE_PRODUCTS, data});
 const setActiveProduct = (activeProduct) => ({type: SET_ACTIVE_PRODUCT, activeProduct});
 export const openDialog = (activeProduct) => ({type: OPEN_DIALOG, activeProduct});
 export const closeDialog = () => ({type: CLOSE_DIALOG});

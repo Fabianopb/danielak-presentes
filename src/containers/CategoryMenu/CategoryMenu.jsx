@@ -2,8 +2,9 @@ import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { PropTypes } from 'prop-types';
+import classNames from 'classnames';
 import _ from 'lodash';
-import { fetchCategories } from '../../actions/categories';
+import { fetchCategories, changeCategory } from '../../actions/categories';
 
 import styles from './CategoryMenu.module.scss';
 
@@ -12,15 +13,32 @@ class CategoryMenu extends Component {
     this.props.fetchCategories();
   }
 
+  handleCategoryChange = (categoryId) => {
+    if (categoryId !== this.props.categories.activeCategory) {
+      this.props.changeCategory(categoryId);
+    }
+  }
+
   render () {
     const { displayCategories } = this.props;
-    const { data } = this.props.categories;
+    const { data, activeCategory } = this.props.categories;
     return (
       <div className={styles.menu}>
         {displayCategories &&
           <div className={styles.itemsWrapper}>
-            <div className={styles.menuItem}>Todas</div>
-            {_.map(data, category => <div className={styles.menuItem} key={category._id}>{category.name}</div>)}
+            <div
+              className={classNames(styles.menuItem, { [styles.activeItem]: !activeCategory })}
+              onClick={() => this.handleCategoryChange(null)}
+            >Todas
+            </div>
+            {_.map(data, category =>
+              <div
+                key={category._id}
+                className={classNames(styles.menuItem, { [styles.activeItem]: activeCategory === category._id })}
+                onClick={() => this.handleCategoryChange(category._id)}
+              >{category.name}
+              </div>
+            )}
           </div>
         }
       </div>
@@ -31,6 +49,7 @@ class CategoryMenu extends Component {
 CategoryMenu.propTypes = {
   categories: PropTypes.object.isRequired,
   fetchCategories: PropTypes.func.isRequired,
+  changeCategory: PropTypes.func.isRequired,
   displayCategories: PropTypes.bool.isRequired
 };
 
@@ -39,6 +58,6 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) =>
-  bindActionCreators({fetchCategories}, dispatch);
+  bindActionCreators({fetchCategories, changeCategory}, dispatch);
 
 export default connect(mapStateToProps, mapDispatchToProps)(CategoryMenu);

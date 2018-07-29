@@ -3,6 +3,7 @@ import _ from 'lodash';
 import { initialize } from 'redux-form';
 import Notifications from 'react-notification-system-redux';
 import history from '../modules/history';
+import { receiveProducts } from './products';
 
 /* -------------------------- */
 /*           ACTIONS          */
@@ -102,6 +103,22 @@ export const deleteCategory = (categoryId) => {
       _redirectTo('/admin');
       notificationOpts.title = 'Categoria excluida com sucesso!';
       dispatch(Notifications.success(notificationOpts));
+    } catch (error) {
+      notificationOpts.title = 'Algo deu errado :(';
+      dispatch(Notifications.error(notificationOpts));
+    } finally {
+      dispatch(endRequest());
+    }
+  };
+};
+
+export const changeCategory = (categoryId) => {
+  return async (dispatch) => {
+    try {
+      dispatch(startRequest());
+      const response = await axios.get(`/api/products${categoryId ? `?category=${categoryId}` : ''}`);
+      dispatch(receiveProducts(response.data));
+      dispatch(setActiveCategory(categoryId));
     } catch (error) {
       notificationOpts.title = 'Algo deu errado :(';
       dispatch(Notifications.error(notificationOpts));
