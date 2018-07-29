@@ -2,6 +2,8 @@
 
 .header, .footer {
   display: flex;
+  justify-content: space-between;
+  align-items: center;
   padding: 12px;
   background-color: $cadillac;
   color: #FFF;
@@ -13,4 +15,8 @@
 
 .logo {
   height: 80px;
+}
+
+.lua {
+  height: 92px;
 }

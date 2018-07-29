@@ -4,6 +4,7 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { PropTypes } from 'prop-types';
 import danikLogo from '../../assets/danik-logo.png';
+import danikLua from '../../assets/danik-lua.png';
 import { isSessionValid } from '../../actions/users';
 import CategoryMenu from '../../containers/CategoryMenu/CategoryMenu';
 
@@ -17,7 +18,9 @@ class RoutePublic extends Component {
       <Route {...rest} render={props => (
         <div>
           <div className={styles.header}>
+            <img className={styles.lua} src={danikLua} alt='lua' />
             <img className={styles.logo} src={danikLogo} alt='logo' />
+            <img className={styles.lua} src={danikLua} alt='lua' />
           </div>
           <CategoryMenu displayCategories={displayCategories} />
           <div className={styles.routeLayout}>
