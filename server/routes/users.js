@@ -5,7 +5,6 @@ const User = require('../models/user');
 const passport = require('passport');
 require('../config/passport');
 
-// TODO: create endpoint to initialize admin user if non-existing
 router.route('/register')
   .get(async (request, response) => {
     try {

@@ -1,7 +1,7 @@
 const jwt = require('express-jwt');
 
 const authorize = jwt({
-  secret: process.env.BEER_CELLAR_KEY,
+  secret: process.env.DANIK_AUTH_KEY,
   userProperty: 'payload'
 });
 

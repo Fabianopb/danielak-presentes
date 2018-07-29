@@ -8,6 +8,7 @@ const multiparty = require('multiparty');
 const fileType = require('file-type');
 const fs = require('fs');
 const bluebird = require('bluebird');
+const authorize = require('../config/authorize');
 
 AWS.config.update({
   accessKeyId: process.env.DANIK_AWS_ACCESS_KEY_ID,
@@ -30,7 +31,7 @@ const uploadFile = (buffer, name, type) => {
 };
 
 router.route('/upload-file')
-  .post((request, response) => {
+  .post(authorize, (request, response) => {
     const form = new multiparty.Form();
     form.parse(request, async (error, fields, files) => {
       if (error) throw new Error(error);
@@ -64,7 +65,7 @@ router.route('/upload-file')
   });
 
 router.route('/delete-file')
-  .post(bodyParser, async (request, response) => {
+  .post(authorize, bodyParser, async (request, response) => {
     try {
       const imagesArray = request.body.images;
       const params = {

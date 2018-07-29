@@ -3,6 +3,7 @@ import _ from 'lodash';
 import history from '../modules/history';
 import { initialize, change } from 'redux-form';
 import Notifications from 'react-notification-system-redux';
+import { getAuthHeaders } from '../modules/helpers';
 
 const notificationOpts = {
   position: 'tc',
@@ -90,8 +91,8 @@ export const upsertProduct = (product) => {
     try {
       dispatch(startRequest());
       const upsertResponse = product._id
-        ? await axios.put(`/api/products/${product._id}`, product)
-        : await axios.post(`/api/products`, product);
+        ? await axios.put(`/api/products/${product._id}`, product, { headers: getAuthHeaders() })
+        : await axios.post(`/api/products`, product, { headers: getAuthHeaders() });
       console.log(upsertResponse);
       _redirectTo('/admin');
     } catch (error) {
@@ -112,8 +113,12 @@ export const deleteProduct = (id) => {
       const largeImageNames = _.map(imageObjectsArray, imageObject => _getImageNameFromUrl(imageObject.large));
       const smallImageNames = _.map(imageObjectsArray, imageObject => _getImageNameFromUrl(imageObject.small));
       const [deleteFileResponse, deleteProductResponse] = await axios.all([
-        axios.post('/api/files/delete-file', { images: _.concat(largeImageNames, smallImageNames) }),
-        axios.delete(`/api/products/${id}`)
+        axios.post(
+          '/api/files/delete-file',
+          { images: _.concat(largeImageNames, smallImageNames) },
+          { headers: getAuthHeaders() }
+        ),
+        axios.delete(`/api/products/${id}`, { headers: getAuthHeaders() })
       ]);
       console.log(deleteFileResponse, deleteProductResponse);
       // TODO: could dispatch a success notification
@@ -134,7 +139,11 @@ export const deleteImage = (imageObject) => {
       const smallImageName = _getImageNameFromUrl(imageObject.small);
       images.splice(imageIndex, 1, 'uploading');
       dispatch(change('editProductForm', 'image', images));
-      const deleteFileResponse = await axios.post('/api/files/delete-file', { images: [largeImageName, smallImageName] });
+      const deleteFileResponse = await axios.post(
+        '/api/files/delete-file',
+        { images: [largeImageName, smallImageName] },
+        { headers: getAuthHeaders() }
+      );
       console.log(deleteFileResponse);
       images.splice(imageIndex, 1);
       dispatch(change('editProductForm', 'image', null));
@@ -166,7 +175,10 @@ export const handleFileDrop = (files) => {
       dispatch(change('editProductForm', 'image', images));
       const formData = new FormData();
       formData.append('file', files[0]);
-      const uploadResponse = await axios.post(`/api/files/upload-file`, formData, {headers: {'Content-Type': 'multipart/form-data'}});
+      const uploadResponse = await axios.post(
+        `/api/files/upload-file`,
+        formData,
+        { headers: {'Content-Type': 'multipart/form-data', ...getAuthHeaders()} });
       images[imageIndex] = {
         large: uploadResponse.data[0].Location,
         small: uploadResponse.data[1].Location

@@ -4,6 +4,7 @@ import { initialize } from 'redux-form';
 import Notifications from 'react-notification-system-redux';
 import history from '../modules/history';
 import { receiveProducts } from './products';
+import { getAuthHeaders } from '../modules/helpers';
 
 /* -------------------------- */
 /*           ACTIONS          */
@@ -67,8 +68,8 @@ export const upsertCategory = category => {
     try {
       dispatch(startRequest());
       const response = category._id
-        ? await axios.put(`/api/categories/${category._id}`, category)
-        : await axios.post(`/api/categories`, category);
+        ? await axios.put(`/api/categories/${category._id}`, category, { headers: getAuthHeaders() })
+        : await axios.post(`/api/categories`, category, { headers: getAuthHeaders() });
       console.log(response);
       _redirectTo('/admin');
       notificationOpts.title = 'Categorias atualizadas com sucesso!';
@@ -97,7 +98,7 @@ export const deleteCategory = (categoryId) => {
     try {
       dispatch(startRequest());
       dispatch(closeDialog());
-      const response = await axios.delete(`/api/categories/${categoryId}`);
+      const response = await axios.delete(`/api/categories/${categoryId}`, { headers: getAuthHeaders() });
       console.log(response);
       // TODO: could dispatch a success notification
       _redirectTo('/admin');

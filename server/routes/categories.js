@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const bodyParser = require('body-parser').json();
 const Category = require('../models/category');
+const authorize = require('../config/authorize');
 
 router.route('/')
   .get(async (request, response) => {
@@ -16,7 +17,7 @@ router.route('/')
       return response.status(400).send(error);
     }
   })
-  .post(bodyParser, async (request, response) => {
+  .post(authorize, bodyParser, async (request, response) => {
     try {
       const category = new Category(request.body);
       await category.save();
@@ -27,7 +28,7 @@ router.route('/')
   });
 
 router.route('/:id')
-  .put(bodyParser, async (request, response) => {
+  .put(authorize, bodyParser, async (request, response) => {
     try {
       const category = await Category.findById(request.params.id);
       Object.assign(category, request.body);
@@ -37,7 +38,7 @@ router.route('/:id')
       return response.status(400).send(error);
     }
   })
-  .delete(async (request, response) => {
+  .delete(authorize, async (request, response) => {
     try {
       await Category.remove({_id: request.params.id});
       return response.status(200).json({message: 'Category removed'});
