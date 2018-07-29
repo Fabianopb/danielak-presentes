@@ -1,3 +1,6 @@
+const dotenv = require('dotenv');
+dotenv.config();
+
 const express = require('express');
 const app = express();
 const path = require('path');
@@ -15,7 +18,7 @@ app.use('/api/products', products);
 app.use('/api/categories', categories);
 app.use('/api/users', users);
 
-mongoose.connect(process.env.DANIK_MONGODB);
+mongoose.connect(process.env.DANIK_MONGODB, { useNewUrlParser: true });
 
 app.use(express.static(path.resolve(__dirname, '..', 'build')));
 
