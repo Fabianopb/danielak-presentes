@@ -23,7 +23,8 @@ import 'semantic-ui-css/semantic.min.css';
 import './index.scss';
 
 const middleware = [thunk];
-const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+const composeEnhancers =
+  (process.env.NODE_ENV !== 'production' && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__) || compose;
 
 const rootReducer = combineReducers({
   products: productsReducer,
