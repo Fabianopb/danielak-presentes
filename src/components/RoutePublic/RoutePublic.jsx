@@ -12,13 +12,14 @@ import styles from './RoutePublic.module.scss';
 class RoutePublic extends Component {
   render () {
     const { component: Component, ...rest } = this.props;
+    const displayCategories = !this.props.path.includes('product');
     return (
       <Route {...rest} render={props => (
         <div>
           <div className={styles.header}>
             <img className={styles.logo} src={danikLogo} alt='logo' />
           </div>
-          <CategoryMenu />
+          <CategoryMenu displayCategories={displayCategories} />
           <div className={styles.routeLayout}>
             <Component {...props} />
           </div>
@@ -34,7 +35,8 @@ class RoutePublic extends Component {
 
 RoutePublic.propTypes = {
   component: PropTypes.func.isRequired,
-  isSessionValid: PropTypes.func.isRequired
+  isSessionValid: PropTypes.func.isRequired,
+  path: PropTypes.string.isRequired
 };
 
 const mapDispatchToProps = (dispatch) =>

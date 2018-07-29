@@ -13,11 +13,16 @@ class CategoryMenu extends Component {
   }
 
   render () {
+    const { displayCategories } = this.props;
     const { data } = this.props.categories;
     return (
       <div className={styles.menu}>
-        <div className={styles.menuItem}>Todas</div>
-        {_.map(data, category => <div className={styles.menuItem} key={category._id}>{category.name}</div>)}
+        {displayCategories &&
+          <div className={styles.itemsWrapper}>
+            <div className={styles.menuItem}>Todas</div>
+            {_.map(data, category => <div className={styles.menuItem} key={category._id}>{category.name}</div>)}
+          </div>
+        }
       </div>
     );
   }
@@ -25,7 +30,8 @@ class CategoryMenu extends Component {
 
 CategoryMenu.propTypes = {
   categories: PropTypes.object.isRequired,
-  fetchCategories: PropTypes.func.isRequired
+  fetchCategories: PropTypes.func.isRequired,
+  displayCategories: PropTypes.bool.isRequired
 };
 
 const mapStateToProps = (state) => ({
