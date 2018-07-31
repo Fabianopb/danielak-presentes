@@ -23,7 +23,7 @@ const RichTextArea = ({meta, input, handleTouch, formLabel, required}) => {
       <ReactQuill
         value={value}
         modules={modules}
-        onChange={value => onChange(value)}
+        onChange={text => onChange(text)}
         onBlur={() => handleTouch(input.name)}
       />
       <div className={styles.errorMessage}>{error && <span>{meta.error}</span>}</div>

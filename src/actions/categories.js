@@ -29,7 +29,7 @@ export const closeDialog = () => ({type: CLOSE_DIALOG});
 /* -------------------------- */
 /*       PRIVATE METHODS      */
 /* -------------------------- */
-const _redirectTo = (route) => {
+const redirectTo = (route) => {
   history.push(route);
 };
 
@@ -38,8 +38,8 @@ const _redirectTo = (route) => {
 /* -------------------------- */
 
 const notificationOpts = {
-  position: 'tc',
-  autoDismiss: 5
+  autoDismiss: 5,
+  position: 'tc'
 };
 
 export const fetchCategories = (categoryId) => {
@@ -71,7 +71,7 @@ export const upsertCategory = category => {
         ? await axios.put(`/api/categories/${category._id}`, category, { headers: getAuthHeaders() })
         : await axios.post(`/api/categories`, category, { headers: getAuthHeaders() });
       console.log(response);
-      _redirectTo('/admin');
+      redirectTo('/admin');
       notificationOpts.title = 'Categorias atualizadas com sucesso!';
       dispatch(Notifications.success(notificationOpts));
     } catch (error) {
@@ -89,7 +89,7 @@ export const showAdminCategory = (categoryId) => {
     const activeCategory = _.find(categories, cat => cat._id === categoryId);
     console.log('activeCategory', activeCategory);
     dispatch(setActiveCategory(activeCategory));
-    _redirectTo(`/admin/category/${categoryId}`);
+    redirectTo(`/admin/category/${categoryId}`);
   };
 };
 
@@ -101,7 +101,7 @@ export const deleteCategory = (categoryId) => {
       const response = await axios.delete(`/api/categories/${categoryId}`, { headers: getAuthHeaders() });
       console.log(response);
       // TODO: could dispatch a success notification
-      _redirectTo('/admin');
+      redirectTo('/admin');
       notificationOpts.title = 'Categoria excluida com sucesso!';
       dispatch(Notifications.success(notificationOpts));
     } catch (error) {

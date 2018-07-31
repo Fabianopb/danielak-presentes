@@ -1,7 +1,7 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
+import * as React from 'react';
+import * as ReactDOM from 'react-dom';
 import { Router, Switch } from 'react-router-dom';
-import { applyMiddleware, compose, createStore, combineReducers } from 'redux';
+import { applyMiddleware, combineReducers, compose, createStore } from 'redux';
 import { Provider } from 'react-redux';
 import thunk from 'redux-thunk';
 import { reducer as formReducer } from 'redux-form';
@@ -22,13 +22,19 @@ import NotificationsManager from './containers/Notifications/Notifications';
 import 'semantic-ui-css/semantic.min.css';
 import './index.scss';
 
+declare global {
+  interface Window {
+    __REDUX_DEVTOOLS_EXTENSION_COMPOSE__: typeof compose;
+  }
+}
+
 const middleware = [thunk];
 const composeEnhancers =
   (process.env.NODE_ENV !== 'production' && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__) || compose;
 
 const rootReducer = combineReducers({
-  products: productsReducer,
   categories: categoriesReducer,
+  products: productsReducer,
   users: usersReducer,
   form: formReducer,
   notifications: notificationsReducer
@@ -44,10 +50,10 @@ ReactDOM.render(
     <Router history={history}>
       <div>
         <Switch>
-          <RoutePublic exact path='/' component={ProductGrid} />
-          <RoutePublic exact path='/product/:id' component={ProductDetail} />
-          <RoutePublic exact path='/login' component={LoginPage} />
-          <RoutePrivate exact path='/admin' component={AdminMain} />
+          <RoutePublic exact={true} path='/' component={ProductGrid} />
+          <RoutePublic exact={true} path='/product/:id' component={ProductDetail} />
+          <RoutePublic exact={true} path='/login' component={LoginPage} />
+          <RoutePrivate exact={true} path='/admin' component={AdminMain} />
           <RoutePrivate path='/admin/product/:id' component={AdminProduct} />
           <RoutePrivate path='/admin/category/:id' component={AdminCategory} />
         </Switch>
