@@ -1,7 +1,7 @@
 @import '../../assets/colors';
 
 .menu {
-  padding: 0 16px;
+  padding: 0 32px;
   background-color: $cherry-blossom;
   color: $body-font-color;
   height: 32px;
@@ -10,8 +10,13 @@
 
   .itemsWrapper {
     display: flex;
+    justify-content: space-between;
     align-items: center;
     height: 100%;
+
+    .categories {
+      display: flex;
+    }
 
     .menuItem {
       cursor: pointer;
