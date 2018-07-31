@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { PropTypes } from 'prop-types';
-import { Table, Icon, Dimmer, Loader, Button, Divider } from 'semantic-ui-react';
+import { Table, Icon, Dimmer, Loader, Button, Divider, Image } from 'semantic-ui-react';
 import _ from 'lodash';
 import { fetchProducts, showAdminProduct } from '../../actions/products';
 import { fetchCategories, showAdminCategory } from '../../actions/categories';
@@ -51,7 +51,9 @@ class AdminMain extends Component {
                     <Table.Row className={styles.clickableRow} key={product._id} onClick={() => showAdminProduct(product._id)}>
                       <Table.Cell className={styles.nameRow}>
                         <div className={styles.thumbnailContainer}>
-                          <img className={styles.thumbnail} src={product.image[product.featuredImageIndex].small} alt='N/A' />
+                          {product.image.length > 0 &&
+                            <Image className={styles.thumbnail} src={product.image[product.featuredImageIndex].small} alt='N/A' />
+                          }
                         </div>
                         <div className={styles.productName}>{ product.name }</div>
                       </Table.Cell>

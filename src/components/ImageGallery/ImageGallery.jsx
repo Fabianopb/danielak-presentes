@@ -22,7 +22,7 @@ class ImageGallery extends Component {
     const { images } = this.props;
     return (
       <div>
-        <Image className={styles.image} src={images[selectedImageIndex].large} />
+        {images.length > 0 && <Image className={styles.image} src={images[selectedImageIndex].large} />}
         <div className={styles.thumbnailsContainer}>
           { _.map(images, (image, index) => (
             <div key={index} className={styles.thumbnailBox}>

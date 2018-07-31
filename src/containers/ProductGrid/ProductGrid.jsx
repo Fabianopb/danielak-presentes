@@ -26,22 +26,24 @@ class ProductGrid extends Component {
               <Dimmer active inverted>
                 <Loader />
               </Dimmer>
-            ) : data.map(product => (
-              <div className={styles.productCell} key={product._id} onClick={() => this.props.showProductDetail(product)}>
-                <div className={styles.imageContainer}>
-                  <Image src={product.image[product.featuredImageIndex].large} />
+            ) : data.map(product => {
+              return (
+                <div className={styles.productCell} key={product._id} onClick={() => this.props.showProductDetail(product)}>
+                  <div className={styles.imageContainer}>
+                    {product.image.length > 0 && <Image src={product.image[product.featuredImageIndex].large} />}
+                  </div>
+                  <div className={styles.title}>
+                    {product.name}
+                  </div>
+                  <div className={styles.currentPrice}>
+                    <span className={product.discountPrice && styles.disabledPrice}>
+                      { currencyFormat(product.currentPrice) }
+                    </span>
+                    { product.discountPrice && currencyFormat(product.discountPrice) }
+                  </div>
                 </div>
-                <div className={styles.title}>
-                  {product.name}
-                </div>
-                <div className={styles.currentPrice}>
-                  <span className={product.discountPrice && styles.disabledPrice}>
-                    { currencyFormat(product.currentPrice) }
-                  </span>
-                  { product.discountPrice && currencyFormat(product.discountPrice) }
-                </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
         </Grid.Column>
         <Grid.Column width={2} only='computer' />
