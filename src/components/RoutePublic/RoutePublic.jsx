@@ -17,7 +17,6 @@ class RoutePublic extends Component {
       <Route {...rest} render={props => (
         <div>
           <div className={styles.header}>
-            <img className={styles.lua} src={danikLua} alt='lua' />
             <img className={styles.logo} src={danikLogo} alt='logo' />
             <img className={styles.lua} src={danikLua} alt='lua' />
           </div>

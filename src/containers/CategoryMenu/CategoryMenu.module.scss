@@ -6,6 +6,7 @@
   color: $body-font-color;
   height: 32px;
   box-shadow: $box-shadow;
+  border-bottom: 1px solid $light-silver;
 
   .itemsWrapper {
     display: flex;

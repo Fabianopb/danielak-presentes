@@ -55,7 +55,7 @@ class ProductDetail extends Component {
                           <Icon name='shop' />
                           Ver na minha lojinha
                         </Button>
-                        <h3>Detalhes do produto e entrega</h3>
+                        <h3>Detalhes do produto e confecção</h3>
                         <div>Peso: {activeProduct.weight} g</div>
                         <div>Dimensões: {activeProduct.width} (C) x {activeProduct.depth} (L) x {activeProduct.height} (A)</div>
                         <div>Quantidade mínima do pedido: {activeProduct.minAmount}</div>

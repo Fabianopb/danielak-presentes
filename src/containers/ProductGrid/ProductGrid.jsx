@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { PropTypes } from 'prop-types';
 import { connect } from 'react-redux';
-import { Dimmer, Loader, Divider, Grid, Image } from 'semantic-ui-react';
+import { Dimmer, Loader, Grid, Image } from 'semantic-ui-react';
 import { fetchProducts, showProductDetail } from '../../actions/products';
 import { currencyFormat } from '../../modules/helpers';
 
@@ -19,8 +19,6 @@ class ProductGrid extends Component {
         <Grid.Column width={2} only='computer' />
         <Grid.Column width={1} only='widescreen' />
         <Grid.Column computer={12} widescreen={10} width={16}>
-          <h2>Os mais vendidos</h2>
-          <Divider />
           <div className='flex-wrap main-axis-center'>
             {isFetching ? (
               <Dimmer active inverted>
