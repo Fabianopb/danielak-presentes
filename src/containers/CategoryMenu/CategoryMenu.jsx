@@ -20,27 +20,24 @@ class CategoryMenu extends Component {
   }
 
   render () {
-    const { displayCategories } = this.props;
     const { data, activeCategory } = this.props.categories;
     return (
       <div className={styles.menu}>
-        {displayCategories &&
-          <div className={styles.itemsWrapper}>
-            <div
-              className={classNames(styles.menuItem, { [styles.activeItem]: !activeCategory })}
-              onClick={() => this.handleCategoryChange(null)}
-            >Todas
-            </div>
-            {_.map(data, category =>
-              <div
-                key={category._id}
-                className={classNames(styles.menuItem, { [styles.activeItem]: activeCategory === category._id })}
-                onClick={() => this.handleCategoryChange(category._id)}
-              >{category.name}
-              </div>
-            )}
+        <div className={styles.itemsWrapper}>
+          <div
+            className={classNames(styles.menuItem, { [styles.activeItem]: !activeCategory })}
+            onClick={() => this.handleCategoryChange(null)}
+          >Todas
           </div>
-        }
+          {_.map(data, category =>
+            <div
+              key={category._id}
+              className={classNames(styles.menuItem, { [styles.activeItem]: activeCategory === category._id })}
+              onClick={() => this.handleCategoryChange(category._id)}
+            >{category.name}
+            </div>
+          )}
+        </div>
       </div>
     );
   }
@@ -49,8 +46,7 @@ class CategoryMenu extends Component {
 CategoryMenu.propTypes = {
   categories: PropTypes.object.isRequired,
   fetchCategories: PropTypes.func.isRequired,
-  changeCategory: PropTypes.func.isRequired,
-  displayCategories: PropTypes.bool.isRequired
+  changeCategory: PropTypes.func.isRequired
 };
 
 const mapStateToProps = (state) => ({

@@ -13,7 +13,6 @@ import styles from './RoutePublic.module.scss';
 class RoutePublic extends Component {
   render () {
     const { component: Component, ...rest } = this.props;
-    const displayCategories = !this.props.path.includes('product');
     return (
       <Route {...rest} render={props => (
         <div>
@@ -22,7 +21,7 @@ class RoutePublic extends Component {
             <img className={styles.logo} src={danikLogo} alt='logo' />
             <img className={styles.lua} src={danikLua} alt='lua' />
           </div>
-          <CategoryMenu displayCategories={displayCategories} />
+          <CategoryMenu />
           <div className={styles.routeLayout}>
             <Component {...props} />
           </div>
