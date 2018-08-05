@@ -1,30 +1,40 @@
-import React, { Component } from 'react';
-import { PropTypes } from 'prop-types';
+import * as React from 'react';
 import { connect } from 'react-redux';
-import { Dimmer, Loader, Grid, Image } from 'semantic-ui-react';
+import { Dimmer, Loader, Image } from 'semantic-ui-react';
+import { Grid, Col } from 'react-flexbox-grid';
 import { fetchProducts, showProductDetail } from '../../actions/products';
 import { currencyFormat } from '../../modules/helpers';
-
 import styles from './ProductGrid.module.scss';
 
-class ProductGrid extends Component {
-  componentDidMount () {
+type StateProps = {
+  products: any;
+};
+
+type DispatchProps = {
+  fetchProducts: any;
+  showProductDetail: any;
+};
+
+type OwnProps = {};
+
+type ProductGridProps = StateProps & DispatchProps & OwnProps;
+
+class ProductGrid extends React.Component<ProductGridProps> {
+  public componentDidMount () {
     this.props.fetchProducts();
   }
 
-  render () {
+  public render () {
     const {isFetching, data} = this.props.products;
     return (
       <Grid className={styles.productsView}>
-        <Grid.Column width={2} only='computer' />
-        <Grid.Column width={1} only='widescreen' />
-        <Grid.Column computer={12} widescreen={10} width={16}>
+        <Col xs={true}>
           <div className='flex-wrap main-axis-center'>
             {isFetching ? (
-              <Dimmer active inverted>
+              <Dimmer active={true} inverted={true}>
                 <Loader />
               </Dimmer>
-            ) : data.map(product => {
+            ) : data.map((product: any) => {
               return (
                 <div className={styles.productCell} key={product._id} onClick={() => this.props.showProductDetail(product)}>
                   <div className={styles.imageContainer}>
@@ -43,21 +53,13 @@ class ProductGrid extends Component {
               );
             })}
           </div>
-        </Grid.Column>
-        <Grid.Column width={2} only='computer' />
-        <Grid.Column width={1} only='widescreen' />
+        </Col>
       </Grid>
     );
   }
 }
 
-ProductGrid.propTypes = {
-  fetchProducts: PropTypes.func.isRequired,
-  showProductDetail: PropTypes.func.isRequired,
-  products: PropTypes.object.isRequired
-};
-
-const mapStateToProps = (state) => ({
+const mapStateToProps = (state: any) => ({
   products: state.products
 });
 
