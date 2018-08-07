@@ -42,8 +42,8 @@ class RoutePublic extends React.Component<RoutePublicProps> {
             <Component {...props} />
           </div>
           <div className={styles.footer}>
-            <p>danielakpresentes@yahoo.com.br</p>
-            <p>Whatsapp +55 11 99777 5245</p>
+            <div>danielakpresentes@yahoo.com.br</div>
+            <div>Whatsapp +55 11 99777 5245</div>
           </div>
         </div>
       )} />
