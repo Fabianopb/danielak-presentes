@@ -1,39 +1,39 @@
-import React, { Component } from 'react';
+import * as React from 'react';
 import { Image, Icon } from 'semantic-ui-react';
-import { PropTypes } from 'prop-types';
-import _ from 'lodash';
+import * as _ from 'lodash';
 import styles from './ImageGallery.module.scss';
 
-class ImageGallery extends Component {
-  state = {
+type ImageGalleryProps = {
+  images: Array<{ large: string; small: string; }>;
+  selectedIndex: number;
+};
+
+type ImageGalleryState = {
+  selectedImageIndex: number;
+};
+
+class ImageGallery extends React.Component<ImageGalleryProps, ImageGalleryState> {
+  public state = {
     selectedImageIndex: this.props.selectedIndex
   }
 
-  getThumbnailClass (imageIndex) {
-    return imageIndex === this.state.selectedImageIndex ? 'selected' : 'selectable';
-  }
-
-  selectImage (imageIndex) {
-    this.setState({selectedImageIndex: imageIndex});
-  }
-
-  render () {
+  public render () {
     const { selectedImageIndex } = this.state;
     const { images } = this.props;
     return (
       <div>
         {images.length > 0 && <Image className={styles.image} src={images[selectedImageIndex].large} />}
         <div className={styles.thumbnailsContainer}>
-          { _.map(images, (image, index) => (
+          { _.map(images, (image: string, index: number) => (
             <div key={index} className={styles.thumbnailBox}>
               { selectedImageIndex === index ? [
-                <Image key='image' className={styles.image} src={images[index].small} />,
+                <Image key='image' className={styles.image} src={image.small} />,
                 <div key='overlay' className={styles.selectedOverlay}>
-                  <Icon disabled name='search' size='large' />
+                  <Icon disabled={true} name='search' size='large' />
                 </div>
               ] : (
                 <Image
-                  src={images[index].small}
+                  src={image.small}
                   className={styles.selectable}
                   onClick={() => this.selectImage(index)}
                 />
@@ -44,11 +44,10 @@ class ImageGallery extends Component {
       </div>
     );
   }
-}
 
-ImageGallery.propTypes = {
-  images: PropTypes.array.isRequired,
-  selectedIndex: PropTypes.number.isRequired
-};
+  private selectImage (imageIndex: number) {
+    this.setState({selectedImageIndex: imageIndex});
+  }
+}
 
 export default ImageGallery;

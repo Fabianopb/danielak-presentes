@@ -12,7 +12,6 @@ import styles from './RoutePublic.module.scss';
 type RoutePublicProps = RouteProps & {
   component: any;
   isSessionValid: () => any;
-  path: string;
 };
 
 class RoutePublic extends React.Component<RoutePublicProps> {

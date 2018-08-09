@@ -1,13 +1,18 @@
-import React, { Component } from 'react';
-import { Route, Redirect } from 'react-router-dom';
+import * as React from 'react';
+import { bindActionCreators, Dispatch } from 'redux';
+import { Route, Redirect, RouteProps } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { PropTypes } from 'prop-types';
 import { isSessionValid, logout } from '../../actions/users';
-
 import styles from './RoutePrivate.module.scss';
 
-class RoutePrivate extends Component {
-  render () {
+type RoutePrivateProps = RouteProps & {
+  component: any;
+  isSessionValid: () => any;
+  logout: () => any;
+};
+
+class RoutePrivate extends React.Component<RoutePrivateProps> {
+  public render () {
     const { component: Component, ...rest } = this.props;
     return (
       <Route {...rest} render={props =>
@@ -35,10 +40,7 @@ class RoutePrivate extends Component {
   }
 }
 
-RoutePrivate.propTypes = {
-  component: PropTypes.func.isRequired,
-  isSessionValid: PropTypes.func.isRequired,
-  logout: PropTypes.func.isRequired
-};
+const mapDispatchToProps = (dispatch: Dispatch) =>
+  bindActionCreators({isSessionValid, logout}, dispatch);
 
-export default connect(null, {isSessionValid, logout})(RoutePrivate);
+export default connect(null, mapDispatchToProps)(RoutePrivate);

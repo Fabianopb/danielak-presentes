@@ -1,11 +1,11 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import * as React from 'react';
+import { WrappedFieldProps } from "redux-form";
 import ReactQuill from 'react-quill';
-import _ from 'lodash';
+import * as _ from 'lodash';
 import 'react-quill/dist/quill.snow.css';
 import styles from './RichTextArea.module.scss';
 
-const hasErrored = (touched, errorMessage) => (touched && !_.isUndefined(errorMessage));
+const hasErrored = (touched: boolean, errorMessage: string): boolean => (touched && !_.isUndefined(errorMessage));
 
 const modules = {
   toolbar: [
@@ -14,7 +14,13 @@ const modules = {
   ]
 };
 
-const RichTextArea = ({meta, input, handleTouch, formLabel, required}) => {
+type RichTextAreaProps = WrappedFieldProps & {
+  required: boolean;
+  formLabel: string;
+  handleTouch: (name: string) => any;
+};
+
+const RichTextArea: React.SFC<RichTextAreaProps> = ({meta, input, handleTouch, formLabel, required}) => {
   const error = hasErrored(meta.touched, meta.error);
   const { value, onChange } = input;
   return (
@@ -29,14 +35,6 @@ const RichTextArea = ({meta, input, handleTouch, formLabel, required}) => {
       <div className={styles.errorMessage}>{error && <span>{meta.error}</span>}</div>
     </div>
   );
-};
-
-RichTextArea.propTypes = {
-  required: PropTypes.bool,
-  formLabel: PropTypes.string.isRequired,
-  meta: PropTypes.object.isRequired,
-  input: PropTypes.object.isRequired,
-  handleTouch: PropTypes.func.isRequired
 };
 
 export default RichTextArea;
