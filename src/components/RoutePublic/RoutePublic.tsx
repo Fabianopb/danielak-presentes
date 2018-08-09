@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Route, RouteProps } from 'react-router-dom';
-import { bindActionCreators } from 'redux';
+import { bindActionCreators, Dispatch } from 'redux';
 import { connect } from 'react-redux';
 import { Grid, Row, Col } from 'react-flexbox-grid';
 import danikLogo from '../../assets/danik-logo.png';
@@ -51,7 +51,7 @@ class RoutePublic extends React.Component<RoutePublicProps> {
   }
 }
 
-const mapDispatchToProps = (dispatch: any) =>
+const mapDispatchToProps = (dispatch: Dispatch) =>
   bindActionCreators({isSessionValid}, dispatch);
 
 export default connect(null, mapDispatchToProps)(RoutePublic);
