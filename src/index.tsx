@@ -23,12 +23,6 @@ import NotificationsManager from './containers/Notifications/Notifications';
 import 'semantic-ui-css/semantic.min.css';
 import './index.scss';
 
-declare global {
-  interface Window {
-    __REDUX_DEVTOOLS_EXTENSION_COMPOSE__: typeof compose;
-  }
-}
-
 const middleware = [thunk];
 const composeEnhancers =
   (process.env.NODE_ENV !== 'production' && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__) || compose;

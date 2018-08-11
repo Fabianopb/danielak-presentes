@@ -1,35 +1,42 @@
 import axios from 'axios';
-import _ from 'lodash';
+import * as _ from 'lodash';
 import { initialize } from 'redux-form';
-import Notifications from 'react-notification-system-redux';
+import { Dispatch } from 'redux';
+import * as Notifications from 'react-notification-system-redux';
 import history from '../modules/history';
-import { receiveProducts } from './products';
-import { getAuthHeaders } from '../modules/helpers';
+import { productActions } from './products';
+import { createAction, ActionsUnion, getAuthHeaders } from '../modules/helpers';
 
 /* -------------------------- */
 /*           ACTIONS          */
 /* -------------------------- */
-export const START_REQUEST = 'START_REQUEST';
-export const END_REQUEST = 'END_REQUEST';
-export const RECEIVE_CATEGORIES = 'RECEIVE_CATEGORIES';
-export const SET_ACTIVE_CATEGORY = 'SET_ACTIVE_CATEGORY';
-export const OPEN_DIALOG = 'OPEN_DIALOG';
-export const CLOSE_DIALOG = 'CLOSE_DIALOG';
+export enum CategoryActionsEnum {
+  START_REQUEST = 'START_REQUEST',
+  END_REQUEST = 'END_REQUEST',
+  RECEIVE_CATEGORIES = 'RECEIVE_CATEGORIES',
+  SET_ACTIVE_CATEGORY = 'SET_ACTIVE_CATEGORY',
+  OPEN_DIALOG = 'OPEN_DIALOG',
+  CLOSE_DIALOG = 'CLOSE_DIALOG'
+}
 
 /* -------------------------- */
 /*      ACTIONS CREATORS      */
 /* -------------------------- */
-const startRequest = () => ({type: START_REQUEST});
-const endRequest = () => ({type: END_REQUEST});
-const receiveCategories = (data) => ({type: RECEIVE_CATEGORIES, data});
-const setActiveCategory = (activeCategory) => ({type: SET_ACTIVE_CATEGORY, activeCategory});
-export const openDialog = () => ({type: OPEN_DIALOG});
-export const closeDialog = () => ({type: CLOSE_DIALOG});
+export const categoryActions = {
+  startRequest: () => createAction(CategoryActionsEnum.START_REQUEST),
+  endRequest: () => createAction(CategoryActionsEnum.END_REQUEST),
+  receiveCategories: (data: any) => createAction(CategoryActionsEnum.RECEIVE_CATEGORIES, data),
+  setActiveCategory: (activeCategory: any) => createAction(CategoryActionsEnum.SET_ACTIVE_CATEGORY, activeCategory),
+  openDialog: () => createAction(CategoryActionsEnum.OPEN_DIALOG),
+  closeDialog: () => createAction(CategoryActionsEnum.CLOSE_DIALOG)
+};
+
+export type CategoryActions = ActionsUnion<typeof categoryActions>;
 
 /* -------------------------- */
 /*       PRIVATE METHODS      */
 /* -------------------------- */
-const redirectTo = (route) => {
+const redirectTo = (route: string) => {
   history.push(route);
 };
 
@@ -39,23 +46,24 @@ const redirectTo = (route) => {
 
 const notificationOpts = {
   autoDismiss: 5,
-  position: 'tc'
+  position: 'tc' as 'tc',
+  title: ''
 };
 
-export const fetchCategories = (categoryId) => {
-  return async (dispatch) => {
+export const fetchCategories = (categoryId: string) => {
+  return async (dispatch: Dispatch) => {
     try {
-      dispatch(startRequest());
+      dispatch(categoryActions.startRequest());
       if (categoryId) {
         const response = await axios.get(`/api/categories?_id=${categoryId}`);
         const category = response.data[0];
         dispatch(initialize('CategoryForm', category));
-        dispatch(setActiveCategory(category));
+        dispatch(categoryActions.setActiveCategory(category));
       } else {
         const response = await axios.get(`/api/categories`);
-        dispatch(receiveCategories(response.data));
+        dispatch(categoryActions.receiveCategories(response.data));
       }
-      dispatch(endRequest());
+      dispatch(categoryActions.endRequest());
     } catch (error) {
       notificationOpts.title = 'Something went wrong :(';
       dispatch(Notifications.error(notificationOpts));
@@ -63,10 +71,10 @@ export const fetchCategories = (categoryId) => {
   };
 };
 
-export const upsertCategory = category => {
-  return async dispatch => {
+export const upsertCategory = (category: any) => {
+  return async (dispatch: Dispatch) => {
     try {
-      dispatch(startRequest());
+      dispatch(categoryActions.startRequest());
       const response = category._id
         ? await axios.put(`/api/categories/${category._id}`, category, { headers: getAuthHeaders() })
         : await axios.post(`/api/categories`, category, { headers: getAuthHeaders() });
@@ -78,26 +86,26 @@ export const upsertCategory = category => {
       notificationOpts.title = 'Algo deu errado :(';
       dispatch(Notifications.error(notificationOpts));
     } finally {
-      dispatch(endRequest());
+      dispatch(categoryActions.endRequest());
     }
   };
 };
 
-export const showAdminCategory = (categoryId) => {
-  return (dispatch, getState) => {
+export const showAdminCategory = (categoryId: string) => {
+  return (dispatch: Dispatch, getState: any) => {
     const categories = _.cloneDeep(getState().categories.data);
     const activeCategory = _.find(categories, cat => cat._id === categoryId);
     console.log('activeCategory', activeCategory);
-    dispatch(setActiveCategory(activeCategory));
+    dispatch(categoryActions.setActiveCategory(activeCategory));
     redirectTo(`/admin/category/${categoryId}`);
   };
 };
 
-export const deleteCategory = (categoryId) => {
-  return async (dispatch) => {
+export const deleteCategory = (categoryId: string) => {
+  return async (dispatch: Dispatch) => {
     try {
-      dispatch(startRequest());
-      dispatch(closeDialog());
+      dispatch(categoryActions.startRequest());
+      dispatch(categoryActions.closeDialog());
       const response = await axios.delete(`/api/categories/${categoryId}`, { headers: getAuthHeaders() });
       console.log(response);
       // TODO: could dispatch a success notification
@@ -108,23 +116,23 @@ export const deleteCategory = (categoryId) => {
       notificationOpts.title = 'Algo deu errado :(';
       dispatch(Notifications.error(notificationOpts));
     } finally {
-      dispatch(endRequest());
+      dispatch(categoryActions.endRequest());
     }
   };
 };
 
-export const changeCategory = (categoryId) => {
-  return async (dispatch) => {
+export const changeCategory = (categoryId: string) => {
+  return async (dispatch: Dispatch) => {
     try {
-      dispatch(startRequest());
+      dispatch(categoryActions.startRequest());
       const response = await axios.get(`/api/products${categoryId ? `?category=${categoryId}` : ''}`);
-      dispatch(receiveProducts(response.data));
-      dispatch(setActiveCategory(categoryId));
+      dispatch(productActions.receiveProducts(response.data));
+      dispatch(categoryActions.setActiveCategory(categoryId));
     } catch (error) {
       notificationOpts.title = 'Algo deu errado :(';
       dispatch(Notifications.error(notificationOpts));
     } finally {
-      dispatch(endRequest());
+      dispatch(categoryActions.endRequest());
     }
   };
 };
