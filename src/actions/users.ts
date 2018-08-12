@@ -11,7 +11,9 @@ export enum UserActionsEnum {
   START_REQUEST = 'START_REQUEST',
   END_REQUEST = 'END_REQUEST',
   ERROR_REQUEST = 'ERROR_REQUEST',
-  LOG_IN = 'LOG_IN'
+  LOG_IN = 'LOG_IN',
+  LOG_OUT = 'LOG_OUT',
+  IS_SESSION_VALID = 'IS_SESSION_VALID'
 }
 
 /* -------------------------- */
@@ -20,8 +22,11 @@ export enum UserActionsEnum {
 export const userActions = {
   startRequest: () => createAction(UserActionsEnum.START_REQUEST),
   endRequest: () => createAction(UserActionsEnum.END_REQUEST),
-  handleError: (error: any) => createAction(UserActionsEnum.ERROR_REQUEST, error)
-  // const login = () => ({type: LOG_IN});
+  handleError: (error: any) => createAction(UserActionsEnum.ERROR_REQUEST, error),
+  // saga triggers
+  login: () => createAction(UserActionsEnum.LOG_IN),
+  logout: () => createAction(UserActionsEnum.LOG_OUT),
+  isSessionValid: () => createAction(UserActionsEnum.IS_SESSION_VALID)
 };
 
 export type UserActions = ActionsUnion<typeof userActions>;
@@ -46,7 +51,7 @@ const clearSession = (): void => {
 /* -------------------------- */
 /*           THUNKS           */
 /* -------------------------- */
-export const login = (credentials: any) => {
+export const loginThunk = (credentials: any) => {
   return async (dispatch: Dispatch) => {
     try {
       dispatch(userActions.startRequest());
@@ -60,13 +65,13 @@ export const login = (credentials: any) => {
   };
 };
 
-export const logout = () => {
+export const logoutThunk = () => {
   return () => {
     clearSession();
     redirectTo('/');
   };
 };
 
-export const isSessionValid = () => {
+export const isSessionValidThunk = () => {
   return () => moment(localStorage.getItem('expiry') as string).isAfter(moment());
 };

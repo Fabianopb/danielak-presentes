@@ -2,7 +2,7 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators, Dispatch } from 'redux';
 import { Dimmer, Loader } from 'semantic-ui-react';
-import { login } from '../../actions/users';
+import { loginThunk } from '../../actions/users';
 import LoginForm from '../../forms/Login/Login';
 import styles from './LoginPage.module.scss';
 
@@ -11,7 +11,7 @@ type StateProps = {
 };
 
 type DispatchProps = {
-  login: any;
+  loginThunk: any;
 };
 
 type OwnProps = {};
@@ -30,7 +30,7 @@ class LoginPage extends React.Component<LoginPageProps> {
           </Dimmer>
         ) : (
           <div className={styles.loginContainer}>
-            <LoginForm onSubmit={this.props.login} />
+            <LoginForm onSubmit={this.props.loginThunk} />
           </div>
         )}
       </div>
@@ -43,7 +43,7 @@ const mapStateToProps = (state: RootState) => ({
 });
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
-  login: bindActionCreators(login, dispatch)
+  login: bindActionCreators(loginThunk, dispatch)
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(LoginPage);

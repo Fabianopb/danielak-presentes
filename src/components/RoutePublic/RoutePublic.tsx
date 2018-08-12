@@ -5,13 +5,13 @@ import { connect } from 'react-redux';
 import { Grid, Row, Col } from 'react-flexbox-grid';
 import danikLogo from '../../assets/danik-logo.png';
 import danikLua from '../../assets/danik-lua.png';
-import { isSessionValid } from '../../actions/users';
+import { isSessionValidThunk } from '../../actions/users';
 import CategoryMenu from '../../containers/CategoryMenu/CategoryMenu';
 import styles from './RoutePublic.module.scss';
 
 type RoutePublicProps = RouteProps & {
   component: any;
-  isSessionValid: () => any;
+  isSessionValidThunk: () => any;
 };
 
 class RoutePublic extends React.Component<RoutePublicProps> {
@@ -51,6 +51,6 @@ class RoutePublic extends React.Component<RoutePublicProps> {
 }
 
 const mapDispatchToProps = (dispatch: Dispatch) =>
-  bindActionCreators({isSessionValid}, dispatch);
+  bindActionCreators({isSessionValidThunk}, dispatch);
 
 export default connect(null, mapDispatchToProps)(RoutePublic);

@@ -5,7 +5,7 @@ import { match } from "react-router";
 import { Dimmer, Loader, Icon, Button, Modal, Header } from 'semantic-ui-react';
 import history from '../../modules/history';
 import CategoryForm from '../../forms/Category/CategoryForm';
-import { fetchCategories, upsertCategory, categoryActions, deleteCategory } from '../../actions/categories';
+import { fetchCategoriesThunk, upsertCategoryThunk, categoryActions, deleteCategoryThunk } from '../../actions/categories';
 import styles from './AdminCategory.module.scss';
 
 type StateProps = {
@@ -13,10 +13,10 @@ type StateProps = {
 };
 
 type DispatchProps = {
-  fetchCategories: any;
-  upsertCategory: any;
+  fetchCategoriesThunk: any;
+  upsertCategoryThunk: any;
   categoryActions: typeof categoryActions;
-  deleteCategory: any;
+  deleteCategoryThunk: any;
 };
 
 type OwnProps = {
@@ -27,13 +27,13 @@ type AdminCategoryProps = StateProps & DispatchProps & OwnProps;
 
 class AdminCategory extends React.Component<AdminCategoryProps> {
   public componentWillMount () {
-    this.props.fetchCategories(this.props.match.params.id);
+    this.props.fetchCategoriesThunk(this.props.match.params.id);
   }
 
   public render () {
     const { isFetching: isFetchingCategories, isDialogOpen, activeCategory } = this.props.categories;
     const { params } = this.props.match;
-    const { deleteCategory: delCat } = this.props;
+    const { deleteCategoryThunk: delCat } = this.props;
     const { openDialog, closeDialog } = this.props.categoryActions;
     return (
       <div>
@@ -84,7 +84,7 @@ class AdminCategory extends React.Component<AdminCategoryProps> {
     if (this.props.match.params.id === 'new') {
       delete category._id;
     }
-    this.props.upsertCategory(category);
+    this.props.upsertCategoryThunk(category);
   };
 }
 
@@ -94,9 +94,9 @@ const mapStateToProps = (state: RootState) => ({
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
   categoryActions: bindActionCreators({ ...categoryActions }, dispatch),
-  fetchCategories: bindActionCreators(fetchCategories, dispatch),
-  upsertCategory: bindActionCreators(upsertCategory, dispatch),
-  deleteCategory: bindActionCreators(deleteCategory, dispatch),
+  fetchCategoriesThunk: bindActionCreators(fetchCategoriesThunk, dispatch),
+  upsertCategoryThunk: bindActionCreators(upsertCategoryThunk, dispatch),
+  deleteCategoryThunk: bindActionCreators(deleteCategoryThunk, dispatch),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(AdminCategory);

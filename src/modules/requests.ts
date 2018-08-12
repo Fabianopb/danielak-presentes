@@ -44,7 +44,7 @@ const apiRequests = {
    * @param {string} id product id
    * @returns {AxiosPromise<any>}
    */
-  deleteProduct: (id: string): AxiosPromise<any> => {
+  deleteProductThunk: (id: string): AxiosPromise<any> => {
     return axios.delete(`/api/products/${id}`, { headers: getAuthHeaders() });
   }
 };

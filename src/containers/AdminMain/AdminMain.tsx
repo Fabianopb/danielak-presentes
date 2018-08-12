@@ -4,8 +4,8 @@ import { bindActionCreators, Dispatch } from 'redux';
 import { connect } from 'react-redux';
 import { Table, Icon, Dimmer, Loader, Button, Divider, Image } from 'semantic-ui-react';
 import * as _ from 'lodash';
-import { fetchProducts, showAdminProduct } from '../../actions/products';
-import { fetchCategories, showAdminCategory } from '../../actions/categories';
+import { fetchProductsThunk, showAdminProductThunk } from '../../actions/products';
+import { fetchCategoriesThunk, showAdminCategoryThunk } from '../../actions/categories';
 import styles from './AdminMain.module.scss';
 
 type StateProps = {
@@ -14,10 +14,10 @@ type StateProps = {
 };
 
 type DispatchProps = {
-  fetchProducts: any;
-  showAdminProduct: any;
-  fetchCategories: any;
-  showAdminCategory: any;
+  fetchProductsThunk: any;
+  showAdminProductThunk: any;
+  fetchCategoriesThunk: any;
+  showAdminCategoryThunk: any;
 };
 
 type OwnProps = {};
@@ -26,14 +26,14 @@ type AdminMainProps = StateProps & DispatchProps & OwnProps;
 
 class AdminMain extends React.Component<AdminMainProps> {
   public componentDidMount () {
-    this.props.fetchProducts();
-    this.props.fetchCategories();
+    this.props.fetchProductsThunk();
+    this.props.fetchCategoriesThunk();
   }
 
   public render () {
     const { data: prodData, isFetching: prodIsFetching } = this.props.products;
     const { data: catData, isFetching: catIsFetching } = this.props.categories;
-    const { showAdminProduct: showProduct, showAdminCategory: showCategory } = this.props;
+    const { showAdminProductThunk: showProduct, showAdminCategoryThunk: showCategory } = this.props;
     return (
       <div>
         <div className={styles.mgmtHeader}>
@@ -130,10 +130,10 @@ const mapStateToProps = (state: RootState) => ({
 });
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
-  fetchProducts: bindActionCreators(fetchProducts, dispatch),
-  showAdminProduct: bindActionCreators(showAdminProduct, dispatch),
-  fetchCategories: bindActionCreators(fetchCategories, dispatch),
-  showAdminCategory: bindActionCreators(showAdminCategory, dispatch),
+  fetchProductsThunk: bindActionCreators(fetchProductsThunk, dispatch),
+  showAdminProductThunk: bindActionCreators(showAdminProductThunk, dispatch),
+  fetchCategoriesThunk: bindActionCreators(fetchCategoriesThunk, dispatch),
+  showAdminCategoryThunk: bindActionCreators(showAdminCategoryThunk, dispatch),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(AdminMain);

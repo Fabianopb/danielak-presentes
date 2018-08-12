@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators, Dispatch } from 'redux';
 import { Dimmer, Loader, Image } from 'semantic-ui-react';
 import { Grid, Col } from 'react-flexbox-grid';
-import { fetchProducts, showProductDetail } from '../../actions/products';
+import { fetchProductsThunk, showProductDetailThunk } from '../../actions/products';
 import { currencyFormat } from '../../modules/helpers';
 import styles from './ProductGrid.module.scss';
 
@@ -12,8 +12,8 @@ type StateProps = {
 };
 
 type DispatchProps = {
-  fetchProducts: any;
-  showProductDetail: any;
+  fetchProductsThunk: any;
+  showProductDetailThunk: any;
 };
 
 type OwnProps = {};
@@ -22,7 +22,7 @@ type ProductGridProps = StateProps & DispatchProps & OwnProps;
 
 class ProductGrid extends React.Component<ProductGridProps> {
   public componentDidMount () {
-    this.props.fetchProducts();
+    this.props.fetchProductsThunk();
   }
 
   public render () {
@@ -37,7 +37,7 @@ class ProductGrid extends React.Component<ProductGridProps> {
               </Dimmer>
             ) : data.map((product: any) => {
               return (
-                <div className={styles.productCell} key={product._id} onClick={() => this.props.showProductDetail(product)}>
+                <div className={styles.productCell} key={product._id} onClick={() => this.props.showProductDetailThunk(product)}>
                   <div className={styles.imageContainer}>
                     {product.image.length > 0 && <Image src={product.image[product.featuredImageIndex].large} />}
                   </div>
@@ -65,8 +65,8 @@ const mapStateToProps = (state: RootState) => ({
 });
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
-  fetchProducts: bindActionCreators(fetchProducts, dispatch),
-  showProductDetail: bindActionCreators(showProductDetail, dispatch)
+  fetchProductsThunk: bindActionCreators(fetchProductsThunk, dispatch),
+  showProductDetailThunk: bindActionCreators(showProductDetailThunk, dispatch)
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(ProductGrid);

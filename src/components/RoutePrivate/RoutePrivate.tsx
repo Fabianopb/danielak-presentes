@@ -2,13 +2,13 @@ import * as React from 'react';
 import { bindActionCreators, Dispatch } from 'redux';
 import { Route, Redirect, RouteProps } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { isSessionValid, logout } from '../../actions/users';
+import { isSessionValidThunk, logoutThunk } from '../../actions/users';
 import styles from './RoutePrivate.module.scss';
 
 type RoutePrivateProps = RouteProps & {
   component: any;
-  isSessionValid: () => any;
-  logout: () => any;
+  isSessionValidThunk: () => any;
+  logoutThunk: () => any;
 };
 
 class RoutePrivate extends React.Component<RoutePrivateProps> {
@@ -16,12 +16,12 @@ class RoutePrivate extends React.Component<RoutePrivateProps> {
     const { component: Component, ...rest } = this.props;
     return (
       <Route {...rest} render={props =>
-        this.props.isSessionValid() ? (
+        this.props.isSessionValidThunk() ? (
           <div>
             <div className={styles.header}>
               <div>Danik - Admin View</div>
               <div className={styles.actions}>
-                <div className={styles.logout} onClick={this.props.logout}>Logout</div>
+                <div className={styles.logout} onClick={this.props.logoutThunk}>Logout</div>
                 <div>&nbsp;&nbsp;/&nbsp;&nbsp;</div>
                 <a className={styles.homeLink} href='/' target='_blank'>Ver site</a>
               </div>
@@ -41,6 +41,6 @@ class RoutePrivate extends React.Component<RoutePrivateProps> {
 }
 
 const mapDispatchToProps = (dispatch: Dispatch) =>
-  bindActionCreators({isSessionValid, logout}, dispatch);
+  bindActionCreators({isSessionValidThunk, logoutThunk}, dispatch);
 
 export default connect(null, mapDispatchToProps)(RoutePrivate);

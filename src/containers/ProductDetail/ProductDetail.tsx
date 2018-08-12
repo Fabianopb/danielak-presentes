@@ -4,7 +4,7 @@ import { match } from 'react-router';
 import { bindActionCreators, Dispatch } from 'redux';
 import { Dimmer, Loader, Button, Icon, Grid } from 'semantic-ui-react';
 import ImageGallery from '../../components/ImageGallery/ImageGallery';
-import { getProductDetail } from '../../actions/products';
+import { getProductDetailThunk } from '../../actions/products';
 import { currencyFormat } from '../../modules/helpers';
 import history from '../../modules/history';
 import styles from './ProductDetail.module.scss';
@@ -14,7 +14,7 @@ type StateProps = {
 };
 
 type DispatchProps = {
-  getProductDetail: any;
+  getProductDetailThunk: any;
 };
 
 type OwnProps = {
@@ -25,7 +25,7 @@ type ProductDetailProps = StateProps & DispatchProps & OwnProps;
 
 class ProductDetail extends React.Component<ProductDetailProps> {
   public componentDidMount () {
-    this.props.getProductDetail(this.props.match.params.id);
+    this.props.getProductDetailThunk(this.props.match.params.id);
   }
 
   public render () {
@@ -101,7 +101,7 @@ const mapStateToProps = (state: RootState) => ({
 });
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
-  getProductDetail: bindActionCreators(getProductDetail, dispatch)
+  getProductDetailThunk: bindActionCreators(getProductDetailThunk, dispatch)
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(ProductDetail);

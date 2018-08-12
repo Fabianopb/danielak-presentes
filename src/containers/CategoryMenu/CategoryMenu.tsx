@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { Row, Col } from 'react-flexbox-grid';
 import classNames from 'classnames';
 import * as _ from 'lodash';
-import { fetchCategories, changeCategory } from '../../actions/categories';
+import { fetchCategoriesThunk, changeCategoryThunk } from '../../actions/categories';
 import styles from './CategoryMenu.module.scss';
 
 type StateProps = {
@@ -12,8 +12,8 @@ type StateProps = {
 };
 
 type DispatchProps = {
-  fetchCategories: any;
-  changeCategory: any;
+  fetchCategoriesThunk: any;
+  changeCategoryThunk: any;
 };
 
 type OwnProps = {};
@@ -22,7 +22,7 @@ type CategoryMenuProps = StateProps & DispatchProps & OwnProps;
 
 class CategoryMenu extends React.Component<CategoryMenuProps> {
   public componentDidMount () {
-    this.props.fetchCategories();
+    this.props.fetchCategoriesThunk();
   }
 
   public render () {
@@ -55,7 +55,7 @@ class CategoryMenu extends React.Component<CategoryMenuProps> {
 
   private handleCategoryChange = (categoryId: string | null) => {
     if (categoryId !== this.props.categories.activeCategory) {
-      this.props.changeCategory(categoryId);
+      this.props.changeCategoryThunk(categoryId);
     }
   }
 }
@@ -65,8 +65,8 @@ const mapStateToProps = (state: RootState) => ({
 });
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
-  fetchCategories: bindActionCreators(fetchCategories, dispatch),
-  changeCategory: bindActionCreators(changeCategory, dispatch)
+  fetchCategoriesThunk: bindActionCreators(fetchCategoriesThunk, dispatch),
+  changeCategoryThunk: bindActionCreators(changeCategoryThunk, dispatch)
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(CategoryMenu);

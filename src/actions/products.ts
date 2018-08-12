@@ -23,7 +23,15 @@ export enum ProductActionsEnum {
   ADD_PRODUCT = 'ADD_PRODUCT',
   SET_ACTIVE_PRODUCT = 'SET_ACTIVE_PRODUCT',
   OPEN_DIALOG = 'OPEN_DIALOG',
-  CLOSE_DIALOG = 'CLOSE_DIALOG'
+  CLOSE_DIALOG = 'CLOSE_DIALOG',
+  GET_PRODUCT_DETAIL = 'GET_PRODUCT_DETAIL',
+  FETCH_PRODUCTS = 'FETCH_PRODUCTS',
+  UPSERT_PRODUCTS = 'UPSERT_PRODUCTS',
+  DELETE_PRODUCT = 'DELETE_PRODUCT',
+  DELETE_IMAGE = 'DELETE_IMAGE',
+  SHOW_PRODUCT_DETAIL = 'SHOW_PRODUCT_DETAIL',
+  SHOW_ADMIN_PRODUCT = 'SHOW_ADMIN_PRODUCT',
+  HANDLE_FILE_DROP = 'HANDLE_FILE_DROP'
 }
 
 /* -------------------------- */
@@ -36,7 +44,16 @@ export const productActions = {
   receiveProducts: (data: any) => createAction(ProductActionsEnum.RECEIVE_PRODUCTS, data),
   setActiveProduct: (activeProduct: any) => createAction(ProductActionsEnum.SET_ACTIVE_PRODUCT, activeProduct),
   openDialog: (activeProduct: any) => createAction(ProductActionsEnum.OPEN_DIALOG, activeProduct),
-  closeDialog: () => createAction(ProductActionsEnum.CLOSE_DIALOG)
+  closeDialog: () => createAction(ProductActionsEnum.CLOSE_DIALOG),
+  // saga triggers
+  getProductDetail: () => createAction(ProductActionsEnum.GET_PRODUCT_DETAIL),
+  fetchProducts: () => createAction(ProductActionsEnum.FETCH_PRODUCTS),
+  upsertProduct: () => createAction(ProductActionsEnum.UPSERT_PRODUCTS),
+  deleteProduct: () => createAction(ProductActionsEnum.DELETE_PRODUCT),
+  deleteImage: () => createAction(ProductActionsEnum.DELETE_IMAGE),
+  showProductDetail: () => createAction(ProductActionsEnum.SHOW_PRODUCT_DETAIL),
+  showAdminProduct: () => createAction(ProductActionsEnum.SHOW_ADMIN_PRODUCT),
+  handleFileDrop: () => createAction(ProductActionsEnum.HANDLE_FILE_DROP)
 };
 
 export type ProductActions = ActionsUnion<typeof productActions>;
@@ -55,7 +72,7 @@ const getImageNameFromUrl = (url: string): string => {
 /* -------------------------- */
 /*           THUNKS           */
 /* -------------------------- */
-export const getProductDetail = (productId: string) => {
+export const getProductDetailThunk = (productId: string) => {
   return async (dispatch: Dispatch, getState: any) => {
     try {
       dispatch(productActions.startRequest());
@@ -75,7 +92,7 @@ export const getProductDetail = (productId: string) => {
   };
 };
 
-export const fetchProducts = (productId: string) => {
+export const fetchProductsThunk = (productId: string) => {
   return async (dispatch: Dispatch) => {
     try {
       dispatch(productActions.startRequest());
@@ -94,7 +111,7 @@ export const fetchProducts = (productId: string) => {
   };
 };
 
-export const upsertProduct = (product: any) => {
+export const upsertProductThunk = (product: any) => {
   return async (dispatch: Dispatch) => {
     try {
       dispatch(productActions.startRequest());
@@ -112,7 +129,7 @@ export const upsertProduct = (product: any) => {
   };
 };
 
-export const deleteProduct = (id: string) => {
+export const deleteProductThunk = (id: string) => {
   return async (dispatch: Dispatch, getState: any) => {
     try {
       dispatch(productActions.startRequest());
@@ -138,7 +155,7 @@ export const deleteProduct = (id: string) => {
   };
 };
 
-export const deleteImage = (imageObject: any) => {
+export const deleteImageThunk = (imageObject: any) => {
   return async (dispatch: Dispatch, getState: any) => {
     try {
       const images = _.cloneDeep(getState().form.editProductForm.values.image);
@@ -162,19 +179,19 @@ export const deleteImage = (imageObject: any) => {
   };
 };
 
-export const showProductDetail = (product: any) => {
+export const showProductDetailThunk = (product: any) => {
   return () => {
     redirectTo(`/product/${product._id}`);
   };
 };
 
-export const showAdminProduct = (productId: string) => {
+export const showAdminProductThunk = (productId: string) => {
   return () => {
     redirectTo(`/admin/product/${productId}`);
   };
 };
 
-export const handleFileDrop = (files: any) => {
+export const handleFileDropThunk = (files: any) => {
   return async (dispatch: Dispatch, getState: any) => {
     try {
       const images = _.cloneDeep(getState().form.editProductForm.values.image);

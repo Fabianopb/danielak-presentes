@@ -7,28 +7,33 @@ import history from '../modules/history';
 import { productActions } from './products';
 import { createAction, ActionsUnion, getAuthHeaders } from '../modules/helpers';
 
-/* -------------------------- */
-/*           ACTIONS          */
-/* -------------------------- */
 export enum CategoryActionsEnum {
   START_REQUEST = 'START_REQUEST',
   END_REQUEST = 'END_REQUEST',
   RECEIVE_CATEGORIES = 'RECEIVE_CATEGORIES',
   SET_ACTIVE_CATEGORY = 'SET_ACTIVE_CATEGORY',
   OPEN_DIALOG = 'OPEN_DIALOG',
-  CLOSE_DIALOG = 'CLOSE_DIALOG'
+  CLOSE_DIALOG = 'CLOSE_DIALOG',
+  FETCH_CATEGORIES = 'FETCH_CATEGORIES',
+  UPSERT_CATEGORY = 'UPSERT_CATEGORY',
+  SHOW_ADMIN_CATEGORY = 'SHOW_ADMIN_CATEGORY',
+  DELETE_CATEGORY = 'DELETE_CATEGORY',
+  CHANGE_CATEGORY = 'CHANGE_CATEGORY'
 }
 
-/* -------------------------- */
-/*      ACTIONS CREATORS      */
-/* -------------------------- */
 export const categoryActions = {
   startRequest: () => createAction(CategoryActionsEnum.START_REQUEST),
   endRequest: () => createAction(CategoryActionsEnum.END_REQUEST),
   receiveCategories: (data: any) => createAction(CategoryActionsEnum.RECEIVE_CATEGORIES, data),
   setActiveCategory: (activeCategory: any) => createAction(CategoryActionsEnum.SET_ACTIVE_CATEGORY, activeCategory),
   openDialog: () => createAction(CategoryActionsEnum.OPEN_DIALOG),
-  closeDialog: () => createAction(CategoryActionsEnum.CLOSE_DIALOG)
+  closeDialog: () => createAction(CategoryActionsEnum.CLOSE_DIALOG),
+  // saga triggers
+  fetchCategories: () => createAction(CategoryActionsEnum.FETCH_CATEGORIES),
+  upsertCategory: () => createAction(CategoryActionsEnum.UPSERT_CATEGORY),
+  showAdminCategory: () => createAction(CategoryActionsEnum.SHOW_ADMIN_CATEGORY),
+  deleteCategory: () => createAction(CategoryActionsEnum.DELETE_CATEGORY),
+  changeCategory: () => createAction(CategoryActionsEnum.CHANGE_CATEGORY)
 };
 
 export type CategoryActions = ActionsUnion<typeof categoryActions>;
@@ -50,7 +55,7 @@ const notificationOpts = {
   title: ''
 };
 
-export const fetchCategories = (categoryId: string) => {
+export const fetchCategoriesThunk = (categoryId: string) => {
   return async (dispatch: Dispatch) => {
     try {
       dispatch(categoryActions.startRequest());
@@ -71,7 +76,7 @@ export const fetchCategories = (categoryId: string) => {
   };
 };
 
-export const upsertCategory = (category: any) => {
+export const upsertCategoryThunk = (category: any) => {
   return async (dispatch: Dispatch) => {
     try {
       dispatch(categoryActions.startRequest());
@@ -91,7 +96,7 @@ export const upsertCategory = (category: any) => {
   };
 };
 
-export const showAdminCategory = (categoryId: string) => {
+export const showAdminCategoryThunk = (categoryId: string) => {
   return (dispatch: Dispatch, getState: any) => {
     const categories = _.cloneDeep(getState().categories.data);
     const activeCategory = _.find(categories, cat => cat._id === categoryId);
@@ -101,7 +106,7 @@ export const showAdminCategory = (categoryId: string) => {
   };
 };
 
-export const deleteCategory = (categoryId: string) => {
+export const deleteCategoryThunk = (categoryId: string) => {
   return async (dispatch: Dispatch) => {
     try {
       dispatch(categoryActions.startRequest());
@@ -121,7 +126,7 @@ export const deleteCategory = (categoryId: string) => {
   };
 };
 
-export const changeCategory = (categoryId: string) => {
+export const changeCategoryThunk = (categoryId: string) => {
   return async (dispatch: Dispatch) => {
     try {
       dispatch(categoryActions.startRequest());

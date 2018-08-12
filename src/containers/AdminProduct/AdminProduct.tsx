@@ -6,8 +6,8 @@ import { formValueSelector } from 'redux-form';
 import { Dimmer, Loader, Icon, Modal, Button, Header } from 'semantic-ui-react';
 import history from '../../modules/history';
 import ProductForm from '../../forms/Product/Product';
-import { fetchProducts, upsertProduct, productActions, deleteProduct, handleFileDrop, deleteImage } from '../../actions/products';
-import { fetchCategories } from '../../actions/categories';
+import { fetchProductsThunk, upsertProductThunk, productActions, deleteProductThunk, handleFileDropThunk, deleteImageThunk } from '../../actions/products';
+import { fetchCategoriesThunk } from '../../actions/categories';
 import styles from './AdminProduct.module.scss';
 
 type StateProps = {
@@ -20,12 +20,12 @@ type StateProps = {
 
 type DispatchProps = {
   productActions: typeof productActions;
-  fetchProducts: any;
-  upsertProduct: any;
-  deleteProduct: any;
-  handleFileDrop: any;
-  deleteImage: any;
-  fetchCategories: any;
+  fetchProductsThunk: any;
+  upsertProductThunk: any;
+  deleteProductThunk: any;
+  handleFileDropThunk: any;
+  deleteImageThunk: any;
+  fetchCategoriesThunk: any;
 };
 
 type OwnProps = {
@@ -36,15 +36,15 @@ type ManageProductViewProps = StateProps & DispatchProps & OwnProps;
 
 class ManageProductView extends React.Component<ManageProductViewProps> {
   public componentWillMount () {
-    this.props.fetchCategories();
-    this.props.fetchProducts(this.props.match.params.id);
+    this.props.fetchCategoriesThunk();
+    this.props.fetchProductsThunk(this.props.match.params.id);
   }
 
   public render () {
     const { isFetching: isFetchingProducts, activeProduct, isDialogOpen } = this.props.products;
     const { isFetching: isFetchingCategories, data: categories } = this.props.categories;
     const { images } = this.props.formValues;
-    const { deleteProduct: delProd, handleFileDrop: dropFile, deleteImage: delImage } = this.props;
+    const { deleteProductThunk: delProd, handleFileDropThunk: dropFile, deleteImageThunk: delImage } = this.props;
     const { openDialog, closeDialog } = this.props.productActions;
     const { params } = this.props.match;
     return (
@@ -74,8 +74,8 @@ class ManageProductView extends React.Component<ManageProductViewProps> {
         ) : (
           <ProductForm
             images={images}
-            handleFileDrop={dropFile}
-            deleteImage={delImage}
+            handleFileDropThunk={dropFile}
+            deleteImageThunk={delImage}
             onSubmit={this.submitProduct}
             categories={categories}
           />
@@ -102,7 +102,7 @@ class ManageProductView extends React.Component<ManageProductViewProps> {
     if (this.props.match.params.id === 'new') {
       delete product._id;
     }
-    this.props.upsertProduct(product);
+    this.props.upsertProductThunk(product);
   };
 }
 
@@ -118,12 +118,12 @@ const mapStateToProps = (state: RootState) => ({
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
   productActions: bindActionCreators({ ...productActions }, dispatch),
-  fetchProducts: bindActionCreators(fetchProducts, dispatch),
-  upsertProduct: bindActionCreators(upsertProduct, dispatch),
-  deleteProduct: bindActionCreators(deleteProduct, dispatch),
-  handleFileDrop: bindActionCreators(handleFileDrop, dispatch),
-  deleteImage: bindActionCreators(deleteImage, dispatch),
-  fetchCategories: bindActionCreators(fetchCategories, dispatch)
+  fetchProductsThunk: bindActionCreators(fetchProductsThunk, dispatch),
+  upsertProductThunk: bindActionCreators(upsertProductThunk, dispatch),
+  deleteProductThunk: bindActionCreators(deleteProductThunk, dispatch),
+  handleFileDropThunk: bindActionCreators(handleFileDropThunk, dispatch),
+  deleteImageThunk: bindActionCreators(deleteImageThunk, dispatch),
+  fetchCategoriesThunk: bindActionCreators(fetchCategoriesThunk, dispatch)
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(ManageProductView);

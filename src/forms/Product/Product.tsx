@@ -13,8 +13,8 @@ const PRODUCT_FORM = 'editProductForm';
 type ProductFormData = any;
 
 type ProductFormProps = {
-  handleFileDrop: any;
-  deleteImage: any;
+  handleFileDropThunk: any;
+  deleteImageThunk: any;
   images: any;
   categories: any[];
 };
@@ -28,7 +28,7 @@ const requiredDescription = (value: string): string | undefined => {
 };
 
 const Product: React.SFC<ProductFormProps & InjectedFormProps<ProductFormData, ProductFormProps>> = ({
-  handleSubmit, handleFileDrop, deleteImage, pristine, submitting, images, touch, categories
+  handleSubmit, handleFileDropThunk, deleteImageThunk, pristine, submitting, images, touch, categories
 }) => {
   const isSomeImageUploading = _.some(images, image => image === 'uploading');
   const hasDropzone = images && images.length < 5 && !isSomeImageUploading;
@@ -76,7 +76,7 @@ const Product: React.SFC<ProductFormProps & InjectedFormProps<ProductFormData, P
               { image === 'uploading'
                 ? <Segment className={styles.loading} loading={true} />
                 : <div>
-                  <Button className={styles.deleteButton} icon={true} color='red' onClick={() => deleteImage(image)}>
+                  <Button className={styles.deleteButton} icon={true} color='red' onClick={() => deleteImageThunk(image)}>
                     <Icon name='delete' />
                   </Button>
                   <img className={styles.imagePreview} src={image.small} alt={image.small} />
@@ -87,7 +87,7 @@ const Product: React.SFC<ProductFormProps & InjectedFormProps<ProductFormData, P
           { hasDropzone &&
             <Dropzone
               className={styles.fileDrop}
-              onDrop={handleFileDrop} >
+              onDrop={handleFileDropThunk} >
               <div className={styles.fileDropText}>Faça upload da imagem aqui</div>
             </Dropzone>
           }
