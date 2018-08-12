@@ -24,7 +24,10 @@ const required = (value: string): string | undefined => {
 };
 
 const requiredDescription = (value: string): string | undefined => {
-  return value.replace(/<(.|\n)*?>/g, '') !== '' ? undefined : 'Campo obrigatório';
+  if (value) {
+    return value.replace(/<(.|\n)*?>/g, '') !== '' ? undefined : 'Campo obrigatório';
+  }
+  return undefined;
 };
 
 const Product: React.SFC<ProductFormProps & InjectedFormProps<ProductFormData, ProductFormProps>> = ({

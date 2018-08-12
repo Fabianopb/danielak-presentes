@@ -17,16 +17,16 @@ declare global {
 
   type CategoriesState = {
     isFetching: boolean;
-    data: any[];
+    data: Category[];
     isDialogOpen: boolean;
-    activeCategory: any;
+    activeCategory: Category | null;
   };
 
   type ProductsState = {
     isFetching: boolean;
-    activeProduct: any;
+    activeProduct: Product | null;
     isDialogOpen: boolean;
-    data: any[];
+    data: Product[];
     error: any;
   };
 
@@ -34,4 +34,35 @@ declare global {
     isLogging: boolean;
     error: any;
   };
+
+  interface Product {
+    _id: string;
+    name: string;
+    image: Array<{
+      large: string,
+      small: string
+    }>;
+    featuredImageIndex: number;
+    storeLink: string;
+    description: string;
+    category: string;
+    currentPrice: number;
+    discountPrice: number;
+    tags: string;
+    productionTime: number;
+    minAmount: number;
+    width: number;
+    height: number;
+    depth: number;
+    weight: number;
+    isVisible: boolean;
+    isFeatured: boolean;
+  }
+
+  interface Category {
+    _id?: string;
+    name: string;
+    description: string;
+    removed: string;
+  }
 }

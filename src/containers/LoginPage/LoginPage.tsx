@@ -43,7 +43,7 @@ const mapStateToProps = (state: RootState) => ({
 });
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
-  login: bindActionCreators(loginThunk, dispatch)
+  loginThunk: bindActionCreators(loginThunk, dispatch)
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(LoginPage);

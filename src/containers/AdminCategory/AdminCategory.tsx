@@ -71,7 +71,11 @@ class AdminCategory extends React.Component<AdminCategoryProps> {
             <Button basic={true} icon={true} labelPosition='right' color='blue' onClick={closeDialog} >
               Cancelar<Icon name='ban' />
             </Button>
-            <Button icon={true} labelPosition='right' color='red' onClick={() => delCat(activeCategory._id)} >
+            <Button
+              icon={true}
+              labelPosition='right'
+              color='red'
+              onClick={() => delCat((activeCategory as Category)._id)} >
               Remover<Icon name='remove' />
             </Button>
           </Modal.Actions>

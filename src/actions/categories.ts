@@ -24,8 +24,8 @@ export enum CategoryActionsEnum {
 export const categoryActions = {
   startRequest: () => createAction(CategoryActionsEnum.START_REQUEST),
   endRequest: () => createAction(CategoryActionsEnum.END_REQUEST),
-  receiveCategories: (data: any) => createAction(CategoryActionsEnum.RECEIVE_CATEGORIES, data),
-  setActiveCategory: (activeCategory: any) => createAction(CategoryActionsEnum.SET_ACTIVE_CATEGORY, activeCategory),
+  receiveCategories: (data: Category[]) => createAction(CategoryActionsEnum.RECEIVE_CATEGORIES, data),
+  setActiveCategory: (activeCategory: Category) => createAction(CategoryActionsEnum.SET_ACTIVE_CATEGORY, activeCategory),
   openDialog: () => createAction(CategoryActionsEnum.OPEN_DIALOG),
   closeDialog: () => createAction(CategoryActionsEnum.CLOSE_DIALOG),
   // saga triggers
@@ -67,6 +67,7 @@ export const fetchCategoriesThunk = (categoryId: string) => {
       } else {
         const response = await axios.get(`/api/categories`);
         dispatch(categoryActions.receiveCategories(response.data));
+        dispatch(categoryActions.setActiveCategory(response.data[0]));
       }
       dispatch(categoryActions.endRequest());
     } catch (error) {
@@ -127,12 +128,14 @@ export const deleteCategoryThunk = (categoryId: string) => {
 };
 
 export const changeCategoryThunk = (categoryId: string) => {
-  return async (dispatch: Dispatch) => {
+  return async (dispatch: Dispatch, getState: () => RootState) => {
     try {
       dispatch(categoryActions.startRequest());
       const response = await axios.get(`/api/products${categoryId ? `?category=${categoryId}` : ''}`);
       dispatch(productActions.receiveProducts(response.data));
-      dispatch(categoryActions.setActiveCategory(categoryId));
+      const categories = _.cloneDeep(getState().categories.data);
+      const activeCategory = _.find(categories, cat => cat._id === categoryId) as Category;
+      dispatch(categoryActions.setActiveCategory(activeCategory));
     } catch (error) {
       notificationOpts.title = 'Algo deu errado :(';
       dispatch(Notifications.error(notificationOpts));

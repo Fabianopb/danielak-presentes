@@ -32,9 +32,9 @@ type OwnProps = {
   match: match<{id: string}>;
 };
 
-type ManageProductViewProps = StateProps & DispatchProps & OwnProps;
+type AdminProductProps = StateProps & DispatchProps & OwnProps;
 
-class ManageProductView extends React.Component<ManageProductViewProps> {
+class AdminProduct extends React.Component<AdminProductProps> {
   public componentWillMount () {
     this.props.fetchCategoriesThunk();
     this.props.fetchProductsThunk(this.props.match.params.id);
@@ -89,7 +89,7 @@ class ManageProductView extends React.Component<ManageProductViewProps> {
             <Button basic={true} icon={true} labelPosition='right' color='blue' onClick={closeDialog} >
               Cancelar<Icon name='ban' />
             </Button>
-            <Button icon={true} labelPosition='right' color='red' onClick={() => delProd(activeProduct._id)} >
+            <Button icon={true} labelPosition='right' color='red' onClick={() => delProd((activeProduct as Product)._id)} >
               Remover<Icon name='remove' />
             </Button>
           </Modal.Actions>
@@ -107,9 +107,7 @@ class ManageProductView extends React.Component<ManageProductViewProps> {
 }
 
 const mapStateToProps = (state: RootState) => ({
-  isFetching: state.products.isFetching,
-  activeProduct: state.products.activeProduct,
-  isDialogOpen: state.products.isDialogOpen,
+  products: state.products,
   categories: state.categories,
   formValues: {
     images: formValueSelector('editProductForm')(state, 'image')
@@ -126,4 +124,4 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
   fetchCategoriesThunk: bindActionCreators(fetchCategoriesThunk, dispatch)
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(ManageProductView);
+export default connect(mapStateToProps, mapDispatchToProps)(AdminProduct);

@@ -37,11 +37,11 @@ class CategoryMenu extends React.Component<CategoryMenuProps> {
                 onClick={() => this.handleCategoryChange(null)}
               >Home
               </div>
-              {_.map(data, category =>
+              {activeCategory && _.map(data, category =>
                 <div
                   key={category._id}
-                  className={classNames(styles.menuItem, { [styles.activeItem]: activeCategory === category._id })}
-                  onClick={() => this.handleCategoryChange(category._id)}
+                  className={classNames(styles.menuItem, { [styles.activeItem]: (activeCategory as Category)._id === category._id })}
+                  onClick={() => this.handleCategoryChange(category._id as string)}
                 >{category.name}
                 </div>
               )}
@@ -54,7 +54,7 @@ class CategoryMenu extends React.Component<CategoryMenuProps> {
   }
 
   private handleCategoryChange = (categoryId: string | null) => {
-    if (categoryId !== this.props.categories.activeCategory) {
+    if (categoryId !== (this.props.categories.activeCategory as Category)._id) {
       this.props.changeCategoryThunk(categoryId);
     }
   }
