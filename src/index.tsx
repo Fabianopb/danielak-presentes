@@ -5,7 +5,9 @@ import { Router, Switch } from 'react-router-dom';
 import { applyMiddleware, compose, createStore } from 'redux';
 import { Provider } from 'react-redux';
 import thunk from 'redux-thunk';
+import createSagaMiddleware from "redux-saga";
 import history from './modules/history';
+import rootSaga from './sagas/root';
 import rootReducer from './reducers/root';
 import RoutePublic from './components/RoutePublic/RoutePublic';
 import RoutePrivate from './components/RoutePrivate/RoutePrivate';
@@ -19,7 +21,9 @@ import NotificationsManager from './containers/Notifications/Notifications';
 import 'semantic-ui-css/semantic.min.css';
 import './index.scss';
 
-const middleware = [thunk];
+const sagaMiddleware = createSagaMiddleware();
+
+const middleware = [thunk, sagaMiddleware];
 const composeEnhancers =
   (process.env.NODE_ENV !== 'production' && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__) || compose;
 
@@ -27,6 +31,8 @@ const store = createStore(
   rootReducer,
   composeEnhancers(applyMiddleware(...middleware))
 );
+
+sagaMiddleware.run(rootSaga);
 
 ReactDOM.render(
   <Provider store={store}>
