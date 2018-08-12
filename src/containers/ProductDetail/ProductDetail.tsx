@@ -1,24 +1,34 @@
-import React, { Component } from 'react';
-import { PropTypes } from 'prop-types';
+import * as React from 'react';
 import { connect } from 'react-redux';
+import { match } from 'react-router';
+import { bindActionCreators, Dispatch } from 'redux';
 import { Dimmer, Loader, Button, Icon, Grid } from 'semantic-ui-react';
 import ImageGallery from '../../components/ImageGallery/ImageGallery';
 import { getProductDetail } from '../../actions/products';
 import { currencyFormat } from '../../modules/helpers';
 import history from '../../modules/history';
-
 import styles from './ProductDetail.module.scss';
 
-class ProductDetail extends Component {
-  componentDidMount () {
+type StateProps = {
+  products: ProductsState;
+};
+
+type DispatchProps = {
+  getProductDetail: any;
+};
+
+type OwnProps = {
+  match: match<{id: string}>;
+};
+
+type ProductDetailProps = StateProps & DispatchProps & OwnProps;
+
+class ProductDetail extends React.Component<ProductDetailProps> {
+  public componentDidMount () {
     this.props.getProductDetail(this.props.match.params.id);
   }
 
-  goToShop (url) {
-    window.open(url, '_blank');
-  }
-
-  render () {
+  public render () {
     const {isFetching, activeProduct} = this.props.products;
     return (
       <div>
@@ -26,19 +36,19 @@ class ProductDetail extends Component {
           <Grid.Column width={2} only='computer' />
           <Grid.Column width={1} only='widescreen' />
           { isFetching ? (
-            <Dimmer active inverted>
+            <Dimmer active={true} inverted={true}>
               <Loader />
             </Dimmer>
           ) : (
             <Grid.Column computer={12} widescreen={10} width={16}>
               <div className={styles.backButtonWrapper}>
-                <Button basic icon labelPosition='right' color='purple' onClick={() => history.goBack()}>
+                <Button basic={true} icon={true} labelPosition='right' color='purple' onClick={() => history.goBack()}>
                   <Icon name='chevron left' />Voltar
                 </Button>
               </div>
               { activeProduct ? (
                 <div>
-                  <Grid stackable columns={2}>
+                  <Grid stackable={true} columns={2}>
                     <Grid.Column className={styles.frame}>
                       <ImageGallery images={activeProduct.image} selectedIndex={activeProduct.featuredImageIndex} />
                     </Grid.Column>
@@ -51,7 +61,7 @@ class ProductDetail extends Component {
                           </span>
                           { activeProduct.discountPrice && currencyFormat(activeProduct.discountPrice) }
                         </div>
-                        <Button primary icon labelPosition='left' onClick={() => this.goToShop(activeProduct.storeLink)}>
+                        <Button primary={true} icon={true} labelPosition='left' onClick={() => this.goToShop(activeProduct.storeLink)}>
                           <Icon name='shop' />
                           Ver na minha lojinha
                         </Button>
@@ -80,16 +90,18 @@ class ProductDetail extends Component {
       </div>
     );
   }
+
+  private goToShop = (url: string) => {
+    window.open(url, '_blank');
+  }
 }
 
-ProductDetail.propTypes = {
-  getProductDetail: PropTypes.func.isRequired,
-  match: PropTypes.object.isRequired,
-  products: PropTypes.object.isRequired
-};
-
-const mapStateToProps = (state) => ({
+const mapStateToProps = (state: RootState) => ({
   products: state.products
 });
 
-export default connect(mapStateToProps, {getProductDetail})(ProductDetail);
+const mapDispatchToProps = (dispatch: Dispatch) => ({
+  getProductDetail: bindActionCreators(getProductDetail, dispatch)
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(ProductDetail);

@@ -1,20 +1,31 @@
-import React, { Component } from 'react';
-import { PropTypes } from 'prop-types';
+import * as React from 'react';
 import { connect } from 'react-redux';
+import { bindActionCreators, Dispatch } from 'redux';
 import { Dimmer, Loader } from 'semantic-ui-react';
 import { login } from '../../actions/users';
-
 import LoginForm from '../../forms/Login/Login';
 import styles from './LoginPage.module.scss';
 
-class LoginPage extends Component {
-  render () {
+type StateProps = {
+  users: UsersState;
+};
+
+type DispatchProps = {
+  login: any;
+};
+
+type OwnProps = {};
+
+type LoginPageProps = StateProps & DispatchProps & OwnProps;
+
+class LoginPage extends React.Component<LoginPageProps> {
+  public render () {
     const { isLogging } = this.props.users;
     return (
       <div>
         <h3 className={styles.loginTitle}>Login</h3>
         {isLogging ? (
-          <Dimmer active inverted>
+          <Dimmer active={true} inverted={true}>
             <Loader />
           </Dimmer>
         ) : (
@@ -27,13 +38,12 @@ class LoginPage extends Component {
   }
 }
 
-LoginPage.propTypes = {
-  users: PropTypes.object.isRequired,
-  login: PropTypes.func.isRequired
-};
-
-const mapStateToProps = (state) => ({
+const mapStateToProps = (state: RootState) => ({
   users: state.users
 });
 
-export default connect(mapStateToProps, { login })(LoginPage);
+const mapDispatchToProps = (dispatch: Dispatch) => ({
+  login: bindActionCreators(login, dispatch)
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(LoginPage);

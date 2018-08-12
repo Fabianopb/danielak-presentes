@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
+import { bindActionCreators, Dispatch } from 'redux';
 import { Dimmer, Loader, Image } from 'semantic-ui-react';
 import { Grid, Col } from 'react-flexbox-grid';
 import { fetchProducts, showProductDetail } from '../../actions/products';
@@ -59,8 +60,13 @@ class ProductGrid extends React.Component<ProductGridProps> {
   }
 }
 
-const mapStateToProps = (state: any) => ({
+const mapStateToProps = (state: RootState) => ({
   products: state.products
 });
 
-export default connect(mapStateToProps, {fetchProducts, showProductDetail})(ProductGrid);
+const mapDispatchToProps = (dispatch: Dispatch) => ({
+  fetchProducts: bindActionCreators(fetchProducts, dispatch),
+  showProductDetail: bindActionCreators(showProductDetail, dispatch)
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(ProductGrid);

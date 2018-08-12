@@ -1,30 +1,45 @@
-import React, { Component } from 'react';
+import * as React from 'react';
 import { Link } from 'react-router-dom';
+import { bindActionCreators, Dispatch } from 'redux';
 import { connect } from 'react-redux';
-import { PropTypes } from 'prop-types';
 import { Table, Icon, Dimmer, Loader, Button, Divider, Image } from 'semantic-ui-react';
-import _ from 'lodash';
+import * as _ from 'lodash';
 import { fetchProducts, showAdminProduct } from '../../actions/products';
 import { fetchCategories, showAdminCategory } from '../../actions/categories';
-
 import styles from './AdminMain.module.scss';
 
-class AdminMain extends Component {
-  componentDidMount () {
+type StateProps = {
+  products: ProductsState
+  categories: CategoriesState;
+};
+
+type DispatchProps = {
+  fetchProducts: any;
+  showAdminProduct: any;
+  fetchCategories: any;
+  showAdminCategory: any;
+};
+
+type OwnProps = {};
+
+type AdminMainProps = StateProps & DispatchProps & OwnProps;
+
+class AdminMain extends React.Component<AdminMainProps> {
+  public componentDidMount () {
     this.props.fetchProducts();
     this.props.fetchCategories();
   }
 
-  render () {
+  public render () {
     const { data: prodData, isFetching: prodIsFetching } = this.props.products;
     const { data: catData, isFetching: catIsFetching } = this.props.categories;
-    const { showAdminProduct, showAdminCategory } = this.props;
+    const { showAdminProduct: showProduct, showAdminCategory: showCategory } = this.props;
     return (
       <div>
         <div className={styles.mgmtHeader}>
           <h2>Lista de produtos</h2>
           <Link to='/admin/product/new'>
-            <Button basic icon labelPosition='right' color='blue'>
+            <Button basic={true} icon={true} labelPosition='right' color='blue'>
               Adicionar Produto
               <Icon name='plus' />
             </Button>
@@ -32,11 +47,11 @@ class AdminMain extends Component {
         </div>
         <div className={styles.productList}>
           {prodIsFetching || catIsFetching ? (
-            <Dimmer active inverted>
+            <Dimmer active={true} inverted={true}>
               <Loader />
             </Dimmer>
           ) : (
-            <Table singleLine selectable>
+            <Table singleLine={true} selectable={true}>
               <Table.Header>
                 <Table.Row>
                   <Table.HeaderCell>Produto</Table.HeaderCell>
@@ -45,10 +60,10 @@ class AdminMain extends Component {
                 </Table.Row>
               </Table.Header>
               <Table.Body>
-                {prodData.map((product) => {
+                {prodData.map((product: any) => {
                   const category = _.find(catData, cat => cat._id === product.category);
                   return (
-                    <Table.Row className={styles.clickableRow} key={product._id} onClick={() => showAdminProduct(product._id)}>
+                    <Table.Row className={styles.clickableRow} key={product._id} onClick={() => showProduct(product._id)}>
                       <Table.Cell className={styles.nameRow}>
                         <div className={styles.thumbnailContainer}>
                           {product.image.length > 0 &&
@@ -74,7 +89,7 @@ class AdminMain extends Component {
         <div className={styles.mgmtHeader}>
           <h2>Lista de categorias</h2>
           <Link to='/admin/category/new'>
-            <Button basic icon labelPosition='right' color='blue'>
+            <Button basic={true} icon={true} labelPosition='right' color='blue'>
               Adicionar Categoria
               <Icon name='plus' />
             </Button>
@@ -82,11 +97,11 @@ class AdminMain extends Component {
         </div>
         <div className={styles.productList}>
           {catIsFetching ? (
-            <Dimmer active inverted>
+            <Dimmer active={true} inverted={true}>
               <Loader />
             </Dimmer>
           ) : (
-            <Table singleLine selectable>
+            <Table singleLine={true} selectable={true}>
               <Table.Header>
                 <Table.Row>
                   <Table.HeaderCell>Categoria</Table.HeaderCell>
@@ -94,8 +109,8 @@ class AdminMain extends Component {
                 </Table.Row>
               </Table.Header>
               <Table.Body>
-                {catData.map((category) => (
-                  <Table.Row className={styles.clickableRow} key={category._id} onClick={() => showAdminCategory(category._id)}>
+                {catData.map((category: any) => (
+                  <Table.Row className={styles.clickableRow} key={category._id} onClick={() => showCategory(category._id)}>
                     <Table.Cell>{category.name}</Table.Cell>
                     <Table.Cell>{category.description}</Table.Cell>
                   </Table.Row>
@@ -109,26 +124,16 @@ class AdminMain extends Component {
   }
 }
 
-AdminMain.propTypes = {
-  products: PropTypes.object.isRequired,
-  categories: PropTypes.object.isRequired,
-  fetchProducts: PropTypes.func.isRequired,
-  showAdminProduct: PropTypes.func.isRequired,
-  fetchCategories: PropTypes.func.isRequired,
-  showAdminCategory: PropTypes.func.isRequired
-};
-
-const mapStateToProps = (state) => ({
+const mapStateToProps = (state: RootState) => ({
   products: state.products,
   categories: state.categories
 });
 
-export default connect(
-  mapStateToProps,
-  {
-    fetchProducts,
-    showAdminProduct,
-    fetchCategories,
-    showAdminCategory
-  }
-)(AdminMain);
+const mapDispatchToProps = (dispatch: Dispatch) => ({
+  fetchProducts: bindActionCreators(fetchProducts, dispatch),
+  showAdminProduct: bindActionCreators(showAdminProduct, dispatch),
+  fetchCategories: bindActionCreators(fetchCategories, dispatch),
+  showAdminCategory: bindActionCreators(showAdminCategory, dispatch),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(AdminMain);

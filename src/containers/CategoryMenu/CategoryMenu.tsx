@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { bindActionCreators } from 'redux';
+import { bindActionCreators, Dispatch } from 'redux';
 import { connect } from 'react-redux';
 import { Row, Col } from 'react-flexbox-grid';
 import classNames from 'classnames';
@@ -8,7 +8,7 @@ import { fetchCategories, changeCategory } from '../../actions/categories';
 import styles from './CategoryMenu.module.scss';
 
 type StateProps = {
-  categories: any;
+  categories: CategoriesState;
 };
 
 type DispatchProps = {
@@ -60,11 +60,13 @@ class CategoryMenu extends React.Component<CategoryMenuProps> {
   }
 }
 
-const mapStateToProps = (state: any) => ({
+const mapStateToProps = (state: RootState) => ({
   categories: state.categories
 });
 
-const mapDispatchToProps = (dispatch: any) =>
-  bindActionCreators({fetchCategories, changeCategory}, dispatch);
+const mapDispatchToProps = (dispatch: Dispatch) => ({
+  fetchCategories: bindActionCreators(fetchCategories, dispatch),
+  changeCategory: bindActionCreators(changeCategory, dispatch)
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(CategoryMenu);

@@ -9,6 +9,7 @@ declare global {
     categories: CategoriesState;
     products: ProductsState;
     users: UsersState;
+    notifications: Notification[];
   }
 
   type CategoriesState = {
