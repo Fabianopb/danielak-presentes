@@ -2,15 +2,11 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import { Router, Switch } from 'react-router-dom';
-import { applyMiddleware, combineReducers, compose, createStore } from 'redux';
+import { applyMiddleware, compose, createStore } from 'redux';
 import { Provider } from 'react-redux';
 import thunk from 'redux-thunk';
-import { reducer as formReducer } from 'redux-form';
-import {reducer as notificationsReducer} from 'react-notification-system-redux';
 import history from './modules/history';
-import { productsReducer } from './reducers/products';
-import categoriesReducer from './reducers/categories';
-import { usersReducer } from './reducers/users';
+import rootReducer from './reducers/root';
 import RoutePublic from './components/RoutePublic/RoutePublic';
 import RoutePrivate from './components/RoutePrivate/RoutePrivate';
 import ProductGrid from './containers/ProductGrid/ProductGrid';
@@ -26,14 +22,6 @@ import './index.scss';
 const middleware = [thunk];
 const composeEnhancers =
   (process.env.NODE_ENV !== 'production' && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__) || compose;
-
-const rootReducer = combineReducers({
-  categories: categoriesReducer,
-  products: productsReducer,
-  users: usersReducer,
-  form: formReducer,
-  notifications: notificationsReducer
-});
 
 const store = createStore(
   rootReducer,

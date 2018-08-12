@@ -1,13 +1,7 @@
 import { CategoryActionsEnum, CategoryActions } from '../actions/categories';
+import { categoriesState } from './initialState';
 
-const categoriesState: CategoriesState = {
-  isFetching: false,
-  data: [],
-  isDialogOpen: false,
-  activeCategory: null
-};
-
-const categoriesReducer = (state: CategoriesState = categoriesState, action: CategoryActions): CategoriesState => {
+const categoriesReducer = (state = categoriesState, action: CategoryActions): CategoriesState => {
   switch (action.type) {
     case CategoryActionsEnum.START_REQUEST:
       return {...state, isFetching: true};

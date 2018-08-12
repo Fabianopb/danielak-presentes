@@ -1,14 +1,7 @@
 import { ProductActionsEnum, ProductActions } from '../actions/products';
+import { productsState } from './initialState';
 
-const productsState: ProductsState = {
-  isFetching: false,
-  activeProduct: null,
-  isDialogOpen: false,
-  data: [],
-  error: null
-};
-
-export const productsReducer = (products: ProductsState = productsState, action: ProductActions): ProductsState => {
+const productsReducer = (products = productsState, action: ProductActions): ProductsState => {
   switch (action.type) {
     case ProductActionsEnum.START_REQUEST:
       return {...products, isFetching: true};
@@ -28,3 +21,5 @@ export const productsReducer = (products: ProductsState = productsState, action:
       return products;
   }
 }
+
+export default productsReducer;

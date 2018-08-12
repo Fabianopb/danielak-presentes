@@ -1,4 +1,6 @@
 import { compose } from "redux";
+import { NotificationsState } from "react-notification-system-redux";
+import { FormStateMap } from "redux-form";
 
 declare global {
   interface Window {
@@ -9,7 +11,8 @@ declare global {
     categories: CategoriesState;
     products: ProductsState;
     users: UsersState;
-    notifications: Notification[];
+    form: FormStateMap;
+    notifications: NotificationsState;
   }
 
   type CategoriesState = {
