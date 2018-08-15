@@ -7,7 +7,7 @@ import { Dimmer, Loader, Icon, Modal, Button, Header } from 'semantic-ui-react';
 import history from '../../modules/history';
 import ProductForm from '../../forms/Product/Product';
 import { fetchProductsThunk, upsertProductThunk, productActions, deleteProductThunk, handleFileDropThunk, deleteImageThunk } from '../../actions/products';
-import { fetchCategoriesThunk } from '../../actions/categories';
+import { categoryActions } from '../../actions/categories';
 import styles from './AdminProduct.module.scss';
 
 type StateProps = {
@@ -20,12 +20,12 @@ type StateProps = {
 
 type DispatchProps = {
   productActions: typeof productActions;
+  categoryActions: typeof categoryActions;
   fetchProductsThunk: any;
   upsertProductThunk: any;
   deleteProductThunk: any;
   handleFileDropThunk: any;
   deleteImageThunk: any;
-  fetchCategoriesThunk: any;
 };
 
 type OwnProps = {
@@ -36,7 +36,7 @@ type AdminProductProps = StateProps & DispatchProps & OwnProps;
 
 class AdminProduct extends React.Component<AdminProductProps> {
   public componentWillMount () {
-    this.props.fetchCategoriesThunk();
+    this.props.categoryActions.fetchCategories();
     this.props.fetchProductsThunk(this.props.match.params.id);
   }
 
@@ -121,7 +121,7 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
   deleteProductThunk: bindActionCreators(deleteProductThunk, dispatch),
   handleFileDropThunk: bindActionCreators(handleFileDropThunk, dispatch),
   deleteImageThunk: bindActionCreators(deleteImageThunk, dispatch),
-  fetchCategoriesThunk: bindActionCreators(fetchCategoriesThunk, dispatch)
+  categoryActions: bindActionCreators({ ...categoryActions }, dispatch)
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(AdminProduct);

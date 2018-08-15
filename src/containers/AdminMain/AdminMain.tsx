@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { Table, Icon, Dimmer, Loader, Button, Divider, Image } from 'semantic-ui-react';
 import * as _ from 'lodash';
 import { fetchProductsThunk, showAdminProductThunk } from '../../actions/products';
-import { fetchCategoriesThunk, showAdminCategoryThunk } from '../../actions/categories';
+import { categoryActions, showAdminCategoryThunk } from '../../actions/categories';
 import styles from './AdminMain.module.scss';
 
 type StateProps = {
@@ -16,7 +16,7 @@ type StateProps = {
 type DispatchProps = {
   fetchProductsThunk: any;
   showAdminProductThunk: any;
-  fetchCategoriesThunk: any;
+  categoryActions: typeof categoryActions;
   showAdminCategoryThunk: any;
 };
 
@@ -27,7 +27,7 @@ type AdminMainProps = StateProps & DispatchProps & OwnProps;
 class AdminMain extends React.Component<AdminMainProps> {
   public componentDidMount () {
     this.props.fetchProductsThunk();
-    this.props.fetchCategoriesThunk();
+    this.props.categoryActions.fetchCategories();
   }
 
   public render () {
@@ -132,7 +132,7 @@ const mapStateToProps = (state: RootState) => ({
 const mapDispatchToProps = (dispatch: Dispatch) => ({
   fetchProductsThunk: bindActionCreators(fetchProductsThunk, dispatch),
   showAdminProductThunk: bindActionCreators(showAdminProductThunk, dispatch),
-  fetchCategoriesThunk: bindActionCreators(fetchCategoriesThunk, dispatch),
+  categoryActions: bindActionCreators({ ...categoryActions }, dispatch),
   showAdminCategoryThunk: bindActionCreators(showAdminCategoryThunk, dispatch),
 });
 

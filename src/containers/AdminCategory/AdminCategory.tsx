@@ -5,7 +5,7 @@ import { match } from "react-router";
 import { Dimmer, Loader, Icon, Button, Modal, Header } from 'semantic-ui-react';
 import history from '../../modules/history';
 import CategoryForm from '../../forms/Category/CategoryForm';
-import { fetchCategoriesThunk, upsertCategoryThunk, categoryActions, deleteCategoryThunk } from '../../actions/categories';
+import { categoryActions, upsertCategoryThunk, deleteCategoryThunk } from '../../actions/categories';
 import styles from './AdminCategory.module.scss';
 
 type StateProps = {
@@ -13,7 +13,6 @@ type StateProps = {
 };
 
 type DispatchProps = {
-  fetchCategoriesThunk: any;
   upsertCategoryThunk: any;
   categoryActions: typeof categoryActions;
   deleteCategoryThunk: any;
@@ -27,7 +26,7 @@ type AdminCategoryProps = StateProps & DispatchProps & OwnProps;
 
 class AdminCategory extends React.Component<AdminCategoryProps> {
   public componentWillMount () {
-    this.props.fetchCategoriesThunk(this.props.match.params.id);
+    this.props.categoryActions.fetchCategory(this.props.match.params.id);
   }
 
   public render () {
@@ -98,7 +97,6 @@ const mapStateToProps = (state: RootState) => ({
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
   categoryActions: bindActionCreators({ ...categoryActions }, dispatch),
-  fetchCategoriesThunk: bindActionCreators(fetchCategoriesThunk, dispatch),
   upsertCategoryThunk: bindActionCreators(upsertCategoryThunk, dispatch),
   deleteCategoryThunk: bindActionCreators(deleteCategoryThunk, dispatch),
 });

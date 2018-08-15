@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { Row, Col } from 'react-flexbox-grid';
 import classNames from 'classnames';
 import * as _ from 'lodash';
-import { fetchCategoriesThunk, changeCategoryThunk } from '../../actions/categories';
+import { categoryActions, changeCategoryThunk } from '../../actions/categories';
 import styles from './CategoryMenu.module.scss';
 
 type StateProps = {
@@ -12,7 +12,7 @@ type StateProps = {
 };
 
 type DispatchProps = {
-  fetchCategoriesThunk: any;
+  categoryActions: typeof categoryActions;
   changeCategoryThunk: any;
 };
 
@@ -22,7 +22,7 @@ type CategoryMenuProps = StateProps & DispatchProps & OwnProps;
 
 class CategoryMenu extends React.Component<CategoryMenuProps> {
   public componentDidMount () {
-    this.props.fetchCategoriesThunk();
+    this.props.categoryActions.fetchCategories();
   }
 
   public render () {
@@ -65,7 +65,7 @@ const mapStateToProps = (state: RootState) => ({
 });
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
-  fetchCategoriesThunk: bindActionCreators(fetchCategoriesThunk, dispatch),
+  categoryActions: bindActionCreators({ ...categoryActions }, dispatch),
   changeCategoryThunk: bindActionCreators(changeCategoryThunk, dispatch)
 });
 

@@ -15,6 +15,24 @@ export const userRequests = {
   }
 };
 
+export const categoryRequests = {
+  getCategoryById: (id: string) => {
+    return axios.get(`/api/categories?_id=${id}`);
+  },
+  getCategories: () => {
+    return axios.get(`/api/categories`);
+  },
+  putCategory: (category: Category) => {
+    return axios.put(`/api/categories/${category._id}`, category, { headers: getAuthHeaders() })
+  },
+  postCategory: (category: Category) => {
+    return axios.post(`/api/categories`, category, { headers: getAuthHeaders() });
+  },
+  deleteCategory: (id: string) => {
+    return axios.delete(`/api/categories/${id}`, { headers: getAuthHeaders() });
+  },
+};
+
 export const productRequests = {
   /**
    * Get all products

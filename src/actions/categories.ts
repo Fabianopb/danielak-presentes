@@ -1,6 +1,5 @@
 import axios from 'axios';
 import * as _ from 'lodash';
-import { initialize } from 'redux-form';
 import { Dispatch } from 'redux';
 import * as Notifications from 'react-notification-system-redux';
 import history from '../modules/history';
@@ -14,7 +13,9 @@ export enum CategoryActionsEnum {
   SET_ACTIVE_CATEGORY = 'SET_ACTIVE_CATEGORY',
   OPEN_DIALOG = 'OPEN_DIALOG',
   CLOSE_DIALOG = 'CLOSE_DIALOG',
+
   FETCH_CATEGORIES = 'FETCH_CATEGORIES',
+  FETCH_CATEGORY = 'FETCH_CATEGORY',
   UPSERT_CATEGORY = 'UPSERT_CATEGORY',
   SHOW_ADMIN_CATEGORY = 'SHOW_ADMIN_CATEGORY',
   DELETE_CATEGORY = 'DELETE_CATEGORY',
@@ -30,6 +31,7 @@ export const categoryActions = {
   closeDialog: () => createAction(CategoryActionsEnum.CLOSE_DIALOG),
   // saga triggers
   fetchCategories: () => createAction(CategoryActionsEnum.FETCH_CATEGORIES),
+  fetchCategory: (id: string) => createAction(CategoryActionsEnum.FETCH_CATEGORY, id),
   upsertCategory: () => createAction(CategoryActionsEnum.UPSERT_CATEGORY),
   showAdminCategory: () => createAction(CategoryActionsEnum.SHOW_ADMIN_CATEGORY),
   deleteCategory: () => createAction(CategoryActionsEnum.DELETE_CATEGORY),
@@ -53,28 +55,6 @@ const notificationOpts = {
   autoDismiss: 5,
   position: 'tc' as 'tc',
   title: ''
-};
-
-export const fetchCategoriesThunk = (categoryId: string) => {
-  return async (dispatch: Dispatch) => {
-    try {
-      dispatch(categoryActions.startRequest());
-      if (categoryId) {
-        const response = await axios.get(`/api/categories?_id=${categoryId}`);
-        const category = response.data[0];
-        dispatch(initialize('CategoryForm', category));
-        dispatch(categoryActions.setActiveCategory(category));
-      } else {
-        const response = await axios.get(`/api/categories`);
-        dispatch(categoryActions.receiveCategories(response.data));
-        dispatch(categoryActions.setActiveCategory(response.data[0]));
-      }
-      dispatch(categoryActions.endRequest());
-    } catch (error) {
-      notificationOpts.title = 'Something went wrong :(';
-      dispatch(Notifications.error(notificationOpts));
-    }
-  };
 };
 
 export const upsertCategoryThunk = (category: any) => {

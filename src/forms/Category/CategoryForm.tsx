@@ -6,7 +6,7 @@ import * as _ from 'lodash';
 import { FormInput } from '../../components/FormComponents/FormComponents';
 import styles from './CategoryForm.module.scss';
 
-const CATEGORY_FORM = 'CategoryForm';
+export const CATEGORY_FORM = 'CategoryForm';
 
 type CategoryFormData = any;
 

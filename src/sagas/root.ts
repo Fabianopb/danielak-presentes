@@ -2,7 +2,8 @@ import { all, takeLatest } from 'redux-saga/effects';
 import { CategoryActionsEnum } from '../actions/categories';
 import { ProductActionsEnum } from '../actions/products';
 import { UserActionsEnum } from '../actions/users';
-import { fetchCategoriesSaga, upsertCategorySaga, showAdminCategorySaga, deleteCategorySaga, changeCategorySaga } from './categories';
+import { fetchCategoriesSaga, fetchCategorySaga, upsertCategorySaga, showAdminCategorySaga, deleteCategorySaga,
+  changeCategorySaga } from './categories';
 import { getProductDetailSaga, fetchProductsSaga, upsertProductSaga, deleteProductSaga, deleteImageSaga, showProductDetailSaga,
   showAdminProductSaga, handleFileDropSaga } from './products';
 import { loginSaga, logoutSaga } from './users';
@@ -11,6 +12,7 @@ export default function * rootSaga() {
   yield all([
     // categories sagas
     takeLatest(CategoryActionsEnum.FETCH_CATEGORIES, fetchCategoriesSaga),
+    takeLatest(CategoryActionsEnum.FETCH_CATEGORY, fetchCategorySaga),
     takeLatest(CategoryActionsEnum.UPSERT_CATEGORY, upsertCategorySaga),
     takeLatest(CategoryActionsEnum.SHOW_ADMIN_CATEGORY, showAdminCategorySaga),
     takeLatest(CategoryActionsEnum.DELETE_CATEGORY, deleteCategorySaga),
