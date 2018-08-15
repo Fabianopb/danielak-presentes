@@ -65,4 +65,16 @@ declare global {
     description: string;
     removed: string;
   }
+
+  interface LoginRequestParams {
+    email: string;
+    password: string;
+  }
+
+  interface LoginRequestResponse {
+    data: {
+      token: string;
+      expiry: string;
+    }
+  }
 }

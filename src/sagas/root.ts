@@ -5,7 +5,7 @@ import { UserActionsEnum } from '../actions/users';
 import { fetchCategoriesSaga, upsertCategorySaga, showAdminCategorySaga, deleteCategorySaga, changeCategorySaga } from './categories';
 import { getProductDetailSaga, fetchProductsSaga, upsertProductSaga, deleteProductSaga, deleteImageSaga, showProductDetailSaga,
   showAdminProductSaga, handleFileDropSaga } from './products';
-import { loginSaga, logoutSaga, isSessionValidSaga } from './users';
+import { loginSaga, logoutSaga } from './users';
 
 export default function * rootSaga() {
   yield all([
@@ -27,6 +27,5 @@ export default function * rootSaga() {
     // users sagas
     takeLatest(UserActionsEnum.LOG_IN, loginSaga),
     takeLatest(UserActionsEnum.LOG_OUT, logoutSaga),
-    takeLatest(UserActionsEnum.IS_SESSION_VALID, isSessionValidSaga)
   ]);
 }

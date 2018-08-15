@@ -4,7 +4,18 @@ const getAuthHeaders = () => ({
   Authorization: `Bearer ${localStorage.getItem('token')}`
 });
 
-const apiRequests = {
+export const userRequests = {
+  /**
+   * Login user
+   * @param {LoginRequestParams} credentials user credentials
+   * @returns {AxiosPromise<LoginRequestResponse>}
+   */
+  login: (credentials: LoginRequestParams): AxiosPromise<LoginRequestResponse> => {
+    return axios.post(`/api/users/login`, credentials);
+  }
+};
+
+export const productRequests = {
   /**
    * Get all products
    * @returns {AxiosPromise<any>}
@@ -48,5 +59,3 @@ const apiRequests = {
     return axios.delete(`/api/products/${id}`, { headers: getAuthHeaders() });
   }
 };
-
-export default apiRequests;

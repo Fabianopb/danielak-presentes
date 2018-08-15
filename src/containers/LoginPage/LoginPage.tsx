@@ -2,7 +2,7 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators, Dispatch } from 'redux';
 import { Dimmer, Loader } from 'semantic-ui-react';
-import { loginThunk } from '../../actions/users';
+import { userActions } from '../../actions/users';
 import LoginForm from '../../forms/Login/Login';
 import styles from './LoginPage.module.scss';
 
@@ -11,12 +11,10 @@ type StateProps = {
 };
 
 type DispatchProps = {
-  loginThunk: any;
+  userActions: typeof userActions;
 };
 
-type OwnProps = {};
-
-type LoginPageProps = StateProps & DispatchProps & OwnProps;
+type LoginPageProps = StateProps & DispatchProps;
 
 class LoginPage extends React.Component<LoginPageProps> {
   public render () {
@@ -30,11 +28,15 @@ class LoginPage extends React.Component<LoginPageProps> {
           </Dimmer>
         ) : (
           <div className={styles.loginContainer}>
-            <LoginForm onSubmit={this.props.loginThunk} />
+            <LoginForm onSubmit={this.handleSubmit} />
           </div>
         )}
       </div>
     );
+  }
+
+  private handleSubmit = (credentials: LoginRequestParams): void => {
+    this.props.userActions.login(credentials);
   }
 }
 
@@ -43,7 +45,7 @@ const mapStateToProps = (state: RootState) => ({
 });
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
-  loginThunk: bindActionCreators(loginThunk, dispatch)
+  userActions: bindActionCreators({ ...userActions }, dispatch)
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(LoginPage);
