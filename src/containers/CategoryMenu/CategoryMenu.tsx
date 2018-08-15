@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { Row, Col } from 'react-flexbox-grid';
 import classNames from 'classnames';
 import * as _ from 'lodash';
-import { categoryActions, changeCategoryThunk } from '../../actions/categories';
+import { categoryActions } from '../../actions/categories';
 import styles from './CategoryMenu.module.scss';
 
 type StateProps = {
@@ -13,7 +13,6 @@ type StateProps = {
 
 type DispatchProps = {
   categoryActions: typeof categoryActions;
-  changeCategoryThunk: any;
 };
 
 type OwnProps = {};
@@ -32,11 +31,6 @@ class CategoryMenu extends React.Component<CategoryMenuProps> {
         <Col xs={12} lg={8} >
           <div className={styles.itemsWrapper}>
             <div className={styles.categories}>
-              <div
-                className={classNames(styles.menuItem, { [styles.activeItem]: !activeCategory })}
-                onClick={() => this.handleCategoryChange(null)}
-              >Home
-              </div>
               {activeCategory && _.map(data, category =>
                 <div
                   key={category._id}
@@ -55,7 +49,7 @@ class CategoryMenu extends React.Component<CategoryMenuProps> {
 
   private handleCategoryChange = (categoryId: string | null) => {
     if (categoryId !== (this.props.categories.activeCategory as Category)._id) {
-      this.props.changeCategoryThunk(categoryId);
+      this.props.categoryActions.changeCategory(categoryId);
     }
   }
 }
@@ -65,8 +59,7 @@ const mapStateToProps = (state: RootState) => ({
 });
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
-  categoryActions: bindActionCreators({ ...categoryActions }, dispatch),
-  changeCategoryThunk: bindActionCreators(changeCategoryThunk, dispatch)
+  categoryActions: bindActionCreators({ ...categoryActions }, dispatch)
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(CategoryMenu);

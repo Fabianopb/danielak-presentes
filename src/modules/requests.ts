@@ -50,6 +50,14 @@ export const productRequests = {
     return axios.get(`/api/products?_id=${productId}`);
   },
   /**
+   * Get products by category
+   * @param {string} categoryId category id
+   * @returns {AxiosPromise<any>}
+   */
+  getProductsByCategory: (categoryId: string): AxiosPromise<any> => {
+    return axios.get(`/api/products${categoryId ? `?category=${categoryId}` : ''}`);
+  },
+  /**
    * Post product
    * @param {any} product product object
    * @param {string} id product id

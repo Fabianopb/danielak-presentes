@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { Table, Icon, Dimmer, Loader, Button, Divider, Image } from 'semantic-ui-react';
 import * as _ from 'lodash';
 import { fetchProductsThunk, showAdminProductThunk } from '../../actions/products';
-import { categoryActions, showAdminCategoryThunk } from '../../actions/categories';
+import { categoryActions } from '../../actions/categories';
 import styles from './AdminMain.module.scss';
 
 type StateProps = {
@@ -17,7 +17,6 @@ type DispatchProps = {
   fetchProductsThunk: any;
   showAdminProductThunk: any;
   categoryActions: typeof categoryActions;
-  showAdminCategoryThunk: any;
 };
 
 type OwnProps = {};
@@ -33,7 +32,8 @@ class AdminMain extends React.Component<AdminMainProps> {
   public render () {
     const { data: prodData, isFetching: prodIsFetching } = this.props.products;
     const { data: catData, isFetching: catIsFetching } = this.props.categories;
-    const { showAdminProductThunk: showProduct, showAdminCategoryThunk: showCategory } = this.props;
+    const { showAdminProductThunk: showProduct } = this.props;
+    const { showAdminCategory } = this.props.categoryActions;
     return (
       <div>
         <div className={styles.mgmtHeader}>
@@ -110,7 +110,7 @@ class AdminMain extends React.Component<AdminMainProps> {
               </Table.Header>
               <Table.Body>
                 {catData.map((category: any) => (
-                  <Table.Row className={styles.clickableRow} key={category._id} onClick={() => showCategory(category._id)}>
+                  <Table.Row className={styles.clickableRow} key={category._id} onClick={() => showAdminCategory(category._id)}>
                     <Table.Cell>{category.name}</Table.Cell>
                     <Table.Cell>{category.description}</Table.Cell>
                   </Table.Row>
@@ -132,8 +132,7 @@ const mapStateToProps = (state: RootState) => ({
 const mapDispatchToProps = (dispatch: Dispatch) => ({
   fetchProductsThunk: bindActionCreators(fetchProductsThunk, dispatch),
   showAdminProductThunk: bindActionCreators(showAdminProductThunk, dispatch),
-  categoryActions: bindActionCreators({ ...categoryActions }, dispatch),
-  showAdminCategoryThunk: bindActionCreators(showAdminCategoryThunk, dispatch),
+  categoryActions: bindActionCreators({ ...categoryActions }, dispatch)
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(AdminMain);

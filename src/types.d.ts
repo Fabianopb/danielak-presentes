@@ -63,7 +63,7 @@ declare global {
     _id?: string;
     name: string;
     description: string;
-    removed: string;
+    removed: boolean;
   }
 
   interface LoginRequestParams {
