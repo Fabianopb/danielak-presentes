@@ -63,7 +63,7 @@ export const productRequests = {
    * @param {string} id product id
    * @returns {AxiosPromise<any>}
    */
-  postProduct: (product: any): AxiosPromise<any> => {
+  postProduct: (product: Product): AxiosPromise<any> => {
     return axios.post(`/api/products`, product, { headers: getAuthHeaders() });
   },
   /**
@@ -72,8 +72,8 @@ export const productRequests = {
    * @param {string} id product id
    * @returns {AxiosPromise<any>}
    */
-  putProduct: (product: any, id: string): AxiosPromise<any> => {
-    return axios.put(`/api/products/${id}`, product, { headers: getAuthHeaders() });
+  putProduct: (product: Product): AxiosPromise<any> => {
+    return axios.put(`/api/products/${product._id}`, product, { headers: getAuthHeaders() });
   },
   /**
    * Delete product
@@ -81,7 +81,18 @@ export const productRequests = {
    * @param {string} id product id
    * @returns {AxiosPromise<any>}
    */
-  deleteProductThunk: (id: string): AxiosPromise<any> => {
+  deleteProduct: (id: string): AxiosPromise<any> => {
     return axios.delete(`/api/products/${id}`, { headers: getAuthHeaders() });
+  }
+};
+
+export const fileRequests = {
+  uploadFile: (formData: FormData) => {
+    return axios.post(`/api/files/upload-file`, formData, {
+      headers: { 'Content-Type': 'multipart/form-data', ...getAuthHeaders() }
+    });
+  },
+  deleteFiles: (imageNames: string[]) => {
+    return axios.post('/api/files/delete-file', { images: imageNames }, { headers: getAuthHeaders() })
   }
 };

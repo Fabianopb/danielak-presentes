@@ -5,18 +5,19 @@ import { Prompt } from 'react-router-dom';
 import Dropzone from 'react-dropzone';
 import * as _ from 'lodash';
 import { FormInput, FormCheckbox, FormDropdown } from '../../components/FormComponents/FormComponents';
+import { productActions } from '../../actions/products';
 import RichTextArea from '../../components/RichTextArea/RichTextArea';
 import styles from './Product.module.scss';
 
-const PRODUCT_FORM = 'editProductForm';
+export const PRODUCT_FORM = 'editProductForm';
 
-type ProductFormData = any;
+type ProductFormData = Product;
 
 type ProductFormProps = {
-  handleFileDropThunk: any;
-  deleteImageThunk: any;
-  images: any;
-  categories: any[];
+  handleFileDrop: typeof productActions.handleFileDrop;
+  deleteImage: typeof productActions.deleteImage;
+  images: ProductImage[];
+  categories: Category[];
 };
 
 const required = (value: string): string | undefined => {
@@ -31,9 +32,9 @@ const requiredDescription = (value: string): string | undefined => {
 };
 
 const Product: React.SFC<ProductFormProps & InjectedFormProps<ProductFormData, ProductFormProps>> = ({
-  handleSubmit, handleFileDropThunk, deleteImageThunk, pristine, submitting, images, touch, categories
+  handleSubmit, handleFileDrop, deleteImage, pristine, submitting, images, touch, categories
 }) => {
-  const isSomeImageUploading = _.some(images, image => image === 'uploading');
+  const isSomeImageUploading = _.some(images, image => image === 'uploading' as any);
   const hasDropzone = images && images.length < 5 && !isSomeImageUploading;
   const catOptions = _.map(categories, cat => ({ text: cat.name, value: cat._id }));
   return (
@@ -74,12 +75,12 @@ const Product: React.SFC<ProductFormProps & InjectedFormProps<ProductFormData, P
           />
         </div>
         <div className={styles.dropzoneArea}>
-          { images && _.map(images, (image: any, index: number) => (
+          { images && _.map(images, (image, index) => (
             <div key={index} className={styles.previewContainer}>
-              { image === 'uploading'
+              { image === 'uploading' as any
                 ? <Segment className={styles.loading} loading={true} />
                 : <div>
-                  <Button className={styles.deleteButton} icon={true} color='red' onClick={() => deleteImageThunk(image)}>
+                  <Button className={styles.deleteButton} icon={true} color='red' onClick={() => deleteImage(image)}>
                     <Icon name='delete' />
                   </Button>
                   <img className={styles.imagePreview} src={image.small} alt={image.small} />
@@ -90,7 +91,7 @@ const Product: React.SFC<ProductFormProps & InjectedFormProps<ProductFormData, P
           { hasDropzone &&
             <Dropzone
               className={styles.fileDrop}
-              onDrop={handleFileDropThunk} >
+              onDrop={handleFileDrop} >
               <div className={styles.fileDropText}>Faça upload da imagem aqui</div>
             </Dropzone>
           }

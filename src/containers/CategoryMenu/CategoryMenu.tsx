@@ -31,9 +31,9 @@ class CategoryMenu extends React.Component<CategoryMenuProps> {
         <Col xs={12} lg={8} >
           <div className={styles.itemsWrapper}>
             <div className={styles.categories}>
-              {activeCategory && _.map(data, category =>
+              {activeCategory && _.map(data, (category, index) =>
                 <div
-                  key={category._id}
+                  key={index}
                   className={classNames(styles.menuItem, { [styles.activeItem]: (activeCategory as Category)._id === category._id })}
                   onClick={() => this.handleCategoryChange(category._id as string)}
                 >{category.name}

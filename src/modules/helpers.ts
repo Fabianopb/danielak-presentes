@@ -23,3 +23,7 @@ export const currencyFormat = (value: number): string => {
 export const getAuthHeaders = () => ({
   Authorization: `Bearer ${localStorage.getItem('token')}`
 });
+
+export const getImageNameFromUrl = (url: string): string => {
+  return url.substring(url.substring(url.lastIndexOf('/'), 0).lastIndexOf('/') + 1);
+};

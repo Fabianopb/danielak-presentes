@@ -35,13 +35,15 @@ declare global {
     error: any;
   };
 
+  type ProductImage = {
+    large: string,
+    small: string
+  };
+
   interface Product {
     _id: string;
     name: string;
-    image: Array<{
-      large: string,
-      small: string
-    }>;
+    image: ProductImage[];
     featuredImageIndex: number;
     storeLink: string;
     description: string;

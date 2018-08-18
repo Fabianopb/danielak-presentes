@@ -4,7 +4,7 @@ import { bindActionCreators, Dispatch } from 'redux';
 import { connect } from 'react-redux';
 import { Table, Icon, Dimmer, Loader, Button, Divider, Image } from 'semantic-ui-react';
 import * as _ from 'lodash';
-import { fetchProductsThunk, showAdminProductThunk } from '../../actions/products';
+import { productActions } from '../../actions/products';
 import { categoryActions } from '../../actions/categories';
 import styles from './AdminMain.module.scss';
 
@@ -14,8 +14,7 @@ type StateProps = {
 };
 
 type DispatchProps = {
-  fetchProductsThunk: any;
-  showAdminProductThunk: any;
+  productActions: typeof productActions;
   categoryActions: typeof categoryActions;
 };
 
@@ -25,14 +24,14 @@ type AdminMainProps = StateProps & DispatchProps & OwnProps;
 
 class AdminMain extends React.Component<AdminMainProps> {
   public componentDidMount () {
-    this.props.fetchProductsThunk();
+    this.props.productActions.fetchProducts();
     this.props.categoryActions.fetchCategories();
   }
 
   public render () {
     const { data: prodData, isFetching: prodIsFetching } = this.props.products;
     const { data: catData, isFetching: catIsFetching } = this.props.categories;
-    const { showAdminProductThunk: showProduct } = this.props;
+    const { showAdminProduct } = this.props.productActions;
     const { showAdminCategory } = this.props.categoryActions;
     return (
       <div>
@@ -60,10 +59,10 @@ class AdminMain extends React.Component<AdminMainProps> {
                 </Table.Row>
               </Table.Header>
               <Table.Body>
-                {prodData.map((product: any) => {
+                {prodData.map((product, index) => {
                   const category = _.find(catData, cat => cat._id === product.category);
                   return (
-                    <Table.Row className={styles.clickableRow} key={product._id} onClick={() => showProduct(product._id)}>
+                    <Table.Row className={styles.clickableRow} key={index} onClick={() => showAdminProduct(product._id)}>
                       <Table.Cell className={styles.nameRow}>
                         <div className={styles.thumbnailContainer}>
                           {product.image.length > 0 &&
@@ -109,8 +108,8 @@ class AdminMain extends React.Component<AdminMainProps> {
                 </Table.Row>
               </Table.Header>
               <Table.Body>
-                {catData.map((category: any) => (
-                  <Table.Row className={styles.clickableRow} key={category._id} onClick={() => showAdminCategory(category._id)}>
+                {catData.map((category, index) => (
+                  <Table.Row className={styles.clickableRow} key={index} onClick={() => showAdminCategory(category._id as string)}>
                     <Table.Cell>{category.name}</Table.Cell>
                     <Table.Cell>{category.description}</Table.Cell>
                   </Table.Row>
@@ -130,8 +129,7 @@ const mapStateToProps = (state: RootState) => ({
 });
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
-  fetchProductsThunk: bindActionCreators(fetchProductsThunk, dispatch),
-  showAdminProductThunk: bindActionCreators(showAdminProductThunk, dispatch),
+  productActions: bindActionCreators({ ...productActions }, dispatch),
   categoryActions: bindActionCreators({ ...categoryActions }, dispatch)
 });
 

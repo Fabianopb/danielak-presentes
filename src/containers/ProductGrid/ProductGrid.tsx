@@ -3,17 +3,16 @@ import { connect } from 'react-redux';
 import { bindActionCreators, Dispatch } from 'redux';
 import { Dimmer, Loader, Image } from 'semantic-ui-react';
 import { Grid, Col } from 'react-flexbox-grid';
-import { fetchProductsThunk, showProductDetailThunk } from '../../actions/products';
+import { productActions } from '../../actions/products';
 import { currencyFormat } from '../../modules/helpers';
 import styles from './ProductGrid.module.scss';
 
 type StateProps = {
-  products: any;
+  products: ProductsState;
 };
 
 type DispatchProps = {
-  fetchProductsThunk: any;
-  showProductDetailThunk: any;
+  productActions: typeof productActions;
 };
 
 type OwnProps = {};
@@ -22,11 +21,12 @@ type ProductGridProps = StateProps & DispatchProps & OwnProps;
 
 class ProductGrid extends React.Component<ProductGridProps> {
   public componentDidMount () {
-    this.props.fetchProductsThunk();
+    this.props.productActions.fetchProducts();
   }
 
   public render () {
     const {isFetching, data} = this.props.products;
+    const { showProductDetail } = this.props.productActions;
     return (
       <Grid className={styles.productsView}>
         <Col xs={true}>
@@ -35,9 +35,9 @@ class ProductGrid extends React.Component<ProductGridProps> {
               <Dimmer active={true} inverted={true}>
                 <Loader />
               </Dimmer>
-            ) : data.map((product: any) => {
+            ) : data.map((product: Product) => {
               return (
-                <div className={styles.productCell} key={product._id} onClick={() => this.props.showProductDetailThunk(product)}>
+                <div className={styles.productCell} key={product._id} onClick={() => showProductDetail(product._id)}>
                   <div className={styles.imageContainer}>
                     {product.image.length > 0 && <Image src={product.image[product.featuredImageIndex].large} />}
                   </div>
@@ -65,8 +65,7 @@ const mapStateToProps = (state: RootState) => ({
 });
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
-  fetchProductsThunk: bindActionCreators(fetchProductsThunk, dispatch),
-  showProductDetailThunk: bindActionCreators(showProductDetailThunk, dispatch)
+  productActions: bindActionCreators({ ...productActions }, dispatch),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(ProductGrid);
