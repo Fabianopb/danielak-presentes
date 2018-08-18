@@ -4,7 +4,6 @@ import * as ReactDOM from 'react-dom';
 import { Router, Switch } from 'react-router-dom';
 import { applyMiddleware, compose, createStore } from 'redux';
 import { Provider } from 'react-redux';
-import thunk from 'redux-thunk';
 import createSagaMiddleware from "redux-saga";
 import history from './modules/history';
 import rootSaga from './sagas/root';
@@ -23,7 +22,7 @@ import './index.scss';
 
 const sagaMiddleware = createSagaMiddleware();
 
-const middleware = [thunk, sagaMiddleware];
+const middleware = [sagaMiddleware];
 const composeEnhancers =
   (process.env.NODE_ENV !== 'production' && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__) || compose;
 
