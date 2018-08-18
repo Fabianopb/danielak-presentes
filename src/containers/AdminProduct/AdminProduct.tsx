@@ -54,7 +54,7 @@ class AdminProduct extends React.Component<AdminProductProps> {
               labelPosition='right'
               color='red'
               disabled={params.id === 'new'}
-              onClick={() => openDialog(activeProduct)}
+              onClick={() => openDialog(activeProduct as Product)}
             >
               Remover
               <Icon name='trash' />
@@ -70,8 +70,8 @@ class AdminProduct extends React.Component<AdminProductProps> {
             images={images}
             handleFileDrop={handleFileDrop}
             deleteImage={deleteImage}
-            onSubmit={this.submitProduct}
             categories={categories}
+            onSubmit={this.submitProduct}
           />
         )}
         <Modal open={isDialogOpen} onClose={closeDialog} size='small'>
@@ -96,7 +96,7 @@ class AdminProduct extends React.Component<AdminProductProps> {
     if (this.props.match.params.id === 'new') {
       delete product._id;
     }
-    this.props.productActions.upsertProduct(product);
+    this.props.productActions.upsertProduct(product as Product);
   };
 }
 

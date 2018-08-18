@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Field, reduxForm, InjectedFormProps } from 'redux-form';
-import { Form, Segment, Button, Icon, Popup } from 'semantic-ui-react';
+import { Form, Segment, Icon, Popup } from 'semantic-ui-react';
 import { Prompt } from 'react-router-dom';
 import Dropzone from 'react-dropzone';
 import * as _ from 'lodash';
@@ -80,9 +80,9 @@ const Product: React.SFC<ProductFormProps & InjectedFormProps<ProductFormData, P
               { image === 'uploading' as any
                 ? <Segment className={styles.loading} loading={true} />
                 : <div>
-                  <Button className={styles.deleteButton} icon={true} color='red' onClick={() => deleteImage(image)}>
+                  <div className={styles.deleteButton} onClick={() => deleteImage(image)}>
                     <Icon name='delete' />
-                  </Button>
+                  </div>
                   <img className={styles.imagePreview} src={image.small} alt={image.small} />
                 </div>
               }

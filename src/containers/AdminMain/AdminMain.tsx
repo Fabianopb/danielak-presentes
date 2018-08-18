@@ -31,6 +31,7 @@ class AdminMain extends React.Component<AdminMainProps> {
   public render () {
     const { data: prodData, isFetching: prodIsFetching } = this.props.products;
     const { data: catData, isFetching: catIsFetching } = this.props.categories;
+    const categories = _.filter(catData, cat => !_.isUndefined(cat._id));
     const { showAdminProduct } = this.props.productActions;
     const { showAdminCategory } = this.props.categoryActions;
     return (
@@ -108,7 +109,7 @@ class AdminMain extends React.Component<AdminMainProps> {
                 </Table.Row>
               </Table.Header>
               <Table.Body>
-                {catData.map((category, index) => (
+                {categories.map((category, index) => (
                   <Table.Row className={styles.clickableRow} key={index} onClick={() => showAdminCategory(category._id as string)}>
                     <Table.Cell>{category.name}</Table.Cell>
                     <Table.Cell>{category.description}</Table.Cell>

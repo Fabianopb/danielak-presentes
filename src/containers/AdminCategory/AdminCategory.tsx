@@ -81,7 +81,7 @@ class AdminCategory extends React.Component<AdminCategoryProps> {
     );
   }
 
-  private submitCategory = (category: any) => {
+  private submitCategory = (category: Category) => {
     if (this.props.match.params.id === 'new') {
       delete category._id;
     }

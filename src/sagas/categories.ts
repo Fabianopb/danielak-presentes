@@ -53,7 +53,7 @@ export function * fetchCategorySaga(action: ReturnType<typeof categoryActions.fe
 export function * upsertCategorySaga(action: ReturnType<typeof categoryActions.upsertCategory>) {
   try {
     yield put(categoryActions.startRequest());
-    const response = action.payload
+    const response = action.payload._id
       ? yield call(categoryRequests.putCategory, action.payload)
       : yield call(categoryRequests.postCategory, action.payload);
     console.log(response);

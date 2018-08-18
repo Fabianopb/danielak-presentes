@@ -1,10 +1,10 @@
 import { call, put, select, all } from 'redux-saga/effects';
 import * as _ from 'lodash';
 import * as Notifications from 'react-notification-system-redux';
-import { initialize, change } from 'redux-form';
+import { initialize, change, formValueSelector } from 'redux-form';
 import history from '../modules/history';
 import { productActions } from '../actions/products';
-import { productSelectors, formSelectors } from '../modules/selectors';
+import { productSelectors } from '../modules/selectors';
 import { productRequests, fileRequests } from '../modules/requests';
 import { getImageNameFromUrl } from '../modules/helpers';
 import { PRODUCT_FORM } from '../forms/Product/Product';
@@ -28,7 +28,7 @@ export function * getProductDetailSaga(action: ReturnType<typeof productActions.
     }
     yield put(productActions.setActiveProduct(activeProduct));
   } catch (error) {
-    notificationOpts.title = error.response.data.error;
+    notificationOpts.title = error.response ? error.response.data.error : error.message;
     yield put(Notifications.error(notificationOpts));
   } finally {
     yield put(productActions.endRequest());
@@ -47,7 +47,7 @@ export function * fetchProductsSaga(action: ReturnType<typeof productActions.fet
       yield put(productActions.receiveProducts(response.data));
     }
   } catch (error) {
-    notificationOpts.title = error.response.data.error;
+    notificationOpts.title = error.response ? error.response.data.error : error.message;
     yield put(Notifications.error(notificationOpts));
   } finally {
     yield put(productActions.endRequest());
@@ -63,7 +63,7 @@ export function * upsertProductSaga(action: ReturnType<typeof productActions.ups
     console.log(upsertResponse);
     history.push('/admin');
   } catch (error) {
-    notificationOpts.title = error.response.data.error;
+    notificationOpts.title = error.response ? error.response.data.error : error.message;
     yield put(Notifications.error(notificationOpts));
   } finally {
     yield put(productActions.endRequest());
@@ -75,17 +75,20 @@ export function * deleteProductSaga(action: ReturnType<typeof productActions.del
     yield put(productActions.startRequest());
     yield put(productActions.closeDialog());
     const imageObjectsArray: ProductImage[] = yield select(productSelectors.productImages);
-    const largeImageNames = _.map(imageObjectsArray, imageObject => getImageNameFromUrl(imageObject.large));
-    const smallImageNames = _.map(imageObjectsArray, imageObject => getImageNameFromUrl(imageObject.small));
-    const [deleteFileResponse, deleteProductResponse] = yield all([
-      call(fileRequests.deleteFiles, _.concat(largeImageNames, smallImageNames)),
-      call(productRequests.deleteProduct, action.payload)
-    ]);
+    const requests = [call(productRequests.deleteProduct, action.payload)];
+    if (imageObjectsArray.length > 0) {
+      const largeImageNames = _.map(imageObjectsArray, imageObject => getImageNameFromUrl(imageObject.large));
+      const smallImageNames = _.map(imageObjectsArray, imageObject => getImageNameFromUrl(imageObject.small));
+      const imagesToDelete = _.concat(largeImageNames, smallImageNames);
+      requests.push(call(fileRequests.deleteFiles, imagesToDelete));
+    }
+    const [deleteProductResponse, deleteFileResponse] = yield all(requests);
     console.log(deleteFileResponse, deleteProductResponse);
     // TODO: could yield put a success notification
     history.push('/admin');
   } catch (error) {
-    notificationOpts.title = error.response.data.error;
+    console.log(error);
+    notificationOpts.title = error.response ? error.response.data.error : error.message;
     yield put(Notifications.error(notificationOpts));
   } finally {
     yield put(productActions.endRequest());
@@ -95,22 +98,20 @@ export function * deleteProductSaga(action: ReturnType<typeof productActions.del
 export function * deleteImageSaga(action: ReturnType<typeof productActions.deleteImage>) {
   try {
     const imageObject = action.payload
-    const { images }: { images: ProductImage[] } = yield select(formSelectors[PRODUCT_FORM]);
+    const images: ProductImage[] = yield select(formValueSelector(PRODUCT_FORM), 'image');
     const imageIndex = _.findIndex(images, image => _.isEqual(image, imageObject));
     const largeImageName = getImageNameFromUrl(imageObject.large);
     const smallImageName = getImageNameFromUrl(imageObject.small);
     (images as any).splice(imageIndex, 1, 'uploading');
     yield put(change(PRODUCT_FORM, 'image', images));
-    const deleteFileResponse = call(fileRequests.deleteFiles, [largeImageName, smallImageName]);
+    const deleteFileResponse = yield call(fileRequests.deleteFiles, [largeImageName, smallImageName]);
     console.log(deleteFileResponse);
     images.splice(imageIndex, 1);
     yield put(change(PRODUCT_FORM, 'image', null));
     yield put(change(PRODUCT_FORM, 'image', images));
   } catch (error) {
-    notificationOpts.title = error.response.data.error;
+    notificationOpts.title = error.response ? error.response.data.error : error.message;
     yield put(Notifications.error(notificationOpts));
-  } finally {
-    yield put(productActions.endRequest());
   }
 }
 
@@ -124,7 +125,7 @@ export function * showAdminProductSaga(action: ReturnType<typeof productActions.
 
 export function * handleFileDropSaga(action: ReturnType<typeof productActions.handleFileDrop>) {
   try {
-    const { images }: { images: ProductImage[] } = yield select(formSelectors[PRODUCT_FORM]);
+    const images: ProductImage[] = yield select(formValueSelector(PRODUCT_FORM), 'image');
     const imageIndex = images.length;
     (images[imageIndex] as any) = 'uploading';
     yield put(change(PRODUCT_FORM, 'image', images));
@@ -139,10 +140,10 @@ export function * handleFileDropSaga(action: ReturnType<typeof productActions.ha
     yield put(change(PRODUCT_FORM, 'image', images));
     // TODO: could yield put a success notification
   } catch (error) {
-    const { images }: { images: ProductImage[] } = yield select(formSelectors[PRODUCT_FORM]);
+    const images: ProductImage[] = yield select(formValueSelector(PRODUCT_FORM), 'image');
     const originalImages = _.slice(images, 0, -1);
     yield put(change(PRODUCT_FORM, 'image', originalImages));
-    notificationOpts.title = error.response.data.error;
+    notificationOpts.title = error.response ? error.response.data.error : error.message;
     yield put(Notifications.error(notificationOpts));
   }
 }

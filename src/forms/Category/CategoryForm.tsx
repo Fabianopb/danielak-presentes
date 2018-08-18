@@ -8,7 +8,7 @@ import styles from './CategoryForm.module.scss';
 
 export const CATEGORY_FORM = 'CategoryForm';
 
-type CategoryFormData = any;
+type CategoryFormData = Category;
 
 const required = (value: string): string | undefined => {
   return value ? undefined : 'Campo obrigatório';

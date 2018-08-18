@@ -22,9 +22,9 @@ export enum ProductActionsEnum {
 export const productActions = {
   startRequest: () => createAction(ProductActionsEnum.START_REQUEST),
   endRequest: () => createAction(ProductActionsEnum.END_REQUEST),
-  receiveProducts: (data: any) => createAction(ProductActionsEnum.RECEIVE_PRODUCTS, data),
-  setActiveProduct: (activeProduct: any) => createAction(ProductActionsEnum.SET_ACTIVE_PRODUCT, activeProduct),
-  openDialog: (activeProduct: any) => createAction(ProductActionsEnum.OPEN_DIALOG, activeProduct),
+  receiveProducts: (data: Product[]) => createAction(ProductActionsEnum.RECEIVE_PRODUCTS, data),
+  setActiveProduct: (activeProduct: Product) => createAction(ProductActionsEnum.SET_ACTIVE_PRODUCT, activeProduct),
+  openDialog: (activeProduct: Product) => createAction(ProductActionsEnum.OPEN_DIALOG, activeProduct),
   closeDialog: () => createAction(ProductActionsEnum.CLOSE_DIALOG),
   // saga triggers
   getProductDetail: (id: string) => createAction(ProductActionsEnum.GET_PRODUCT_DETAIL, id),

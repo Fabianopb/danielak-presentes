@@ -109,9 +109,9 @@
   dependencies:
     csstype "^2.2.0"
 
-"@types/redux-form@^7.4.4":
-  version "7.4.4"
-  resolved "https://registry.yarnpkg.com/@types/redux-form/-/redux-form-7.4.4.tgz#2cf62b8eb1dc1b1df95b6b25c2763db196e5c190"
+"@types/redux-form@^7.4.5":
+  version "7.4.5"
+  resolved "https://registry.yarnpkg.com/@types/redux-form/-/redux-form-7.4.5.tgz#fae0fa6cfbc613867093d1e0f6a84db17177305e"
   dependencies:
     "@types/react" "*"
     redux "^3.6.0 || ^4.0.0"
@@ -6920,7 +6920,7 @@ reduce-function-call@^1.0.1:
   dependencies:
     balanced-match "^0.4.2"
 
-redux-form@^7.0.1:
+redux-form@^7.4.2:
   version "7.4.2"
   resolved "https://registry.yarnpkg.com/redux-form/-/redux-form-7.4.2.tgz#d6061088fb682eb9fc5fb9749bd8b102f03154b0"
   dependencies:
