@@ -7,8 +7,6 @@ const productsReducer = (products = productsState, action: ProductActions): Prod
       return {...products, isFetching: true};
     case ProductActionsEnum.END_REQUEST:
       return {...products, isFetching: false};
-    case ProductActionsEnum.ERROR_REQUEST:
-      return {...products, isFetching: false, error: action.payload};
     case ProductActionsEnum.RECEIVE_PRODUCTS:
       return {...products, data: action.payload};
     case ProductActionsEnum.SET_ACTIVE_PRODUCT:

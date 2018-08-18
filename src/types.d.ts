@@ -27,12 +27,10 @@ declare global {
     activeProduct: Product | null;
     isDialogOpen: boolean;
     data: Product[];
-    error: any;
   };
 
   type UsersState = {
     isLogging: boolean;
-    error: any;
   };
 
   type ProductImage = {

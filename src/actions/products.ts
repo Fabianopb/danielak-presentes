@@ -3,7 +3,6 @@ import { createAction, ActionsUnion } from '../modules/helpers';
 export enum ProductActionsEnum {
   START_REQUEST = 'START_REQUEST',
   END_REQUEST = 'END_REQUEST',
-  ERROR_REQUEST = 'ERROR_REQUEST',
   RECEIVE_PRODUCTS = 'RECEIVE_PRODUCTS',
   ADD_PRODUCT = 'ADD_PRODUCT',
   SET_ACTIVE_PRODUCT = 'SET_ACTIVE_PRODUCT',
@@ -23,7 +22,6 @@ export enum ProductActionsEnum {
 export const productActions = {
   startRequest: () => createAction(ProductActionsEnum.START_REQUEST),
   endRequest: () => createAction(ProductActionsEnum.END_REQUEST),
-  errorRequest: (error: any) => createAction(ProductActionsEnum.ERROR_REQUEST, error),
   receiveProducts: (data: any) => createAction(ProductActionsEnum.RECEIVE_PRODUCTS, data),
   setActiveProduct: (activeProduct: any) => createAction(ProductActionsEnum.SET_ACTIVE_PRODUCT, activeProduct),
   openDialog: (activeProduct: any) => createAction(ProductActionsEnum.OPEN_DIALOG, activeProduct),

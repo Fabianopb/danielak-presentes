@@ -9,13 +9,11 @@ export const productsState: ProductsState = {
   isFetching: false,
   activeProduct: null,
   isDialogOpen: false,
-  data: [],
-  error: null
+  data: []
 };
 
 export const usersState: UsersState = {
-  isLogging: false,
-  error: null
+  isLogging: false
 };
 
 export const initialState: RootState = {

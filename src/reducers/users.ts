@@ -7,8 +7,6 @@ const usersReducer = (users = usersState, action: UserActions): UsersState => {
       return {...users, isLogging: true};
     case UserActionsEnum.END_REQUEST:
       return {...users, isLogging: false};
-    case UserActionsEnum.ERROR_REQUEST:
-      return {...users, isLogging: false, error: action.payload};
     default:
       return users;
   }

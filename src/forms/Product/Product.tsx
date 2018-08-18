@@ -36,7 +36,7 @@ const Product: React.SFC<ProductFormProps & InjectedFormProps<ProductFormData, P
 }) => {
   const isSomeImageUploading = _.some(images, image => image === 'uploading' as any);
   const hasDropzone = images && images.length < 5 && !isSomeImageUploading;
-  const catOptions = _.map(categories, cat => ({ text: cat.name, value: cat._id }));
+  const catOptions = _.filter(_.map(categories, cat => ({ text: cat.name, value: cat._id })), cat => !_.isUndefined(cat.value));
   return (
     <div className={styles.productForm}>
       <Form onSubmit={handleSubmit} >
