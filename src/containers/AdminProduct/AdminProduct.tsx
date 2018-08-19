@@ -4,8 +4,8 @@ import { bindActionCreators, Dispatch } from 'redux';
 import { match } from 'react-router';
 import { formValueSelector } from 'redux-form';
 import { Dimmer, Loader, Icon, Modal, Button, Header } from 'semantic-ui-react';
-import history from '../../modules/history';
 import ProductForm from '../../forms/Product/Product';
+import { routerActions } from 'connected-react-router';
 import { productActions } from '../../actions/products';
 import { categoryActions } from '../../actions/categories';
 import styles from './AdminProduct.module.scss';
@@ -21,6 +21,7 @@ type StateProps = {
 type DispatchProps = {
   productActions: typeof productActions;
   categoryActions: typeof categoryActions;
+  routerActions: typeof routerActions;
 };
 
 type OwnProps = {
@@ -40,13 +41,14 @@ class AdminProduct extends React.Component<AdminProductProps> {
     const { isFetching: isFetchingCategories, data: categories } = this.props.categories;
     const { images } = this.props.formValues;
     const { openDialog, closeDialog, deleteProduct, handleFileDrop, deleteImage } = this.props.productActions;
+    const { goBack } = this.props.routerActions;
     const { params } = this.props.match;
     return (
       <div>
         <div className={styles.addProductHeader}>
           <h3>Adicionar produto</h3>
           <div className={styles.actionButtons}>
-            <Button basic={true} icon={true} labelPosition='right' color='blue' onClick={() => history.goBack()}>
+            <Button basic={true} icon={true} labelPosition='right' color='blue' onClick={goBack}>
               Voltar<Icon name='chevron left' />
             </Button>
             <Button
@@ -110,7 +112,8 @@ const mapStateToProps = (state: RootState) => ({
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
   productActions: bindActionCreators({ ...productActions }, dispatch),
-  categoryActions: bindActionCreators({ ...categoryActions }, dispatch)
+  categoryActions: bindActionCreators({ ...categoryActions }, dispatch),
+  routerActions: bindActionCreators({ ...routerActions }, dispatch)
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(AdminProduct);

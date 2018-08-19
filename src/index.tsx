@@ -1,11 +1,12 @@
-/// <reference path="./index.d.ts" />
+/// <reference path='./index.d.ts' />
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
-import { Router, Switch } from 'react-router-dom';
+import { Switch } from 'react-router-dom';
 import { applyMiddleware, compose, createStore } from 'redux';
 import { Provider } from 'react-redux';
-import createSagaMiddleware from "redux-saga";
-import history from './modules/history';
+import createSagaMiddleware from 'redux-saga';
+import { createBrowserHistory } from 'history';
+import { connectRouter, routerMiddleware, ConnectedRouter } from 'connected-react-router';
 import rootSaga from './sagas/root';
 import rootReducer from './reducers/root';
 import RoutePublic from './components/RoutePublic/RoutePublic';
@@ -20,14 +21,15 @@ import NotificationsManager from './containers/Notifications/Notifications';
 import 'semantic-ui-css/semantic.min.css';
 import './index.scss';
 
+const history = createBrowserHistory()
 const sagaMiddleware = createSagaMiddleware();
 
-const middleware = [sagaMiddleware];
+const middleware = [routerMiddleware(history), sagaMiddleware];
 const composeEnhancers =
   (process.env.NODE_ENV !== 'production' && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__) || compose;
 
 const store = createStore(
-  rootReducer,
+  connectRouter(history)(rootReducer),
   composeEnhancers(applyMiddleware(...middleware))
 );
 
@@ -35,7 +37,7 @@ sagaMiddleware.run(rootSaga);
 
 ReactDOM.render(
   <Provider store={store}>
-    <Router history={history}>
+    <ConnectedRouter history={history}>
       <div>
         <Switch>
           <RoutePublic exact={true} path='/' component={ProductGrid} />
@@ -47,7 +49,7 @@ ReactDOM.render(
         </Switch>
         <NotificationsManager />
       </div>
-    </Router>
+    </ConnectedRouter>
   </Provider>,
   document.getElementById('root')
 );

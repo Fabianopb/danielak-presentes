@@ -1,6 +1,7 @@
-import { compose } from "redux";
-import { NotificationsState } from "react-notification-system-redux";
-import { FormStateMap } from "redux-form";
+import { compose } from 'redux';
+import { NotificationsState } from 'react-notification-system-redux';
+import { FormStateMap } from 'redux-form';
+import { RouterState } from 'connected-react-router';
 
 declare global {
   interface Window {
@@ -13,6 +14,7 @@ declare global {
     users: UsersState;
     form: FormStateMap;
     notifications: NotificationsState;
+    router: RouterState;
   }
 
   type CategoriesState = {

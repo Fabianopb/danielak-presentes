@@ -3,10 +3,10 @@ import { connect } from 'react-redux';
 import { match } from 'react-router';
 import { bindActionCreators, Dispatch } from 'redux';
 import { Dimmer, Loader, Button, Icon, Grid } from 'semantic-ui-react';
+import { routerActions } from 'connected-react-router';
 import ImageGallery from '../../components/ImageGallery/ImageGallery';
 import { productActions } from '../../actions/products';
 import { currencyFormat } from '../../modules/helpers';
-import history from '../../modules/history';
 import styles from './ProductDetail.module.scss';
 
 type StateProps = {
@@ -15,6 +15,7 @@ type StateProps = {
 
 type DispatchProps = {
   productActions: typeof productActions;
+  routerActions: typeof routerActions;
 };
 
 type OwnProps = {
@@ -29,7 +30,8 @@ class ProductDetail extends React.Component<ProductDetailProps> {
   }
 
   public render () {
-    const {isFetching, activeProduct} = this.props.products;
+    const { isFetching, activeProduct } = this.props.products;
+    const { goBack } = this.props.routerActions;
     return (
       <div>
         <Grid className={styles.productDetails}>
@@ -42,7 +44,7 @@ class ProductDetail extends React.Component<ProductDetailProps> {
           ) : (
             <Grid.Column computer={12} widescreen={10} width={16}>
               <div className={styles.backButtonWrapper}>
-                <Button basic={true} icon={true} labelPosition='right' color='purple' onClick={() => history.goBack()}>
+                <Button basic={true} icon={true} labelPosition='right' color='purple' onClick={goBack}>
                   <Icon name='chevron left' />Voltar
                 </Button>
               </div>
@@ -101,7 +103,8 @@ const mapStateToProps = (state: RootState) => ({
 });
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
-  productActions: bindActionCreators({ ...productActions }, dispatch)
+  productActions: bindActionCreators({ ...productActions }, dispatch),
+  routerActions: bindActionCreators({ ...routerActions }, dispatch)
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(ProductDetail);

@@ -2,12 +2,12 @@ import { call, put, select } from 'redux-saga/effects';
 import * as Notifications from 'react-notification-system-redux';
 import * as _ from 'lodash';
 import { initialize } from 'redux-form';
+import { routerActions } from 'connected-react-router';
 import { categoryActions } from '../actions/categories';
 import { productActions } from '../actions/products';
 import { categoryRequests, productRequests } from '../modules/requests';
 import { categorySelectors } from '../modules/selectors';
 import { CATEGORY_FORM } from '../forms/Category/CategoryForm';
-import history from '../modules/history';
 
 const notificationOpts = {
   autoDismiss: 5,
@@ -57,7 +57,7 @@ export function * upsertCategorySaga(action: ReturnType<typeof categoryActions.u
       ? yield call(categoryRequests.putCategory, action.payload)
       : yield call(categoryRequests.postCategory, action.payload);
     console.log(response);
-    history.push('/admin');
+    yield put(routerActions.push('/admin'));
     notificationOpts.title = 'Categorias atualizadas com sucesso!';
     yield put(Notifications.success(notificationOpts));
   } catch (error) {
@@ -72,7 +72,7 @@ export function * showAdminCategorySaga(action: ReturnType<typeof categoryAction
   const categories: Category[] = yield select(categorySelectors.categories);
   const activeCategory = _.find(categories, cat => cat._id === action.payload);
   yield put(categoryActions.setActiveCategory(activeCategory as Category));
-  history.push(`/admin/category/${action.payload}`);
+  yield put(routerActions.push(`/admin/category/${action.payload}`));
 }
 
 export function * deleteCategorySaga(action: ReturnType<typeof categoryActions.deleteCategory>) {
@@ -81,7 +81,7 @@ export function * deleteCategorySaga(action: ReturnType<typeof categoryActions.d
     yield put(categoryActions.closeDialog());
     const response = yield call(categoryRequests.deleteCategory, action.payload);
     console.log(response);
-    history.push('/admin');
+    yield put(routerActions.push('/admin'));
     notificationOpts.title = 'Categoria excluida com sucesso!';
     yield put(Notifications.success(notificationOpts));
   } catch (error) {

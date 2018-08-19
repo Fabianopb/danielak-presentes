@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators, Dispatch } from 'redux';
 import { match } from "react-router";
 import { Dimmer, Loader, Icon, Button, Modal, Header } from 'semantic-ui-react';
-import history from '../../modules/history';
+import { routerActions } from 'connected-react-router';
 import CategoryForm from '../../forms/Category/CategoryForm';
 import { categoryActions } from '../../actions/categories';
 import styles from './AdminCategory.module.scss';
@@ -14,6 +14,7 @@ type StateProps = {
 
 type DispatchProps = {
   categoryActions: typeof categoryActions;
+  routerActions: typeof routerActions;
 };
 
 type OwnProps = {
@@ -32,12 +33,13 @@ class AdminCategory extends React.Component<AdminCategoryProps> {
     const { params } = this.props.match;
     const { deleteCategory } = this.props.categoryActions;
     const { openDialog, closeDialog } = this.props.categoryActions;
+    const { goBack } = this.props.routerActions;
     return (
       <div>
         <div className={styles.addCategoryHeader}>
           <h3>Adicionar categoria</h3>
           <div className={styles.actionButtons}>
-            <Button basic={true} icon={true} labelPosition='right' color='blue' onClick={() => history.goBack()}>
+            <Button basic={true} icon={true} labelPosition='right' color='blue' onClick={goBack}>
               Voltar<Icon name='chevron left' />
             </Button>
             <Button
@@ -94,7 +96,8 @@ const mapStateToProps = (state: RootState) => ({
 });
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
-  categoryActions: bindActionCreators({ ...categoryActions }, dispatch)
+  categoryActions: bindActionCreators({ ...categoryActions }, dispatch),
+  routerActions: bindActionCreators({ ...routerActions }, dispatch)
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(AdminCategory);

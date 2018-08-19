@@ -2,7 +2,7 @@ import { call, put, select, all } from 'redux-saga/effects';
 import * as _ from 'lodash';
 import * as Notifications from 'react-notification-system-redux';
 import { initialize, change, formValueSelector } from 'redux-form';
-import history from '../modules/history';
+import { routerActions } from 'connected-react-router';
 import { productActions } from '../actions/products';
 import { productSelectors } from '../modules/selectors';
 import { productRequests, fileRequests } from '../modules/requests';
@@ -61,7 +61,7 @@ export function * upsertProductSaga(action: ReturnType<typeof productActions.ups
       ? yield call(productRequests.putProduct, action.payload)
       : yield call(productRequests.postProduct, action.payload);
     console.log(upsertResponse);
-    history.push('/admin');
+    yield put(routerActions.push('/admin'));
   } catch (error) {
     notificationOpts.title = error.response ? error.response.data.error : error.message;
     yield put(Notifications.error(notificationOpts));
@@ -85,7 +85,7 @@ export function * deleteProductSaga(action: ReturnType<typeof productActions.del
     const [deleteProductResponse, deleteFileResponse] = yield all(requests);
     console.log(deleteFileResponse, deleteProductResponse);
     // TODO: could yield put a success notification
-    history.push('/admin');
+    yield put(routerActions.push('/admin'));
   } catch (error) {
     console.log(error);
     notificationOpts.title = error.response ? error.response.data.error : error.message;
@@ -116,11 +116,11 @@ export function * deleteImageSaga(action: ReturnType<typeof productActions.delet
 }
 
 export function * showProductDetailSaga(action: ReturnType<typeof productActions.showProductDetail>) {
-  yield history.push(`/product/${action.payload}`);
+  yield put(routerActions.push(`/product/${action.payload}`));
 }
 
 export function * showAdminProductSaga(action: ReturnType<typeof productActions.showAdminProduct>) {
-  yield history.push(`/admin/product/${action.payload}`);
+  yield put(routerActions.push(`/admin/product/${action.payload}`));
 }
 
 export function * handleFileDropSaga(action: ReturnType<typeof productActions.handleFileDrop>) {
