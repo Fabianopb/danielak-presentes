@@ -20,7 +20,7 @@ class LoginPage extends React.Component<LoginPageProps> {
   public render () {
     const { isLogging } = this.props.users;
     return (
-      <div>
+      <div className={styles.loginPage}>
         <h3 className={styles.loginTitle}>Login</h3>
         {isLogging ? (
           <Dimmer active={true} inverted={true}>

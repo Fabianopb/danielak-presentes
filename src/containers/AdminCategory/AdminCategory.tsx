@@ -35,7 +35,7 @@ class AdminCategory extends React.Component<AdminCategoryProps> {
     const { openDialog, closeDialog } = this.props.categoryActions;
     const { goBack } = this.props.routerActions;
     return (
-      <div>
+      <div className={styles.adminCategory}>
         <div className={styles.addCategoryHeader}>
           <h3>Adicionar categoria</h3>
           <div className={styles.actionButtons}>

@@ -5,6 +5,8 @@ import { Row, Col } from 'react-flexbox-grid';
 import classNames from 'classnames';
 import * as _ from 'lodash';
 import { categoryActions } from '../../actions/categories';
+import { userActions } from '../../actions/users';
+import { isSessionValid } from '../../modules/session';
 import styles from './CategoryMenu.module.scss';
 
 type StateProps = {
@@ -13,11 +15,10 @@ type StateProps = {
 
 type DispatchProps = {
   categoryActions: typeof categoryActions;
+  userActions: typeof userActions;
 };
 
-type OwnProps = {};
-
-type CategoryMenuProps = StateProps & DispatchProps & OwnProps;
+type CategoryMenuProps = StateProps & DispatchProps;
 
 class CategoryMenu extends React.Component<CategoryMenuProps> {
   public componentDidMount () {
@@ -26,21 +27,26 @@ class CategoryMenu extends React.Component<CategoryMenuProps> {
 
   public render () {
     const { data, activeCategory } = this.props.categories;
+    const { logout } = this.props.userActions;
     return (
       <Row center="xs" className={styles.menu}>
         <Col xs={12} lg={8} >
           <div className={styles.itemsWrapper}>
-            <div className={styles.categories}>
-              {activeCategory && _.map(data, (category, index) =>
-                <div
-                  key={index}
-                  className={classNames(styles.menuItem, { [styles.activeItem]: (activeCategory as Category)._id === category._id })}
-                  onClick={() => this.handleCategoryChange(category._id as string)}
-                >{category.name}
-                </div>
-              )}
-            </div>
-            {/*<div className={styles.menuItem}>Sobre</div>*/}
+            {!isSessionValid() &&
+              <div className={styles.categories}>
+                {activeCategory && _.map(data, (category, index) =>
+                  <div
+                    key={index}
+                    className={classNames(styles.menuItem, { [styles.activeItem]: (activeCategory as Category)._id === category._id })}
+                    onClick={() => this.handleCategoryChange(category._id as string)}
+                  >{category.name}
+                  </div>
+                )}
+              </div>
+            }
+            {isSessionValid() &&
+              <div className={styles.menuItem} onClick={logout}>Logout</div>
+            }
           </div>
         </Col>
       </Row>
@@ -59,7 +65,8 @@ const mapStateToProps = (state: RootState) => ({
 });
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
-  categoryActions: bindActionCreators({ ...categoryActions }, dispatch)
+  categoryActions: bindActionCreators({ ...categoryActions }, dispatch),
+  userActions: bindActionCreators({ ...userActions }, dispatch)
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(CategoryMenu);

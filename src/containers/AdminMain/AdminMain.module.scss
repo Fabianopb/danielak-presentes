@@ -1,31 +1,35 @@
-.mgmtHeader {
-  display: flex;
-  justify-content: space-between;
-  align-items: baseline;
-  margin-bottom: 16px;
-}
+.adminMain {
+  margin: 32px;
 
-.clickableRow {
-  cursor: pointer;
-}
-
-.productList {
-
-  .nameRow {
+  .mgmtHeader {
     display: flex;
-    align-items: center;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 16px;
+  }
 
-    .thumbnailContainer {
-      width: 40px;
-      overflow: hidden;
+  .clickableRow {
+    cursor: pointer;
+  }
 
-      .thumbnail {
-        height: 40px;
+  .productList {
+
+    .nameRow {
+      display: flex;
+      align-items: center;
+
+      .thumbnailContainer {
+        width: 40px;
+        overflow: hidden;
+
+        .thumbnail {
+          height: 40px;
+        }
       }
-    }
 
-    .productName {
-      margin-left: 20px;
+      .productName {
+        margin-left: 20px;
+      }
     }
   }
 }

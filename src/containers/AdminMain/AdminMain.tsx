@@ -35,7 +35,7 @@ class AdminMain extends React.Component<AdminMainProps> {
     const { showAdminProduct } = this.props.productActions;
     const { showAdminCategory } = this.props.categoryActions;
     return (
-      <div>
+      <div className={styles.adminMain}>
         <div className={styles.mgmtHeader}>
           <h2>Lista de produtos</h2>
           <Link to='/admin/product/new'>

@@ -10,7 +10,6 @@ import { connectRouter, routerMiddleware, ConnectedRouter } from 'connected-reac
 import rootSaga from './sagas/root';
 import rootReducer from './reducers/root';
 import Layout from './components/Layout/Layout';
-import RoutePrivate from './components/RoutePrivate/RoutePrivate';
 import CategoryMenu from './containers/CategoryMenu/CategoryMenu';
 import ProductGrid from './containers/ProductGrid/ProductGrid';
 import ProductDetail from './containers/ProductDetail/ProductDetail';
@@ -19,6 +18,7 @@ import LoginPage from './containers/LoginPage/LoginPage';
 import AdminProduct from './containers/AdminProduct/AdminProduct';
 import AdminCategory from './containers/AdminCategory/AdminCategory';
 import NotificationsManager from './containers/Notifications/Notifications';
+import { isSessionValid } from './modules/session';
 import 'semantic-ui-css/semantic.min.css';
 import './index.scss';
 
@@ -45,9 +45,9 @@ ReactDOM.render(
           <Route exact={true} path='/' component={ProductGrid} />
           <Route exact={true} path='/product/:id' component={ProductDetail} />
           <Route exact={true} path='/login' component={LoginPage} />
-          <RoutePrivate exact={true} path='/admin' component={AdminMain} />
-          <RoutePrivate path='/admin/product/:id' component={AdminProduct} />
-          <RoutePrivate path='/admin/category/:id' component={AdminCategory} />
+          <Route exact={true} path='/admin' component={isSessionValid() ? AdminMain : LoginPage} />
+          <Route path='/admin/product/:id' component={isSessionValid() ? AdminProduct : LoginPage} />
+          <Route path='/admin/category/:id' component={isSessionValid() ? AdminCategory : LoginPage} />
         </Switch>
         <NotificationsManager />
       </Layout>

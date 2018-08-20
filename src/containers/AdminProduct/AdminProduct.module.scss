@@ -1,10 +1,14 @@
-.addProductHeader {
-  display: flex;
-  justify-content: space-between;
+.adminProduct {
+  margin: 32px;
+  
+  .addProductHeader {
+    display: flex;
+    justify-content: space-between;
 
-  .actionButtons {
-    button:first-child {
-      margin-right: 16px;
+    .actionButtons {
+      button:first-child {
+        margin-right: 16px;
+      }
     }
   }
 }

@@ -1,8 +1,12 @@
-.loginTitle {
-  text-align: center;
-}
+.loginPage {
+  margin: 32px;
+  
+  .loginTitle {
+    text-align: center;
+  }
 
-.loginContainer {
-  display: flex;
-  justify-content: center;
+  .loginContainer {
+    display: flex;
+    justify-content: center;
+  }
 }

@@ -1,10 +1,14 @@
-.addCategoryHeader {
-  display: flex;
-  justify-content: space-between;
+.adminCategory {
+  margin: 32px;
 
-  .actionButtons {
-    button:first-child {
-      margin-right: 16px;
+  .addCategoryHeader {
+    display: flex;
+    justify-content: space-between;
+
+    .actionButtons {
+      button:first-child {
+        margin-right: 16px;
+      }
     }
   }
 }

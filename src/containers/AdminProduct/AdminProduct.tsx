@@ -44,7 +44,7 @@ class AdminProduct extends React.Component<AdminProductProps> {
     const { goBack } = this.props.routerActions;
     const { params } = this.props.match;
     return (
-      <div>
+      <div className={styles.adminProduct}>
         <div className={styles.addProductHeader}>
           <h3>Adicionar produto</h3>
           <div className={styles.actionButtons}>
