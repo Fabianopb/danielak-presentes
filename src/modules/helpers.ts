@@ -1,3 +1,5 @@
+import * as _ from 'lodash';
+
 type FunctionType = (...args: any[]) => any;
 type ActionCreatorsMapObject = { [actionCreator: string]: FunctionType };
 export type ActionsUnion<A extends ActionCreatorsMapObject> = ReturnType<A[keyof A]>;
@@ -27,3 +29,7 @@ export const getAuthHeaders = () => ({
 export const getImageNameFromUrl = (url: string): string => {
   return url.substring(url.substring(url.lastIndexOf('/'), 0).lastIndexOf('/') + 1);
 };
+
+export const isAdminPage = (path: string): boolean => {
+  return _.includes(path, 'admin');
+}

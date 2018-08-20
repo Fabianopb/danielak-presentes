@@ -1,16 +1,18 @@
 import * as React from 'react';
 import { bindActionCreators, Dispatch } from 'redux';
+import { RouterState } from 'connected-react-router';
 import { connect } from 'react-redux';
 import { Row, Col } from 'react-flexbox-grid';
 import classNames from 'classnames';
 import * as _ from 'lodash';
 import { categoryActions } from '../../actions/categories';
 import { userActions } from '../../actions/users';
-import { isSessionValid } from '../../modules/session';
+import { isAdminPage } from '../../modules/helpers';
 import styles from './CategoryMenu.module.scss';
 
 type StateProps = {
   categories: CategoriesState;
+  router: RouterState;
 };
 
 type DispatchProps = {
@@ -27,12 +29,13 @@ class CategoryMenu extends React.Component<CategoryMenuProps> {
 
   public render () {
     const { data, activeCategory } = this.props.categories;
+    const { pathname } = this.props.router.location;
     const { logout } = this.props.userActions;
     return (
       <Row center="xs" className={styles.menu}>
         <Col xs={12} lg={8} >
           <div className={styles.itemsWrapper}>
-            {!isSessionValid() &&
+            {!isAdminPage(pathname) &&
               <div className={styles.categories}>
                 {activeCategory && _.map(data, (category, index) =>
                   <div
@@ -44,7 +47,7 @@ class CategoryMenu extends React.Component<CategoryMenuProps> {
                 )}
               </div>
             }
-            {isSessionValid() &&
+            {isAdminPage(pathname) &&
               <div className={styles.menuItem} onClick={logout}>Logout</div>
             }
           </div>
@@ -61,7 +64,8 @@ class CategoryMenu extends React.Component<CategoryMenuProps> {
 }
 
 const mapStateToProps = (state: RootState) => ({
-  categories: state.categories
+  categories: state.categories,
+  router: state.router
 });
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({

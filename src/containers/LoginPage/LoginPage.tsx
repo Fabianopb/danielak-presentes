@@ -41,7 +41,7 @@ class LoginPage extends React.Component<LoginPageProps> {
 }
 
 const mapStateToProps = (state: RootState) => ({
-  users: state.users
+  users: state.users,
 });
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
