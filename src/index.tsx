@@ -1,7 +1,7 @@
 /// <reference path='./index.d.ts' />
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
-import { Switch } from 'react-router-dom';
+import { Switch, Route } from 'react-router-dom';
 import { applyMiddleware, compose, createStore } from 'redux';
 import { Provider } from 'react-redux';
 import createSagaMiddleware from 'redux-saga';
@@ -10,7 +10,6 @@ import { connectRouter, routerMiddleware, ConnectedRouter } from 'connected-reac
 import rootSaga from './sagas/root';
 import rootReducer from './reducers/root';
 import Layout from './components/Layout/Layout';
-import RoutePublic from './components/RoutePublic/RoutePublic';
 import RoutePrivate from './components/RoutePrivate/RoutePrivate';
 import CategoryMenu from './containers/CategoryMenu/CategoryMenu';
 import ProductGrid from './containers/ProductGrid/ProductGrid';
@@ -43,9 +42,9 @@ ReactDOM.render(
       <Layout>
         <CategoryMenu />
         <Switch>
-          <RoutePublic exact={true} path='/' component={ProductGrid} />
-          <RoutePublic exact={true} path='/product/:id' component={ProductDetail} />
-          <RoutePublic exact={true} path='/login' component={LoginPage} />
+          <Route exact={true} path='/' component={ProductGrid} />
+          <Route exact={true} path='/product/:id' component={ProductDetail} />
+          <Route exact={true} path='/login' component={LoginPage} />
           <RoutePrivate exact={true} path='/admin' component={AdminMain} />
           <RoutePrivate path='/admin/product/:id' component={AdminProduct} />
           <RoutePrivate path='/admin/category/:id' component={AdminCategory} />
