@@ -1,7 +1,7 @@
 /// <reference path='./index.d.ts' />
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
-import { Switch, Route } from 'react-router-dom';
+import { Switch, Route, RouteProps, Redirect } from 'react-router-dom';
 import { applyMiddleware, compose, createStore } from 'redux';
 import { Provider } from 'react-redux';
 import createSagaMiddleware from 'redux-saga';
@@ -36,6 +36,14 @@ const store = createStore(
 
 sagaMiddleware.run(rootSaga);
 
+type ProtectedRouteProps = RouteProps & { component: any };
+const ProtectedRoute: React.SFC<ProtectedRouteProps> = ({ component: Component, ...rest }) => (
+  <Route {...rest} render={props => isSessionValid()
+    ? <Component {...props} />
+    : <Redirect to='/login' />}
+  />
+);
+
 ReactDOM.render(
   <Provider store={store}>
     <ConnectedRouter history={history}>
@@ -45,9 +53,9 @@ ReactDOM.render(
           <Route exact={true} path='/' component={ProductGrid} />
           <Route exact={true} path='/product/:id' component={ProductDetail} />
           <Route exact={true} path='/login' component={LoginPage} />
-          <Route exact={true} path='/admin' component={isSessionValid() ? AdminMain : LoginPage} />
-          <Route path='/admin/product/:id' component={isSessionValid() ? AdminProduct : LoginPage} />
-          <Route path='/admin/category/:id' component={isSessionValid() ? AdminCategory : LoginPage} />
+          <ProtectedRoute exact={true} path='/admin' component={AdminMain} />
+          <ProtectedRoute path='/admin/product/:id' component={AdminProduct} />
+          <ProtectedRoute path='/admin/category/:id' component={AdminCategory} />
         </Switch>
         <NotificationsManager />
       </Layout>

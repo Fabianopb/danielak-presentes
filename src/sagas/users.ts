@@ -26,7 +26,6 @@ export function * loginSaga(action: ReturnType<typeof userActions.login>) {
 }
 
 export function * logoutSaga() {
-  yield console.log('TODO: implement redux-router');
   clearSession();
   yield put(routerActions.push('/'));
 }
