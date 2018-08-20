@@ -9,8 +9,10 @@ import { createBrowserHistory } from 'history';
 import { connectRouter, routerMiddleware, ConnectedRouter } from 'connected-react-router';
 import rootSaga from './sagas/root';
 import rootReducer from './reducers/root';
+import Layout from './components/Layout/Layout';
 import RoutePublic from './components/RoutePublic/RoutePublic';
 import RoutePrivate from './components/RoutePrivate/RoutePrivate';
+import CategoryMenu from './containers/CategoryMenu/CategoryMenu';
 import ProductGrid from './containers/ProductGrid/ProductGrid';
 import ProductDetail from './containers/ProductDetail/ProductDetail';
 import AdminMain from './containers/AdminMain/AdminMain';
@@ -38,7 +40,8 @@ sagaMiddleware.run(rootSaga);
 ReactDOM.render(
   <Provider store={store}>
     <ConnectedRouter history={history}>
-      <div>
+      <Layout>
+        <CategoryMenu />
         <Switch>
           <RoutePublic exact={true} path='/' component={ProductGrid} />
           <RoutePublic exact={true} path='/product/:id' component={ProductDetail} />
@@ -48,7 +51,7 @@ ReactDOM.render(
           <RoutePrivate path='/admin/category/:id' component={AdminCategory} />
         </Switch>
         <NotificationsManager />
-      </div>
+      </Layout>
     </ConnectedRouter>
   </Provider>,
   document.getElementById('root')
