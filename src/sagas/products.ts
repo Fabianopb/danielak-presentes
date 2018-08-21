@@ -4,7 +4,7 @@ import * as Notifications from 'react-notification-system-redux';
 import { initialize, change, formValueSelector } from 'redux-form';
 import { routerActions } from 'connected-react-router';
 import { productActions } from '../actions/products';
-import { productSelectors } from '../modules/selectors';
+import { productSelectors, routeSelectors } from '../modules/selectors';
 import { productRequests, fileRequests } from '../modules/requests';
 import { getImageNameFromUrl } from '../modules/helpers';
 import { PRODUCT_FORM } from '../forms/Product/Product';
@@ -43,7 +43,8 @@ export function * fetchProductsSaga(action: ReturnType<typeof productActions.fet
       yield put(productActions.setActiveProduct(response.data[0]));
       yield put(initialize(PRODUCT_FORM, response.data[0]));
     } else {
-      const response: { data: Product[] } = yield call(productRequests.getAllProducts, action.payload);
+      const search = yield select(routeSelectors.search);
+      const response: { data: Product[] } = yield call(productRequests.getProducts, search);
       yield put(productActions.receiveProducts(response.data));
     }
   } catch (error) {

@@ -68,6 +68,10 @@ declare global {
     removed: boolean;
   }
 
+  interface QueryParams {
+    category: string;
+  }
+
   interface LoginRequestParams {
     email: string;
     password: string;

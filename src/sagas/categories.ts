@@ -19,12 +19,7 @@ export function * fetchCategoriesSaga() {
   try {
     yield put(categoryActions.startRequest());
     const response: { data: Category[] } = yield call(categoryRequests.getCategories);
-    const categoryAll: Category = {
-      name: 'Home',
-      description: 'todos produtos',
-      removed: false
-    };
-    const categories: Category[] = _.concat([categoryAll], response.data);
+    const categories: Category[] = response.data;
     yield put(categoryActions.receiveCategories(categories));
     yield put(categoryActions.setActiveCategory(categories[0]));
   } catch (error) {

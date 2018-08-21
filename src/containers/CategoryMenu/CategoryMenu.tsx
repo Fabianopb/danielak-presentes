@@ -1,10 +1,12 @@
 import * as React from 'react';
 import { bindActionCreators, Dispatch } from 'redux';
-import { RouterState } from 'connected-react-router';
+import { RouterState, routerActions } from 'connected-react-router';
 import { connect } from 'react-redux';
 import { Row, Col } from 'react-flexbox-grid';
 import classNames from 'classnames';
 import * as _ from 'lodash';
+import * as queryString from 'query-string';
+import { productActions } from '../../actions/products';
 import { categoryActions } from '../../actions/categories';
 import { userActions } from '../../actions/users';
 import { isAdminPage } from '../../modules/helpers';
@@ -17,6 +19,8 @@ type StateProps = {
 
 type DispatchProps = {
   categoryActions: typeof categoryActions;
+  productActions: typeof productActions;
+  routerActions: typeof routerActions;
   userActions: typeof userActions;
 };
 
@@ -27,21 +31,35 @@ class CategoryMenu extends React.Component<CategoryMenuProps> {
     this.props.categoryActions.fetchCategories();
   }
 
+  public componentDidUpdate(prevProps: CategoryMenuProps) {
+    if (!_.isEqual(prevProps.router.location.search, this.props.router.location.search)) {
+      this.props.productActions.fetchProducts();
+    }
+  }
+
   public render () {
-    const { data, activeCategory } = this.props.categories;
+    const { data } = this.props.categories;
     const { pathname } = this.props.router.location;
     const { logout } = this.props.userActions;
+    const { push } = this.props.routerActions;
+    const { search } = this.props.router.location;
+    const query = queryString.parse(search);
     return (
       <Row center="xs" className={styles.menu}>
         <Col xs={12} lg={8} >
           <div className={styles.itemsWrapper}>
             {!isAdminPage(pathname) &&
               <div className={styles.categories}>
-                {activeCategory && _.map(data, (category, index) =>
+                <div
+                  className={classNames(styles.menuItem, { [styles.activeItem]: !query.category })}
+                  onClick={() => push(`/`)}
+                >Home
+                </div>
+                {_.map(data, (category, index) =>
                   <div
                     key={index}
-                    className={classNames(styles.menuItem, { [styles.activeItem]: (activeCategory as Category)._id === category._id })}
-                    onClick={() => this.handleCategoryChange(category._id as string)}
+                    className={classNames(styles.menuItem, { [styles.activeItem]: query.category === category._id })}
+                    onClick={() => push(`/?category=${category._id}`)}
                   >{category.name}
                   </div>
                 )}
@@ -55,12 +73,6 @@ class CategoryMenu extends React.Component<CategoryMenuProps> {
       </Row>
     );
   }
-
-  private handleCategoryChange = (categoryId: string | null) => {
-    if (categoryId !== (this.props.categories.activeCategory as Category)._id) {
-      this.props.categoryActions.changeCategory(categoryId);
-    }
-  }
 }
 
 const mapStateToProps = (state: RootState) => ({
@@ -70,6 +82,8 @@ const mapStateToProps = (state: RootState) => ({
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
   categoryActions: bindActionCreators({ ...categoryActions }, dispatch),
+  productActions: bindActionCreators({ ...productActions }, dispatch),
+  routerActions: bindActionCreators({ ...routerActions }, dispatch),
   userActions: bindActionCreators({ ...userActions }, dispatch)
 });
 

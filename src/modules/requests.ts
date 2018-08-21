@@ -38,6 +38,13 @@ export const productRequests = {
    * Get all products
    * @returns {AxiosPromise<any>}
    */
+  getProducts: (query: string): AxiosPromise<{ data: Product[] }> => {
+    return axios.get(`/api/products${query}`);
+  },
+  /**
+   * Get all products
+   * @returns {AxiosPromise<any>}
+   */
   getAllProducts: (): AxiosPromise<any> => {
     return axios.get(`/api/products`);
   },
