@@ -14,7 +14,6 @@ export enum ProductActionsEnum {
   UPSERT_PRODUCTS = 'UPSERT_PRODUCTS',
   DELETE_PRODUCT = 'DELETE_PRODUCT',
   DELETE_IMAGE = 'DELETE_IMAGE',
-  SHOW_PRODUCT_DETAIL = 'SHOW_PRODUCT_DETAIL',
   SHOW_ADMIN_PRODUCT = 'SHOW_ADMIN_PRODUCT',
   HANDLE_FILE_DROP = 'HANDLE_FILE_DROP'
 }
@@ -32,7 +31,6 @@ export const productActions = {
   upsertProduct: (product: Product) => createAction(ProductActionsEnum.UPSERT_PRODUCTS, product),
   deleteProduct: (id: string) => createAction(ProductActionsEnum.DELETE_PRODUCT, id),
   deleteImage: (image: ProductImage) => createAction(ProductActionsEnum.DELETE_IMAGE, image),
-  showProductDetail: (id: string) => createAction(ProductActionsEnum.SHOW_PRODUCT_DETAIL, id),
   showAdminProduct: (id: string) => createAction(ProductActionsEnum.SHOW_ADMIN_PRODUCT, id),
   handleFileDrop: (files: any[]) => createAction(ProductActionsEnum.HANDLE_FILE_DROP, files)
 };

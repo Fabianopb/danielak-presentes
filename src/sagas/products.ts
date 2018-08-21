@@ -116,10 +116,6 @@ export function * deleteImageSaga(action: ReturnType<typeof productActions.delet
   }
 }
 
-export function * showProductDetailSaga(action: ReturnType<typeof productActions.showProductDetail>) {
-  yield put(routerActions.push(`/product/${action.payload}`));
-}
-
 export function * showAdminProductSaga(action: ReturnType<typeof productActions.showAdminProduct>) {
   yield put(routerActions.push(`/admin/product/${action.payload}`));
 }

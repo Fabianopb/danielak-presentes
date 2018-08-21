@@ -4,7 +4,7 @@ import { ProductActionsEnum } from '../actions/products';
 import { UserActionsEnum } from '../actions/users';
 import { fetchCategoriesSaga, fetchCategorySaga, upsertCategorySaga, showAdminCategorySaga, deleteCategorySaga,
   changeCategorySaga } from './categories';
-import { getProductDetailSaga, fetchProductsSaga, upsertProductSaga, deleteProductSaga, deleteImageSaga, showProductDetailSaga,
+import { getProductDetailSaga, fetchProductsSaga, upsertProductSaga, deleteProductSaga, deleteImageSaga,
   showAdminProductSaga, handleFileDropSaga } from './products';
 import { loginSaga, logoutSaga } from './users';
 
@@ -23,7 +23,6 @@ export default function * rootSaga() {
     takeLatest(ProductActionsEnum.UPSERT_PRODUCTS, upsertProductSaga),
     takeLatest(ProductActionsEnum.DELETE_PRODUCT, deleteProductSaga),
     takeLatest(ProductActionsEnum.DELETE_IMAGE, deleteImageSaga),
-    takeLatest(ProductActionsEnum.SHOW_PRODUCT_DETAIL, showProductDetailSaga),
     takeLatest(ProductActionsEnum.SHOW_ADMIN_PRODUCT, showAdminProductSaga),
     takeLatest(ProductActionsEnum.HANDLE_FILE_DROP, handleFileDropSaga),
     // users sagas

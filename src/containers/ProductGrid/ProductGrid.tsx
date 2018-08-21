@@ -3,16 +3,19 @@ import { connect } from 'react-redux';
 import { bindActionCreators, Dispatch } from 'redux';
 import { Dimmer, Loader, Image } from 'semantic-ui-react';
 import { Grid, Col } from 'react-flexbox-grid';
+import { RouterState, routerActions } from 'connected-react-router';
 import { productActions } from '../../actions/products';
 import { currencyFormat } from '../../modules/helpers';
 import styles from './ProductGrid.module.scss';
 
 type StateProps = {
   products: ProductsState;
+  router: RouterState;
 };
 
 type DispatchProps = {
   productActions: typeof productActions;
+  routerActions: typeof routerActions;
 };
 
 type OwnProps = {};
@@ -25,8 +28,9 @@ class ProductGrid extends React.Component<ProductGridProps> {
   }
 
   public render () {
-    const {isFetching, data} = this.props.products;
-    const { showProductDetail } = this.props.productActions;
+    const { isFetching, data } = this.props.products;
+    const { push } = this.props.routerActions;
+    const { search } = this.props.router.location;
     return (
       <Grid className={styles.productsView}>
         <Col xs={true}>
@@ -37,7 +41,7 @@ class ProductGrid extends React.Component<ProductGridProps> {
               </Dimmer>
             ) : data.map((product: Product) => {
               return (
-                <div className={styles.productCell} key={product._id} onClick={() => showProductDetail(product._id)}>
+                <div className={styles.productCell} key={product._id} onClick={() => push(`/product/${product._id}${search}`)}>
                   <div className={styles.imageContainer}>
                     {product.image.length > 0 && <Image src={product.image[product.featuredImageIndex].large} />}
                   </div>
@@ -61,11 +65,13 @@ class ProductGrid extends React.Component<ProductGridProps> {
 }
 
 const mapStateToProps = (state: RootState) => ({
-  products: state.products
+  products: state.products,
+  router: state.router,
 });
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
   productActions: bindActionCreators({ ...productActions }, dispatch),
+  routerActions: bindActionCreators({ ...routerActions }, dispatch),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(ProductGrid);
