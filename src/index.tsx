@@ -36,7 +36,7 @@ const store = createStore(
 
 sagaMiddleware.run(rootSaga);
 
-type ProtectedRouteProps = RouteProps & { component: any };
+type ProtectedRouteProps = RouteProps & { component: React.ComponentClass };
 const ProtectedRoute: React.SFC<ProtectedRouteProps> = ({ component: Component, ...rest }) => (
   <Route {...rest} render={props => isSessionValid()
     ? <Component {...props} />
