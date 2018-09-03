@@ -44,6 +44,7 @@ class CategoryMenu extends React.Component<CategoryMenuProps> {
     const { push } = this.props.routerActions;
     const { search } = this.props.router.location;
     const query = queryString.parse(search);
+    const isRoot = pathname === '/';
     return (
       <Row center="xs" className={styles.menu}>
         <Col xs={12} lg={8} >
@@ -51,18 +52,28 @@ class CategoryMenu extends React.Component<CategoryMenuProps> {
             {!isAdminPage(pathname) &&
               <div className={styles.categories}>
                 <div
-                  className={classNames(styles.menuItem, { [styles.activeItem]: !query.category })}
+                  className={classNames(styles.menuItem, { [styles.activeItem]: isRoot && !query.category })}
                   onClick={() => push(`/`)}
-                >Home
+                >
+                  Home
                 </div>
                 {_.map(data, (category, index) =>
                   <div
                     key={index}
-                    className={classNames(styles.menuItem, { [styles.activeItem]: query.category === category._id })}
+                    className={classNames(styles.menuItem, { [styles.activeItem]: isRoot && query.category === category._id })}
                     onClick={() => push(`/?category=${category._id}`)}
-                  >{category.name}
+                  >
+                    {category.name}
                   </div>
                 )}
+                {!isRoot &&
+                  <div
+                    className={styles.menuItem}
+                    onClick={() => push(`/${query.category ? `?category=${query.category}` : ''}`)}
+                  >
+                    &lt;&lt;&nbsp;Voltar
+                  </div>
+                }
               </div>
             }
             {isAdminPage(pathname) &&
