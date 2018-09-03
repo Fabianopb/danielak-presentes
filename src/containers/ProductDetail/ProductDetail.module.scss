@@ -1,13 +1,7 @@
 @import '../../assets/colors';
 
 .productDetails {
-  padding: 20px;
-
-  .backButtonWrapper {
-    padding: 32px 0 16px 0;
-    // height: 50px;
-    text-align: right;
-  }
+  padding: 24px !important;
 
   .frame {
     padding: 4px;
@@ -36,6 +30,27 @@
         text-decoration: line-through;
         font-size: 1.4rem;
       }
+    }
+
+    .buttonContainer {
+      display: flex;
+      align-items: flex-end;
+      margin: 16px 0;
+
+      button {
+        min-width: 176px;
+      }
+    }
+
+    .discountInfo {
+      color: $spicy-orange;
+      font-size: 0.9rem;
+      margin-left: 8px;
+    }
+
+    .pagseguro {
+      margin-top: 32px;
+      width: 137px;
     }
   }
 

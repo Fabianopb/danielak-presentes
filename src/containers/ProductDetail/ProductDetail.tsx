@@ -2,11 +2,12 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 import { match } from 'react-router';
 import { bindActionCreators, Dispatch } from 'redux';
-import { Dimmer, Loader, Button, Icon, Grid } from 'semantic-ui-react';
+import { Dimmer, Loader, Button, Icon, Grid, Popup } from 'semantic-ui-react';
 import { routerActions } from 'connected-react-router';
 import ImageGallery from '../../components/ImageGallery/ImageGallery';
 import { productActions } from '../../actions/products';
 import { currencyFormat } from '../../modules/helpers';
+import pagseguroLogo from '../../assets/pagseguro-logo.png';
 import styles from './ProductDetail.module.scss';
 
 type StateProps = {
@@ -31,10 +32,9 @@ class ProductDetail extends React.Component<ProductDetailProps> {
 
   public render () {
     const { isFetching, activeProduct } = this.props.products;
-    const { goBack } = this.props.routerActions;
     return (
       <div>
-        <Grid className={styles.productDetails}>
+        <Grid className={styles.productDetails} fluid={true}>
           <Grid.Column width={2} only='computer' />
           <Grid.Column width={1} only='widescreen' />
           { isFetching ? (
@@ -43,11 +43,6 @@ class ProductDetail extends React.Component<ProductDetailProps> {
             </Dimmer>
           ) : (
             <Grid.Column computer={12} widescreen={10} width={16}>
-              <div className={styles.backButtonWrapper}>
-                <Button basic={true} icon={true} labelPosition='right' color='purple' onClick={goBack}>
-                  <Icon name='chevron left' />Voltar
-                </Button>
-              </div>
               { activeProduct ? (
                 <div>
                   <Grid stackable={true} columns={2}>
@@ -63,15 +58,41 @@ class ProductDetail extends React.Component<ProductDetailProps> {
                           </span>
                           { activeProduct.discountPrice && currencyFormat(activeProduct.discountPrice) }
                         </div>
-                        <Button primary={true} icon={true} labelPosition='left' onClick={() => this.goToShop(activeProduct.storeLink)}>
-                          <Icon name='shop' />
-                          Ver na minha lojinha
-                        </Button>
+                        <div className={styles.buttonContainer}>
+                          <Popup
+                            inverted={true}
+                            content='Clique para falar diretamente conosco e receber seu desconto.'
+                            trigger={
+                              <Button
+                                primary={true}
+                                icon={true}
+                                labelPosition='left'
+                                onClick={() => void 0}
+                              >
+                                <Icon name='shop' />
+                                Comprar aqui
+                              </Button>
+                            }
+                          />
+                          <div className={styles.discountInfo}>Com até 10% de desconto!</div>
+                        </div>
+                        <div className={styles.buttonContainer}>
+                          <Button
+                            primary={true}
+                            icon={true}
+                            labelPosition='left'
+                            onClick={() => window.open(activeProduct.storeLink, '_blank')}
+                          >
+                            <Icon name='shop' />
+                            Loja Elo7
+                          </Button>
+                        </div>
                         <h3>Detalhes do produto e confecção</h3>
                         <div>Peso: {activeProduct.weight} g</div>
                         <div>Dimensões: {activeProduct.width} (C) x {activeProduct.depth} (L) x {activeProduct.height} (A)</div>
                         <div>Quantidade mínima do pedido: {activeProduct.minAmount}</div>
                         <div>Tempo esperado para produção: {activeProduct.productionTime} dias úteis.</div>
+                        <img className={styles.pagseguro} src={pagseguroLogo} alt='pagseguro' />
                       </div>
                     </Grid.Column>
                   </Grid>
@@ -91,10 +112,6 @@ class ProductDetail extends React.Component<ProductDetailProps> {
         </Grid>
       </div>
     );
-  }
-
-  private goToShop = (url: string) => {
-    window.open(url, '_blank');
   }
 }
 
