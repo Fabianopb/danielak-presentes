@@ -1,4 +1,8 @@
 .ui {
+  .button, .basic.button {
+    border-radius: 0;
+  }
+
   .primary.button {
     background-color: $very-berry;
     color: $brilliant-white;

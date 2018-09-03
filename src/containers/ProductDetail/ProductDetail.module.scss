@@ -61,3 +61,15 @@
     box-shadow: $box-shadow;
   }
 }
+
+.modalContent {
+  .subtitle {
+    margin-bottom: 16px;
+  }
+  p {
+    margin: 8px;
+  }
+  .whatsapp {
+    color: $whatsapp;
+  }
+}

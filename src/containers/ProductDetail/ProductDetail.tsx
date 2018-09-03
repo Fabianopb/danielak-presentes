@@ -2,7 +2,7 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 import { match } from 'react-router';
 import { bindActionCreators, Dispatch } from 'redux';
-import { Dimmer, Loader, Button, Icon, Grid, Popup } from 'semantic-ui-react';
+import { Dimmer, Loader, Button, Icon, Grid, Popup, Modal } from 'semantic-ui-react';
 import { routerActions } from 'connected-react-router';
 import ImageGallery from '../../components/ImageGallery/ImageGallery';
 import { productActions } from '../../actions/products';
@@ -25,7 +25,15 @@ type OwnProps = {
 
 type ProductDetailProps = StateProps & DispatchProps & OwnProps;
 
-class ProductDetail extends React.Component<ProductDetailProps> {
+type ProductDetailState = {
+  isModalOpen: boolean;
+};
+
+class ProductDetail extends React.Component<ProductDetailProps, ProductDetailState> {
+  public readonly state = {
+    isModalOpen: false
+  };
+
   public componentDidMount () {
     this.props.productActions.getProductDetail(this.props.match.params.id);
   }
@@ -65,13 +73,11 @@ class ProductDetail extends React.Component<ProductDetailProps> {
                             trigger={
                               <Button
                                 primary={true}
-                                icon={true}
+                                icon='shop'
+                                content='Comprar aqui'
                                 labelPosition='left'
-                                onClick={() => void 0}
-                              >
-                                <Icon name='shop' />
-                                Comprar aqui
-                              </Button>
+                                onClick={() => this.setState({ isModalOpen: true })}
+                              />
                             }
                           />
                           <div className={styles.discountInfo}>Com até 10% de desconto!</div>
@@ -79,13 +85,11 @@ class ProductDetail extends React.Component<ProductDetailProps> {
                         <div className={styles.buttonContainer}>
                           <Button
                             primary={true}
-                            icon={true}
+                            icon='shop'
+                            content='Loja Elo7'
                             labelPosition='left'
                             onClick={() => window.open(activeProduct.storeLink, '_blank')}
-                          >
-                            <Icon name='shop' />
-                            Loja Elo7
-                          </Button>
+                          />
                         </div>
                         <h3>Detalhes do produto e confecção</h3>
                         <div>Peso: {activeProduct.weight} g</div>
@@ -110,6 +114,29 @@ class ProductDetail extends React.Component<ProductDetailProps> {
           <Grid.Column width={2} only='computer' />
           <Grid.Column width={1} only='widescreen' />
         </Grid>
+        <Modal
+          size='small'
+          dimmer='inverted'
+          open={this.state.isModalOpen}
+          onClose={() => this.setState({ isModalOpen: false })}
+        >
+          <Modal.Header>Entre em contato sem compromisso</Modal.Header>
+          <Modal.Content className={styles.modalContent}>
+            <div className={styles.subtitle}>Envie um e-mail, ligue ou mande um WhatsApp para receber seu desconto.</div>
+            <p><Icon name='mail' size='large' /><a href='mailto:danielakpresentes@yahoo.com.br'>danielakpresentes@yahoo.com.br</a></p>
+            <p><Icon name='whatsapp' size='large' className={styles.whatsapp} />+55 11 99777 5245</p>
+          </Modal.Content>
+          <Modal.Actions>
+            <Button
+              basic={true}
+              icon='arrow left'
+              labelPosition='left'
+              content='Voltar'
+              color='grey'
+              onClick={() => this.setState({ isModalOpen: false })}
+            />
+          </Modal.Actions>
+        </Modal>
       </div>
     );
   }
