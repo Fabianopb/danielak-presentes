@@ -120,11 +120,20 @@ class ProductDetail extends React.Component<ProductDetailProps, ProductDetailSta
           open={this.state.isModalOpen}
           onClose={() => this.setState({ isModalOpen: false })}
         >
-          <Modal.Header>Entre em contato sem compromisso</Modal.Header>
           <Modal.Content className={styles.modalContent}>
-            <div className={styles.subtitle}>Envie um e-mail, ligue ou mande um WhatsApp para receber seu desconto.</div>
-            <p><Icon name='mail' size='large' /><a href='mailto:danielakpresentes@yahoo.com.br'>danielakpresentes@yahoo.com.br</a></p>
-            <p><Icon name='whatsapp' size='large' className={styles.whatsapp} />+55 11 99777 5245</p>
+            <div className={styles.subtitle}>Entre em contato direto e faça seu orçamento. Desconto à vista ou até 3x sem juros.</div>
+            <p>
+              <Icon name='mail' size='large' />
+              <a href='mailto:danielakpresentes@yahoo.com.br'>danielakpresentes@yahoo.com.br</a>
+            </p>
+            <p>
+              <Icon name='whatsapp' size='large' className={styles.whatsapp} />
+              +55 11 99777 5245
+            </p>
+            <p>
+              <Icon name='facebook' size='large' className={styles.facebook}/>
+              <a href='https://www.facebook.com/danikpresentes/' target='_blank'>https://www.facebook.com/danikpresentes</a>
+            </p>
           </Modal.Content>
           <Modal.Actions>
             <Button

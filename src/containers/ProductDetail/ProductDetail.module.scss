@@ -67,9 +67,12 @@
     margin-bottom: 16px;
   }
   p {
-    margin: 8px;
+    margin: 8px 0;
   }
   .whatsapp {
     color: $whatsapp;
+  }
+  .facebook {
+    color: $facebook;
   }
 }
