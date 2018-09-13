@@ -50,31 +50,31 @@ class CategoryMenu extends React.Component<CategoryMenuProps> {
         <Col xs={12} lg={8} >
           <div className={styles.itemsWrapper}>
             {!isAdminPage(pathname) &&
-              <div className={styles.categories}>
-                <div
-                  className={classNames(styles.menuItem, { [styles.activeItem]: isRoot && !query.category })}
-                  onClick={() => push(`/`)}
-                >
-                  Home
+              <React.Fragment>
+                <div className={styles.categories}>
+                  <div
+                    className={classNames(styles.menuItem, { [styles.activeItem]: isRoot && !query.category })}
+                    onClick={() => push(`/`)}
+                  >Home
+                  </div>
+                  {_.map(data, (category, index) =>
+                    <div
+                      key={index}
+                      className={classNames(styles.menuItem, { [styles.activeItem]: isRoot && query.category === category._id })}
+                      onClick={() => push(`/?category=${category._id}`)}
+                    >{category.name}
+                    </div>
+                  )}
+                  {!isRoot &&
+                    <div
+                      className={styles.menuItem}
+                      onClick={() => push(`/${query.category ? `?category=${query.category}` : ''}`)}
+                    >&lt;&lt;&nbsp;Voltar
+                    </div>
+                  }
                 </div>
-                {_.map(data, (category, index) =>
-                  <div
-                    key={index}
-                    className={classNames(styles.menuItem, { [styles.activeItem]: isRoot && query.category === category._id })}
-                    onClick={() => push(`/?category=${category._id}`)}
-                  >
-                    {category.name}
-                  </div>
-                )}
-                {!isRoot &&
-                  <div
-                    className={styles.menuItem}
-                    onClick={() => push(`/${query.category ? `?category=${query.category}` : ''}`)}
-                  >
-                    &lt;&lt;&nbsp;Voltar
-                  </div>
-                }
-              </div>
+                <div className={styles.menuItem} onClick={() => push('/about')}>Contato</div>
+              </React.Fragment>
             }
             {isAdminPage(pathname) &&
               <div className={styles.menuItem} onClick={logout}>Logout</div>

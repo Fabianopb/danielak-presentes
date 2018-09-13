@@ -10,6 +10,7 @@ import { connectRouter, routerMiddleware, ConnectedRouter } from 'connected-reac
 import rootSaga from './sagas/root';
 import rootReducer from './reducers/root';
 import Layout from './components/Layout/Layout';
+import AboutPage from './components/AboutPage/AboutPage';
 import CategoryMenu from './containers/CategoryMenu/CategoryMenu';
 import ProductGrid from './containers/ProductGrid/ProductGrid';
 import ProductDetail from './containers/ProductDetail/ProductDetail';
@@ -53,6 +54,7 @@ ReactDOM.render(
           <Route exact={true} path='/' component={ProductGrid} />
           <Route exact={true} path='/product/:id' component={ProductDetail} />
           <Route exact={true} path='/login' component={LoginPage} />
+          <Route exact={true} path='/about' component={AboutPage} />
           <ProtectedRoute exact={true} path='/admin' component={AdminMain} />
           <ProtectedRoute path='/admin/product/:id' component={AdminProduct} />
           <ProtectedRoute path='/admin/category/:id' component={AdminCategory} />
