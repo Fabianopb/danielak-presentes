@@ -20,10 +20,10 @@ app.use('/api/users', users);
 
 mongoose.connect(process.env.DANIK_MONGODB, { useNewUrlParser: true });
 
-app.use(express.static(path.resolve(__dirname, '..', 'build')));
+app.use(express.static(path.resolve('..', 'frontend', 'build')));
 
 app.get('*', (request, response) => {
-  response.sendFile(path.resolve(__dirname, '..', 'build', 'index.html'));
+  response.sendFile(path.resolve('..', 'frontend', 'build', 'index.html'));
 });
 
 app.listen(process.env.PORT || 9000);
