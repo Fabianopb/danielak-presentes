@@ -11,6 +11,7 @@ import rootSaga from './sagas/root';
 import rootReducer from './reducers/root';
 import Layout from './components/Layout/Layout';
 import AboutPage from './components/AboutPage/AboutPage';
+import withTracker from './components/withTracker';
 import CategoryMenu from './containers/CategoryMenu/CategoryMenu';
 import ProductGrid from './containers/ProductGrid/ProductGrid';
 import ProductDetail from './containers/ProductDetail/ProductDetail';
@@ -23,6 +24,7 @@ import { isSessionValid } from './modules/session';
 import 'semantic-ui-css/semantic.min.css';
 import './index.scss';
 import registerServiceWorker from './registerServiceWorker';
+import * as ReactGA from 'react-ga';
 
 const history = createBrowserHistory()
 const sagaMiddleware = createSagaMiddleware();
@@ -46,16 +48,18 @@ const ProtectedRoute: React.SFC<ProtectedRouteProps> = ({ component: Component, 
   />
 );
 
+ReactGA.initialize('UA-69092915-1');
+
 ReactDOM.render(
   <Provider store={store}>
     <ConnectedRouter history={history}>
       <Layout>
         <CategoryMenu />
         <Switch>
-          <Route exact={true} path='/' component={ProductGrid} />
-          <Route exact={true} path='/product/:id' component={ProductDetail} />
+          <Route exact={true} path='/' component={withTracker(ProductGrid)} />
+          <Route exact={true} path='/product/:id' component={withTracker(ProductDetail)} />
           <Route exact={true} path='/login' component={LoginPage} />
-          <Route exact={true} path='/about' component={AboutPage} />
+          <Route exact={true} path='/about' component={withTracker(AboutPage)} />
           <ProtectedRoute exact={true} path='/admin' component={AdminMain} />
           <ProtectedRoute path='/admin/product/:id' component={AdminProduct} />
           <ProtectedRoute path='/admin/category/:id' component={AdminCategory} />
