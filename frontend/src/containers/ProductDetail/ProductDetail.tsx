@@ -40,9 +40,10 @@ class ProductDetail extends React.Component<ProductDetailProps, ProductDetailSta
 
   public render () {
     const { isFetching, activeProduct } = this.props.products;
+    console.log("store link:", activeProduct && activeProduct.storeLink);
     return (
       <div>
-        <Grid className={styles.productDetails} fluid={true}>
+        <Grid className={styles.productDetails} fluid='true' >
           <Grid.Column width={2} only='computer' />
           <Grid.Column width={1} only='widescreen' />
           { isFetching ? (
@@ -82,15 +83,17 @@ class ProductDetail extends React.Component<ProductDetailProps, ProductDetailSta
                           />
                           <div className={styles.discountInfo}>Com até 10% de desconto!</div>
                         </div>
-                        <div className={styles.buttonContainer}>
-                          <Button
-                            primary={true}
-                            icon='shop'
-                            content='Loja Elo7'
-                            labelPosition='left'
-                            onClick={() => window.open(activeProduct.storeLink, '_blank')}
-                          />
-                        </div>
+                        {activeProduct.storeLink &&
+                          <div className={styles.buttonContainer}>
+                            <Button
+                              primary={true}
+                              icon='shop'
+                              content='Loja Elo7'
+                              labelPosition='left'
+                              onClick={() => window.open(activeProduct.storeLink, '_blank')}
+                            />
+                          </div>
+                        }
                         <h3>Detalhes do produto e confecção</h3>
                         <div>Peso: {activeProduct.weight} g</div>
                         <div>Dimensões: {activeProduct.width} (C) x {activeProduct.depth} (L) x {activeProduct.height} (A)</div>

@@ -21,7 +21,6 @@ const ProductSchema = new Schema({
   },
   storeLink: {
     type: String,
-    required: true,
     default: null
   },
   description: {

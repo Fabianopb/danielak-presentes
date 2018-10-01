@@ -54,8 +54,6 @@ const Product: React.SFC<ProductFormProps & InjectedFormProps<ProductFormData, P
             formLabel='Link da loja'
             placeholder='Link da loja'
             name='storeLink'
-            required={true}
-            validate={[required]}
           />
         </Form.Group>
         <Field
