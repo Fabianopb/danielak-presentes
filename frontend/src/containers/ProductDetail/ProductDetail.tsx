@@ -40,7 +40,6 @@ class ProductDetail extends React.Component<ProductDetailProps, ProductDetailSta
 
   public render () {
     const { isFetching, activeProduct } = this.props.products;
-    console.log("store link:", activeProduct && activeProduct.storeLink);
     return (
       <div>
         <Grid className={styles.productDetails} fluid='true' >
