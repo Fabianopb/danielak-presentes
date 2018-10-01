@@ -22,6 +22,7 @@ import NotificationsManager from './containers/Notifications/Notifications';
 import { isSessionValid } from './modules/session';
 import 'semantic-ui-css/semantic.min.css';
 import './index.scss';
+import registerServiceWorker from './registerServiceWorker';
 
 const history = createBrowserHistory()
 const sagaMiddleware = createSagaMiddleware();
@@ -65,3 +66,5 @@ ReactDOM.render(
   </Provider>,
   document.getElementById('root')
 );
+
+registerServiceWorker();
