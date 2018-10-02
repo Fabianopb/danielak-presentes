@@ -171,9 +171,9 @@ const Product: React.SFC<ProductFormProps & InjectedFormProps<ProductFormData, P
             type='number'
             label='cm'
             labelPosition='right'
-            formLabel='Profundidade'
+            formLabel='Comprimento'
             name='depth'
-            placeholder='Profundidade'
+            placeholder='Comprimento'
             required={true}
             validate={[required]}
           />
