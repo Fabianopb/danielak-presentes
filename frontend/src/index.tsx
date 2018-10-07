@@ -11,6 +11,7 @@ import rootSaga from './sagas/root';
 import rootReducer from './reducers/root';
 import Layout from './components/Layout/Layout';
 import AboutPage from './components/AboutPage/AboutPage';
+import NotFoundPage from './components/NotFoundPage/NotFoundPage';
 import withTracker from './components/withTracker';
 import CategoryMenu from './containers/CategoryMenu/CategoryMenu';
 import ProductGrid from './containers/ProductGrid/ProductGrid';
@@ -63,6 +64,7 @@ ReactDOM.render(
           <ProtectedRoute exact={true} path='/admin' component={AdminMain} />
           <ProtectedRoute path='/admin/product/:id' component={AdminProduct} />
           <ProtectedRoute path='/admin/category/:id' component={AdminCategory} />
+          <Route component={NotFoundPage} />
         </Switch>
         <NotificationsManager />
       </Layout>
