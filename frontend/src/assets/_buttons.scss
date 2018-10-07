@@ -3,16 +3,16 @@
     border-radius: 0;
   }
 
-  .primary.button {
+  &.primary.button {
     background-color: $very-berry;
     color: $brilliant-white;
   }
 
-  .ui.primary.button:hover {
+  &.ui.primary.button:hover {
     background-color: darken($very-berry, 10%);
   }
 
-  .ui.primary.button:active, .ui.primary.button:focus {
+  &.ui.primary.button:active, &.ui.primary.button:focus {
     background-color: darken($very-berry, 20%);
   }
 }
