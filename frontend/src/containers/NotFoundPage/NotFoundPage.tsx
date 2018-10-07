@@ -1,17 +1,27 @@
 import * as React from 'react';
+import { bindActionCreators, Dispatch } from 'redux';
+import { connect } from 'react-redux';
 import { Row, Col } from 'react-flexbox-grid';
 import { Location } from 'history';
+import { routerActions } from 'connected-react-router';
 import { Image, Button } from 'semantic-ui-react';
 import eyes from '../../assets/eyes-404.png';
 import styles from './NotFoundPage.module.scss';
 
-type NotFoundPageProps = {
+type OwnProps = {
   location: Location
 };
+
+type DispatchProps = {
+  routerActions: typeof routerActions;
+};
+
+type NotFoundPageProps = OwnProps & DispatchProps;
 
 class NotFoundPage extends React.Component<NotFoundPageProps> {
   public render() {
     const blogUrl = 'http://danielakpresentes.blogspot.com' + this.props.location.pathname;
+    const { push } = this.props.routerActions;
     return (
       <Row center="xs">
         <Col xs={12} lg={8} >
@@ -26,7 +36,7 @@ class NotFoundPage extends React.Component<NotFoundPageProps> {
               <a href={blogUrl} target='_blank'>{blogUrl}</a>
             </p>
             <p>E de qualquer forma não deixe de conferir nossos lindos produtos!</p>
-            <Button primary={true} name='home'>Home</Button>
+            <Button primary={true} name='home' onClick={() => push('/')}>Home</Button>
           </div>
         </Col>
       </Row>
@@ -34,4 +44,8 @@ class NotFoundPage extends React.Component<NotFoundPageProps> {
   }
 }
 
-export default NotFoundPage;
+const mapDispatchToProps = (dispatch: Dispatch) => ({
+  routerActions: bindActionCreators({ ...routerActions }, dispatch),
+});
+
+export default connect(null, mapDispatchToProps)(NotFoundPage);
