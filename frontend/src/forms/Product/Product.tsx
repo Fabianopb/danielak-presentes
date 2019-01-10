@@ -149,9 +149,9 @@ const Product: React.SFC<ProductFormProps & InjectedFormProps<ProductFormData, P
             type='number'
             label='cm'
             labelPosition='right'
-            formLabel='Altura'
-            name='height'
-            placeholder='Altura'
+            formLabel='Comprimento'
+            name='depth'
+            placeholder='Comprimento'
             required={true}
             validate={[required]}
           />
@@ -171,9 +171,9 @@ const Product: React.SFC<ProductFormProps & InjectedFormProps<ProductFormData, P
             type='number'
             label='cm'
             labelPosition='right'
-            formLabel='Comprimento'
-            name='depth'
-            placeholder='Comprimento'
+            formLabel='Altura'
+            name='height'
+            placeholder='Altura'
             required={true}
             validate={[required]}
           />
