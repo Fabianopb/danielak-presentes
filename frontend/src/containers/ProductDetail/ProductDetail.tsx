@@ -95,7 +95,7 @@ class ProductDetail extends React.Component<ProductDetailProps, ProductDetailSta
                         }
                         <h3>Detalhes do produto e confecção</h3>
                         <div>Peso: {activeProduct.weight} g</div>
-                        <div>Dimensões (cm): {activeProduct.depth} x {activeProduct.width} x {activeProduct.height} (comprimento x largura x altura)</div>
+                        <div>Dimensões (cm): {activeProduct.width} x {activeProduct.depth} x {activeProduct.height} (comprimento x largura x altura)</div>
                         <div>Quantidade mínima do pedido: {activeProduct.minAmount} unidades</div>
                         <div>Tempo esperado para produção: {activeProduct.productionTime} dias úteis</div>
                         <img className={styles.pagseguro} src={pagseguroLogo} alt='pagseguro' />

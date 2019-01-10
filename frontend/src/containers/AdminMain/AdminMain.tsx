@@ -55,8 +55,9 @@ class AdminMain extends React.Component<AdminMainProps> {
               <Table.Header>
                 <Table.Row>
                   <Table.HeaderCell>Produto</Table.HeaderCell>
-                  <Table.HeaderCell>Categoria</Table.HeaderCell>
-                  <Table.HeaderCell>Preço</Table.HeaderCell>
+                  <Table.HeaderCell textAlign='center'>Categoria</Table.HeaderCell>
+                  <Table.HeaderCell textAlign='center'>Preço</Table.HeaderCell>
+                  <Table.HeaderCell textAlign='center'>Com desconto</Table.HeaderCell>
                 </Table.Row>
               </Table.Header>
               <Table.Body>
@@ -72,11 +73,14 @@ class AdminMain extends React.Component<AdminMainProps> {
                         </div>
                         <div className={styles.productName}>{ product.name }</div>
                       </Table.Cell>
-                      <Table.Cell>
+                      <Table.Cell textAlign='center'>
                         { category ? category.name : '---' }
                       </Table.Cell>
-                      <Table.Cell>
+                      <Table.Cell textAlign='center'>
                         { product.currentPrice }
+                      </Table.Cell>
+                      <Table.Cell textAlign='center'>
+                        { product.discountPrice || '---' }
                       </Table.Cell>
                     </Table.Row>
                   );
