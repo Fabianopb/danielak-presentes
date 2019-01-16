@@ -4,8 +4,13 @@ import { bindActionCreators, Dispatch } from 'redux';
 import { Dimmer, Loader, Image } from 'semantic-ui-react';
 import { Grid, Col } from 'react-flexbox-grid';
 import { RouterState, routerActions } from 'connected-react-router';
+import { Carousel } from 'react-responsive-carousel';
+import carousel1 from '../../assets/carousel-1.jpg';
+import carousel2 from '../../assets/carousel-2.jpg';
+import carousel3 from '../../assets/carousel-3.jpg';
 import { productActions } from '../../actions/products';
 import { currencyFormat } from '../../modules/helpers';
+import "react-responsive-carousel/lib/styles/carousel.min.css";
 import styles from './ProductGrid.module.scss';
 
 type StateProps = {
@@ -34,6 +39,20 @@ class ProductGrid extends React.Component<ProductGridProps> {
     return (
       <Grid className={styles.productsView}>
         <Col xs={true}>
+          <Carousel showThumbs={false} infiniteLoop={true} autoPlay={true}>
+            <div>
+              <img src={carousel1} alt='carousel1' />
+              <p className='legend'>Legend 1</p>
+            </div>
+            <div>
+              <img src={carousel2} alt='carousel2' />
+              <p className='legend'>Legend 2</p>
+            </div>
+            <div>
+              <img src={carousel3} alt='carousel3' />
+              <p className='legend'>Legend 3</p>
+            </div>
+          </Carousel>
           <div className='flex-wrap main-axis-center'>
             {isFetching ? (
               <Dimmer active={true} inverted={true}>

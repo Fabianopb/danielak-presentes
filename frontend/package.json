@@ -24,6 +24,7 @@
     "react-notification-system-redux": "^1.2.0",
     "react-quill": "^1.2.6",
     "react-redux": "^5.0.5",
+    "react-responsive-carousel": "^3.1.45",
     "react-router-dom": "^4.1.1",
     "react-scripts-ts": "^2.16.0",
     "redux": "^4.0.0",
