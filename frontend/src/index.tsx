@@ -57,7 +57,6 @@ ReactDOM.render(
     <ConnectedRouter history={history}>
       <Layout>
         <CategoryMenu />
-        <ChatWindow />
         <Switch>
           <Route exact={true} path='/' component={withTracker(ProductGrid)} />
           <Route exact={true} path='/product/:id' component={withTracker(ProductDetail)} />
@@ -68,6 +67,7 @@ ReactDOM.render(
           <ProtectedRoute path='/admin/category/:id' component={AdminCategory} />
           <Route component={NotFoundPage} />
         </Switch>
+        { !window.location.pathname.includes('/admin') && <ChatWindow /> }
         <NotificationsManager />
       </Layout>
     </ConnectedRouter>
