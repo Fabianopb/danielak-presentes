@@ -11,6 +11,7 @@ import rootSaga from './sagas/root';
 import rootReducer from './reducers/root';
 import Layout from './components/Layout/Layout';
 import AboutPage from './components/AboutPage/AboutPage';
+import ChatWindow from './components/ChatWindow/ChatWindow';
 import withTracker from './components/withTracker';
 import NotFoundPage from './containers/NotFoundPage/NotFoundPage';
 import CategoryMenu from './containers/CategoryMenu/CategoryMenu';
@@ -56,6 +57,7 @@ ReactDOM.render(
     <ConnectedRouter history={history}>
       <Layout>
         <CategoryMenu />
+        <ChatWindow />
         <Switch>
           <Route exact={true} path='/' component={withTracker(ProductGrid)} />
           <Route exact={true} path='/product/:id' component={withTracker(ProductDetail)} />

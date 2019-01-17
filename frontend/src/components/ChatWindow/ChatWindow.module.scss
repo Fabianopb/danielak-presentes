@@ -1,0 +1,10 @@
+@import '../../assets/colors';
+
+.chatWindow {
+  position: fixed;
+  right: 16px;
+  bottom: 16px;
+  width: 42px;
+  box-shadow: 2px 2px 2px 0px rgba($black, 0.25);
+  border-radius: 22px;
+}
