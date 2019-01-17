@@ -5,19 +5,45 @@
   right: 16px;
   bottom: 16px;
   width: 42px;
-  box-shadow: 2px 2px 2px 0px rgba($black, 0.25);
+  box-shadow: 2px 2px 2px 0px rgba($black, 0.15);
   border-radius: 22px;
   cursor: pointer;
+  z-index: 10;
 
-  .box {
+  .chatBox {
     display: none;
     position: absolute;
-    border: 1px solid black;
+    border: 1px solid $silver;
     bottom: 50px;
     right: 0px;
     width: 220px;
     height: 300px;
     background-color: white;
+    box-shadow: $box-shadow;
+
+    .content {
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+
+      .topbar {
+        padding: 4px 8px;
+        background-color: $very-berry;
+        color: $brilliant-white;
+        text-align: right;
+      }
+
+      .body {
+        padding: 8px;
+        flex: 1;
+        overflow-y: scroll;
+      }
+
+      .messageInput {
+        padding: 8px;
+        background-color: $brilliant-white;
+      }
+    }
   }
 
   .visible {

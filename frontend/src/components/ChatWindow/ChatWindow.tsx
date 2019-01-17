@@ -7,7 +7,7 @@ type ChatWindowState = {
   isOpen: boolean;
 }
 
-const initialState: ChatWindowState = { isOpen: false };
+const initialState: ChatWindowState = { isOpen: true };
 
 class ChatWindow extends React.Component<{}, ChatWindowState> {
   public state = initialState;
@@ -18,7 +18,15 @@ class ChatWindow extends React.Component<{}, ChatWindowState> {
     return (
       <div className={styles.chatWindow}>
         <Icon name={iconName} circular={true} inverted={true} color='teal' size='large' onClick={this.toggleWindow} />
-        <div className={cn(styles.box, { [styles.visible]: isOpen })}>Chat box</div>
+        <div className={cn(styles.chatBox, { [styles.visible]: isOpen })}>
+          <div className={styles.content}>
+            <div className={styles.topbar}>
+              <Icon name='close' onClick={this.toggleWindow} />
+            </div>
+            <div className={styles.body}>body</div>
+            <div className={styles.messageInput}>caixa mensagem</div>
+          </div>
+        </div>
       </div>
     );
   }
