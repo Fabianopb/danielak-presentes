@@ -16,10 +16,11 @@
     border: 1px solid $silver;
     bottom: 50px;
     right: 0px;
-    width: 220px;
-    height: 300px;
+    width: 280px;
+    height: 360px;
     background-color: white;
     box-shadow: $box-shadow;
+    cursor: default;
 
     .content {
       display: flex;
@@ -37,11 +38,46 @@
         padding: 8px;
         flex: 1;
         overflow-y: scroll;
+
+        .danikMsg {
+          display: flex;
+          margin-bottom: 8px;
+
+          .bullet {
+            margin-left: 8px;
+            padding: 8px;
+            background-color: $cherry-blossom;
+            border-radius: 5px 15px 10px;
+          }
+        }
+
+        .userMsg {
+          display: flex;
+          margin-bottom: 8px;
+          justify-content: flex-end;
+
+          .bullet {
+            margin-right: 8px;
+            padding: 8px;
+            background-color: $brilliant-white;
+            border-radius: 15px 5px 15px 10px;
+          }
+
+          .iconWrapper {
+            width: 32px;
+            height: 32px;
+          }
+        }
       }
 
       .messageInput {
+        display: flex;
         padding: 8px;
         background-color: $brilliant-white;
+
+        :global(.ui.input) {
+          flex: 1;
+        }
       }
     }
   }
