@@ -65,13 +65,6 @@ class CategoryMenu extends React.Component<CategoryMenuProps> {
                     >{category.name}
                     </div>
                   )}
-                  {!isRoot &&
-                    <div
-                      className={styles.menuItem}
-                      onClick={() => push(`/${query.category ? `?category=${query.category}` : ''}`)}
-                    >&lt;&lt;&nbsp;Voltar
-                    </div>
-                  }
                 </div>
                 <div className={styles.menuItem} onClick={() => push('/about')}>Contato</div>
               </React.Fragment>
