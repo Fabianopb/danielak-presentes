@@ -39,18 +39,26 @@ class ProductGrid extends React.Component<ProductGridProps> {
     return (
       <Grid className={styles.productsView}>
         <Col xs={true}>
-          <Carousel showThumbs={false} infiniteLoop={true} autoPlay={true}>
+          <Carousel
+            showThumbs={false}
+            showStatus={false}
+            infiniteLoop={true}
+            autoPlay={true}
+            stopOnHover={false}
+            interval={6000}
+            transitionTime={600}
+          >
             <div>
               <img src={carousel1} alt='carousel1' />
-              <p className='legend'>Legend 1</p>
+              <p className='legend'>Entregue seu projeto em uma caixa personalizada e com estilo</p>
             </div>
             <div>
               <img src={carousel2} alt='carousel2' />
-              <p className='legend'>Legend 2</p>
+              <p className='legend'>Caixas para fotos 10x15 com encaixe para pendrive ou pencard</p>
             </div>
             <div>
               <img src={carousel3} alt='carousel3' />
-              <p className='legend'>Legend 3</p>
+              <p className='legend'>Um jeito diferente e especial de tratar seus clientes</p>
             </div>
           </Carousel>
           <div className='flex-wrap main-axis-center'>
