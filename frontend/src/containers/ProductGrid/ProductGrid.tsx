@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators, Dispatch } from 'redux';
-import { Dimmer, Loader, Image } from 'semantic-ui-react';
+import { Dimmer, Loader, Image, Divider } from 'semantic-ui-react';
 import { Grid, Col } from 'react-flexbox-grid';
 import { RouterState, routerActions } from 'connected-react-router';
 import { Carousel } from 'react-responsive-carousel';
@@ -39,6 +39,8 @@ class ProductGrid extends React.Component<ProductGridProps> {
     return (
       <Grid className={styles.productsView}>
         <Col xs={true}>
+          <h3>Destaques</h3>
+          <Divider />
           <Carousel
             showThumbs={false}
             showStatus={false}
@@ -47,6 +49,7 @@ class ProductGrid extends React.Component<ProductGridProps> {
             stopOnHover={false}
             interval={6000}
             transitionTime={600}
+            className={styles.carousel}
           >
             <div>
               <img src={carousel1} alt='carousel1' />
@@ -61,6 +64,8 @@ class ProductGrid extends React.Component<ProductGridProps> {
               <p className='legend'>Um jeito diferente e especial de tratar seus clientes</p>
             </div>
           </Carousel>
+          <h3>Nossos Produtos</h3>
+          <Divider />
           <div className='flex-wrap main-axis-center'>
             {isFetching ? (
               <Dimmer active={true} inverted={true}>

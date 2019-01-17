@@ -3,12 +3,16 @@
 .productsView {
   padding: 20px;
 
-  :global(.carousel .slide .legend) {
-    background-color: transparent;
-    opacity: 1;
-    font-size: 20px;
-    text-shadow: 2px 2px 4px grey;
-    transition: none;
+  .carousel {
+    margin-bottom: 40px;
+
+    :global(.carousel .slide .legend) {
+      background-color: transparent;
+      opacity: 1;
+      font-size: 20px;
+      text-shadow: 2px 2px 4px grey;
+      transition: none;
+    }
   }
 
   .productCell {
