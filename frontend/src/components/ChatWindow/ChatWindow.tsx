@@ -1,26 +1,39 @@
 import * as React from 'react';
 import { Icon, Image, Input, InputOnChangeData } from 'semantic-ui-react';
 import cn from 'classnames';
-import danikLua from '../../assets/danik-lua.png';
+import { findLast, delay } from 'lodash';
+import danikLua from '../../assets/dani-robot.png';
 import styles from './ChatWindow.module.scss';
+
+interface ChatHistory {
+  speaker: 'dani' | 'user';
+  message: string;
+  step?: number;
+}
 
 type ChatWindowState = {
   isOpen: boolean;
-  message: string;
-  chatHistory: string[];
-}
+  input: string;
+  chatHistory: ChatHistory[];
+};
 
 const initialState: ChatWindowState = {
   isOpen: true,
-  message: '',
-  chatHistory: []
+  input: '',
+  chatHistory: [
+    {
+      speaker: 'dani',
+      message: 'Olá, posso ajudar? Deixe sua mensagem e seu contato que retornarei em breve!',
+      step: 0
+    }
+  ]
 };
 
 class ChatWindow extends React.Component<{}, ChatWindowState> {
   public state = initialState;
 
   public render() {
-    const { isOpen, message } = this.state;
+    const { isOpen, input } = this.state;
     const iconName = isOpen ? 'close' : 'talk';
     return (
       <div className={styles.chatWindow}>
@@ -31,22 +44,33 @@ class ChatWindow extends React.Component<{}, ChatWindowState> {
               <Icon name='close' link={true} onClick={this.toggleWindow} />
             </div>
             <div className={styles.body}>
-              <div className={styles.danikMsg}>
-                <Image src={danikLua} bordered={true} circular={true} width={32} height={32} />
-                <div className={styles.bullet}>Olá em que posso ajudar?</div>
-              </div>
-              { this.state.chatHistory.map((msg, index) => (
-                <div key={index} className={styles.userMsg}>
-                  <div className={styles.bullet}>{msg}</div>
-                  <div className={styles.iconWrapper}>
-                    <Icon name='user' circular={true} inverted={true} color='grey' />
-                  </div>
-                </div>
-              )) }
+              {this.state.chatHistory.map((history, index) => {
+                if (history.speaker === 'dani') {
+                  return (
+                    <div key={index} className={styles.danikMsg}>
+                      <div className={styles.iconWrapper}>
+                        <Image src={danikLua} bordered={true} circular={true} />
+                      </div>
+                      <div className={styles.bullet}>{history.message}</div>
+                    </div>
+                  );
+                } else if (history.speaker === 'user') {
+                  return (
+                    <div key={index} className={styles.userMsg}>
+                      <div className={styles.bullet}>{history.message}</div>
+                      <div className={styles.iconWrapper}>
+                        <Icon name='user' circular={true} inverted={true} color='grey' />
+                      </div>
+                    </div>
+                  );
+                } else {
+                  return null
+                };
+              })}
             </div>
             <div className={styles.messageInput}>
               <Input
-                value={message}
+                value={input}
                 transparent={true}
                 placeholder='Digite aqui...'
                 onChange={this.handleChange}
@@ -64,8 +88,8 @@ class ChatWindow extends React.Component<{}, ChatWindowState> {
     this.setState((prevState) => ({ isOpen: !prevState.isOpen }));
   }
 
-  private handleChange = (event: {}, data: InputOnChangeData) => {
-    this.setState({ message: data.value });
+  private handleChange = ({}, data: InputOnChangeData) => {
+    this.setState({ input: data.value });
   }
 
   private handleKeyPress = (event: { key: string }) => {
@@ -75,10 +99,55 @@ class ChatWindow extends React.Component<{}, ChatWindowState> {
   }
 
   private sendMessage = () => {
-    const { message, chatHistory } = this.state;
-    if (message) {
-      const history = chatHistory.concat(message);
-      this.setState({ message: '', chatHistory: history });
+    const { input, chatHistory } = this.state;
+    if (input) {
+      const newHistory = chatHistory.concat({ speaker: 'user', message: input });
+      this.setState({ input: '', chatHistory: newHistory });
+      delay(() => this.answerUser(), 2000);
+    }
+  }
+
+  private answerUser = () => {
+    const { chatHistory } = this.state;
+    const lastDaniMsg = findLast(chatHistory, history => history.speaker === 'dani') as ChatHistory;
+    if (lastDaniMsg.step === 0) {
+      const newHistory = chatHistory.concat({
+        speaker: 'dani',
+        message: 'Beep! Beep! Estou processando sua mensagem... Algo mais?',
+        step: 1
+      });
+      this.setState({ chatHistory: newHistory });
+    }
+    if (lastDaniMsg.step === 1) {
+      const newHistory = chatHistory.concat({
+        speaker: 'dani',
+        message: 'Não esqueça de deixar seu telefone/whatsapp ou então e-mail se preferir',
+        step: 2
+      });
+      this.setState({ chatHistory: newHistory });
+    }
+    if (lastDaniMsg.step === 2) {
+      const newHistory = chatHistory.concat({
+        speaker: 'dani',
+        message: 'A propósito, você lembrou de escrever seu nome? :)',
+        step: 3
+      });
+      this.setState({ chatHistory: newHistory });
+    }
+    if (lastDaniMsg.step === 3) {
+      const newHistory = chatHistory.concat([
+        {
+          speaker: 'dani',
+          message: 'Obrigada! Pode continuar enviando mensagens se desejar, tudo será registrado!',
+          step: 4
+        },
+        {
+          speaker: 'dani',
+          message: 'Quando terminar, é só fechar esta janelinha.',
+          step: 4
+        }
+      ]);
+      this.setState({ chatHistory: newHistory });
     }
   }
 }

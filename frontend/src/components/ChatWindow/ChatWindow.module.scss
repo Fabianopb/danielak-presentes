@@ -13,7 +13,7 @@
   .chatBox {
     display: none;
     position: absolute;
-    border: 1px solid $silver;
+    border: 1px solid $brilliant-white;
     bottom: 50px;
     right: 0px;
     width: 280px;
@@ -48,6 +48,11 @@
             padding: 8px;
             background-color: $cherry-blossom;
             border-radius: 5px 15px 10px;
+            font-size: 12px;
+          }
+
+          .iconWrapper {
+            flex: 0 0 32px;
           }
         }
 
@@ -61,11 +66,11 @@
             padding: 8px;
             background-color: $brilliant-white;
             border-radius: 15px 5px 15px 10px;
+            font-size: 12px;
           }
 
           .iconWrapper {
-            width: 32px;
-            height: 32px;
+            flex: 0 0 32px;
           }
         }
       }
