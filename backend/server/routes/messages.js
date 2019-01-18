@@ -5,18 +5,14 @@ const Message = require('../models/message');
 const authorize = require('../config/authorize');
 
 router.route('/')
-  // .get(async (request, response) => {
-  //   try {
-  //     if (request.query._id === 'new') {
-  //       const newMessage = new Message();
-  //       return response.status(200).json([newMessage]);
-  //     }
-  //     const categories = await Message.find(request.query);
-  //     return response.status(200).json(categories);
-  //   } catch (error) {
-  //     return response.status(400).send(error);
-  //   }
-  // })
+  .get(async (request, response) => {
+    try {
+      const messages = await Message.find({});
+      return response.status(200).json(messages);
+    } catch (error) {
+      return response.status(400).send(error);
+    }
+  })
   .post(bodyParser, async (request, response) => {
     try {
       const message = new Message(request.body);
