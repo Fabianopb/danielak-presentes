@@ -32,6 +32,8 @@ const initialState: ChatWindowState = {
 class ChatWindow extends React.Component<{}, ChatWindowState> {
   public state = initialState;
 
+  private scrollDiv: HTMLDivElement;
+
   public render() {
     const { isOpen, input } = this.state;
     const iconName = isOpen ? 'close' : 'talk';
@@ -67,6 +69,7 @@ class ChatWindow extends React.Component<{}, ChatWindowState> {
                   return null
                 };
               })}
+              <div ref={(el: HTMLDivElement) => this.scrollDiv = el} />
             </div>
             <div className={styles.messageInput}>
               <Input
@@ -103,6 +106,7 @@ class ChatWindow extends React.Component<{}, ChatWindowState> {
     if (input) {
       const newHistory = chatHistory.concat({ speaker: 'user', message: input });
       this.setState({ input: '', chatHistory: newHistory });
+      this.scrollToBottom();
       delay(() => this.answerUser(), 2000);
     }
   }
@@ -149,6 +153,11 @@ class ChatWindow extends React.Component<{}, ChatWindowState> {
       ]);
       this.setState({ chatHistory: newHistory });
     }
+    this.scrollToBottom();
+  }
+
+  private scrollToBottom = () => {
+    this.scrollDiv.scrollIntoView({ behavior: "smooth" });
   }
 }
 
