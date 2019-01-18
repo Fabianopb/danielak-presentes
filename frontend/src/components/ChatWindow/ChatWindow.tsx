@@ -106,7 +106,7 @@ class ChatWindow extends React.Component<{}, ChatWindowState> {
     if (input) {
       const newHistory = chatHistory.concat({ speaker: 'user', message: input });
       this.setState({ input: '', chatHistory: newHistory });
-      this.scrollToBottom();
+      this.setState({ input: '', chatHistory: newHistory }, () => this.scrollToBottom());
       delay(() => this.answerUser(), 2000);
     }
   }
@@ -120,7 +120,7 @@ class ChatWindow extends React.Component<{}, ChatWindowState> {
         message: 'Beep! Beep! Estou processando sua mensagem... Algo mais?',
         step: 1
       });
-      this.setState({ chatHistory: newHistory });
+      this.setState({ chatHistory: newHistory }, () => this.scrollToBottom());
     }
     if (lastDaniMsg.step === 1) {
       const newHistory = chatHistory.concat({
@@ -128,7 +128,7 @@ class ChatWindow extends React.Component<{}, ChatWindowState> {
         message: 'Não esqueça de deixar seu telefone/whatsapp ou então e-mail se preferir',
         step: 2
       });
-      this.setState({ chatHistory: newHistory });
+      this.setState({ chatHistory: newHistory }, () => this.scrollToBottom());
     }
     if (lastDaniMsg.step === 2) {
       const newHistory = chatHistory.concat({
@@ -136,7 +136,7 @@ class ChatWindow extends React.Component<{}, ChatWindowState> {
         message: 'A propósito, você lembrou de escrever seu nome? :)',
         step: 3
       });
-      this.setState({ chatHistory: newHistory });
+      this.setState({ chatHistory: newHistory }, () => this.scrollToBottom());
     }
     if (lastDaniMsg.step === 3) {
       const newHistory = chatHistory.concat([
@@ -147,13 +147,12 @@ class ChatWindow extends React.Component<{}, ChatWindowState> {
         },
         {
           speaker: 'dani',
-          message: 'Quando terminar, é só fechar esta janelinha.',
+          message: 'Quando terminar, é só fechar esta janelinha e aguardar o retorno.',
           step: 4
         }
       ]);
-      this.setState({ chatHistory: newHistory });
+      this.setState({ chatHistory: newHistory }, () => this.scrollToBottom());
     }
-    this.scrollToBottom();
   }
 
   private scrollToBottom = () => {
