@@ -93,6 +93,16 @@ export const productRequests = {
   }
 };
 
+export const messageRequests = {
+  /**
+   * Get all messages
+   * @returns {AxiosPromise<{ data: Message[]; }>}
+   */
+  getMessages: (): AxiosPromise<{ data: Message[]; }> => {
+    return axios.get(`/api/messages`);
+  },
+};
+
 export const fileRequests = {
   uploadFile: (formData: FormData) => {
     return axios.post(`/api/files/upload-file`, formData, {

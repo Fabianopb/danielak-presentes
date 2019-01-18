@@ -6,16 +6,19 @@ import { Table, Icon, Dimmer, Loader, Button, Divider, Image } from 'semantic-ui
 import * as _ from 'lodash';
 import { productActions } from '../../actions/products';
 import { categoryActions } from '../../actions/categories';
+import { messageActions } from '../../actions/messages';
 import styles from './AdminMain.module.scss';
 
 type StateProps = {
   products: ProductsState
   categories: CategoriesState;
+  messages: MessagesState;
 };
 
 type DispatchProps = {
   productActions: typeof productActions;
   categoryActions: typeof categoryActions;
+  messageActions: typeof messageActions;
 };
 
 type OwnProps = {};
@@ -26,6 +29,7 @@ class AdminMain extends React.Component<AdminMainProps> {
   public componentDidMount () {
     this.props.productActions.fetchProducts();
     this.props.categoryActions.fetchCategories();
+    this.props.messageActions.fetchMessages();
   }
 
   public render () {
@@ -130,12 +134,14 @@ class AdminMain extends React.Component<AdminMainProps> {
 
 const mapStateToProps = (state: RootState) => ({
   products: state.products,
-  categories: state.categories
+  categories: state.categories,
+  messages: state.messages
 });
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
   productActions: bindActionCreators({ ...productActions }, dispatch),
-  categoryActions: bindActionCreators({ ...categoryActions }, dispatch)
+  categoryActions: bindActionCreators({ ...categoryActions }, dispatch),
+  messageActions: bindActionCreators({ ...messageActions }, dispatch)
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(AdminMain);

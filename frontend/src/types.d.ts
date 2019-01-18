@@ -11,6 +11,7 @@ declare global {
   type RootState = {
     categories: CategoriesState;
     products: ProductsState;
+    messages: MessagesState;
     users: UsersState;
     form: FormStateMap;
     notifications: NotificationsState;
@@ -22,6 +23,11 @@ declare global {
     data: Category[];
     isDialogOpen: boolean;
     activeCategory: Category | null;
+  };
+
+  type MessagesState = {
+    isFetching: boolean;
+    data: Message[];
   };
 
   type ProductsState = {
@@ -66,6 +72,12 @@ declare global {
     name: string;
     description: string;
     removed: boolean;
+  }
+
+  interface Message {
+    text: string[];
+    new: boolean;
+    answered: boolean;
   }
 
   interface QueryParams {
