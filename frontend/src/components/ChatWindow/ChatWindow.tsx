@@ -2,7 +2,7 @@ import * as React from 'react';
 import { Icon, Image, Input, InputOnChangeData } from 'semantic-ui-react';
 import cn from 'classnames';
 import { findLast, delay } from 'lodash';
-import danikLua from '../../assets/dani-robot.png';
+import robotAvatar from '../../assets/dani-robot.png';
 import styles from './ChatWindow.module.scss';
 
 interface ChatHistory {
@@ -49,7 +49,7 @@ class ChatWindow extends React.Component<{}, ChatWindowState> {
                   return (
                     <div key={index} className={styles.danikMsg}>
                       <div className={styles.iconWrapper}>
-                        <Image src={danikLua} bordered={true} circular={true} />
+                        <Image src={robotAvatar} bordered={true} circular={true} />
                       </div>
                       <div className={styles.bullet}>{history.message}</div>
                     </div>
