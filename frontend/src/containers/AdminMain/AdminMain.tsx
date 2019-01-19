@@ -4,6 +4,7 @@ import { bindActionCreators, Dispatch } from 'redux';
 import { connect } from 'react-redux';
 import { Table, Icon, Dimmer, Loader, Button, Divider, Image } from 'semantic-ui-react';
 import * as _ from 'lodash';
+import * as moment from 'moment';
 import { productActions } from '../../actions/products';
 import { categoryActions } from '../../actions/categories';
 import { messageActions } from '../../actions/messages';
@@ -35,6 +36,7 @@ class AdminMain extends React.Component<AdminMainProps> {
   public render () {
     const { data: prodData, isFetching: prodIsFetching } = this.props.products;
     const { data: catData, isFetching: catIsFetching } = this.props.categories;
+    const { data: msgData, isFetching: msgIsFetching } = this.props.messages;
     const categories = _.filter(catData, cat => !_.isUndefined(cat._id));
     const { showAdminProduct } = this.props.productActions;
     const { showAdminCategory } = this.props.categoryActions;
@@ -121,6 +123,36 @@ class AdminMain extends React.Component<AdminMainProps> {
                   <Table.Row className={styles.clickableRow} key={index} onClick={() => showAdminCategory(category._id as string)}>
                     <Table.Cell>{category.name}</Table.Cell>
                     <Table.Cell>{category.description}</Table.Cell>
+                  </Table.Row>
+                ))}
+              </Table.Body>
+            </Table>
+          )}
+        </div>
+        <Divider />
+        <div className={styles.mgmtHeader}>
+          <h2>Lista de mensagens</h2>
+        </div>
+        <div className={styles.productList}>
+          {msgIsFetching ? (
+            <Dimmer active={true} inverted={true}>
+              <Loader />
+            </Dimmer>
+          ) : (
+            <Table singleLine={true} selectable={true}>
+              <Table.Header>
+                <Table.Row>
+                  <Table.HeaderCell>Enviado em</Table.HeaderCell>
+                  <Table.HeaderCell>Mensagem</Table.HeaderCell>
+                  <Table.HeaderCell>Ações</Table.HeaderCell>
+                </Table.Row>
+              </Table.Header>
+              <Table.Body>
+                {msgData.map((message, index) => (
+                  <Table.Row key={index}>
+                    <Table.Cell collapsing={true}>{moment(message.createdAt).format('L LT')}</Table.Cell>
+                    <Table.Cell>{message.text.map((paragraph, pIndex) => <p key={pIndex}>{paragraph}</p>)}</Table.Cell>
+                    <Table.Cell collapsing={true}>{message.new} {message.answered}</Table.Cell>
                   </Table.Row>
                 ))}
               </Table.Body>

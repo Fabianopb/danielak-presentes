@@ -78,6 +78,7 @@ declare global {
     text: string[];
     new: boolean;
     answered: boolean;
+    createdAt: Date;
   }
 
   interface QueryParams {
