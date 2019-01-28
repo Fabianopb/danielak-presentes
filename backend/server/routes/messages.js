@@ -17,7 +17,7 @@ router.route('/')
     try {
       const message = new Message(request.body);
       await message.save();
-      return response.status(200).json({message: 'New message saved!'});
+      return response.status(200).json({id: message._id});
     } catch (error) {
       return response.status(400).send(error);
     }

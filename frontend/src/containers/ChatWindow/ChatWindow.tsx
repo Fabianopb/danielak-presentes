@@ -1,15 +1,18 @@
 import * as React from 'react';
+import { bindActionCreators, Dispatch } from 'redux';
+import { connect } from 'react-redux';
+import { messageActions } from '../../actions/messages';
 import { Icon, Image, Input, InputOnChangeData } from 'semantic-ui-react';
 import cn from 'classnames';
 import { findLast, delay } from 'lodash';
 import robotAvatar from '../../assets/dani-robot.png';
 import styles from './ChatWindow.module.scss';
 
-interface ChatHistory {
-  speaker: 'dani' | 'user';
-  message: string;
-  step?: number;
-}
+type DispatchProps = {
+  messageActions: typeof messageActions;
+};
+
+type ChatWindowProps = DispatchProps;
 
 type ChatWindowState = {
   isOpen: boolean;
@@ -29,7 +32,7 @@ const initialState: ChatWindowState = {
   ]
 };
 
-class ChatWindow extends React.Component<{}, ChatWindowState> {
+class ChatWindow extends React.Component<ChatWindowProps, ChatWindowState> {
   public state = initialState;
 
   private scrollDiv: HTMLDivElement;
@@ -107,6 +110,7 @@ class ChatWindow extends React.Component<{}, ChatWindowState> {
       const newHistory = chatHistory.concat({ speaker: 'user', message: input });
       this.setState({ input: '', chatHistory: newHistory });
       this.setState({ input: '', chatHistory: newHistory }, () => this.scrollToBottom());
+      this.props.messageActions.postMessage(newHistory);
       delay(() => this.answerUser(), 2000);
     }
   }
@@ -160,4 +164,12 @@ class ChatWindow extends React.Component<{}, ChatWindowState> {
   }
 }
 
-export default ChatWindow;
+// const mapStateToProps = (state: RootState) => ({
+//   messages: state.messages
+// });
+
+const mapDispatchToProps = (dispatch: Dispatch) => ({
+  messageActions: bindActionCreators({ ...messageActions }, dispatch)
+});
+
+export default connect(null, mapDispatchToProps)(ChatWindow);

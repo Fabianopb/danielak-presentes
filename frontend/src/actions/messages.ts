@@ -14,7 +14,7 @@ export const messageActions = {
   receiveMessages: (data: Message[]) => createAction(MessageActionsEnum.RECEIVE_MESSAGES, data),
   // saga triggers
   fetchMessages: () => createAction(MessageActionsEnum.FETCH_MESSAGES),
-  postMessage: (message: string) => createAction(MessageActionsEnum.POST_MESSAGE, message)
+  postMessage: (chatHistory: ChatHistory[]) => createAction(MessageActionsEnum.POST_MESSAGE, chatHistory)
 };
 
 export type MessageActions = ActionsUnion<typeof messageActions>;

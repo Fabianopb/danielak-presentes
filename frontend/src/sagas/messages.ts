@@ -25,5 +25,9 @@ export function * getMessagesSaga() {
 }
 
 export function * postMessageSaga(action: ReturnType<typeof messageActions.postMessage>) {
-  yield console.log(action.payload);
+  const userText = action.payload
+    .filter(history => history.speaker === 'user')
+    .map(history => history.message);
+  const response = yield call(messageRequests.postMessage, userText);
+  console.log(response);
 }

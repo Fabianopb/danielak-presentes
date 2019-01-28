@@ -81,6 +81,12 @@ declare global {
     createdAt: Date;
   }
 
+  interface ChatHistory {
+    speaker: 'dani' | 'user';
+    message: string;
+    step?: number;
+  }
+
   interface QueryParams {
     category: string;
   }

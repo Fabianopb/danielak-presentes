@@ -101,6 +101,13 @@ export const messageRequests = {
   getMessages: (): AxiosPromise<{ data: Message[]; }> => {
     return axios.get(`/api/messages`);
   },
+  /**
+   * Post a message
+   * @returns {AxiosPromise<{ data: string }>}
+   */
+  postMessage: (messageString: string[]): AxiosPromise<{ data: string }> => {
+    return axios.post('/api/messages', messageString);
+  }
 };
 
 export const fileRequests = {
