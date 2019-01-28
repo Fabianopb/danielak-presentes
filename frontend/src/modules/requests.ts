@@ -103,10 +103,10 @@ export const messageRequests = {
   },
   /**
    * Post a message
-   * @returns {AxiosPromise<{ data: string }>}
+   * @returns {AxiosPromise<{ data: { id: string } }>}
    */
-  postMessage: (messageString: string[]): AxiosPromise<{ data: string }> => {
-    return axios.post('/api/messages', messageString);
+  postMessage: (text: string[]): AxiosPromise<{ data: { id: string } }> => {
+    return axios.post('/api/messages', { text });
   }
 };
 

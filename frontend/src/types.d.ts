@@ -28,6 +28,7 @@ declare global {
   type MessagesState = {
     isFetching: boolean;
     data: Message[];
+    activeMessageId: string | null;
   };
 
   type ProductsState = {

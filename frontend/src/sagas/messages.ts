@@ -25,9 +25,14 @@ export function * getMessagesSaga() {
 }
 
 export function * postMessageSaga(action: ReturnType<typeof messageActions.postMessage>) {
-  const userText = action.payload
-    .filter(history => history.speaker === 'user')
-    .map(history => history.message);
-  const response = yield call(messageRequests.postMessage, userText);
-  console.log(response);
+  try {
+    const userText = action.payload
+      .filter(history => history.speaker === 'user')
+      .map(history => history.message);
+    const response: { data: { id: string } } = yield call(messageRequests.postMessage, userText);
+    yield put(messageActions.reduceMessageId(response.data.id));
+  } catch (error) {
+    notificationOpts.title = "Houve um erro ao enviar sua mensagem, por favor envie um e-mail para danielakpresentes@yahoo.com.br";
+    yield put(Notifications.error(notificationOpts));
+  }
 }

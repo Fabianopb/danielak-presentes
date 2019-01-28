@@ -16,7 +16,8 @@ export const productsState: ProductsState = {
 
 export const messagesState: MessagesState = {
   isFetching: false,
-  data: []
+  data: [],
+  activeMessageId: null
 };
 
 export const usersState: UsersState = {
