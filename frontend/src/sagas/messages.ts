@@ -23,3 +23,7 @@ export function * getMessagesSaga() {
     yield put(messageActions.endRequest());
   }
 }
+
+export function * postMessageSaga(action: ReturnType<typeof messageActions.postMessage>) {
+  yield console.log(action.payload);
+}
