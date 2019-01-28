@@ -107,6 +107,13 @@ export const messageRequests = {
    */
   postMessage: (text: string[]): AxiosPromise<{ data: { id: string } }> => {
     return axios.post('/api/messages', { text });
+  },
+  /**
+   * Put a message
+   * @returns {AxiosPromise<any>}
+   */
+  putMessage: (id: string, text: string[]): AxiosPromise<any> => {
+    return axios.put(`/api/messages/${id}`, { text });
   }
 };
 

@@ -8,11 +8,15 @@ import { findLast, delay } from 'lodash';
 import robotAvatar from '../../assets/dani-robot.png';
 import styles from './ChatWindow.module.scss';
 
+type StateProps = {
+  messages: MessagesState;
+};
+
 type DispatchProps = {
   messageActions: typeof messageActions;
 };
 
-type ChatWindowProps = DispatchProps;
+type ChatWindowProps = StateProps & DispatchProps;
 
 type ChatWindowState = {
   isOpen: boolean;
@@ -110,7 +114,7 @@ class ChatWindow extends React.Component<ChatWindowProps, ChatWindowState> {
       const newHistory = chatHistory.concat({ speaker: 'user', message: input });
       this.setState({ input: '', chatHistory: newHistory });
       this.setState({ input: '', chatHistory: newHistory }, () => this.scrollToBottom());
-      this.props.messageActions.postMessage(newHistory);
+      this.props.messageActions.saveMessage(newHistory, this.props.messages.activeMessageId);
       delay(() => this.answerUser(), 2000);
     }
   }
@@ -164,12 +168,12 @@ class ChatWindow extends React.Component<ChatWindowProps, ChatWindowState> {
   }
 }
 
-// const mapStateToProps = (state: RootState) => ({
-//   messages: state.messages
-// });
+const mapStateToProps = (state: RootState) => ({
+  messages: state.messages
+});
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
   messageActions: bindActionCreators({ ...messageActions }, dispatch)
 });
 
-export default connect(null, mapDispatchToProps)(ChatWindow);
+export default connect(mapStateToProps, mapDispatchToProps)(ChatWindow);

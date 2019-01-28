@@ -6,7 +6,7 @@ export enum MessageActionsEnum {
   RECEIVE_MESSAGES = 'RECEIVE_MESSAGES',
   REDUCE_MESSAGE_ID = 'REDUCE_MESSAGE_ID',
   FETCH_MESSAGES = 'FETCH_MESSAGES',
-  POST_MESSAGE = 'POST_MESSAGE'
+  SAVE_MESSAGE = 'SAVE_MESSAGE'
 }
 
 export const messageActions = {
@@ -16,7 +16,7 @@ export const messageActions = {
   reduceMessageId: (id: string) => createAction(MessageActionsEnum.REDUCE_MESSAGE_ID, id),
   // saga triggers
   fetchMessages: () => createAction(MessageActionsEnum.FETCH_MESSAGES),
-  postMessage: (chatHistory: ChatHistory[]) => createAction(MessageActionsEnum.POST_MESSAGE, chatHistory)
+  saveMessage: (chatHistory: ChatHistory[], id?: string) => createAction(MessageActionsEnum.SAVE_MESSAGE, { chatHistory, id })
 };
 
 export type MessageActions = ActionsUnion<typeof messageActions>;
