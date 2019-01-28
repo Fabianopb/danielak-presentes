@@ -73,7 +73,7 @@ class ProductGrid extends React.Component<ProductGridProps> {
             return (
               <div className={styles.productCell} key={product._id} onClick={() => push(`/product/${product._id}${search}`)}>
                 <div className={styles.imageContainer}>
-                  {product.image.length > 0 && <Image src={product.image[product.featuredImageIndex].large} />}
+                  {product.image.length > 0 && <Image className={styles.productImage} src={product.image[product.featuredImageIndex].large} />}
                 </div>
                 <div className={styles.title}>
                   {product.name}

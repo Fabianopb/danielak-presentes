@@ -19,15 +19,20 @@
     width: 280px;
     margin: 16px;
     padding: 8px;
-    border: 1px solid $brilliant-white;
-    box-shadow: $box-shadow;
     cursor: pointer;
 
     .imageContainer {
-      height: 240px;
+      display: flex;
+      justify-content: center;
+      height: 220px;
       overflow: hidden;
       padding: 0 !important;
       background-color: $brilliant-white;
+
+      .productImage {
+        height: 100%;
+        max-width: inherit;
+      }
     }
 
     .title {
