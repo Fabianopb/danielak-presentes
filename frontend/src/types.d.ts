@@ -76,6 +76,7 @@ declare global {
   }
 
   interface Message {
+    _id: string;
     text: string[];
     new: boolean;
     answered: boolean;

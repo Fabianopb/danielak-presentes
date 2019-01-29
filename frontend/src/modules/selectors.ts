@@ -10,3 +10,7 @@ export const productSelectors = {
 export const routeSelectors = {
   search: (state: RootState) => state.router.location.search
 };
+
+export const messageSelectors = {
+  messages: (state: RootState) => state.messages.data
+};

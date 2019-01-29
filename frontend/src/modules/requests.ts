@@ -114,6 +114,13 @@ export const messageRequests = {
    */
   putMessage: (id: string, text: string[]): AxiosPromise<any> => {
     return axios.put(`/api/messages/${id}`, { text });
+  },
+  /**
+   * Toggle message to be answered or not
+   * @returns {AxiosPromise<any>}
+   */
+  toggleMessageAnswer: (id: string): AxiosPromise<any> => {
+    return axios.put(`/api/messages/answer/${id}`, {}, { headers: getAuthHeaders() });
   }
 };
 

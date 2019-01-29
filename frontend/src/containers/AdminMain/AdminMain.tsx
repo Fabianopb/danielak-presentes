@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import { Table, Icon, Dimmer, Loader, Button, Divider, Image } from 'semantic-ui-react';
 import * as _ from 'lodash';
 import * as moment from 'moment';
+import * as cn from 'classnames';
 import { productActions } from '../../actions/products';
 import { categoryActions } from '../../actions/categories';
 import { messageActions } from '../../actions/messages';
@@ -139,7 +140,7 @@ class AdminMain extends React.Component<AdminMainProps> {
               <Loader />
             </Dimmer>
           ) : (
-            <Table singleLine={true} selectable={true}>
+            <Table singleLine={true}>
               <Table.Header>
                 <Table.Row>
                   <Table.HeaderCell>Enviado em</Table.HeaderCell>
@@ -148,19 +149,29 @@ class AdminMain extends React.Component<AdminMainProps> {
                 </Table.Row>
               </Table.Header>
               <Table.Body>
-                {msgData.map((message, index) => (
-                  <Table.Row key={index}>
-                    <Table.Cell collapsing={true}>{moment(message.createdAt).format('L LT')}</Table.Cell>
-                    <Table.Cell>{message.text.map((paragraph, pIndex) => <p key={pIndex}>{paragraph}</p>)}</Table.Cell>
-                    <Table.Cell collapsing={true}>{message.new} {message.answered}</Table.Cell>
-                  </Table.Row>
-                ))}
+                {msgData.map((message, index) => {
+                  const answeredIcon = message.answered ? 'paper plane' : 'envelope';
+                  return (
+                    <Table.Row key={index} className={cn({ [styles.answered]: message.answered })}>
+                      <Table.Cell collapsing={true}>{moment(message.createdAt).format('L LT')}</Table.Cell>
+                      <Table.Cell>{message.text.map((paragraph, pIndex) => <p key={pIndex}>{paragraph}</p>)}</Table.Cell>
+                      <Table.Cell collapsing={true}>
+                        <Icon name={answeredIcon} link={true} onClick={() => this.toggleAnswer(message._id)} />
+                        <Icon name='trash' link={true} />
+                      </Table.Cell>
+                    </Table.Row>
+                  )
+                })}
               </Table.Body>
             </Table>
           )}
         </div>
       </div>
     );
+  }
+
+  private toggleAnswer = (id: string) => {
+    this.props.messageActions.toggleAnswer(id);
   }
 }
 

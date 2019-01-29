@@ -43,4 +43,16 @@ router.route('/:id')
 //     }
 //   });
 
+router.route('/answer/:id')
+  .put(authorize, bodyParser, async (request, response) => {
+    try {
+      const message = await Message.findById(request.params.id);
+      message.answered = !message.answered;
+      await message.save();
+      return response.status(200).json({ message });
+    } catch (error) {
+      return response.status(400).send(error);
+    }
+  });
+
 module.exports = router;
