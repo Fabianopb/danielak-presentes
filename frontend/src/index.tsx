@@ -12,6 +12,7 @@ import rootReducer from './reducers/root';
 import Layout from './components/Layout/Layout';
 import AboutPage from './components/AboutPage/AboutPage';
 import withTracker from './components/withTracker';
+import ChatWindow from './containers/ChatWindow/ChatWindow';
 import NotFoundPage from './containers/NotFoundPage/NotFoundPage';
 import CategoryMenu from './containers/CategoryMenu/CategoryMenu';
 import ProductGrid from './containers/ProductGrid/ProductGrid';
@@ -66,6 +67,7 @@ ReactDOM.render(
           <ProtectedRoute path='/admin/category/:id' component={AdminCategory} />
           <Route component={NotFoundPage} />
         </Switch>
+        { !window.location.pathname.includes('/admin') && <ChatWindow /> }
         <NotificationsManager />
       </Layout>
     </ConnectedRouter>

@@ -1,0 +1,93 @@
+@import '../../assets/colors';
+
+.chatWindow {
+  position: fixed;
+  right: 16px;
+  bottom: 16px;
+  width: 42px;
+  box-shadow: 2px 2px 2px 0px rgba($black, 0.15);
+  border-radius: 22px;
+  cursor: pointer;
+  z-index: 10;
+
+  .chatBox {
+    display: none;
+    position: absolute;
+    border: 1px solid $brilliant-white;
+    bottom: 50px;
+    right: 0px;
+    width: 280px;
+    height: 360px;
+    background-color: white;
+    box-shadow: $box-shadow;
+    cursor: default;
+
+    .content {
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+
+      .topbar {
+        padding: 4px 8px;
+        background-color: $very-berry;
+        color: $brilliant-white;
+        text-align: right;
+      }
+
+      .body {
+        padding: 8px;
+        flex: 1;
+        overflow-y: scroll;
+
+        .danikMsg {
+          display: flex;
+          margin-bottom: 8px;
+
+          .bullet {
+            margin-left: 8px;
+            padding: 8px;
+            background-color: $cherry-blossom;
+            border-radius: 5px 15px 10px;
+            font-size: 12px;
+          }
+
+          .iconWrapper {
+            flex: 0 0 32px;
+          }
+        }
+
+        .userMsg {
+          display: flex;
+          margin-bottom: 8px;
+          justify-content: flex-end;
+
+          .bullet {
+            margin-right: 8px;
+            padding: 8px;
+            background-color: $brilliant-white;
+            border-radius: 15px 5px 15px 10px;
+            font-size: 12px;
+          }
+
+          .iconWrapper {
+            flex: 0 0 32px;
+          }
+        }
+      }
+
+      .messageInput {
+        display: flex;
+        padding: 8px;
+        background-color: $brilliant-white;
+
+        :global(.ui.input) {
+          flex: 1;
+        }
+      }
+    }
+  }
+
+  .visible {
+    display: block;
+  }
+}

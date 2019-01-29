@@ -93,6 +93,44 @@ export const productRequests = {
   }
 };
 
+export const messageRequests = {
+  /**
+   * Get all messages
+   * @returns {AxiosPromise<{ data: Message[]; }>}
+   */
+  getMessages: (): AxiosPromise<{ data: Message[]; }> => {
+    return axios.get(`/api/messages`);
+  },
+  /**
+   * Post a message
+   * @returns {AxiosPromise<{ data: { id: string } }>}
+   */
+  postMessage: (text: string[]): AxiosPromise<{ data: { id: string } }> => {
+    return axios.post('/api/messages', { text });
+  },
+  /**
+   * Put a message
+   * @returns {AxiosPromise<any>}
+   */
+  putMessage: (id: string, text: string[]): AxiosPromise<any> => {
+    return axios.put(`/api/messages/${id}`, { text });
+  },
+  /**
+   * Toggle message to be answered or not
+   * @returns {AxiosPromise<any>}
+   */
+  toggleMessageAnswer: (id: string): AxiosPromise<any> => {
+    return axios.put(`/api/messages/answer/${id}`, {}, { headers: getAuthHeaders() });
+  },
+  /**
+   * Delete a message
+   * @returns {AxiosPromise<any>}
+   */
+  deleteMessage: (id: string): AxiosPromise<any> => {
+    return axios.delete(`/api/messages/${id}`, { headers: getAuthHeaders() });
+  }
+};
+
 export const fileRequests = {
   uploadFile: (formData: FormData) => {
     return axios.post(`/api/files/upload-file`, formData, {

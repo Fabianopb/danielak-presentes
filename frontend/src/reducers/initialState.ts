@@ -14,6 +14,13 @@ export const productsState: ProductsState = {
   data: []
 };
 
+export const messagesState: MessagesState = {
+  isFetching: false,
+  data: [],
+  activeMessageId: undefined,
+  isDialogOpen: false
+};
+
 export const usersState: UsersState = {
   isLogging: false
 };
@@ -21,6 +28,7 @@ export const usersState: UsersState = {
 export const initialState: RootState = {
   categories: categoriesState,
   products: productsState,
+  messages: messagesState,
   users: usersState,
   form: {},
   notifications: [],
