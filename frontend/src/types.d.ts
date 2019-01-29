@@ -29,6 +29,7 @@ declare global {
     isFetching: boolean;
     data: Message[];
     activeMessageId?: string;
+    isDialogOpen: boolean;
   };
 
   type ProductsState = {

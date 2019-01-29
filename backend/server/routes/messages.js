@@ -33,15 +33,15 @@ router.route('/:id')
     } catch (error) {
       return response.status(400).send(error);
     }
+  })
+  .delete(authorize, async (request, response) => {
+    try {
+      await Message.remove({_id: request.params.id});
+      return response.status(200).json({message: 'Message removed'});
+    } catch (error) {
+      return response.status(400).send(error);
+    }
   });
-//   .delete(authorize, async (request, response) => {
-//     try {
-//       await Message.remove({_id: request.params.id});
-//       return response.status(200).json({message: 'Message removed'});
-//     } catch (error) {
-//       return response.status(400).send(error);
-//     }
-//   });
 
 router.route('/answer/:id')
   .put(authorize, bodyParser, async (request, response) => {

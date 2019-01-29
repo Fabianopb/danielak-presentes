@@ -2,7 +2,7 @@ import * as React from 'react';
 import { Link } from 'react-router-dom';
 import { bindActionCreators, Dispatch } from 'redux';
 import { connect } from 'react-redux';
-import { Table, Icon, Dimmer, Loader, Button, Divider, Image } from 'semantic-ui-react';
+import { Table, Icon, Dimmer, Loader, Button, Divider, Image, Modal, Header } from 'semantic-ui-react';
 import * as _ from 'lodash';
 import * as moment from 'moment';
 import * as cn from 'classnames';
@@ -27,7 +27,15 @@ type OwnProps = {};
 
 type AdminMainProps = StateProps & DispatchProps & OwnProps;
 
-class AdminMain extends React.Component<AdminMainProps> {
+type AdminMainState = {
+  idToDelete: string;
+};
+
+class AdminMain extends React.Component<AdminMainProps, AdminMainState> {
+  public state: AdminMainState = {
+    idToDelete: ""
+  };
+
   public componentDidMount () {
     this.props.productActions.fetchProducts();
     this.props.categoryActions.fetchCategories();
@@ -37,7 +45,7 @@ class AdminMain extends React.Component<AdminMainProps> {
   public render () {
     const { data: prodData, isFetching: prodIsFetching } = this.props.products;
     const { data: catData, isFetching: catIsFetching } = this.props.categories;
-    const { data: msgData, isFetching: msgIsFetching } = this.props.messages;
+    const { data: msgData, isFetching: msgIsFetching, isDialogOpen } = this.props.messages;
     const categories = _.filter(catData, cat => !_.isUndefined(cat._id));
     const { showAdminProduct } = this.props.productActions;
     const { showAdminCategory } = this.props.categoryActions;
@@ -157,7 +165,7 @@ class AdminMain extends React.Component<AdminMainProps> {
                       <Table.Cell>{message.text.map((paragraph, pIndex) => <p key={pIndex}>{paragraph}</p>)}</Table.Cell>
                       <Table.Cell collapsing={true}>
                         <Icon name={answeredIcon} link={true} onClick={() => this.toggleAnswer(message._id)} />
-                        <Icon name='trash' link={true} />
+                        <Icon name='trash' link={true} onClick={() => this.handleDelete(message._id)} />
                       </Table.Cell>
                     </Table.Row>
                   )
@@ -166,12 +174,38 @@ class AdminMain extends React.Component<AdminMainProps> {
             </Table>
           )}
         </div>
+        <Modal open={isDialogOpen} onClose={this.closeDialog} size='small'>
+          <Header icon='trash' content='Remover mensagem' />
+          <Modal.Content>
+            <p>Tem certeza que deseja remover a mensagem?</p>
+          </Modal.Content>
+          <Modal.Actions>
+            <Button basic={true} icon={true} labelPosition='right' color='blue' onClick={this.closeDialog} >
+              Cancelar<Icon name='ban' />
+            </Button>
+            <Button icon={true} labelPosition='right' color='red' onClick={this.destroyMessage} >
+              Remover<Icon name='remove' />
+            </Button>
+          </Modal.Actions>
+        </Modal>
       </div>
     );
   }
 
+  private handleDelete = (id: string) => {
+    this.setState({ idToDelete: id }, () => this.props.messageActions.toggleDialog(true));
+  }
+
+  private destroyMessage = () => {
+    this.props.messageActions.deleteMessage(this.state.idToDelete);
+  }
+
   private toggleAnswer = (id: string) => {
     this.props.messageActions.toggleAnswer(id);
+  }
+
+  private closeDialog = () => {
+    this.props.messageActions.toggleDialog(false);
   }
 }
 

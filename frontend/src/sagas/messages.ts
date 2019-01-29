@@ -55,3 +55,17 @@ export function * toggleAnswerSaga(action: ReturnType<typeof messageActions.togg
     yield put(Notifications.error(notificationOpts));
   }
 }
+
+export function * deleteMessageSaga(action: ReturnType<typeof messageActions.deleteMessage>) {
+  try {
+    yield call(messageRequests.deleteMessage, action.payload);
+    const messages: Message[] = yield select(messageSelectors.messages);
+    const newData = messages.filter(message => message._id !== action.payload);
+    yield put(messageActions.receiveMessages(newData));
+  } catch (error) {
+    notificationOpts.title = error.message;
+    yield put(Notifications.error(notificationOpts));
+  } finally {
+    yield put(messageActions.toggleDialog(false));
+  }
+}

@@ -121,6 +121,13 @@ export const messageRequests = {
    */
   toggleMessageAnswer: (id: string): AxiosPromise<any> => {
     return axios.put(`/api/messages/answer/${id}`, {}, { headers: getAuthHeaders() });
+  },
+  /**
+   * Delete a message
+   * @returns {AxiosPromise<any>}
+   */
+  deleteMessage: (id: string): AxiosPromise<any> => {
+    return axios.delete(`/api/messages/${id}`, { headers: getAuthHeaders() });
   }
 };
 

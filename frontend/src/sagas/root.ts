@@ -5,7 +5,7 @@ import { ProductActionsEnum } from '../actions/products';
 import { UserActionsEnum } from '../actions/users';
 import { fetchCategoriesSaga, fetchCategorySaga, upsertCategorySaga, showAdminCategorySaga, deleteCategorySaga,
   changeCategorySaga } from './categories';
-import { getMessagesSaga, saveMessageSaga, toggleAnswerSaga } from './messages';
+import { getMessagesSaga, saveMessageSaga, toggleAnswerSaga, deleteMessageSaga } from './messages';
 import { getProductDetailSaga, fetchProductsSaga, upsertProductSaga, deleteProductSaga, deleteImageSaga,
   showAdminProductSaga, handleFileDropSaga } from './products';
 import { loginSaga, logoutSaga } from './users';
@@ -31,6 +31,7 @@ export default function * rootSaga() {
     takeLatest(MessageActionsEnum.FETCH_MESSAGES, getMessagesSaga),
     takeLatest(MessageActionsEnum.SAVE_MESSAGE, saveMessageSaga),
     takeLatest(MessageActionsEnum.TOGGLE_ANSWER, toggleAnswerSaga),
+    takeLatest(MessageActionsEnum.DELETE_MESSAGE, deleteMessageSaga),
     // users sagas
     takeLatest(UserActionsEnum.LOG_IN, loginSaga),
     takeLatest(UserActionsEnum.LOG_OUT, logoutSaga),
