@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { messageActions } from '../../actions/messages';
 import { Icon, Image, Input, InputOnChangeData } from 'semantic-ui-react';
 import cn from 'classnames';
+import * as moment from 'moment';
 import { findLast, delay } from 'lodash';
 import robotAvatar from '../../assets/dani-robot.png';
 import styles from './ChatWindow.module.scss';
@@ -25,7 +26,7 @@ type ChatWindowState = {
 };
 
 const initialState: ChatWindowState = {
-  isOpen: true,
+  isOpen: false,
   input: '',
   chatHistory: [
     {
@@ -40,6 +41,16 @@ class ChatWindow extends React.Component<ChatWindowProps, ChatWindowState> {
   public state = initialState;
 
   private scrollDiv: HTMLDivElement;
+
+  public componentDidMount() {
+    const timestamp = localStorage.getItem('chatWindowTimestamp');
+    const now = moment();
+    if (!timestamp || (timestamp && moment(timestamp).isBefore(now))) {
+      now.add(1, 'week');
+      localStorage.setItem('chatWindowTimestamp', now.toISOString());
+      this.setState({ isOpen: true });
+    }
+  }
 
   public render() {
     const { isOpen, input } = this.state;
