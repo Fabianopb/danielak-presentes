@@ -1,29 +1,29 @@
-import * as React from 'react';
+import React from 'react';
 import { bindActionCreators, Dispatch } from 'redux';
 import { connect } from 'react-redux';
 import { messageActions } from '../../actions/messages';
 import { Icon, Image, Input, InputOnChangeData } from 'semantic-ui-react';
 import cn from 'classnames';
-import * as moment from 'moment';
+import moment from 'moment';
 import { findLast, delay } from 'lodash';
 import robotAvatar from '../../assets/dani-robot.png';
 import styles from './ChatWindow.module.scss';
 
-type StateProps = {
+interface StateProps {
   messages: MessagesState;
-};
+}
 
-type DispatchProps = {
+interface DispatchProps {
   messageActions: typeof messageActions;
-};
+}
 
 type ChatWindowProps = StateProps & DispatchProps;
 
-type ChatWindowState = {
+interface ChatWindowState {
   isOpen: boolean;
   input: string;
   chatHistory: ChatHistory[];
-};
+}
 
 const initialState: ChatWindowState = {
   isOpen: false,
@@ -32,15 +32,15 @@ const initialState: ChatWindowState = {
     {
       speaker: 'dani',
       message: 'Olá, posso ajudar? Deixe sua mensagem e seu contato que retornarei em breve!',
-      step: 0
-    }
-  ]
+      step: 0,
+    },
+  ],
 };
+
+let scrollDiv: HTMLDivElement;
 
 class ChatWindow extends React.Component<ChatWindowProps, ChatWindowState> {
   public state = initialState;
-
-  private scrollDiv: HTMLDivElement;
 
   public componentDidMount() {
     const timestamp = localStorage.getItem('chatWindowTimestamp');
@@ -57,11 +57,11 @@ class ChatWindow extends React.Component<ChatWindowProps, ChatWindowState> {
     const iconName = isOpen ? 'close' : 'talk';
     return (
       <div className={styles.chatWindow}>
-        <Icon name={iconName} circular={true} inverted={true} color='teal' size='large' onClick={this.toggleWindow} />
+        <Icon name={iconName} circular={true} inverted={true} color="teal" size="large" onClick={this.toggleWindow} />
         <div className={cn(styles.chatBox, { [styles.visible]: isOpen })}>
           <div className={styles.content}>
             <div className={styles.topbar}>
-              <Icon name='close' link={true} onClick={this.toggleWindow} />
+              <Icon name="close" link={true} onClick={this.toggleWindow} />
             </div>
             <div className={styles.body}>
               {this.state.chatHistory.map((history, index) => {
@@ -79,25 +79,25 @@ class ChatWindow extends React.Component<ChatWindowProps, ChatWindowState> {
                     <div key={index} className={styles.userMsg}>
                       <div className={styles.bullet}>{history.message}</div>
                       <div className={styles.iconWrapper}>
-                        <Icon name='user' circular={true} inverted={true} color='grey' />
+                        <Icon name="user" circular={true} inverted={true} color="grey" />
                       </div>
                     </div>
                   );
                 } else {
-                  return null
-                };
+                  return null;
+                }
               })}
-              <div ref={(el: HTMLDivElement) => this.scrollDiv = el} />
+              <div ref={(el: HTMLDivElement) => scrollDiv = el} />
             </div>
             <div className={styles.messageInput}>
               <Input
                 value={input}
                 transparent={true}
-                placeholder='Digite aqui...'
+                placeholder="Digite aqui..."
                 onChange={this.handleChange}
                 onKeyPress={this.handleKeyPress}
               />
-              <Icon name='send' color='grey' link={true} onClick={this.sendMessage} />
+              <Icon name="send" color="grey" link={true} onClick={this.sendMessage} />
             </div>
           </div>
         </div>
@@ -137,7 +137,7 @@ class ChatWindow extends React.Component<ChatWindowProps, ChatWindowState> {
       const newHistory = chatHistory.concat({
         speaker: 'dani',
         message: 'Não esqueça de deixar seu nome, telefone/whatsapp ou e-mail! :)',
-        step: 1
+        step: 1,
       });
       this.setState({ chatHistory: newHistory }, () => this.scrollToBottom());
     }
@@ -146,29 +146,29 @@ class ChatWindow extends React.Component<ChatWindowProps, ChatWindowState> {
         {
           speaker: 'dani',
           message: 'Obrigada! Pode continuar enviando mensagens se desejar.',
-          step: 2
+          step: 2,
         },
         {
           speaker: 'dani',
           message: 'Quando terminar, é só fechar esta janelinha e aguardar o retorno.',
-          step: 2
-        }
+          step: 2,
+        },
       ]);
       this.setState({ chatHistory: newHistory }, () => this.scrollToBottom());
     }
   }
 
   private scrollToBottom = () => {
-    this.scrollDiv.scrollIntoView({ behavior: "smooth" });
+    scrollDiv.scrollIntoView({ behavior: 'smooth' });
   }
 }
 
 const mapStateToProps = (state: RootState) => ({
-  messages: state.messages
+  messages: state.messages,
 });
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
-  messageActions: bindActionCreators({ ...messageActions }, dispatch)
+  messageActions: bindActionCreators({ ...messageActions }, dispatch),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(ChatWindow);

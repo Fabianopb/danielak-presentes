@@ -1,8 +1,8 @@
-import * as React from 'react';
+import React from 'react';
 import { Field, reduxForm, InjectedFormProps } from 'redux-form';
 import { Form, Icon } from 'semantic-ui-react';
 import { Prompt } from 'react-router-dom';
-import * as _ from 'lodash';
+import _ from 'lodash';
 import { FormInput } from '../../components/FormComponents/FormComponents';
 import styles from './CategoryForm.module.scss';
 
@@ -17,20 +17,20 @@ const required = (value: string): string | undefined => {
 const CategoryForm: React.SFC<InjectedFormProps<CategoryFormData, {}>> = ({ handleSubmit, pristine, submitting }) => (
   <div className={styles.categoryForm}>
     <Form onSubmit={handleSubmit} >
-      <Form.Group widths='equal'>
+      <Form.Group widths="equal">
         <Field
           component={FormInput}
-          formLabel='Categoria'
-          placeholder='Nome da categoria'
-          name='name'
+          formLabel="Categoria"
+          placeholder="Nome da categoria"
+          name="name"
           required={true}
           validate={[required]}
         />
         <Field
           component={FormInput}
-          formLabel='Descrição'
-          placeholder='Descrição da categoria'
-          name='description'
+          formLabel="Descrição"
+          placeholder="Descrição da categoria"
+          name="description"
           required={true}
           validate={[required]}
         />
@@ -38,12 +38,12 @@ const CategoryForm: React.SFC<InjectedFormProps<CategoryFormData, {}>> = ({ hand
       <Form.Button
         className={styles.submitWrapper}
         icon={true}
-        labelPosition='right'
-        color='blue'
+        labelPosition="right"
+        color="blue"
         disabled={submitting || pristine}
       >
         Salvar
-        <Icon name='check' />
+        <Icon name="check" />
       </Form.Button>
     </Form>
     <Prompt

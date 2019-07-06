@@ -18,6 +18,6 @@ const productsReducer = (products = productsState, action: ProductActions): Prod
     default:
       return products;
   }
-}
+};
 
 export default productsReducer;

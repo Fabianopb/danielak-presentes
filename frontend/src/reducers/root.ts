@@ -12,7 +12,7 @@ const rootReducer: Reducer<Partial<RootState>> = combineReducers({
   messages,
   users,
   form,
-  notifications
+  notifications,
 });
 
 export default rootReducer;

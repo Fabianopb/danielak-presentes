@@ -1,5 +1,5 @@
-import * as React from 'react';
-import * as ReactGA from 'react-ga';
+import React from 'react';
+import ReactGA from 'react-ga';
 import { RouteProps } from 'react-router-dom';
 import { Location } from 'history';
 
@@ -11,7 +11,7 @@ export default function withTracker(WrappedComponent: React.ComponentType, optio
   const trackPage = (page: string) => {
     ReactGA.set({
       page,
-      ...options
+      ...options,
     });
     ReactGA.pageview(page);
   };

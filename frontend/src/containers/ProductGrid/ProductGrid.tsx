@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators, Dispatch } from 'redux';
 import { Dimmer, Loader, Image, Divider } from 'semantic-ui-react';
@@ -9,29 +9,27 @@ import carousel2 from '../../assets/carousel-2.jpg';
 import carousel3 from '../../assets/carousel-3.jpg';
 import { productActions } from '../../actions/products';
 import { currencyFormat } from '../../modules/helpers';
-import "react-responsive-carousel/lib/styles/carousel.min.css";
+import 'react-responsive-carousel/lib/styles/carousel.min.css';
 import styles from './ProductGrid.module.scss';
 
-type StateProps = {
+interface StateProps {
   products: ProductsState;
   router: RouterState;
-};
+}
 
-type DispatchProps = {
+interface DispatchProps {
   productActions: typeof productActions;
   routerActions: typeof routerActions;
-};
+}
 
-type OwnProps = {};
-
-type ProductGridProps = StateProps & DispatchProps & OwnProps;
+type ProductGridProps = StateProps & DispatchProps;
 
 class ProductGrid extends React.Component<ProductGridProps> {
-  public componentDidMount () {
+  public componentDidMount() {
     this.props.productActions.fetchProducts();
   }
 
-  public render () {
+  public render() {
     const { isFetching, data } = this.props.products;
     const { push } = this.props.routerActions;
     const { search } = this.props.router.location;
@@ -50,21 +48,21 @@ class ProductGrid extends React.Component<ProductGridProps> {
           className={styles.carousel}
         >
           <div>
-            <img src={carousel1} alt='carousel1' />
-            <p className='legend'>Entregue seu projeto em uma caixa personalizada e com estilo</p>
+            <img src={carousel1} alt="carousel1" />
+            <p className="legend">Entregue seu projeto em uma caixa personalizada e com estilo</p>
           </div>
           <div>
-            <img src={carousel2} alt='carousel2' />
-            <p className='legend'>Caixas para fotos 10x15 com encaixe para pendrive ou pencard</p>
+            <img src={carousel2} alt="carousel2" />
+            <p className="legend">Caixas para fotos 10x15 com encaixe para pendrive ou pencard</p>
           </div>
           <div>
-            <img src={carousel3} alt='carousel3' />
-            <p className='legend'>Um jeito diferente e especial de tratar seus clientes</p>
+            <img src={carousel3} alt="carousel3" />
+            <p className="legend">Um jeito diferente e especial de tratar seus clientes</p>
           </div>
         </Carousel>
         <h3>Produtos</h3>
         <Divider />
-        <div className='flex-wrap main-axis-center'>
+        <div className="flex-wrap main-axis-center">
           {isFetching ? (
             <Dimmer active={true} inverted={true}>
               <Loader />
@@ -73,16 +71,18 @@ class ProductGrid extends React.Component<ProductGridProps> {
             return (
               <div className={styles.productCell} key={product._id} onClick={() => push(`/product/${product._id}${search}`)}>
                 <div className={styles.imageContainer}>
-                  {product.image.length > 0 && <Image className={styles.productImage} src={product.image[product.featuredImageIndex].large} />}
+                  {product.image.length > 0 && (
+                    <Image className={styles.productImage} src={product.image[product.featuredImageIndex].large} />
+                  )}
                 </div>
                 <div className={styles.title}>
                   {product.name}
                 </div>
                 <div className={styles.currentPrice}>
-                  <span className={product.discountPrice && styles.disabledPrice}>
-                    { currencyFormat(product.currentPrice) }
+                  <span className={product.discountPrice ? styles.disabledPrice : ''}>
+                    {currencyFormat(product.currentPrice)}
                   </span>
-                  { product.discountPrice && currencyFormat(product.discountPrice) }
+                  {product.discountPrice && currencyFormat(product.discountPrice)}
                 </div>
               </div>
             );

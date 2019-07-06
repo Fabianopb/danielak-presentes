@@ -1,6 +1,6 @@
 import { call, put, select } from 'redux-saga/effects';
-import * as Notifications from 'react-notification-system-redux';
-import * as _ from 'lodash';
+import Notifications from 'react-notification-system-redux';
+import _ from 'lodash';
 import { messageActions } from '../actions/messages';
 import { messageRequests } from '../modules/requests';
 import { messageSelectors } from '../modules/selectors';
@@ -8,7 +8,7 @@ import { messageSelectors } from '../modules/selectors';
 const notificationOpts = {
   autoDismiss: 5,
   position: 'tc' as 'tc',
-  title: ''
+  title: '',
 };
 
 export function * getMessagesSaga() {
@@ -38,7 +38,7 @@ export function * saveMessageSaga(action: ReturnType<typeof messageActions.saveM
       yield put(messageActions.reduceMessageId(response.data.id));
     }
   } catch (error) {
-    notificationOpts.title = "Houve um erro ao enviar sua mensagem, por favor envie um e-mail para danielakpresentes@yahoo.com.br";
+    notificationOpts.title = 'Houve um erro ao enviar sua mensagem, por favor envie um e-mail para danielakpresentes@yahoo.com.br';
     yield put(Notifications.error(notificationOpts));
   }
 }
@@ -48,7 +48,7 @@ export function * toggleAnswerSaga(action: ReturnType<typeof messageActions.togg
     const response: { data: { message: Message } } = yield call(messageRequests.toggleMessageAnswer, action.payload);
     const messages: Message[] = yield select(messageSelectors.messages);
     const responseMessage = response.data.message;
-    const newData = messages.map(message => message._id === responseMessage._id ? responseMessage : message)
+    const newData = messages.map(message => message._id === responseMessage._id ? responseMessage : message);
     yield put(messageActions.receiveMessages(newData));
   } catch (error) {
     notificationOpts.title = error.message;

@@ -8,7 +8,7 @@ declare global {
     __REDUX_DEVTOOLS_EXTENSION_COMPOSE__: typeof compose;
   }
 
-  type RootState = {
+  interface RootState {
     categories: CategoriesState;
     products: ProductsState;
     messages: MessagesState;
@@ -18,35 +18,35 @@ declare global {
     router: RouterState;
   }
 
-  type CategoriesState = {
+  interface CategoriesState {
     isFetching: boolean;
     data: Category[];
     isDialogOpen: boolean;
     activeCategory: Category | null;
-  };
+  }
 
-  type MessagesState = {
+  interface MessagesState {
     isFetching: boolean;
     data: Message[];
     activeMessageId?: string;
     isDialogOpen: boolean;
-  };
+  }
 
-  type ProductsState = {
+  interface ProductsState {
     isFetching: boolean;
     activeProduct: Product | null;
     isDialogOpen: boolean;
     data: Product[];
-  };
+  }
 
-  type UsersState = {
+  interface UsersState {
     isLogging: boolean;
-  };
+  }
 
-  type ProductImage = {
-    large: string,
-    small: string
-  };
+  interface ProductImage {
+    large: string;
+    small: string;
+  }
 
   interface Product {
     _id: string;
@@ -103,6 +103,6 @@ declare global {
     data: {
       token: string;
       expiry: string;
-    }
+    };
   }
 }

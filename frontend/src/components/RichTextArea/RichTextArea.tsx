@@ -1,7 +1,7 @@
-import * as React from 'react';
-import { WrappedFieldProps } from "redux-form";
+import React from 'react';
+import { WrappedFieldProps } from 'redux-form';
 import ReactQuill from 'react-quill';
-import * as _ from 'lodash';
+import _ from 'lodash';
 import 'react-quill/dist/quill.snow.css';
 import styles from './RichTextArea.module.scss';
 
@@ -10,8 +10,8 @@ const hasErrored = (touched: boolean, errorMessage: string): boolean => (touched
 const modules = {
   toolbar: [
     ['bold', 'italic', 'underline'],
-    [{'list': 'ordered'}, {'list': 'bullet'}, {'indent': '-1'}, {'indent': '+1'}]
-  ]
+    [{list: 'ordered'}, {list: 'bullet'}, {indent: '-1'}, {indent: '+1'}],
+  ],
 };
 
 type RichTextAreaProps = WrappedFieldProps & {

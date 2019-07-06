@@ -1,7 +1,7 @@
-import * as _ from 'lodash';
+import _ from 'lodash';
 
 type FunctionType = (...args: any[]) => any;
-type ActionCreatorsMapObject = { [actionCreator: string]: FunctionType };
+interface ActionCreatorsMapObject { [actionCreator: string]: FunctionType; }
 export type ActionsUnion<A extends ActionCreatorsMapObject> = ReturnType<A[keyof A]>;
 
 interface Action<T extends string> { type: T; }
@@ -23,7 +23,7 @@ export const currencyFormat = (value: number): string => {
 };
 
 export const getAuthHeaders = () => ({
-  Authorization: `Bearer ${localStorage.getItem('token')}`
+  Authorization: `Bearer ${localStorage.getItem('token')}`,
 });
 
 export const getImageNameFromUrl = (url: string): string => {
@@ -32,4 +32,4 @@ export const getImageNameFromUrl = (url: string): string => {
 
 export const isAdminPage = (path: string): boolean => {
   return _.includes(path, 'admin');
-}
+};

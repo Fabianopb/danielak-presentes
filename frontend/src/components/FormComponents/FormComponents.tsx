@@ -1,6 +1,6 @@
-import * as React from 'react';
+import React from 'react';
 import { WrappedFieldProps, WrappedFieldInputProps } from 'redux-form';
-import * as _ from 'lodash';
+import _ from 'lodash';
 import { Form, Input, InputProps, TextArea, TextAreaProps, Checkbox, CheckboxProps, Dropdown, DropdownProps } from 'semantic-ui-react';
 import styles from './FormComponents.module.scss';
 
@@ -23,7 +23,8 @@ const FormInput = (props: FormInputProps) => {
         labelPosition={props.labelPosition}
         {...props.input}
         type={props.type}
-        placeholder={props.placeholder} />
+        placeholder={props.placeholder}
+      />
       <div className={styles.errorMessage}>{error && <span>{props.meta.error}</span>}</div>
     </Form.Field>
   );
@@ -53,7 +54,8 @@ const FormCheckbox = (props: FormCheckboxProps) => {
         label={props.formLabel}
         checked={props.input.value || false}
         value={props.value}
-        onChange={(_0, data) => props.input.onChange(data.checked)} />
+        onChange={(_0, data) => props.input.onChange(data.checked)}
+      />
     </Form.Field>
   );
 };

@@ -15,7 +15,7 @@ export enum ProductActionsEnum {
   DELETE_PRODUCT = 'DELETE_PRODUCT',
   DELETE_IMAGE = 'DELETE_IMAGE',
   SHOW_ADMIN_PRODUCT = 'SHOW_ADMIN_PRODUCT',
-  HANDLE_FILE_DROP = 'HANDLE_FILE_DROP'
+  HANDLE_FILE_DROP = 'HANDLE_FILE_DROP',
 }
 
 export const productActions = {
@@ -32,7 +32,7 @@ export const productActions = {
   deleteProduct: (id: string) => createAction(ProductActionsEnum.DELETE_PRODUCT, id),
   deleteImage: (image: ProductImage) => createAction(ProductActionsEnum.DELETE_IMAGE, image),
   showAdminProduct: (id: string) => createAction(ProductActionsEnum.SHOW_ADMIN_PRODUCT, id),
-  handleFileDrop: (files: any[]) => createAction(ProductActionsEnum.HANDLE_FILE_DROP, files)
+  handleFileDrop: (files: any[]) => createAction(ProductActionsEnum.HANDLE_FILE_DROP, files),
 };
 
 export type ProductActions = ActionsUnion<typeof productActions>;

@@ -1,6 +1,6 @@
 import { call, put, select } from 'redux-saga/effects';
-import * as Notifications from 'react-notification-system-redux';
-import * as _ from 'lodash';
+import Notifications from 'react-notification-system-redux';
+import _ from 'lodash';
 import { initialize } from 'redux-form';
 import { routerActions } from 'connected-react-router';
 import { categoryActions } from '../actions/categories';
@@ -12,7 +12,7 @@ import { CATEGORY_FORM } from '../forms/Category/CategoryForm';
 const notificationOpts = {
   autoDismiss: 5,
   position: 'tc' as 'tc',
-  title: ''
+  title: '',
 };
 
 export function * fetchCategoriesSaga() {
@@ -33,7 +33,7 @@ export function * fetchCategoriesSaga() {
 export function * fetchCategorySaga(action: ReturnType<typeof categoryActions.fetchCategory>) {
   try {
     yield put(categoryActions.startRequest());
-    const response: { data: Category } = yield call(categoryRequests.getCategoryById, action.payload);
+    const response: { data: Category[] } = yield call(categoryRequests.getCategoryById, action.payload);
     const category = response.data[0];
     yield put(initialize(CATEGORY_FORM, category));
     yield put(categoryActions.setActiveCategory(category));

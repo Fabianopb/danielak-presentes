@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators, Dispatch } from 'redux';
 import { Dimmer, Loader } from 'semantic-ui-react';
@@ -6,18 +6,18 @@ import { userActions } from '../../actions/users';
 import LoginForm from '../../forms/Login/Login';
 import styles from './LoginPage.module.scss';
 
-type StateProps = {
+interface StateProps {
   users: UsersState;
-};
+}
 
-type DispatchProps = {
+interface DispatchProps {
   userActions: typeof userActions;
-};
+}
 
 type LoginPageProps = StateProps & DispatchProps;
 
 class LoginPage extends React.Component<LoginPageProps> {
-  public render () {
+  public render() {
     const { isLogging } = this.props.users;
     return (
       <div className={styles.loginPage}>
@@ -45,7 +45,7 @@ const mapStateToProps = (state: RootState) => ({
 });
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
-  userActions: bindActionCreators({ ...userActions }, dispatch)
+  userActions: bindActionCreators({ ...userActions }, dispatch),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(LoginPage);
