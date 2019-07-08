@@ -37,10 +37,10 @@ const initialState: ChatWindowState = {
   ],
 };
 
-let scrollDiv: HTMLDivElement;
-
 class ChatWindow extends React.Component<ChatWindowProps, ChatWindowState> {
   public state = initialState;
+
+  private scrollEl = React.createRef<HTMLDivElement>();
 
   public componentDidMount() {
     const timestamp = localStorage.getItem('chatWindowTimestamp');
@@ -87,7 +87,7 @@ class ChatWindow extends React.Component<ChatWindowProps, ChatWindowState> {
                   return null;
                 }
               })}
-              <div ref={(el: HTMLDivElement) => scrollDiv = el} />
+              <div ref={this.scrollEl} />
             </div>
             <div className={styles.messageInput}>
               <Input
@@ -159,7 +159,9 @@ class ChatWindow extends React.Component<ChatWindowProps, ChatWindowState> {
   }
 
   private scrollToBottom = () => {
-    scrollDiv.scrollIntoView({ behavior: 'smooth' });
+    if (this.scrollEl && this.scrollEl.current) {
+      this.scrollEl.current.scrollIntoView({ behavior: 'smooth' });
+    }
   }
 }
 

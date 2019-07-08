@@ -90,7 +90,7 @@ export function * deleteCategorySaga(action: ReturnType<typeof categoryActions.d
 export function * changeCategorySaga(action: ReturnType<typeof categoryActions.changeCategory>) {
   try {
     yield put(categoryActions.startRequest());
-    const response = yield call(productRequests.getProductsByCategory, action.payload)
+    const response = yield call(productRequests.getProductsByCategory, action.payload as string);
     yield put(productActions.receiveProducts(response.data));
     const categories: Category[] = yield select(categorySelectors.categories);
     const activeCategory = _.find(categories, cat => cat._id === action.payload) as Category;

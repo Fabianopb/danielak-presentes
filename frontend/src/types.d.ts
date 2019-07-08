@@ -1,5 +1,5 @@
 import { compose } from 'redux';
-import { NotificationsState } from 'react-notification-system-redux';
+import { Notification } from 'react-notification-system';
 import { FormStateMap } from 'redux-form';
 import { RouterState } from 'connected-react-router';
 
@@ -14,7 +14,7 @@ declare global {
     messages: MessagesState;
     users: UsersState;
     form: FormStateMap;
-    notifications: NotificationsState;
+    notifications: Notification[];
     router: RouterState;
   }
 

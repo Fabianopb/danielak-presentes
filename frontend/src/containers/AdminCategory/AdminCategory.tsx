@@ -1,7 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { bindActionCreators, Dispatch } from 'redux';
-import { match } from 'react-router-dom';
+import { bindActionCreators } from 'redux';
 import { Dimmer, Loader, Icon, Button, Modal, Header } from 'semantic-ui-react';
 import { routerActions } from 'connected-react-router';
 import CategoryForm from '../../forms/Category/CategoryForm';
@@ -10,6 +9,7 @@ import styles from './AdminCategory.module.scss';
 
 interface StateProps {
   categories: CategoriesState;
+  search: string;
 }
 
 interface DispatchProps {
@@ -17,20 +17,16 @@ interface DispatchProps {
   routerActions: typeof routerActions;
 }
 
-interface OwnProps {
-  match: match<{id: string}>;
-}
-
-type AdminCategoryProps = StateProps & DispatchProps & OwnProps;
+type AdminCategoryProps = StateProps & DispatchProps;
 
 class AdminCategory extends React.Component<AdminCategoryProps> {
   public componentWillMount() {
-    this.props.categoryActions.fetchCategory(this.props.match.params.id);
+    this.props.categoryActions.fetchCategory(this.props.search);
   }
 
   public render() {
     const { isFetching: isFetchingCategories, isDialogOpen, activeCategory } = this.props.categories;
-    const { params } = this.props.match;
+    const { search } = this.props;
     const { deleteCategory } = this.props.categoryActions;
     const { openDialog, closeDialog } = this.props.categoryActions;
     const { goBack } = this.props.routerActions;
@@ -46,7 +42,7 @@ class AdminCategory extends React.Component<AdminCategoryProps> {
               icon={true}
               labelPosition="right"
               color="red"
-              disabled={params.id === 'new'}
+              disabled={search === 'new'}
               onClick={() => openDialog()}
             >
               Remover
@@ -85,20 +81,20 @@ class AdminCategory extends React.Component<AdminCategoryProps> {
   }
 
   private submitCategory = (category: Category) => {
-    if (this.props.match.params.id === 'new') {
+    if (this.props.search === 'new') {
       delete category._id;
     }
     this.props.categoryActions.upsertCategory(category);
   }
 }
 
-const mapStateToProps = (state: RootState) => ({
-  categories: state.categories,
-});
-
-const mapDispatchToProps = (dispatch: Dispatch) => ({
-  categoryActions: bindActionCreators({ ...categoryActions }, dispatch),
-  routerActions: bindActionCreators({ ...routerActions }, dispatch),
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(AdminCategory);
+export default connect<StateProps, DispatchProps, {}, RootState>(
+  (state) => ({
+    categories: state.categories,
+    search: state.router.location.search,
+  }),
+  (dispatch) => ({
+    categoryActions: bindActionCreators({ ...categoryActions }, dispatch),
+    routerActions: bindActionCreators({ ...routerActions }, dispatch),
+  }),
+)(AdminCategory);

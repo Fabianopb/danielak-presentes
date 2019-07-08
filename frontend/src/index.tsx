@@ -5,7 +5,7 @@ import { applyMiddleware, compose, createStore } from 'redux';
 import { Provider } from 'react-redux';
 import createSagaMiddleware from 'redux-saga';
 import { createBrowserHistory } from 'history';
-import { connectRouter, routerMiddleware, ConnectedRouter } from 'connected-react-router';
+import { routerMiddleware, ConnectedRouter } from 'connected-react-router';
 import rootSaga from './sagas/root';
 import rootReducer from './reducers/root';
 import Layout from './components/Layout/Layout';
@@ -34,10 +34,7 @@ const middleware = [routerMiddleware(history), sagaMiddleware];
 const composeEnhancers =
   (process.env.NODE_ENV !== 'production' && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__) || compose;
 
-const store = createStore(
-  connectRouter(history)(rootReducer),
-  composeEnhancers(applyMiddleware(...middleware)),
-);
+const store = createStore(rootReducer(history), composeEnhancers(applyMiddleware(...middleware)));
 
 sagaMiddleware.run(rootSaga);
 
@@ -56,11 +53,11 @@ ReactDOM.render(
           <CategoryMenu />
           <Switch>
             <Route exact={true} path="/" component={withTracker(ProductGrid)} />
-            <Route exact={true} path="/product/:id" component={withTracker(ProductDetail)} />
+            {/* <Route exact={true} path="/product/:id" component={withTracker(ProductDetail)} /> */}
             <Route exact={true} path="/login" component={LoginPage} />
             <Route exact={true} path="/about" component={withTracker(AboutPage)} />
             <ProtectedRoute exact={true} path="/admin" component={AdminMain} />
-            <ProtectedRoute path="/admin/product/:id" component={AdminProduct} />
+            {/* <ProtectedRoute path="/admin/product/:id" component={AdminProduct} /> */}
             <ProtectedRoute path="/admin/category/:id" component={AdminCategory} />
             <Route component={NotFoundPage} />
           </Switch>

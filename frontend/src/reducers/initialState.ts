@@ -39,6 +39,6 @@ export const initialState: RootState = {
       hash: '',
       state: null,
     },
-    action: 'POP' as RouterActionType.POP,
+    action: 'POP' as RouterActionType,
   },
 };
