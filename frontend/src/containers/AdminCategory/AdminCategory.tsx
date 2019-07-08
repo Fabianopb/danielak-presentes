@@ -9,7 +9,7 @@ import styles from './AdminCategory.module.scss';
 
 interface StateProps {
   categories: CategoriesState;
-  search: string;
+  match: string;
 }
 
 interface DispatchProps {
@@ -21,12 +21,12 @@ type AdminCategoryProps = StateProps & DispatchProps;
 
 class AdminCategory extends React.Component<AdminCategoryProps> {
   public componentWillMount() {
-    this.props.categoryActions.fetchCategory(this.props.search);
+    this.props.categoryActions.fetchCategory(this.props.match);
   }
 
   public render() {
     const { isFetching: isFetchingCategories, isDialogOpen, activeCategory } = this.props.categories;
-    const { search } = this.props;
+    const { match } = this.props;
     const { deleteCategory } = this.props.categoryActions;
     const { openDialog, closeDialog } = this.props.categoryActions;
     const { goBack } = this.props.routerActions;
@@ -42,7 +42,7 @@ class AdminCategory extends React.Component<AdminCategoryProps> {
               icon={true}
               labelPosition="right"
               color="red"
-              disabled={search === 'new'}
+              disabled={match === 'new'}
               onClick={() => openDialog()}
             >
               Remover
@@ -81,7 +81,7 @@ class AdminCategory extends React.Component<AdminCategoryProps> {
   }
 
   private submitCategory = (category: Category) => {
-    if (this.props.search === 'new') {
+    if (this.props.match === 'new') {
       delete category._id;
     }
     this.props.categoryActions.upsertCategory(category);
@@ -91,7 +91,7 @@ class AdminCategory extends React.Component<AdminCategoryProps> {
 export default connect<StateProps, DispatchProps, {}, RootState>(
   (state) => ({
     categories: state.categories,
-    search: state.router.location.search,
+    match: state.router.location.pathname.replace('/admin/category/', ''),
   }),
   (dispatch) => ({
     categoryActions: bindActionCreators({ ...categoryActions }, dispatch),

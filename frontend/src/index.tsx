@@ -53,11 +53,11 @@ ReactDOM.render(
           <CategoryMenu />
           <Switch>
             <Route exact={true} path="/" component={withTracker(ProductGrid)} />
-            {/* <Route exact={true} path="/product/:id" component={withTracker(ProductDetail)} /> */}
+            <Route exact={true} path="/product/:id" component={withTracker(ProductDetail)} />
             <Route exact={true} path="/login" component={LoginPage} />
             <Route exact={true} path="/about" component={withTracker(AboutPage)} />
             <ProtectedRoute exact={true} path="/admin" component={AdminMain} />
-            {/* <ProtectedRoute path="/admin/product/:id" component={AdminProduct} /> */}
+            <ProtectedRoute path="/admin/product/:id" component={AdminProduct} />
             <ProtectedRoute path="/admin/category/:id" component={AdminCategory} />
             <Route component={NotFoundPage} />
           </Switch>

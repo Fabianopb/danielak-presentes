@@ -1,6 +1,5 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { match } from 'react-router-dom';
 import { bindActionCreators, Dispatch } from 'redux';
 import { Dimmer, Loader, Button, Icon, Grid, Popup, Modal } from 'semantic-ui-react';
 import { routerActions } from 'connected-react-router';
@@ -12,6 +11,7 @@ import styles from './ProductDetail.module.scss';
 
 interface StateProps {
   products: ProductsState;
+  match: string;
 }
 
 interface DispatchProps {
@@ -19,11 +19,7 @@ interface DispatchProps {
   routerActions: typeof routerActions;
 }
 
-interface OwnProps {
-  match: match<{id: string}>;
-}
-
-type ProductDetailProps = StateProps & DispatchProps & OwnProps;
+type ProductDetailProps = StateProps & DispatchProps;
 
 interface ProductDetailState {
   isModalOpen: boolean;
@@ -35,7 +31,7 @@ class ProductDetail extends React.Component<ProductDetailProps, ProductDetailSta
   };
 
   public componentDidMount() {
-    this.props.productActions.getProductDetail(this.props.match.params.id);
+    this.props.productActions.getProductDetail(this.props.match);
   }
 
   public render() {
@@ -156,6 +152,7 @@ class ProductDetail extends React.Component<ProductDetailProps, ProductDetailSta
 
 const mapStateToProps = (state: RootState) => ({
   products: state.products,
+  match: state.router.location.pathname.replace('/product/', ''),
 });
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({

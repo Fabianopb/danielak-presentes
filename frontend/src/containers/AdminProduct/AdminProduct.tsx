@@ -1,7 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators, Dispatch } from 'redux';
-import { match } from 'react-router-dom';
 import { formValueSelector } from 'redux-form';
 import { Dimmer, Loader, Icon, Modal, Button, Header } from 'semantic-ui-react';
 import ProductForm from '../../forms/Product/Product';
@@ -16,6 +15,7 @@ interface StateProps {
   formValues: {
     images: ProductImage[];
   };
+  match: string;
 }
 
 interface DispatchProps {
@@ -24,16 +24,12 @@ interface DispatchProps {
   routerActions: typeof routerActions;
 }
 
-interface OwnProps {
-  match: match<{id: string}>;
-}
-
-type AdminProductProps = StateProps & DispatchProps & OwnProps;
+type AdminProductProps = StateProps & DispatchProps;
 
 class AdminProduct extends React.Component<AdminProductProps> {
   public componentWillMount() {
     this.props.categoryActions.fetchCategories();
-    this.props.productActions.fetchProducts(this.props.match.params.id);
+    this.props.productActions.fetchProducts(this.props.match);
   }
 
   public render() {
@@ -42,7 +38,7 @@ class AdminProduct extends React.Component<AdminProductProps> {
     const { images } = this.props.formValues;
     const { openDialog, closeDialog, deleteProduct, handleFileDrop, deleteImage } = this.props.productActions;
     const { goBack } = this.props.routerActions;
-    const { params } = this.props.match;
+    const { match } = this.props;
     return (
       <div className={styles.adminProduct}>
         <div className={styles.addProductHeader}>
@@ -55,7 +51,7 @@ class AdminProduct extends React.Component<AdminProductProps> {
               icon={true}
               labelPosition="right"
               color="red"
-              disabled={params.id === 'new'}
+              disabled={match === 'new'}
               onClick={() => openDialog(activeProduct as Product)}
             >
               Remover
@@ -95,7 +91,7 @@ class AdminProduct extends React.Component<AdminProductProps> {
   }
 
   private submitProduct = (product: Product): void => {
-    if (this.props.match.params.id === 'new') {
+    if (this.props.match === 'new') {
       delete product._id;
     }
     this.props.productActions.upsertProduct(product as Product);
@@ -108,6 +104,7 @@ const mapStateToProps = (state: RootState) => ({
   formValues: {
     images: formValueSelector('editProductForm')(state, 'image'),
   },
+  match: state.router.location.pathname.replace('/admin/product/', ''),
 });
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
