@@ -2,7 +2,6 @@ import React from 'react';
 import { Field, reduxForm, InjectedFormProps } from 'redux-form';
 import { Form, Icon } from 'semantic-ui-react';
 import { Prompt } from 'react-router-dom';
-import _ from 'lodash';
 import { FormInput } from '../../components/FormComponents/FormComponents';
 import styles from './CategoryForm.module.scss';
 

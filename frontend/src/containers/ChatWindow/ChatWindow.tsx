@@ -94,7 +94,7 @@ class ChatWindow extends React.Component<ChatWindowProps, ChatWindowState> {
                 value={input}
                 transparent={true}
                 placeholder="Digite aqui..."
-                onChange={this.handleChange}
+                onChange={(_, data: InputOnChangeData) => this.setState({ input: data.value })}
                 onKeyPress={this.handleKeyPress}
               />
               <Icon name="send" color="grey" link={true} onClick={this.sendMessage} />
@@ -107,10 +107,6 @@ class ChatWindow extends React.Component<ChatWindowProps, ChatWindowState> {
 
   private toggleWindow = (): void => {
     this.setState((prevState) => ({ isOpen: !prevState.isOpen }));
-  }
-
-  private handleChange = ({}, data: InputOnChangeData) => {
-    this.setState({ input: data.value });
   }
 
   private handleKeyPress = (event: { key: string }) => {

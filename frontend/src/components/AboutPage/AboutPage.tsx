@@ -28,11 +28,15 @@ const AboutPage: React.SFC<{}> = () => (
           </div>
           <div className={styles.channel}>
             <Icon name="facebook" size="large" className={styles.facebook}/>
-            <a href="https://www.facebook.com/danikpresentes/" target="_blank">https://www.facebook.com/danikpresentes</a>
+            <a href="https://www.facebook.com/danikpresentes/" target="_blank" rel="noopener noreferrer">
+              https://www.facebook.com/danikpresentes
+            </a>
           </div>
           <div className={styles.channel}>
             <Icon name="instagram" size="large" className={styles.instagram}/>
-            <a href="https://www.instagram.com/danikpresentes/" target="_blank">https://www.instagram.com/danikpresentes</a>
+            <a href="https://www.instagram.com/danikpresentes/" target="_blank" rel="noopener noreferrer">
+              https://www.instagram.com/danikpresentes
+            </a>
           </div>
         </div>
       </div>

@@ -131,7 +131,9 @@ class ProductDetail extends React.Component<ProductDetailProps, ProductDetailSta
             </p>
             <p>
               <Icon name="facebook" size="large" className={styles.facebook}/>
-              <a href="https://www.facebook.com/danikpresentes/" target="_blank">https://www.facebook.com/danikpresentes</a>
+              <a href="https://www.facebook.com/danikpresentes/" target="_blank" rel="noopener noreferrer">
+                https://www.facebook.com/danikpresentes
+              </a>
             </p>
           </Modal.Content>
           <Modal.Actions>

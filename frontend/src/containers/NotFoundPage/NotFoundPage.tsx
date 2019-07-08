@@ -33,7 +33,7 @@ class NotFoundPage extends React.Component<NotFoundPageProps> {
             <p>A página que você procurava não foi encontrada</p>
             <p>
               Talvez você estivesse procurando por algo em meu blog? Se for este o caso tente acessar:<br />
-              <a href={blogUrl} target="_blank">{blogUrl}</a>
+              <a href={blogUrl} target="_blank" rel="noopener noreferrer">{blogUrl}</a>
             </p>
             <p>E de qualquer forma não deixe de conferir nossos lindos produtos!</p>
             <Button primary={true} name="home" onClick={() => push('/')}>Home</Button>

@@ -1,6 +1,5 @@
 import { call, put, select } from 'redux-saga/effects';
 import Notifications from 'react-notification-system-redux';
-import _ from 'lodash';
 import { messageActions } from '../actions/messages';
 import { messageRequests } from '../modules/requests';
 import { messageSelectors } from '../modules/selectors';
