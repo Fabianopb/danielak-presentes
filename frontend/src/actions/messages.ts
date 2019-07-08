@@ -9,7 +9,7 @@ export enum MessageActionsEnum {
   FETCH_MESSAGES = 'FETCH_MESSAGES',
   SAVE_MESSAGE = 'SAVE_MESSAGE',
   TOGGLE_ANSWER = 'TOGGLE_ANSWER',
-  DELETE_MESSAGE = 'DELETE_MESSAGE'
+  DELETE_MESSAGE = 'DELETE_MESSAGE',
 }
 
 export const messageActions = {
@@ -22,7 +22,7 @@ export const messageActions = {
   fetchMessages: () => createAction(MessageActionsEnum.FETCH_MESSAGES),
   saveMessage: (chatHistory: ChatHistory[], id?: string) => createAction(MessageActionsEnum.SAVE_MESSAGE, { chatHistory, id }),
   toggleAnswer: (id: string) => createAction(MessageActionsEnum.TOGGLE_ANSWER, id),
-  deleteMessage: (id: string) => createAction(MessageActionsEnum.DELETE_MESSAGE, id)
+  deleteMessage: (id: string) => createAction(MessageActionsEnum.DELETE_MESSAGE, id),
 };
 
 export type MessageActions = ActionsUnion<typeof messageActions>;

@@ -8,7 +8,7 @@ import { setSession, clearSession } from '../modules/session';
 const notificationOpts = {
   position: 'tc' as 'tc',
   autoDismiss: 5,
-  title: ''
+  title: '',
 };
 
 export function * loginSaga(action: ReturnType<typeof userActions.login>) {

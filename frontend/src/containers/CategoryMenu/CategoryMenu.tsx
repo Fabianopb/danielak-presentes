@@ -1,33 +1,33 @@
-import * as React from 'react';
+import React from 'react';
 import { bindActionCreators, Dispatch } from 'redux';
 import { RouterState, routerActions } from 'connected-react-router';
 import { connect } from 'react-redux';
 import { Row, Col } from 'react-flexbox-grid';
 import classNames from 'classnames';
-import * as _ from 'lodash';
-import * as queryString from 'query-string';
+import _ from 'lodash';
+import queryString from 'query-string';
 import { productActions } from '../../actions/products';
 import { categoryActions } from '../../actions/categories';
 import { userActions } from '../../actions/users';
 import { isAdminPage } from '../../modules/helpers';
 import styles from './CategoryMenu.module.scss';
 
-type StateProps = {
+interface StateProps {
   categories: CategoriesState;
   router: RouterState;
-};
+}
 
-type DispatchProps = {
+interface DispatchProps {
   categoryActions: typeof categoryActions;
   productActions: typeof productActions;
   routerActions: typeof routerActions;
   userActions: typeof userActions;
-};
+}
 
 type CategoryMenuProps = StateProps & DispatchProps;
 
 class CategoryMenu extends React.Component<CategoryMenuProps> {
-  public componentDidMount () {
+  public componentDidMount() {
     this.props.categoryActions.fetchCategories();
   }
 
@@ -37,7 +37,7 @@ class CategoryMenu extends React.Component<CategoryMenuProps> {
     }
   }
 
-  public render () {
+  public render() {
     const { data } = this.props.categories;
     const { pathname } = this.props.router.location;
     const { logout } = this.props.userActions;
@@ -63,7 +63,7 @@ class CategoryMenu extends React.Component<CategoryMenuProps> {
                       className={classNames(styles.menuItem, { [styles.activeItem]: isRoot && query.category === category._id })}
                       onClick={() => push(`/?category=${category._id}`)}
                     >{category.name}
-                    </div>
+                    </div>,
                   )}
                 </div>
                 <div className={styles.menuItem} onClick={() => push('/about')}>Contato</div>
@@ -81,14 +81,14 @@ class CategoryMenu extends React.Component<CategoryMenuProps> {
 
 const mapStateToProps = (state: RootState) => ({
   categories: state.categories,
-  router: state.router
+  router: state.router,
 });
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
   categoryActions: bindActionCreators({ ...categoryActions }, dispatch),
   productActions: bindActionCreators({ ...productActions }, dispatch),
   routerActions: bindActionCreators({ ...routerActions }, dispatch),
-  userActions: bindActionCreators({ ...userActions }, dispatch)
+  userActions: bindActionCreators({ ...userActions }, dispatch),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(CategoryMenu);

@@ -1,10 +1,10 @@
-import * as React from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 
-import * as Notifications from 'react-notification-system-redux';
+import Notifications from 'react-notification-system-redux';
 
 class NotificationsManager extends React.Component<Notifications.NotificationsProps> {
-  public render () {
+  public render() {
     const {notifications} = this.props;
     return (
       <Notifications
@@ -15,7 +15,7 @@ class NotificationsManager extends React.Component<Notifications.NotificationsPr
 }
 
 const mapStateToProps = (state: RootState) => ({
-  notifications: state.notifications
+  notifications: state.notifications,
 });
 
 export default connect(mapStateToProps, null)(NotificationsManager);

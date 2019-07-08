@@ -10,26 +10,26 @@
   "dependencies": {
     "axios": "^0.18.0",
     "classnames": "^2.2.6",
-    "connected-react-router": "^4.4.1",
+    "connected-react-router": "^6.5.0",
     "history": "^4.6.3",
     "lodash": "^4.17.4",
     "moment": "^2.20.1",
     "query-string": "^6.1.0",
-    "react": "^16.4.1",
-    "react-dom": "^16.4.1",
+    "react": "^16.8.6",
+    "react-dom": "^16.8.6",
     "react-dropzone": "^4.2.8",
     "react-flexbox-grid": "^2.1.2",
     "react-ga": "^2.5.3",
     "react-notification-system": "^0.2.17",
     "react-notification-system-redux": "^1.2.0",
     "react-quill": "^1.2.6",
-    "react-redux": "^5.0.5",
+    "react-redux": "^7.1.0",
     "react-responsive-carousel": "^3.1.45",
-    "react-router-dom": "^4.1.1",
-    "react-scripts-ts": "^2.16.0",
-    "redux": "^4.0.0",
-    "redux-form": "^7.4.2",
-    "redux-saga": "^0.16.0",
+    "react-router-dom": "^5.0.1",
+    "react-scripts": "^3.0.1",
+    "redux": "^4.0.1",
+    "redux-form": "^8.2.4",
+    "redux-saga": "^1.0.5",
     "semantic-ui-css": "^2.2.10",
     "semantic-ui-react": "^0.82.1"
   },
@@ -39,24 +39,35 @@
     "@types/lodash": "^4.14.116",
     "@types/node": "^10.5.4",
     "@types/query-string": "^6.1.0",
-    "@types/react": "^16.4.7",
-    "@types/react-dom": "^16.0.6",
+    "@types/react": "^16.8.23",
+    "@types/react-dom": "^16.8.4",
     "@types/react-dropzone": "^4.2.1",
     "@types/react-notification-system-redux": "^1.1.5",
-    "@types/react-redux": "^6.0.5",
-    "@types/react-router-dom": "^4.3.0",
-    "@types/redux-form": "^7.4.5",
-    "@types/redux-saga": "^0.10.5",
+    "@types/react-redux": "^7.1.1",
+    "@types/react-router-dom": "^4.3.4",
+    "@types/redux-form": "^8.1.4",
     "node-sass": "^4.8.3",
-    "react-app-rewire-css-modules": "github:codebandits/react-app-rewire-css-modules",
-    "react-app-rewired": "^1.5.0",
     "sass-loader": "^6.0.7",
-    "typescript": "^3.0.1"
+    "tslint": "^5.18.0",
+    "tslint-react": "^4.0.0",
+    "typescript": "^3.5.2"
   },
   "scripts": {
-    "start": "react-app-rewired start --scripts-version react-scripts-ts",
-    "build": "react-app-rewired build --scripts-version react-scripts-ts",
+    "start": "react-scripts start",
+    "build": "react-scripts build",
     "postinstall": "yarn build",
-    "test": "react-app-rewired test --scripts-version react-scripts-ts --env=jsdom"
+    "test": "react-scripts test"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
   }
 }

@@ -1,6 +1,6 @@
 import { call, put, select, all } from 'redux-saga/effects';
-import * as _ from 'lodash';
-import * as Notifications from 'react-notification-system-redux';
+import _ from 'lodash';
+import Notifications from 'react-notification-system-redux';
 import { initialize, change, formValueSelector } from 'redux-form';
 import { routerActions } from 'connected-react-router';
 import { productActions } from '../actions/products';
@@ -12,7 +12,7 @@ import { PRODUCT_FORM } from '../forms/Product/Product';
 const notificationOpts = {
   position: 'tc' as 'tc',
   autoDismiss: 5,
-  title: ''
+  title: '',
 };
 
 export function * getProductDetailSaga(action: ReturnType<typeof productActions.getProductDetail>) {
@@ -98,7 +98,7 @@ export function * deleteProductSaga(action: ReturnType<typeof productActions.del
 
 export function * deleteImageSaga(action: ReturnType<typeof productActions.deleteImage>) {
   try {
-    const imageObject = action.payload
+    const imageObject = action.payload;
     const images: ProductImage[] = yield select(formValueSelector(PRODUCT_FORM), 'image');
     const imageIndex = _.findIndex(images, image => _.isEqual(image, imageObject));
     const largeImageName = getImageNameFromUrl(imageObject.large);
@@ -131,7 +131,7 @@ export function * handleFileDropSaga(action: ReturnType<typeof productActions.ha
     const uploadResponse: { data: any[] } = yield call(fileRequests.uploadFile, formData);
     images[imageIndex] = {
       large: uploadResponse.data[0].Location,
-      small: uploadResponse.data[1].Location
+      small: uploadResponse.data[1].Location,
     };
     yield put(change(PRODUCT_FORM, 'image', null));
     yield put(change(PRODUCT_FORM, 'image', images));

@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import { Field, reduxForm, InjectedFormProps } from 'redux-form';
 import { Form } from 'semantic-ui-react';
 import { FormInput } from '../../components/FormComponents/FormComponents';
@@ -17,18 +17,18 @@ const Login: React.SFC<InjectedFormProps<LoginFormData, {}>> = ({ handleSubmit, 
     <Form onSubmit={handleSubmit} >
       <Field
         component={FormInput}
-        formLabel='e-mail'
-        placeholder='e-mail'
-        name='email'
+        formLabel="e-mail"
+        placeholder="e-mail"
+        name="email"
         required={true}
         validate={[required]}
       />
       <Field
         component={FormInput}
-        formLabel='password'
-        type='password'
-        placeholder='password'
-        name='password'
+        formLabel="password"
+        type="password"
+        placeholder="password"
+        name="password"
         required={true}
         validate={[required]}
       />

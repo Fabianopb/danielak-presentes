@@ -13,7 +13,7 @@ export enum CategoryActionsEnum {
   UPSERT_CATEGORY = 'UPSERT_CATEGORY',
   SHOW_ADMIN_CATEGORY = 'SHOW_ADMIN_CATEGORY',
   DELETE_CATEGORY = 'DELETE_CATEGORY',
-  CHANGE_CATEGORY = 'CHANGE_CATEGORY'
+  CHANGE_CATEGORY = 'CHANGE_CATEGORY',
 }
 
 export const categoryActions = {
@@ -29,7 +29,7 @@ export const categoryActions = {
   upsertCategory: (category: Category) => createAction(CategoryActionsEnum.UPSERT_CATEGORY, category),
   showAdminCategory: (id: string) => createAction(CategoryActionsEnum.SHOW_ADMIN_CATEGORY, id),
   deleteCategory: (id: string) => createAction(CategoryActionsEnum.DELETE_CATEGORY, id),
-  changeCategory: (id: string | null) => createAction(CategoryActionsEnum.CHANGE_CATEGORY, id)
+  changeCategory: (id: string | null) => createAction(CategoryActionsEnum.CHANGE_CATEGORY, id),
 };
 
 export type CategoryActions = ActionsUnion<typeof categoryActions>;

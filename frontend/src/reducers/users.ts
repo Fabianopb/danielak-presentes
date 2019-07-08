@@ -10,6 +10,6 @@ const usersReducer = (users = usersState, action: UserActions): UsersState => {
     default:
       return users;
   }
-}
+};
 
 export default usersReducer;

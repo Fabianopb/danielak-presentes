@@ -1,23 +1,23 @@
-import * as React from 'react';
+import React from 'react';
 import { Image, Icon } from 'semantic-ui-react';
-import * as _ from 'lodash';
+import _ from 'lodash';
 import styles from './ImageGallery.module.scss';
 
-type ImageGalleryProps = {
+interface ImageGalleryProps {
   images: Array<{ large: string; small: string; }>;
   selectedIndex: number;
-};
+}
 
-type ImageGalleryState = {
+interface ImageGalleryState {
   selectedImageIndex: number;
-};
+}
 
 class ImageGallery extends React.Component<ImageGalleryProps, ImageGalleryState> {
   public state = {
-    selectedImageIndex: this.props.selectedIndex
-  }
+    selectedImageIndex: this.props.selectedIndex,
+  };
 
-  public render () {
+  public render() {
     const { selectedImageIndex } = this.state;
     const { images } = this.props;
     return (
@@ -27,10 +27,10 @@ class ImageGallery extends React.Component<ImageGalleryProps, ImageGalleryState>
           { _.map(images, (image: string, index: number) => (
             <div key={index} className={styles.thumbnailBox}>
               { selectedImageIndex === index ? [
-                <Image key='image' className={styles.image} src={image.small} />,
-                <div key='overlay' className={styles.selectedOverlay}>
-                  <Icon disabled={true} name='search' size='large' />
-                </div>
+                <Image key="image" className={styles.image} src={image.small} />,
+                <div key="overlay" className={styles.selectedOverlay}>
+                  <Icon disabled={true} name="search" size="large" />
+                </div>,
               ] : (
                 <Image
                   src={image.small}
@@ -45,7 +45,7 @@ class ImageGallery extends React.Component<ImageGalleryProps, ImageGalleryState>
     );
   }
 
-  private selectImage (imageIndex: number) {
+  private selectImage(imageIndex: number) {
     this.setState({selectedImageIndex: imageIndex});
   }
 }

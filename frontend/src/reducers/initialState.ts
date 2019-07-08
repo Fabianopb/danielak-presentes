@@ -4,25 +4,25 @@ export const categoriesState: CategoriesState = {
   isFetching: false,
   data: [],
   isDialogOpen: false,
-  activeCategory: null
+  activeCategory: null,
 };
 
 export const productsState: ProductsState = {
   isFetching: false,
   activeProduct: null,
   isDialogOpen: false,
-  data: []
+  data: [],
 };
 
 export const messagesState: MessagesState = {
   isFetching: false,
   data: [],
   activeMessageId: undefined,
-  isDialogOpen: false
+  isDialogOpen: false,
 };
 
 export const usersState: UsersState = {
-  isLogging: false
+  isLogging: false,
 };
 
 export const initialState: RootState = {
@@ -37,8 +37,8 @@ export const initialState: RootState = {
       pathname: '',
       search: '',
       hash: '',
-      state: null
+      state: null,
     },
-    action: "POP" as RouterActionType.POP
-  }
+    action: 'POP' as RouterActionType,
+  },
 };

@@ -1,11 +1,14 @@
-import * as _ from 'lodash';
+import _ from 'lodash';
 
 type FunctionType = (...args: any[]) => any;
-type ActionCreatorsMapObject = { [actionCreator: string]: FunctionType };
+interface ActionCreatorsMapObject { [actionCreator: string]: FunctionType; }
 export type ActionsUnion<A extends ActionCreatorsMapObject> = ReturnType<A[keyof A]>;
 
 interface Action<T extends string> { type: T; }
 interface ActionWithPayload<T extends string, P> extends Action<T> { payload: P; }
+
+// tslint:disable-next-line:no-any
+export interface AnyAction { type: string; payload?: any; }
 
 export function createAction<T extends string>(type: T): Action<T>;
 export function createAction<T extends string, P>(type: T, payload: P): ActionWithPayload<T, P>;
@@ -23,7 +26,7 @@ export const currencyFormat = (value: number): string => {
 };
 
 export const getAuthHeaders = () => ({
-  Authorization: `Bearer ${localStorage.getItem('token')}`
+  Authorization: `Bearer ${localStorage.getItem('token')}`,
 });
 
 export const getImageNameFromUrl = (url: string): string => {
@@ -32,4 +35,4 @@ export const getImageNameFromUrl = (url: string): string => {
 
 export const isAdminPage = (path: string): boolean => {
   return _.includes(path, 'admin');
-}
+};

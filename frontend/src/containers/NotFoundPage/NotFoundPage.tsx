@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import { bindActionCreators, Dispatch } from 'redux';
 import { connect } from 'react-redux';
 import { Row, Col } from 'react-flexbox-grid';
@@ -8,13 +8,13 @@ import { Image, Button } from 'semantic-ui-react';
 import eyes from '../../assets/eyes-404.png';
 import styles from './NotFoundPage.module.scss';
 
-type OwnProps = {
-  location: Location
-};
+interface OwnProps {
+  location: Location;
+}
 
-type DispatchProps = {
+interface DispatchProps {
   routerActions: typeof routerActions;
-};
+}
 
 type NotFoundPageProps = OwnProps & DispatchProps;
 
@@ -33,10 +33,10 @@ class NotFoundPage extends React.Component<NotFoundPageProps> {
             <p>A página que você procurava não foi encontrada</p>
             <p>
               Talvez você estivesse procurando por algo em meu blog? Se for este o caso tente acessar:<br />
-              <a href={blogUrl} target='_blank'>{blogUrl}</a>
+              <a href={blogUrl} target="_blank" rel="noopener noreferrer">{blogUrl}</a>
             </p>
             <p>E de qualquer forma não deixe de conferir nossos lindos produtos!</p>
-            <Button primary={true} name='home' onClick={() => push('/')}>Home</Button>
+            <Button primary={true} name="home" onClick={() => push('/')}>Home</Button>
           </div>
         </Col>
       </Row>

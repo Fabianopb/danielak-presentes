@@ -1,7 +1,7 @@
-import axios, { AxiosPromise } from "axios";
+import axios, { AxiosPromise } from 'axios';
 
 const getAuthHeaders = () => ({
-  Authorization: `Bearer ${localStorage.getItem('token')}`
+  Authorization: `Bearer ${localStorage.getItem('token')}`,
 });
 
 export const userRequests = {
@@ -12,7 +12,7 @@ export const userRequests = {
    */
   login: (credentials: LoginRequestParams): AxiosPromise<LoginRequestResponse> => {
     return axios.post(`/api/users/login`, credentials);
-  }
+  },
 };
 
 export const categoryRequests = {
@@ -23,7 +23,7 @@ export const categoryRequests = {
     return axios.get(`/api/categories`);
   },
   putCategory: (category: Category) => {
-    return axios.put(`/api/categories/${category._id}`, category, { headers: getAuthHeaders() })
+    return axios.put(`/api/categories/${category._id}`, category, { headers: getAuthHeaders() });
   },
   postCategory: (category: Category) => {
     return axios.post(`/api/categories`, category, { headers: getAuthHeaders() });
@@ -90,7 +90,7 @@ export const productRequests = {
    */
   deleteProduct: (id: string): AxiosPromise<any> => {
     return axios.delete(`/api/products/${id}`, { headers: getAuthHeaders() });
-  }
+  },
 };
 
 export const messageRequests = {
@@ -128,16 +128,16 @@ export const messageRequests = {
    */
   deleteMessage: (id: string): AxiosPromise<any> => {
     return axios.delete(`/api/messages/${id}`, { headers: getAuthHeaders() });
-  }
+  },
 };
 
 export const fileRequests = {
   uploadFile: (formData: FormData) => {
     return axios.post(`/api/files/upload-file`, formData, {
-      headers: { 'Content-Type': 'multipart/form-data', ...getAuthHeaders() }
+      headers: { 'Content-Type': 'multipart/form-data', ...getAuthHeaders() },
     });
   },
   deleteFiles: (imageNames: string[]) => {
-    return axios.post('/api/files/delete-file', { images: imageNames }, { headers: getAuthHeaders() })
-  }
+    return axios.post('/api/files/delete-file', { images: imageNames }, { headers: getAuthHeaders() });
+  },
 };
