@@ -10,7 +10,7 @@
     "start": "nodemon server/server.js"
   },
   "devDependencies": {
-    "nodemon": "^1.18.9"
+    "nodemon": "^2.0.4"
   },
   "dependencies": {
     "aws-sdk": "^2.325.0",
