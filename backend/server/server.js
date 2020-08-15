@@ -20,7 +20,7 @@ app.use('/api/categories', categories);
 app.use('/api/users', users);
 app.use('/api/messages', messages);
 
-mongoose.connect(process.env.DANIK_MONGODB, { useNewUrlParser: true });
+mongoose.connect(process.env.DANIK_MONGODB, { useNewUrlParser: true, useUnifiedTopology: true });
 
 app.use(express.static(path.resolve('..', 'frontend', 'build')));
 
