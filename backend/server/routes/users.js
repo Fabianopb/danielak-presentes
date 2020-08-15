@@ -9,7 +9,9 @@ router.route('/register')
   .get(async (request, response) => {
     try {
       const users = await User.find({});
-      if (users.length > 0) throw new Error('Admin user already exists');
+      if (users.length > 0) {
+        return response.status(400).send('Admin user already exists!');
+      };
       const user = new User();
       user.email = process.env.DANIK_USERNAME;
       user.setPassword(process.env.DANIK_PASSWORD);
