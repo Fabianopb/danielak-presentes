@@ -22,10 +22,10 @@ app.use('/api/messages', messages);
 
 mongoose.connect(process.env.DANIK_MONGODB, { useNewUrlParser: true, useUnifiedTopology: true });
 
-app.use(express.static(path.resolve('..', 'frontend', 'build')));
+app.use(express.static(path.resolve('..', 'build')));
 
 app.get('*', (request, response) => {
-  response.sendFile(path.resolve('..', 'frontend', 'build', 'index.html'));
+  response.sendFile(path.resolve('..', 'build', 'index.html'));
 });
 
 app.listen(process.env.PORT || 9000);
