@@ -20,6 +20,19 @@
     ]
   },
   "dependencies": {
+    "aws-sdk": "^2.325.0",
+    "bluebird": "^3.5.2",
+    "body-parser": "^1.18.3",
+    "dotenv": "^8.2.0",
+    "express": "^4.16.3",
+    "express-jwt": "^5.3.1",
+    "file-type": "^9.0.0",
+    "jsonwebtoken": "^8.3.0",
+    "mongoose": "^5.7.5",
+    "multiparty": "^4.2.2",
+    "passport": "^0.4.0",
+    "passport-local": "^1.0.0",
+    "sharp": "^0.25.4",
     "axios": "^0.18.0",
     "classnames": "^2.2.6",
     "connected-react-router": "^6.5.0",
@@ -59,6 +72,7 @@
     "@types/react-router-dom": "^4.3.4",
     "@types/redux-form": "^8.1.4",
     "concurrently": "^4.0.1",
+    "nodemon": "^2.0.4",
     "node-sass": "^4.8.3",
     "sass-loader": "^6.0.7",
     "tslint": "^5.18.0",
@@ -67,15 +81,10 @@
   },
   "scripts": {
     "start-client": "react-scripts start",
+    "start-server": "nodemon server/server.js",
     "build-client": "react-scripts build",
-    "postinstall": "yarn build",
-    "test": "react-scripts test",
-    "install": "yarn install:backend",
-    "install:backend": "cd backend && yarn install",
-    "build": "yarn build-client",
-    "start": "concurrently \"yarn start:backend\" \"yarn start-client\"",
-    "start:db": "sudo mongod --dbpath /data/danik/ --port 29019",
-    "start:backend": "cd backend && yarn start",
-    "serve": "cd backend && node server/server.js"
+    "heroku-postbuild": "yarn build-client",
+    "test-client": "react-scripts test",
+    "serve": "node server/server.js"
   }
 }
