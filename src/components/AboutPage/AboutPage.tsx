@@ -3,7 +3,7 @@ import { Row, Col } from 'react-flexbox-grid';
 import { Icon } from 'semantic-ui-react';
 import styles from './AboutPage.module.scss';
 
-const AboutPage: React.SFC<{}> = () => (
+const AboutPage = () => (
   <Row center="xs">
     <Col xs={12} lg={8} >
       <div className={styles.aboutPage}>
