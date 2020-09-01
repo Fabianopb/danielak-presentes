@@ -1,53 +1,43 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Image, Icon } from 'semantic-ui-react';
 import _ from 'lodash';
 import styles from './ImageGallery.module.scss';
 
-interface ImageGalleryProps {
+type ImageGalleryProps = {
   images: Array<{ large: string; small: string; }>;
   selectedIndex: number;
-}
+};
 
-interface ImageGalleryState {
-  selectedImageIndex: number;
-}
+const ImageGallery = ({ images, selectedIndex }: ImageGalleryProps) => {
+  const [selectedImageIndex, setSelectedImageIndex] = useState<number>(selectedIndex);
 
-class ImageGallery extends React.Component<ImageGalleryProps, ImageGalleryState> {
-  public state = {
-    selectedImageIndex: this.props.selectedIndex,
+  const selectImage = (imageIndex: number) => {
+    setSelectedImageIndex(imageIndex);
   };
 
-  public render() {
-    const { selectedImageIndex } = this.state;
-    const { images } = this.props;
-    return (
-      <div>
-        {images.length > 0 && <Image className={styles.image} src={images[selectedImageIndex].large} />}
-        <div className={styles.thumbnailsContainer}>
-          { _.map(images, (image: string, index: number) => (
-            <div key={index} className={styles.thumbnailBox}>
-              { selectedImageIndex === index ? [
-                <Image key="image" className={styles.image} src={image.small} />,
-                <div key="overlay" className={styles.selectedOverlay}>
-                  <Icon disabled={true} name="search" size="large" />
-                </div>,
-              ] : (
-                <Image
-                  src={image.small}
-                  className={styles.selectable}
-                  onClick={() => this.selectImage(index)}
-                />
-              ) }
-            </div>
-          )) }
-        </div>
+  return (
+    <div>
+      {images.length > 0 && <Image className={styles.image} src={images[selectedImageIndex].large} />}
+      <div className={styles.thumbnailsContainer}>
+        { _.map(images, (image: string, index: number) => (
+          <div key={index} className={styles.thumbnailBox}>
+            { selectedImageIndex === index ? [
+              <Image key="image" className={styles.image} src={image.small} />,
+              <div key="overlay" className={styles.selectedOverlay}>
+                <Icon disabled={true} name="search" size="large" />
+              </div>,
+            ] : (
+              <Image
+                src={image.small}
+                className={styles.selectable}
+                onClick={() => selectImage(index)}
+              />
+            ) }
+          </div>
+        )) }
       </div>
-    );
-  }
-
-  private selectImage(imageIndex: number) {
-    this.setState({selectedImageIndex: imageIndex});
-  }
+    </div>
+  );
 }
 
 export default ImageGallery;
