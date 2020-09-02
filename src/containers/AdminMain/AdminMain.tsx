@@ -62,12 +62,8 @@ const AdminMain = ({
     messageActions.toggleDialog(false);
   }
 
-    // const { data: prodData, isFetching: prodIsFetching } = this.props.products;
-    // const { data: catData, isFetching: catIsFetching } = this.props.categories;
-    // const { data: msgData, isFetching: msgIsFetching, isDialogOpen } = this.props.messages;
-    const definedCategories = _.filter(categories.data, cat => !_.isUndefined(cat._id));
-    // const { showAdminProduct } = this.props.productActions;
-    // const { showAdminCategory } = this.props.categoryActions;
+  const definedCategories = _.filter(categories.data, cat => !_.isUndefined(cat._id));
+
   return (
     <div className={styles.adminMain}>
       <div className={styles.mgmtHeader}>
