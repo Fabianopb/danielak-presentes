@@ -22,7 +22,8 @@ type AdminCategoryProps = StateProps & DispatchProps;
 const AdminCategory = ({ categories, match, categoryActions, routerActions }: AdminCategoryProps) => {
   useEffect(() => {
     categoryActions.fetchCategory(match);
-  }, [categoryActions, match]);
+  // eslint-disable-next-line
+  }, []);
 
   const submitCategory = (category: Category) => {
     if (match === 'new') {
