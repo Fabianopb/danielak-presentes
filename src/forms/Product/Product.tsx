@@ -1,15 +1,19 @@
-import React from 'react';
-import { Field, reduxForm, InjectedFormProps } from 'redux-form';
-import { Form, Segment, Icon, Popup } from 'semantic-ui-react';
-import { Prompt } from 'react-router-dom';
-import Dropzone from 'react-dropzone';
-import _ from 'lodash';
-import { FormInput, FormCheckbox, FormDropdown } from '../../components/FormComponents/FormComponents';
-import { productActions } from '../../actions/products';
-import RichTextArea from '../../components/RichTextArea/RichTextArea';
-import styles from './Product.module.scss';
+import React from "react";
+import { Field, reduxForm, InjectedFormProps } from "redux-form";
+import { Form, Segment, Icon, Popup } from "semantic-ui-react";
+import { Prompt } from "react-router-dom";
+import Dropzone from "react-dropzone";
+import _ from "lodash";
+import {
+  FormInput,
+  FormCheckbox,
+  FormDropdown,
+} from "../../components/FormComponents/FormComponents";
+import { productActions } from "../../actions/products";
+import RichTextArea from "../../components/RichTextArea/RichTextArea";
+import styles from "./Product.module.scss";
 
-export const PRODUCT_FORM = 'editProductForm';
+export const PRODUCT_FORM = "editProductForm";
 
 type ProductFormData = Product;
 
@@ -21,32 +25,49 @@ interface ProductFormProps {
 }
 
 const required = (value: string): string | undefined => {
-  return value ? undefined : 'Campo obrigatório';
+  return value ? undefined : "Campo obrigatório";
 };
 
 const requiredDescription = (value: string): string | undefined => {
   if (value) {
-    return value.replace(/<(.|\n)*?>/g, '') !== '' ? undefined : 'Campo obrigatório';
+    return value.replace(/<(.|\n)*?>/g, "") !== ""
+      ? undefined
+      : "Campo obrigatório";
   }
   return undefined;
 };
 
-const Product: React.SFC<ProductFormProps & InjectedFormProps<ProductFormData, ProductFormProps>> = ({
-  handleSubmit, handleFileDrop, deleteImage, pristine, submitting, images, touch, categories,
+const Product: React.SFC<
+  ProductFormProps & InjectedFormProps<ProductFormData, ProductFormProps>
+> = ({
+  handleSubmit,
+  handleFileDrop,
+  deleteImage,
+  pristine,
+  submitting,
+  images,
+  touch,
+  categories,
 }) => {
-  const isSomeImageUploading = _.some(images, image => image === 'uploading' as any);
+  const isSomeImageUploading = _.some(
+    images,
+    (image) => image === ("uploading" as any)
+  );
   const hasDropzone = images && images.length < 5 && !isSomeImageUploading;
-  const catOptions = _.filter(_.map(categories, cat => ({ text: cat.name, value: cat._id })), cat => !_.isUndefined(cat.value));
+  const catOptions = _.filter(
+    _.map(categories, (cat) => ({ text: cat.name, value: cat._id })),
+    (cat) => !_.isUndefined(cat.value)
+  );
   return (
     <div className={styles.productForm}>
-      <Form onSubmit={handleSubmit} >
+      <Form onSubmit={handleSubmit}>
         <Form.Group widths="equal">
           <Field
             component={FormInput}
             formLabel="Nome do produto"
             placeholder="Nome do produto"
             name="name"
-            required={true}
+            required
             validate={[required]}
           />
           <Field
@@ -62,46 +83,54 @@ const Product: React.SFC<ProductFormProps & InjectedFormProps<ProductFormData, P
           placeholder="Escolha uma categoria"
           name="category"
           options={catOptions}
-          required={true}
+          required
           validate={[required]}
         />
         <div className="ui form field inline">
           <label>Upload de imagens</label>
           <Popup
-            trigger={<Icon name="question" circular={true} />}
+            trigger={<Icon name="question" circular />}
             content="Altura e largura devem ser maiores que 580px"
             position="top left"
           />
         </div>
         <div className={styles.dropzoneArea}>
-          { images && _.map(images, (image, index) => (
-            <div key={index} className={styles.previewContainer}>
-              { image === 'uploading' as any
-                ? <Segment className={styles.loading} loading={true} />
-                : <div>
-                  <div className={styles.deleteButton} onClick={() => deleteImage(image)}>
-                    <Icon name="delete" />
+          {images &&
+            _.map(images, (image, index) => (
+              <div key={index} className={styles.previewContainer}>
+                {image === ("uploading" as any) ? (
+                  <Segment className={styles.loading} loading />
+                ) : (
+                  <div>
+                    <div
+                      className={styles.deleteButton}
+                      onClick={() => deleteImage(image)}
+                    >
+                      <Icon name="delete" />
+                    </div>
+                    <img
+                      className={styles.imagePreview}
+                      src={image.small}
+                      alt={image.small}
+                    />
                   </div>
-                  <img className={styles.imagePreview} src={image.small} alt={image.small} />
-                </div>
-              }
-            </div>
-          ))}
-          { hasDropzone &&
-            <Dropzone
-              className={styles.fileDrop}
-              onDrop={handleFileDrop}
-            >
-              <div className={styles.fileDropText}>Faça upload da imagem aqui</div>
+                )}
+              </div>
+            ))}
+          {hasDropzone && (
+            <Dropzone className={styles.fileDrop} onDrop={handleFileDrop}>
+              <div className={styles.fileDropText}>
+                Faça upload da imagem aqui
+              </div>
             </Dropzone>
-          }
+          )}
         </div>
         <Field
           component={RichTextArea}
           formLabel="Descrição"
           name="description"
           handleTouch={touch}
-          required={true}
+          required
           validate={[requiredDescription]}
         />
         <Form.Group widths="equal">
@@ -112,7 +141,7 @@ const Product: React.SFC<ProductFormProps & InjectedFormProps<ProductFormData, P
             formLabel="Preço"
             name="currentPrice"
             placeholder="Preço"
-            required={true}
+            required
             validate={[required]}
           />
           <Field
@@ -137,7 +166,7 @@ const Product: React.SFC<ProductFormProps & InjectedFormProps<ProductFormData, P
             formLabel="Dias para produção"
             placeholder="Dias para produção"
             name="productionTime"
-            required={true}
+            required
             validate={[required]}
           />
           <Field
@@ -146,7 +175,7 @@ const Product: React.SFC<ProductFormProps & InjectedFormProps<ProductFormData, P
             formLabel="Quantidade mínima"
             placeholder="Quantidade mínima"
             name="minAmount"
-            required={true}
+            required
             validate={[required]}
           />
         </Form.Group>
@@ -159,7 +188,7 @@ const Product: React.SFC<ProductFormProps & InjectedFormProps<ProductFormData, P
             formLabel="Comprimento"
             name="depth"
             placeholder="Comprimento"
-            required={true}
+            required
             validate={[required]}
           />
           <Field
@@ -170,7 +199,7 @@ const Product: React.SFC<ProductFormProps & InjectedFormProps<ProductFormData, P
             formLabel="Largura"
             name="width"
             placeholder="Largura"
-            required={true}
+            required
             validate={[required]}
           />
           <Field
@@ -181,7 +210,7 @@ const Product: React.SFC<ProductFormProps & InjectedFormProps<ProductFormData, P
             formLabel="Altura"
             name="height"
             placeholder="Altura"
-            required={true}
+            required
             validate={[required]}
           />
           <Field
@@ -192,15 +221,11 @@ const Product: React.SFC<ProductFormProps & InjectedFormProps<ProductFormData, P
             formLabel="Peso"
             name="weight"
             placeholder="Peso"
-            required={true}
+            required
             validate={[required]}
           />
         </Form.Group>
-        <Field
-          component={FormCheckbox}
-          formLabel="Visível"
-          name="isVisible"
-        />
+        <Field component={FormCheckbox} formLabel="Visível" name="isVisible" />
         <Field
           component={FormCheckbox}
           formLabel="Em destaque"
@@ -208,7 +233,7 @@ const Product: React.SFC<ProductFormProps & InjectedFormProps<ProductFormData, P
         />
         <Form.Button
           className={styles.submitWrapper}
-          icon={true}
+          icon
           labelPosition="right"
           color="blue"
           disabled={submitting || pristine || isSomeImageUploading}
@@ -219,10 +244,15 @@ const Product: React.SFC<ProductFormProps & InjectedFormProps<ProductFormData, P
       </Form>
       <Prompt
         when={submitting || !pristine || isSomeImageUploading}
-        message={() => 'O formulário não foi enviado, se você sair da página o conteúdo não será salvo!'}
+        message={() =>
+          "O formulário não foi enviado, se você sair da página o conteúdo não será salvo!"
+        }
       />
     </div>
   );
 };
 
-export default reduxForm<ProductFormData, ProductFormProps>({form: PRODUCT_FORM, destroyOnUnmount: false})(Product);
+export default reduxForm<ProductFormData, ProductFormProps>({
+  form: PRODUCT_FORM,
+  destroyOnUnmount: false,
+})(Product);

@@ -1,13 +1,13 @@
-import React, { useEffect } from 'react';
-import { connect } from 'react-redux';
-import { bindActionCreators, Dispatch } from 'redux';
-import { formValueSelector } from 'redux-form';
-import { Dimmer, Loader, Icon, Modal, Button, Header } from 'semantic-ui-react';
-import ProductForm from '../../forms/Product/Product';
-import { routerActions as cRouterActions } from 'connected-react-router';
-import { productActions as cProductActions } from '../../actions/products';
-import { categoryActions as cCategoryActions } from '../../actions/categories';
-import styles from './AdminProduct.module.scss';
+import React, { useEffect } from "react";
+import { connect } from "react-redux";
+import { bindActionCreators, Dispatch } from "redux";
+import { formValueSelector } from "redux-form";
+import { Dimmer, Loader, Icon, Modal, Button, Header } from "semantic-ui-react";
+import { routerActions as cRouterActions } from "connected-react-router";
+import ProductForm from "../../forms/Product/Product";
+import { productActions as cProductActions } from "../../actions/products";
+import { categoryActions as cCategoryActions } from "../../actions/categories";
+import styles from "./AdminProduct.module.scss";
 
 interface StateProps {
   products: ProductsState;
@@ -26,14 +26,14 @@ interface DispatchProps {
 
 type AdminProductProps = StateProps & DispatchProps;
 
-const AdminProduct = ({ 
-  products, 
-  categories, 
+const AdminProduct = ({
+  products,
+  categories,
   formValues,
   match,
   productActions,
   categoryActions,
-  routerActions
+  routerActions,
 }: AdminProductProps) => {
   useEffect(() => {
     categoryActions.fetchCategories();
@@ -42,26 +42,35 @@ const AdminProduct = ({
   }, []);
 
   const submitProduct = (product: Product): void => {
-    if (match === 'new') {
+    if (match === "new") {
       delete product._id;
     }
     productActions.upsertProduct(product as Product);
-  }
+  };
 
   return (
     <div className={styles.adminProduct}>
       <div className={styles.addProductHeader}>
         <h3>Adicionar produto</h3>
         <div className={styles.actionButtons}>
-          <Button basic={true} icon={true} labelPosition="right" color="blue" onClick={routerActions.goBack}>
-            Voltar<Icon name="chevron left" />
+          <Button
+            basic
+            icon
+            labelPosition="right"
+            color="blue"
+            onClick={routerActions.goBack}
+          >
+            Voltar
+            <Icon name="chevron left" />
           </Button>
           <Button
-            icon={true}
+            icon
             labelPosition="right"
             color="red"
-            disabled={match === 'new'}
-            onClick={() => productActions.openDialog(products.activeProduct as Product)}
+            disabled={match === "new"}
+            onClick={() =>
+              productActions.openDialog(products.activeProduct as Product)
+            }
           >
             Remover
             <Icon name="trash" />
@@ -69,7 +78,7 @@ const AdminProduct = ({
         </div>
       </div>
       {products.isFetching || categories.isFetching ? (
-        <Dimmer active={true} inverted={true}>
+        <Dimmer active inverted>
           <Loader />
         </Dimmer>
       ) : (
@@ -81,17 +90,41 @@ const AdminProduct = ({
           onSubmit={submitProduct}
         />
       )}
-      <Modal open={products.isDialogOpen} onClose={productActions.closeDialog} size="small">
+      <Modal
+        open={products.isDialogOpen}
+        onClose={productActions.closeDialog}
+        size="small"
+      >
         <Header icon="trash" content="Apagar produto" />
         <Modal.Content>
-          <p>Tem certeza que deseja apagar o produto <em>{products.activeProduct && products.activeProduct.name}</em>?</p>
+          <p>
+            Tem certeza que deseja apagar o produto{" "}
+            <em>{products.activeProduct && products.activeProduct.name}</em>?
+          </p>
         </Modal.Content>
         <Modal.Actions>
-          <Button basic={true} icon={true} labelPosition="right" color="blue" onClick={productActions.closeDialog} >
-            Cancelar<Icon name="ban" />
+          <Button
+            basic
+            icon
+            labelPosition="right"
+            color="blue"
+            onClick={productActions.closeDialog}
+          >
+            Cancelar
+            <Icon name="ban" />
           </Button>
-          <Button icon={true} labelPosition="right" color="red" onClick={() => productActions.deleteProduct((products.activeProduct as Product)._id)} >
-            Remover<Icon name="remove" />
+          <Button
+            icon
+            labelPosition="right"
+            color="red"
+            onClick={() =>
+              productActions.deleteProduct(
+                (products.activeProduct as Product)._id
+              )
+            }
+          >
+            Remover
+            <Icon name="remove" />
           </Button>
         </Modal.Actions>
       </Modal>
@@ -103,9 +136,9 @@ const mapStateToProps = (state: RootState) => ({
   products: state.products,
   categories: state.categories,
   formValues: {
-    images: formValueSelector('editProductForm')(state, 'image'),
+    images: formValueSelector("editProductForm")(state, "image"),
   },
-  match: state.router.location.pathname.replace('/admin/product/', ''),
+  match: state.router.location.pathname.replace("/admin/product/", ""),
 });
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({

@@ -1,16 +1,14 @@
-import React from 'react';
-import { connect } from 'react-redux';
+import React from "react";
+import { connect } from "react-redux";
 
-import Notifications from 'react-notification-system-redux';
+import Notifications from "react-notification-system-redux";
 
-class NotificationsManager extends React.Component<Notifications.NotificationsProps> {
+class NotificationsManager extends React.Component<
+  Notifications.NotificationsProps
+> {
   public render() {
-    const {notifications} = this.props;
-    return (
-      <Notifications
-        notifications={notifications}
-      />
-    );
+    const { notifications } = this.props;
+    return <Notifications notifications={notifications} />;
   }
 }
 
