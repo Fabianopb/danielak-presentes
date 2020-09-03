@@ -85,6 +85,7 @@
     "build-client": "react-scripts build",
     "heroku-postbuild": "yarn build-client",
     "test-client": "react-scripts test",
+    "ts": "tsc --project ./tsconfig.json --watch --noEmit",
     "serve": "node server/server.js"
   }
 }
