@@ -23,6 +23,17 @@
       "project": "tsconfig.json"
     },
     "rules": {
-      "prettier/prettier": "error"
-    }
+      "prettier/prettier": "error",
+      "no-underscore-dangle": 0,
+      "@typescript-eslint/no-explicit-any": 0,
+      "@typescript-eslint/explicit-module-boundary-types": 0
+    },
+    "overrides": [
+      {
+        "files": ["server/**/*.js"],
+        "rules": {
+          "@typescript-eslint/no-var-requires": 0
+        }
+      }
+    ]
   }
