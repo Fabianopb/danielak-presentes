@@ -1,10 +1,12 @@
-const express = require('express');
-const router = express.Router();
-const bodyParser = require('body-parser').json();
-const Message = require('../models/message');
-const authorize = require('../config/authorize');
+const express = require("express");
 
-router.route('/')
+const router = express.Router();
+const bodyParser = require("body-parser").json();
+const Message = require("../models/message");
+const authorize = require("../config/authorize");
+
+router
+  .route("/")
   .get(async (request, response) => {
     try {
       const messages = await Message.find({});
@@ -17,33 +19,35 @@ router.route('/')
     try {
       const message = new Message(request.body);
       await message.save();
-      return response.status(200).json({id: message._id});
+      return response.status(200).json({ id: message._id });
     } catch (error) {
       return response.status(400).send(error);
     }
   });
 
-router.route('/:id')
+router
+  .route("/:id")
   .put(bodyParser, async (request, response) => {
     try {
       const message = await Message.findById(request.params.id);
       Object.assign(message, request.body);
       await message.save();
-      return response.status(200).json({message: 'Message updated'});
+      return response.status(200).json({ message: "Message updated" });
     } catch (error) {
       return response.status(400).send(error);
     }
   })
   .delete(authorize, async (request, response) => {
     try {
-      await Message.remove({_id: request.params.id});
-      return response.status(200).json({message: 'Message removed'});
+      await Message.remove({ _id: request.params.id });
+      return response.status(200).json({ message: "Message removed" });
     } catch (error) {
       return response.status(400).send(error);
     }
   });
 
-router.route('/answer/:id')
+router
+  .route("/answer/:id")
   .put(authorize, bodyParser, async (request, response) => {
     try {
       const message = await Message.findById(request.params.id);
