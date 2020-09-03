@@ -1,5 +1,6 @@
 import { createAction, ActionsUnion } from "../modules/helpers";
 
+// eslint-disable-next-line no-shadow
 export enum CategoryActionsEnum {
   START_REQUEST = "START_REQUEST",
   END_REQUEST = "END_REQUEST",

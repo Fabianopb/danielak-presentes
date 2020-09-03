@@ -3,7 +3,6 @@ const express = require("express");
 const router = express.Router();
 const bodyParser = require("body-parser").json();
 const AWS = require("aws-sdk");
-const _ = require("lodash");
 const sharp = require("sharp");
 const multiparty = require("multiparty");
 const fileType = require("file-type");
@@ -58,8 +57,8 @@ router.route("/upload-file").post(authorize, (request, response) => {
         uploadFile(smallFileBuffer, smallFileName, type),
       ]);
       return response.status(200).send(data);
-    } catch (error) {
-      return response.status(500).json({ error: error.toString() });
+    } catch (err) {
+      return response.status(500).json({ err: error.toString() });
     }
   });
 });
@@ -72,7 +71,7 @@ router
       const params = {
         Bucket: process.env.DANIK_S3_BUCKET,
         Delete: {
-          Objects: _.map(imagesArray, (image) => ({ Key: image })),
+          Objects: imagesArray.map((image) => ({ Key: image })),
         },
       };
       const data = await s3.deleteObjects(params).promise();

@@ -34,4 +34,5 @@ app.get("*", (request, response) => {
 });
 
 app.listen(process.env.PORT || 9000);
+// eslint-disable-next-line no-console
 console.log("Server up and running...");

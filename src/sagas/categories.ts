@@ -57,10 +57,11 @@ export function* upsertCategorySaga(
 ) {
   try {
     yield put(categoryActions.startRequest());
-    const response = action.payload._id
-      ? yield call(categoryRequests.putCategory, action.payload)
-      : yield call(categoryRequests.postCategory, action.payload);
-    console.log(response);
+    if (action.payload._id) {
+      yield call(categoryRequests.putCategory, action.payload);
+    } else {
+      yield call(categoryRequests.postCategory, action.payload);
+    }
     yield put(routerActions.push("/admin"));
     notificationOpts.title = "Categorias atualizadas com sucesso!";
     yield put(Notifications.success(notificationOpts));
@@ -90,11 +91,7 @@ export function* deleteCategorySaga(
   try {
     yield put(categoryActions.startRequest());
     yield put(categoryActions.closeDialog());
-    const response = yield call(
-      categoryRequests.deleteCategory,
-      action.payload
-    );
-    console.log(response);
+    yield call(categoryRequests.deleteCategory, action.payload);
     yield put(routerActions.push("/admin"));
     notificationOpts.title = "Categoria excluida com sucesso!";
     yield put(Notifications.success(notificationOpts));

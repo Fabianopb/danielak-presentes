@@ -29,6 +29,7 @@ export function* getProductDetailSaga(
         productRequests.getProductById,
         action.payload
       );
+      // eslint-disable-next-line prefer-destructuring
       activeProduct = response.data[0];
     }
     yield put(productActions.setActiveProduct(activeProduct));
@@ -77,10 +78,11 @@ export function* upsertProductSaga(
 ) {
   try {
     yield put(productActions.startRequest());
-    const upsertResponse = action.payload._id
-      ? yield call(productRequests.putProduct, action.payload)
-      : yield call(productRequests.postProduct, action.payload);
-    console.log(upsertResponse);
+    if (action.payload._id) {
+      yield call(productRequests.putProduct, action.payload);
+    } else {
+      yield call(productRequests.postProduct, action.payload);
+    }
     yield put(routerActions.push("/admin"));
   } catch (error) {
     notificationOpts.title = error.response
@@ -112,12 +114,10 @@ export function* deleteProductSaga(
       const imagesToDelete = _.concat(largeImageNames, smallImageNames);
       requests.push(call(fileRequests.deleteFiles, imagesToDelete));
     }
-    const [deleteProductResponse, deleteFileResponse] = yield all(requests);
-    console.log(deleteFileResponse, deleteProductResponse);
+    yield all(requests);
     // TODO: could yield put a success notification
     yield put(routerActions.push("/admin"));
   } catch (error) {
-    console.log(error);
     notificationOpts.title = error.response
       ? error.response.data.error
       : error.message;
@@ -143,11 +143,7 @@ export function* deleteImageSaga(
     const smallImageName = getImageNameFromUrl(imageObject.small);
     (images as any).splice(imageIndex, 1, "uploading");
     yield put(change(PRODUCT_FORM, "image", images));
-    const deleteFileResponse = yield call(fileRequests.deleteFiles, [
-      largeImageName,
-      smallImageName,
-    ]);
-    console.log(deleteFileResponse);
+    yield call(fileRequests.deleteFiles, [largeImageName, smallImageName]);
     images.splice(imageIndex, 1);
     yield put(change(PRODUCT_FORM, "image", null));
     yield put(change(PRODUCT_FORM, "image", images));
