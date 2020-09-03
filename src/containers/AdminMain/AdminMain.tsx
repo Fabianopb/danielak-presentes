@@ -43,7 +43,7 @@ const AdminMain = ({
     productActions.fetchProducts();
     categoryActions.fetchCategories();
     messageActions.fetchMessages();
-  }, []);
+  }, [productActions, categoryActions, messageActions]);
 
   const handleDelete = (id: string) => {
     setIdToDelete(id);

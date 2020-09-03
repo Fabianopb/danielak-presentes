@@ -38,7 +38,7 @@ const AdminProduct = ({
   useEffect(() => {
     categoryActions.fetchCategories();
     productActions.fetchProducts(match);
-  }, []);
+  }, [categoryActions, productActions, match]);
 
   const submitProduct = (product: Product): void => {
     if (match === 'new') {

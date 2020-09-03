@@ -36,13 +36,13 @@ const CategoryMenu = ({
 }: CategoryMenuProps) => {
   useEffect(() => {
     categoryActions.fetchCategories()
-  }, []);
+  }, [categoryActions]);
 
   useEffect(() => {
     if (router.location.search) {
       productActions.fetchProducts();
     }
-  }, [router.location.search]);
+  }, [router.location.search, productActions]);
 
   const query = queryString.parse(router.location.search);
   const isRoot = router.location.pathname === '/';
