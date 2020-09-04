@@ -21,24 +21,23 @@
   },
   "dependencies": {
     "aws-sdk": "^2.325.0",
+    "axios": "^0.18.0",
     "bluebird": "^3.5.2",
     "body-parser": "^1.18.3",
+    "classnames": "^2.2.6",
+    "connected-react-router": "^6.5.0",
     "dotenv": "^8.2.0",
     "express": "^4.16.3",
     "express-jwt": "^5.3.1",
     "file-type": "^9.0.0",
+    "history": "^4.6.3",
     "jsonwebtoken": "^8.3.0",
+    "lodash": "^4.17.13",
+    "moment": "^2.20.1",
     "mongoose": "^5.7.5",
     "multiparty": "^4.2.2",
     "passport": "^0.4.0",
     "passport-local": "^1.0.0",
-    "sharp": "^0.25.4",
-    "axios": "^0.18.0",
-    "classnames": "^2.2.6",
-    "connected-react-router": "^6.5.0",
-    "history": "^4.6.3",
-    "lodash": "^4.17.13",
-    "moment": "^2.20.1",
     "query-string": "^6.1.0",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
@@ -56,7 +55,8 @@
     "redux-form": "^8.2.4",
     "redux-saga": "^1.0.5",
     "semantic-ui-css": "^2.2.10",
-    "semantic-ui-react": "^0.82.1"
+    "semantic-ui-react": "^0.82.1",
+    "sharp": "^0.25.4"
   },
   "devDependencies": {
     "@types/axios": "^0.14.0",
@@ -71,13 +71,32 @@
     "@types/react-redux": "^7.1.1",
     "@types/react-router-dom": "^4.3.4",
     "@types/redux-form": "^8.1.4",
+    "@typescript-eslint/eslint-plugin": "^4.0.1",
+    "@typescript-eslint/parser": "^4.0.1",
     "concurrently": "^4.0.1",
-    "nodemon": "^2.0.4",
+    "eslint": "^7.8.1",
+    "eslint-config-airbnb-typescript": "^9.0.0",
+    "eslint-config-prettier": "^6.11.0",
+    "eslint-plugin-import": "^2.22.0",
+    "eslint-plugin-jsx-a11y": "^6.3.1",
+    "eslint-plugin-prettier": "^3.1.4",
+    "eslint-plugin-react": "^7.20.6",
+    "eslint-plugin-react-hooks": "^4.1.0",
+    "eslint-watch": "^7.0.0",
+    "husky": "^4.2.5",
+    "lint-staged": "^10.3.0",
     "node-sass": "^4.8.3",
+    "nodemon": "^2.0.4",
+    "prettier": "^2.1.1",
     "sass-loader": "^6.0.7",
     "tslint": "^5.18.0",
     "tslint-react": "^4.0.0",
     "typescript": "^3.5.2"
+  },
+  "lint-staged": {
+    "*.{js,ts}": [
+      "eslint --fix"
+    ]
   },
   "scripts": {
     "start-client": "react-scripts start",
@@ -85,7 +104,10 @@
     "build-client": "react-scripts build",
     "heroku-postbuild": "yarn build-client",
     "test-client": "react-scripts test",
-    "ts": "tsc --project ./tsconfig.json --watch --noEmit",
+    "ts": "tsc --project ./tsconfig.json --noEmit",
+    "ts:watch": "tsc --project ./tsconfig.json --watch --noEmit",
+    "lint": "eslint ./src ./server -c .eslintrc --ext .js,.ts",
+    "lint:watch": "esw ./src ./server -c .eslintrc --ext .js,.ts --watch --cache --color",
     "serve": "node server/server.js"
   }
 }

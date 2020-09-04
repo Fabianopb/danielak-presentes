@@ -1,4 +1,4 @@
-import { RouterActionType } from 'connected-react-router';
+import { RouterActionType } from "connected-react-router";
 
 export const categoriesState: CategoriesState = {
   isFetching: false,
@@ -34,11 +34,11 @@ export const initialState: RootState = {
   notifications: [],
   router: {
     location: {
-      pathname: '',
-      search: '',
-      hash: '',
+      pathname: "",
+      search: "",
+      hash: "",
       state: null,
     },
-    action: 'POP' as RouterActionType,
+    action: "POP" as RouterActionType,
   },
 };

@@ -1,15 +1,17 @@
-import React, { useState } from 'react';
-import { Image, Icon } from 'semantic-ui-react';
-import _ from 'lodash';
-import styles from './ImageGallery.module.scss';
+import React, { useState } from "react";
+import { Image, Icon } from "semantic-ui-react";
+import _ from "lodash";
+import styles from "./ImageGallery.module.scss";
 
 type ImageGalleryProps = {
-  images: Array<{ large: string; small: string; }>;
+  images: Array<{ large: string; small: string }>;
   selectedIndex: number;
 };
 
 const ImageGallery = ({ images, selectedIndex }: ImageGalleryProps) => {
-  const [selectedImageIndex, setSelectedImageIndex] = useState<number>(selectedIndex);
+  const [selectedImageIndex, setSelectedImageIndex] = useState<number>(
+    selectedIndex
+  );
 
   const selectImage = (imageIndex: number) => {
     setSelectedImageIndex(imageIndex);
@@ -17,27 +19,38 @@ const ImageGallery = ({ images, selectedIndex }: ImageGalleryProps) => {
 
   return (
     <div>
-      {images.length > 0 && <Image className={styles.image} src={images[selectedImageIndex].large} />}
+      {images.length > 0 && (
+        <Image
+          className={styles.image}
+          src={images[selectedImageIndex].large}
+        />
+      )}
       <div className={styles.thumbnailsContainer}>
-        { _.map(images, (image: string, index: number) => (
+        {_.map(images, (image: string, index: number) => (
           <div key={index} className={styles.thumbnailBox}>
-            { selectedImageIndex === index ? [
-              <Image key="image" className={styles.image} src={image.small} />,
-              <div key="overlay" className={styles.selectedOverlay}>
-                <Icon disabled={true} name="search" size="large" />
-              </div>,
-            ] : (
+            {selectedImageIndex === index ? (
+              [
+                <Image
+                  key="image"
+                  className={styles.image}
+                  src={image.small}
+                />,
+                <div key="overlay" className={styles.selectedOverlay}>
+                  <Icon disabled name="search" size="large" />
+                </div>,
+              ]
+            ) : (
               <Image
                 src={image.small}
                 className={styles.selectable}
                 onClick={() => selectImage(index)}
               />
-            ) }
+            )}
           </div>
-        )) }
+        ))}
       </div>
     </div>
   );
-}
+};
 
 export default ImageGallery;

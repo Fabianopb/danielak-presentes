@@ -1,26 +1,30 @@
-import React from 'react';
-import { Field, reduxForm, InjectedFormProps } from 'redux-form';
-import { Form } from 'semantic-ui-react';
-import { FormInput } from '../../components/FormComponents/FormComponents';
-import styles from './Login.module.scss';
+import React from "react";
+import { Field, reduxForm, InjectedFormProps } from "redux-form";
+import { Form } from "semantic-ui-react";
+import { FormInput } from "../../components/FormComponents/FormComponents";
+import styles from "./Login.module.scss";
 
-const LOGIN_FORM = 'loginForm';
+const LOGIN_FORM = "loginForm";
 
 type LoginFormData = LoginRequestParams;
 
 const required = (value: string): string | undefined => {
-  return value ? undefined : 'Campo obrigatório';
+  return value ? undefined : "Campo obrigatório";
 };
 
-const Login: React.SFC<InjectedFormProps<LoginFormData, {}>> = ({ handleSubmit, pristine, submitting }) => (
+const Login: React.SFC<InjectedFormProps<LoginFormData, {}>> = ({
+  handleSubmit,
+  pristine,
+  submitting,
+}) => (
   <div className={styles.loginForm}>
-    <Form onSubmit={handleSubmit} >
+    <Form onSubmit={handleSubmit}>
       <Field
         component={FormInput}
         formLabel="e-mail"
         placeholder="e-mail"
         name="email"
-        required={true}
+        required
         validate={[required]}
       />
       <Field
@@ -29,7 +33,7 @@ const Login: React.SFC<InjectedFormProps<LoginFormData, {}>> = ({ handleSubmit, 
         type="password"
         placeholder="password"
         name="password"
-        required={true}
+        required
         validate={[required]}
       />
       <Form.Button disabled={submitting || pristine}>Login</Form.Button>

@@ -1,10 +1,21 @@
-import React from 'react';
-import { WrappedFieldProps, WrappedFieldInputProps } from 'redux-form';
-import _ from 'lodash';
-import { Form, Input, InputProps, TextArea, TextAreaProps, Checkbox, CheckboxProps, Dropdown, DropdownProps } from 'semantic-ui-react';
-import styles from './FormComponents.module.scss';
+import React from "react";
+import { WrappedFieldProps, WrappedFieldInputProps } from "redux-form";
+import _ from "lodash";
+import {
+  Form,
+  Input,
+  InputProps,
+  TextArea,
+  TextAreaProps,
+  Checkbox,
+  CheckboxProps,
+  Dropdown,
+  DropdownProps,
+} from "semantic-ui-react";
+import styles from "./FormComponents.module.scss";
 
-const hasErrored = (touched: boolean, errorMessage: string): boolean => (touched && !_.isUndefined(errorMessage));
+const hasErrored = (touched: boolean, errorMessage: string): boolean =>
+  touched && !_.isUndefined(errorMessage);
 
 interface FormInputProps extends WrappedFieldProps, InputProps {
   /** Wrapped field label */
@@ -16,7 +27,7 @@ interface FormInputProps extends WrappedFieldProps, InputProps {
 const FormInput = (props: FormInputProps) => {
   const error = hasErrored(props.meta.touched, props.meta.error);
   return (
-    <Form.Field error={error} required={props.required} >
+    <Form.Field error={error} required={props.required}>
       <label>{props.formLabel}</label>
       <Input
         label={props.label && { basic: true, content: props.label }}
@@ -25,7 +36,9 @@ const FormInput = (props: FormInputProps) => {
         type={props.type}
         placeholder={props.placeholder}
       />
-      <div className={styles.errorMessage}>{error && <span>{props.meta.error}</span>}</div>
+      <div className={styles.errorMessage}>
+        {error && <span>{props.meta.error}</span>}
+      </div>
     </Form.Field>
   );
 };
@@ -35,10 +48,16 @@ interface FormTextAreaProps extends WrappedFieldProps, TextAreaProps {}
 const FormTextArea = (props: FormTextAreaProps) => {
   const error = hasErrored(props.meta.touched, props.meta.error);
   return (
-    <Form.Field error={error} required={props.required} >
+    <Form.Field error={error} required={props.required}>
       <label>{props.formLabel}</label>
-      <TextArea {...props.input} type={props.type} placeholder={props.placeholder} />
-      <div className={styles.errorMessage}>{error && <span>{props.meta.error}</span>}</div>
+      <TextArea
+        {...props.input}
+        type={props.type}
+        placeholder={props.placeholder}
+      />
+      <div className={styles.errorMessage}>
+        {error && <span>{props.meta.error}</span>}
+      </div>
     </Form.Field>
   );
 };
@@ -48,7 +67,7 @@ interface FormCheckboxProps extends WrappedFieldProps, CheckboxProps {}
 const FormCheckbox = (props: FormCheckboxProps) => {
   const error = hasErrored(props.meta.touched, props.meta.error);
   return (
-    <Form.Field error={error} required={props.required} >
+    <Form.Field error={error} required={props.required}>
       <Checkbox
         {...props.input}
         label={props.formLabel}
@@ -71,11 +90,11 @@ const FormDropdown = (props: FormDropdownProps) => {
         placeholder={props.placeholder}
         value={props.input.value}
         onChange={(_0, data) => props.input.onChange(data.value)}
-        selection={true}
+        selection
         options={props.options}
       />
     </Form.Field>
   );
 };
 
-export {FormInput, FormTextArea, FormCheckbox, FormDropdown};
+export { FormInput, FormTextArea, FormCheckbox, FormDropdown };

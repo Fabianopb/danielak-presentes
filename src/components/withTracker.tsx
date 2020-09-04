@@ -1,13 +1,16 @@
-import React from 'react';
-import ReactGA from 'react-ga';
-import { RouteProps } from 'react-router-dom';
-import { Location } from 'history';
+import React from "react";
+import ReactGA from "react-ga";
+import { RouteProps } from "react-router-dom";
+import { Location } from "history";
 
 interface TrackerProps extends RouteProps {
   location: Location;
 }
 
-export default function withTracker(WrappedComponent: React.ComponentType, options = {}) {
+export default function withTracker(
+  WrappedComponent: React.ComponentType,
+  options = {}
+) {
   const trackPage = (page: string) => {
     ReactGA.set({
       page,
@@ -23,7 +26,10 @@ export default function withTracker(WrappedComponent: React.ComponentType, optio
     }
 
     public componentWillReceiveProps(nextProps: TrackerProps) {
-      const { pathname: currentPath, search: currentSearch } = this.props.location;
+      const {
+        pathname: currentPath,
+        search: currentSearch,
+      } = this.props.location;
       const { pathname: nextPath, search: nextSearch } = nextProps.location;
       if (currentPath + currentSearch !== nextPath + nextSearch) {
         trackPage(nextPath + nextSearch);

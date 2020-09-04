@@ -1,10 +1,10 @@
-import React from 'react';
-import { connect } from 'react-redux';
-import { bindActionCreators, Dispatch } from 'redux';
-import { Dimmer, Loader } from 'semantic-ui-react';
-import { userActions as cUserActions } from '../../actions/users';
-import LoginForm from '../../forms/Login/Login';
-import styles from './LoginPage.module.scss';
+import React from "react";
+import { connect } from "react-redux";
+import { bindActionCreators, Dispatch } from "redux";
+import { Dimmer, Loader } from "semantic-ui-react";
+import { userActions as cUserActions } from "../../actions/users";
+import LoginForm from "../../forms/Login/Login";
+import styles from "./LoginPage.module.scss";
 
 interface StateProps {
   users: UsersState;
@@ -20,14 +20,16 @@ const LoginPage = ({ users, userActions }: LoginPageProps) => (
   <div className={styles.loginPage}>
     <h3 className={styles.loginTitle}>Login</h3>
     {users.isLogging ? (
-      <Dimmer active={true} inverted={true}>
+      <Dimmer active inverted>
         <Loader />
       </Dimmer>
     ) : (
       <div className={styles.loginContainer}>
-        <LoginForm onSubmit={creds => {
-          userActions.login(creds);
-        }} />
+        <LoginForm
+          onSubmit={(creds) => {
+            userActions.login(creds);
+          }}
+        />
       </div>
     )}
   </div>

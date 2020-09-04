@@ -4,7 +4,8 @@ export const categorySelectors = {
 
 export const productSelectors = {
   products: (state: RootState) => state.products.data,
-  productImages: (state: RootState) => (state.products.activeProduct as Product).image,
+  productImages: (state: RootState) =>
+    (state.products.activeProduct as Product).image,
 };
 
 export const routeSelectors = {
