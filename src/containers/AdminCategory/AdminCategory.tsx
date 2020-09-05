@@ -31,10 +31,10 @@ const AdminCategory = ({
   }, []);
 
   const submitCategory = (category: Category) => {
-    if (match === "new") {
-      delete category._id;
-    }
-    categoryActions.upsertCategory(category);
+    // eslint-disable-next-line @typescript-eslint/naming-convention
+    const { _id, ...rest } = category;
+    const categoryPayload = match === "new" ? rest : category;
+    categoryActions.upsertCategory(categoryPayload);
   };
 
   return (
@@ -116,7 +116,7 @@ const AdminCategory = ({
   );
 };
 
-export default connect<StateProps, DispatchProps, {}, RootState>(
+export default connect<StateProps, DispatchProps, unknown, RootState>(
   (state) => ({
     categories: state.categories,
     match: state.router.location.pathname.replace("/admin/category/", ""),

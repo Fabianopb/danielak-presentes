@@ -24,20 +24,29 @@ interface FormInputProps extends WrappedFieldProps, InputProps {
   input: WrappedFieldInputProps;
 }
 
-const FormInput = (props: FormInputProps) => {
-  const error = hasErrored(props.meta.touched, props.meta.error);
+const FormInput = ({
+  meta,
+  required,
+  formLabel,
+  label,
+  labelPosition,
+  input,
+  type,
+  placeholder,
+}: FormInputProps) => {
+  const error = hasErrored(meta.touched, meta.error);
   return (
-    <Form.Field error={error} required={props.required}>
-      <label>{props.formLabel}</label>
+    <Form.Field error={error} required={required}>
+      <label>{formLabel}</label>
       <Input
-        label={props.label && { basic: true, content: props.label }}
-        labelPosition={props.labelPosition}
-        {...props.input}
-        type={props.type}
-        placeholder={props.placeholder}
+        label={label && { basic: true, content: label }}
+        labelPosition={labelPosition}
+        {...input}
+        type={type}
+        placeholder={placeholder}
       />
       <div className={styles.errorMessage}>
-        {error && <span>{props.meta.error}</span>}
+        {error && <span>{meta.error}</span>}
       </div>
     </Form.Field>
   );
@@ -45,18 +54,21 @@ const FormInput = (props: FormInputProps) => {
 
 interface FormTextAreaProps extends WrappedFieldProps, TextAreaProps {}
 
-const FormTextArea = (props: FormTextAreaProps) => {
-  const error = hasErrored(props.meta.touched, props.meta.error);
+const FormTextArea = ({
+  meta,
+  required,
+  formLabel,
+  input,
+  type,
+  placeholder,
+}: FormTextAreaProps) => {
+  const error = hasErrored(meta.touched, meta.error);
   return (
-    <Form.Field error={error} required={props.required}>
-      <label>{props.formLabel}</label>
-      <TextArea
-        {...props.input}
-        type={props.type}
-        placeholder={props.placeholder}
-      />
+    <Form.Field error={error} required={required}>
+      <label>{formLabel}</label>
+      <TextArea {...input} type={type} placeholder={placeholder} />
       <div className={styles.errorMessage}>
-        {error && <span>{props.meta.error}</span>}
+        {error && <span>{meta.error}</span>}
       </div>
     </Form.Field>
   );
@@ -64,16 +76,22 @@ const FormTextArea = (props: FormTextAreaProps) => {
 
 interface FormCheckboxProps extends WrappedFieldProps, CheckboxProps {}
 
-const FormCheckbox = (props: FormCheckboxProps) => {
-  const error = hasErrored(props.meta.touched, props.meta.error);
+const FormCheckbox = ({
+  meta,
+  required,
+  input,
+  formLabel,
+  value,
+}: FormCheckboxProps) => {
+  const error = hasErrored(meta.touched, meta.error);
   return (
-    <Form.Field error={error} required={props.required}>
+    <Form.Field error={error} required={required}>
       <Checkbox
-        {...props.input}
-        label={props.formLabel}
-        checked={props.input.value || false}
-        value={props.value}
-        onChange={(_0, data) => props.input.onChange(data.checked)}
+        {...input}
+        label={formLabel}
+        checked={input.value || false}
+        value={value}
+        onChange={(_0, data) => input.onChange(data.checked)}
       />
     </Form.Field>
   );
@@ -81,17 +99,24 @@ const FormCheckbox = (props: FormCheckboxProps) => {
 
 interface FormDropdownProps extends WrappedFieldProps, DropdownProps {}
 
-const FormDropdown = (props: FormDropdownProps) => {
-  const error = hasErrored(props.meta.touched, props.meta.error);
+const FormDropdown = ({
+  meta,
+  required,
+  formLabel,
+  placeholder,
+  input,
+  options,
+}: FormDropdownProps) => {
+  const error = hasErrored(meta.touched, meta.error);
   return (
-    <Form.Field error={error} required={props.required}>
-      <label>{props.formLabel}</label>
+    <Form.Field error={error} required={required}>
+      <label>{formLabel}</label>
       <Dropdown
-        placeholder={props.placeholder}
-        value={props.input.value}
-        onChange={(_0, data) => props.input.onChange(data.value)}
+        placeholder={placeholder}
+        value={input.value}
+        onChange={(_0, data) => input.onChange(data.value)}
         selection
-        options={props.options}
+        options={options}
       />
     </Form.Field>
   );

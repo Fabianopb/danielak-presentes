@@ -10,7 +10,6 @@ import {
   Popup,
   Modal,
 } from "semantic-ui-react";
-import { routerActions as cRouterActions } from "connected-react-router";
 import ImageGallery from "../../components/ImageGallery/ImageGallery";
 import { productActions as cProductActions } from "../../actions/products";
 import { currencyFormat } from "../../modules/helpers";
@@ -24,7 +23,6 @@ interface StateProps {
 
 interface DispatchProps {
   productActions: typeof cProductActions;
-  routerActions: typeof cRouterActions;
 }
 
 type ProductDetailProps = StateProps & DispatchProps;
@@ -33,7 +31,6 @@ const ProductDetail = ({
   products,
   match,
   productActions,
-  routerActions,
 }: ProductDetailProps) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -145,6 +142,8 @@ const ProductDetail = ({
                 <Grid>
                   <Grid.Column className={styles.description}>
                     <div
+                      // FIXME: what would be the alternative?
+                      // eslint-disable-next-line react/no-danger
                       dangerouslySetInnerHTML={{
                         __html: products.activeProduct.description,
                       }}
@@ -214,7 +213,6 @@ const mapStateToProps = (state: RootState) => ({
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
   productActions: bindActionCreators({ ...cProductActions }, dispatch),
-  routerActions: bindActionCreators({ ...cRouterActions }, dispatch),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(ProductDetail);

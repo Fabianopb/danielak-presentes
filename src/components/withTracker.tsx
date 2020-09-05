@@ -21,15 +21,20 @@ export default function withTracker(
 
   const HOC = class extends React.Component<TrackerProps> {
     public componentDidMount() {
-      const { pathname, search } = this.props.location;
+      const {
+        props: {
+          location: { pathname, search },
+        },
+      } = this;
       trackPage(pathname + search);
     }
 
     public componentWillReceiveProps(nextProps: TrackerProps) {
       const {
-        pathname: currentPath,
-        search: currentSearch,
-      } = this.props.location;
+        props: {
+          location: { pathname: currentPath, search: currentSearch },
+        },
+      } = this;
       const { pathname: nextPath, search: nextSearch } = nextProps.location;
       if (currentPath + currentSearch !== nextPath + nextSearch) {
         trackPage(nextPath + nextSearch);

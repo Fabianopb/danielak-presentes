@@ -35,10 +35,6 @@ interface DispatchProps {
 
 type AdminMainProps = StateProps & DispatchProps;
 
-interface AdminMainState {
-  idToDelete: string;
-}
-
 const AdminMain = ({
   products,
   categories,
@@ -108,7 +104,7 @@ const AdminMain = ({
               </Table.Row>
             </Table.Header>
             <Table.Body>
-              {products.data.map((product, index) => {
+              {products.data.map((product) => {
                 const category = _.find(
                   categories.data,
                   (cat) => cat._id === product.category
@@ -116,7 +112,7 @@ const AdminMain = ({
                 return (
                   <Table.Row
                     className={styles.clickableRow}
-                    key={index}
+                    key={product._id}
                     onClick={() => productActions.showAdminProduct(product._id)}
                   >
                     <Table.Cell className={styles.nameRow}>
@@ -173,10 +169,10 @@ const AdminMain = ({
               </Table.Row>
             </Table.Header>
             <Table.Body>
-              {definedCategories.map((category, index) => (
+              {definedCategories.map((category) => (
                 <Table.Row
                   className={styles.clickableRow}
-                  key={index}
+                  key={category._id}
                   onClick={() =>
                     categoryActions.showAdminCategory(category._id as string)
                   }
@@ -208,21 +204,22 @@ const AdminMain = ({
               </Table.Row>
             </Table.Header>
             <Table.Body>
-              {messages.data.map((message, index) => {
+              {messages.data.map((message) => {
                 const answeredIcon = message.answered
                   ? "paper plane"
                   : "envelope";
                 return (
                   <Table.Row
-                    key={index}
+                    key={message._id}
                     className={cn({ [styles.answered]: message.answered })}
                   >
                     <Table.Cell collapsing>
                       {moment(message.createdAt).format("L LT")}
                     </Table.Cell>
                     <Table.Cell>
-                      {message.text.map((paragraph, pIndex) => (
-                        <p key={pIndex}>{paragraph}</p>
+                      {message.text.map((paragraph, index) => (
+                        // eslint-disable-next-line react/no-array-index-key
+                        <p key={`message-paragraph-${index}`}>{paragraph}</p>
                       ))}
                     </Table.Cell>
                     <Table.Cell collapsing>
