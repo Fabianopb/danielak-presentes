@@ -106,8 +106,8 @@
     "test-client": "react-scripts test",
     "ts": "tsc --project ./tsconfig.json --noEmit",
     "ts:watch": "tsc --project ./tsconfig.json --watch --noEmit",
-    "lint": "eslint ./src ./server -c .eslintrc --ext .js,.ts,.tsx",
-    "lint:watch": "esw ./src ./server -c .eslintrc --ext .js,.ts,.tsx --watch --cache --color",
+    "lint": "eslint ./src ./server -c .eslintrc --ext .js,.ts,.jsx,.tsx",
+    "lint:watch": "esw ./src ./server -c .eslintrc --ext .js,.ts,.jsx,.tsx --watch --cache --color",
     "serve": "node server/server.js"
   }
 }
