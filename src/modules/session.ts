@@ -1,4 +1,4 @@
-import moment from "moment";
+import moment from 'moment';
 
 /**
  * Sets session in the local storage
@@ -7,8 +7,8 @@ import moment from "moment";
  * @returns {void}
  */
 export const setSession = (token: string, expiry: string): void => {
-  localStorage.setItem("token", token);
-  localStorage.setItem("expiry", expiry);
+  localStorage.setItem('token', token);
+  localStorage.setItem('expiry', expiry);
 };
 
 /**
@@ -16,8 +16,8 @@ export const setSession = (token: string, expiry: string): void => {
  * @returns {void}
  */
 export const clearSession = (): void => {
-  localStorage.removeItem("token");
-  localStorage.removeItem("expiry");
+  localStorage.removeItem('token');
+  localStorage.removeItem('expiry');
 };
 
 /**
@@ -25,5 +25,5 @@ export const clearSession = (): void => {
  * @returns {boolean} `true` if session is valid
  */
 export const isSessionValid = (): boolean => {
-  return moment(localStorage.getItem("expiry") as string).isAfter(moment());
+  return moment(localStorage.getItem('expiry') as string).isAfter(moment());
 };

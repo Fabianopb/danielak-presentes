@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
-import { bindActionCreators, Dispatch } from "redux";
-import { connect } from "react-redux";
+import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
+import { bindActionCreators, Dispatch } from 'redux';
+import { connect } from 'react-redux';
 import {
   Table,
   Icon,
@@ -12,14 +12,14 @@ import {
   Image,
   Modal,
   Header,
-} from "semantic-ui-react";
-import _ from "lodash";
-import moment from "moment";
-import cn from "classnames";
-import { productActions as cProductActions } from "../../actions/products";
-import { categoryActions as cCategoryActions } from "../../actions/categories";
-import { messageActions as cMessageActions } from "../../actions/messages";
-import styles from "./AdminMain.module.scss";
+} from 'semantic-ui-react';
+import _ from 'lodash';
+import moment from 'moment';
+import cn from 'classnames';
+import { productActions as cProductActions } from '../../actions/products';
+import { categoryActions as cCategoryActions } from '../../actions/categories';
+import { messageActions as cMessageActions } from '../../actions/messages';
+import styles from './AdminMain.module.scss';
 
 interface StateProps {
   products: ProductsState;
@@ -43,7 +43,7 @@ const AdminMain = ({
   categoryActions,
   messageActions,
 }: AdminMainProps) => {
-  const [idToDelete, setIdToDelete] = useState("");
+  const [idToDelete, setIdToDelete] = useState('');
 
   useEffect(() => {
     productActions.fetchProducts();
@@ -68,10 +68,7 @@ const AdminMain = ({
     messageActions.toggleDialog(false);
   };
 
-  const definedCategories = _.filter(
-    categories.data,
-    (cat) => !_.isUndefined(cat._id)
-  );
+  const definedCategories = _.filter(categories.data, cat => !_.isUndefined(cat._id));
 
   return (
     <div className={styles.adminMain}>
@@ -94,21 +91,14 @@ const AdminMain = ({
             <Table.Header>
               <Table.Row>
                 <Table.HeaderCell>Produto</Table.HeaderCell>
-                <Table.HeaderCell textAlign="center">
-                  Categoria
-                </Table.HeaderCell>
+                <Table.HeaderCell textAlign="center">Categoria</Table.HeaderCell>
                 <Table.HeaderCell textAlign="center">Preço</Table.HeaderCell>
-                <Table.HeaderCell textAlign="center">
-                  Com desconto
-                </Table.HeaderCell>
+                <Table.HeaderCell textAlign="center">Com desconto</Table.HeaderCell>
               </Table.Row>
             </Table.Header>
             <Table.Body>
-              {products.data.map((product) => {
-                const category = _.find(
-                  categories.data,
-                  (cat) => cat._id === product.category
-                );
+              {products.data.map(product => {
+                const category = _.find(categories.data, cat => cat._id === product.category);
                 return (
                   <Table.Row
                     className={styles.clickableRow}
@@ -120,24 +110,16 @@ const AdminMain = ({
                         {product.image.length > 0 && (
                           <Image
                             className={styles.thumbnail}
-                            src={
-                              product.image[product.featuredImageIndex].small
-                            }
+                            src={product.image[product.featuredImageIndex].small}
                             alt="N/A"
                           />
                         )}
                       </div>
                       <div className={styles.productName}>{product.name}</div>
                     </Table.Cell>
-                    <Table.Cell textAlign="center">
-                      {category ? category.name : "---"}
-                    </Table.Cell>
-                    <Table.Cell textAlign="center">
-                      {product.currentPrice}
-                    </Table.Cell>
-                    <Table.Cell textAlign="center">
-                      {product.discountPrice || "---"}
-                    </Table.Cell>
+                    <Table.Cell textAlign="center">{category ? category.name : '---'}</Table.Cell>
+                    <Table.Cell textAlign="center">{product.currentPrice}</Table.Cell>
+                    <Table.Cell textAlign="center">{product.discountPrice || '---'}</Table.Cell>
                   </Table.Row>
                 );
               })}
@@ -169,13 +151,11 @@ const AdminMain = ({
               </Table.Row>
             </Table.Header>
             <Table.Body>
-              {definedCategories.map((category) => (
+              {definedCategories.map(category => (
                 <Table.Row
                   className={styles.clickableRow}
                   key={category._id}
-                  onClick={() =>
-                    categoryActions.showAdminCategory(category._id as string)
-                  }
+                  onClick={() => categoryActions.showAdminCategory(category._id as string)}
                 >
                   <Table.Cell>{category.name}</Table.Cell>
                   <Table.Cell>{category.description}</Table.Cell>
@@ -204,18 +184,14 @@ const AdminMain = ({
               </Table.Row>
             </Table.Header>
             <Table.Body>
-              {messages.data.map((message) => {
-                const answeredIcon = message.answered
-                  ? "paper plane"
-                  : "envelope";
+              {messages.data.map(message => {
+                const answeredIcon = message.answered ? 'paper plane' : 'envelope';
                 return (
                   <Table.Row
                     key={message._id}
                     className={cn({ [styles.answered]: message.answered })}
                   >
-                    <Table.Cell collapsing>
-                      {moment(message.createdAt).format("L LT")}
-                    </Table.Cell>
+                    <Table.Cell collapsing>{moment(message.createdAt).format('L LT')}</Table.Cell>
                     <Table.Cell>
                       {message.text.map((paragraph, index) => (
                         // eslint-disable-next-line react/no-array-index-key
@@ -223,16 +199,8 @@ const AdminMain = ({
                       ))}
                     </Table.Cell>
                     <Table.Cell collapsing>
-                      <Icon
-                        name={answeredIcon}
-                        link
-                        onClick={() => toggleAnswer(message._id)}
-                      />
-                      <Icon
-                        name="trash"
-                        link
-                        onClick={() => handleDelete(message._id)}
-                      />
+                      <Icon name={answeredIcon} link onClick={() => toggleAnswer(message._id)} />
+                      <Icon name="trash" link onClick={() => handleDelete(message._id)} />
                     </Table.Cell>
                   </Table.Row>
                 );
@@ -247,22 +215,11 @@ const AdminMain = ({
           <p>Tem certeza que deseja remover a mensagem?</p>
         </Modal.Content>
         <Modal.Actions>
-          <Button
-            basic
-            icon
-            labelPosition="right"
-            color="blue"
-            onClick={closeDialog}
-          >
+          <Button basic icon labelPosition="right" color="blue" onClick={closeDialog}>
             Cancelar
             <Icon name="ban" />
           </Button>
-          <Button
-            icon
-            labelPosition="right"
-            color="red"
-            onClick={destroyMessage}
-          >
+          <Button icon labelPosition="right" color="red" onClick={destroyMessage}>
             Remover
             <Icon name="remove" />
           </Button>

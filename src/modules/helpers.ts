@@ -1,12 +1,10 @@
-import _ from "lodash";
+import _ from 'lodash';
 
 type FunctionType = (...args: any[]) => any;
 interface ActionCreatorsMapObject {
   [actionCreator: string]: FunctionType;
 }
-export type ActionsUnion<A extends ActionCreatorsMapObject> = ReturnType<
-  A[keyof A]
->;
+export type ActionsUnion<A extends ActionCreatorsMapObject> = ReturnType<A[keyof A]>;
 
 interface Action<T extends string> {
   type: T;
@@ -22,10 +20,7 @@ export interface AnyAction {
 }
 
 export function createAction<T extends string>(type: T): Action<T>;
-export function createAction<T extends string, P>(
-  type: T,
-  payload: P
-): ActionWithPayload<T, P>;
+export function createAction<T extends string, P>(type: T, payload: P): ActionWithPayload<T, P>;
 export function createAction<T extends string, P>(type: T, payload?: P) {
   return payload !== undefined ? { type, payload } : { type };
 }
@@ -36,22 +31,20 @@ export function createAction<T extends string, P>(type: T, payload?: P) {
  * @returns {string}
  */
 export const currencyFormat = (value: number): string => {
-  return new Intl.NumberFormat("pt-BR", {
-    style: "currency",
-    currency: "BRL",
+  return new Intl.NumberFormat('pt-BR', {
+    style: 'currency',
+    currency: 'BRL',
   }).format(value);
 };
 
 export const getAuthHeaders = () => ({
-  Authorization: `Bearer ${localStorage.getItem("token")}`,
+  Authorization: `Bearer ${localStorage.getItem('token')}`,
 });
 
 export const getImageNameFromUrl = (url: string): string => {
-  return url.substring(
-    url.substring(url.lastIndexOf("/"), 0).lastIndexOf("/") + 1
-  );
+  return url.substring(url.substring(url.lastIndexOf('/'), 0).lastIndexOf('/') + 1);
 };
 
 export const isAdminPage = (path: string): boolean => {
-  return _.includes(path, "admin");
+  return _.includes(path, 'admin');
 };

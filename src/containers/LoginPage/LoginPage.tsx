@@ -1,10 +1,10 @@
-import React from "react";
-import { connect } from "react-redux";
-import { bindActionCreators, Dispatch } from "redux";
-import { Dimmer, Loader } from "semantic-ui-react";
-import { userActions as cUserActions } from "../../actions/users";
-import LoginForm from "../../forms/Login/Login";
-import styles from "./LoginPage.module.scss";
+import React from 'react';
+import { connect } from 'react-redux';
+import { bindActionCreators, Dispatch } from 'redux';
+import { Dimmer, Loader } from 'semantic-ui-react';
+import { userActions as cUserActions } from '../../actions/users';
+import LoginForm from '../../forms/Login/Login';
+import styles from './LoginPage.module.scss';
 
 interface StateProps {
   users: UsersState;
@@ -26,7 +26,7 @@ const LoginPage = ({ users, userActions }: LoginPageProps) => (
     ) : (
       <div className={styles.loginContainer}>
         <LoginForm
-          onSubmit={(creds) => {
+          onSubmit={creds => {
             userActions.login(creds);
           }}
         />

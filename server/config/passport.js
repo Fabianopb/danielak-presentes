@@ -1,11 +1,11 @@
-const passport = require("passport");
-const LocalStrategy = require("passport-local").Strategy;
-const User = require("../models/user");
+const passport = require('passport');
+const LocalStrategy = require('passport-local').Strategy;
+const User = require('../models/user');
 
 passport.use(
   new LocalStrategy(
     {
-      usernameField: "email",
+      usernameField: 'email',
     },
     (username, password, done) => {
       User.findOne({ email: username }, (error, user) => {
@@ -14,11 +14,11 @@ passport.use(
         }
         if (!user || !user.validPassword(password)) {
           return done(null, false, {
-            message: "Invalid credentials",
+            message: 'Invalid credentials',
           });
         }
         return done(null, user);
       });
-    }
-  )
+    },
+  ),
 );

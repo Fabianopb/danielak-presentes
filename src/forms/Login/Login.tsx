@@ -1,15 +1,15 @@
-import React from "react";
-import { Field, reduxForm, InjectedFormProps } from "redux-form";
-import { Form } from "semantic-ui-react";
-import { FormInput } from "../../components/FormComponents/FormComponents";
-import styles from "./Login.module.scss";
+import React from 'react';
+import { Field, reduxForm, InjectedFormProps } from 'redux-form';
+import { Form } from 'semantic-ui-react';
+import { FormInput } from '../../components/FormComponents/FormComponents';
+import styles from './Login.module.scss';
 
-const LOGIN_FORM = "loginForm";
+const LOGIN_FORM = 'loginForm';
 
 type LoginFormData = LoginRequestParams;
 
 const required = (value: string): string | undefined => {
-  return value ? undefined : "Campo obrigatório";
+  return value ? undefined : 'Campo obrigatório';
 };
 
 const Login: React.SFC<InjectedFormProps<LoginFormData>> = ({

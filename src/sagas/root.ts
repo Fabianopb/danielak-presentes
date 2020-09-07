@@ -1,8 +1,8 @@
-import { all, takeLatest } from "redux-saga/effects";
-import { CategoryActionsEnum } from "../actions/categories";
-import { MessageActionsEnum } from "../actions/messages";
-import { ProductActionsEnum } from "../actions/products";
-import { UserActionsEnum } from "../actions/users";
+import { all, takeLatest } from 'redux-saga/effects';
+import { CategoryActionsEnum } from '../actions/categories';
+import { MessageActionsEnum } from '../actions/messages';
+import { ProductActionsEnum } from '../actions/products';
+import { UserActionsEnum } from '../actions/users';
 import {
   fetchCategoriesSaga,
   fetchCategorySaga,
@@ -10,13 +10,8 @@ import {
   showAdminCategorySaga,
   deleteCategorySaga,
   changeCategorySaga,
-} from "./categories";
-import {
-  getMessagesSaga,
-  saveMessageSaga,
-  toggleAnswerSaga,
-  deleteMessageSaga,
-} from "./messages";
+} from './categories';
+import { getMessagesSaga, saveMessageSaga, toggleAnswerSaga, deleteMessageSaga } from './messages';
 import {
   getProductDetailSaga,
   fetchProductsSaga,
@@ -25,8 +20,8 @@ import {
   deleteImageSaga,
   showAdminProductSaga,
   handleFileDropSaga,
-} from "./products";
-import { loginSaga, logoutSaga } from "./users";
+} from './products';
+import { loginSaga, logoutSaga } from './users';
 
 export default function* rootSaga() {
   yield all([

@@ -1,11 +1,11 @@
-import React, { useEffect } from "react";
-import { connect } from "react-redux";
-import { bindActionCreators } from "redux";
-import { Dimmer, Loader, Icon, Button, Modal, Header } from "semantic-ui-react";
-import { routerActions as cRouterActions } from "connected-react-router";
-import CategoryForm from "../../forms/Category/CategoryForm";
-import { categoryActions as cCategoryActions } from "../../actions/categories";
-import styles from "./AdminCategory.module.scss";
+import React, { useEffect } from 'react';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { Dimmer, Loader, Icon, Button, Modal, Header } from 'semantic-ui-react';
+import { routerActions as cRouterActions } from 'connected-react-router';
+import CategoryForm from '../../forms/Category/CategoryForm';
+import { categoryActions as cCategoryActions } from '../../actions/categories';
+import styles from './AdminCategory.module.scss';
 
 interface StateProps {
   categories: CategoriesState;
@@ -33,7 +33,7 @@ const AdminCategory = ({
   const submitCategory = (category: Category) => {
     // eslint-disable-next-line @typescript-eslint/naming-convention
     const { _id, ...rest } = category;
-    const categoryPayload = match === "new" ? rest : category;
+    const categoryPayload = match === 'new' ? rest : category;
     categoryActions.upsertCategory(categoryPayload);
   };
 
@@ -42,13 +42,7 @@ const AdminCategory = ({
       <div className={styles.addCategoryHeader}>
         <h3>Adicionar categoria</h3>
         <div className={styles.actionButtons}>
-          <Button
-            basic
-            icon
-            labelPosition="right"
-            color="blue"
-            onClick={routerActions.goBack}
-          >
+          <Button basic icon labelPosition="right" color="blue" onClick={routerActions.goBack}>
             Voltar
             <Icon name="chevron left" />
           </Button>
@@ -56,7 +50,7 @@ const AdminCategory = ({
             icon
             labelPosition="right"
             color="red"
-            disabled={match === "new"}
+            disabled={match === 'new'}
             onClick={() => categoryActions.openDialog()}
           >
             Remover
@@ -71,19 +65,12 @@ const AdminCategory = ({
       ) : (
         <CategoryForm onSubmit={submitCategory} />
       )}
-      <Modal
-        open={categories.isDialogOpen}
-        onClose={categoryActions.closeDialog}
-        size="small"
-      >
+      <Modal open={categories.isDialogOpen} onClose={categoryActions.closeDialog} size="small">
         <Header icon="trash" content="Apagar produto" />
         <Modal.Content>
           <p>
-            Tem certeza que deseja apagar a categoria{" "}
-            <em>
-              {categories.activeCategory && categories.activeCategory.name}
-            </em>
-            ?
+            Tem certeza que deseja apagar a categoria{' '}
+            <em>{categories.activeCategory && categories.activeCategory.name}</em>?
           </p>
         </Modal.Content>
         <Modal.Actions>
@@ -102,9 +89,7 @@ const AdminCategory = ({
             labelPosition="right"
             color="red"
             onClick={() =>
-              categoryActions.deleteCategory(
-                (categories.activeCategory as Category)._id as string
-              )
+              categoryActions.deleteCategory((categories.activeCategory as Category)._id as string)
             }
           >
             Remover
@@ -117,12 +102,12 @@ const AdminCategory = ({
 };
 
 export default connect<StateProps, DispatchProps, unknown, RootState>(
-  (state) => ({
+  state => ({
     categories: state.categories,
-    match: state.router.location.pathname.replace("/admin/category/", ""),
+    match: state.router.location.pathname.replace('/admin/category/', ''),
   }),
-  (dispatch) => ({
+  dispatch => ({
     categoryActions: bindActionCreators({ ...cCategoryActions }, dispatch),
     routerActions: bindActionCreators({ ...cRouterActions }, dispatch),
-  })
+  }),
 )(AdminCategory);

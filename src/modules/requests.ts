@@ -1,7 +1,7 @@
-import axios, { AxiosPromise } from "axios";
+import axios, { AxiosPromise } from 'axios';
 
 const getAuthHeaders = () => ({
-  Authorization: `Bearer ${localStorage.getItem("token")}`,
+  Authorization: `Bearer ${localStorage.getItem('token')}`,
 });
 
 export const userRequests = {
@@ -10,9 +10,7 @@ export const userRequests = {
    * @param {LoginRequestParams} credentials user credentials
    * @returns {AxiosPromise<LoginRequestResponse>}
    */
-  login: (
-    credentials: LoginRequestParams
-  ): AxiosPromise<LoginRequestResponse> => {
+  login: (credentials: LoginRequestParams): AxiosPromise<LoginRequestResponse> => {
     return axios.post(`/api/users/login`, credentials);
   },
 };
@@ -68,9 +66,7 @@ export const productRequests = {
    * @returns {AxiosPromise<any>}
    */
   getProductsByCategory: (categoryId: string): AxiosPromise<any> => {
-    return axios.get(
-      `/api/products${categoryId ? `?category=${categoryId}` : ""}`
-    );
+    return axios.get(`/api/products${categoryId ? `?category=${categoryId}` : ''}`);
   },
   /**
    * Post product
@@ -116,7 +112,7 @@ export const messageRequests = {
    * @returns {AxiosPromise<{ data: { id: string } }>}
    */
   postMessage: (text: string[]): AxiosPromise<{ data: { id: string } }> => {
-    return axios.post("/api/messages", { text });
+    return axios.post('/api/messages', { text });
   },
   /**
    * Put a message
@@ -130,11 +126,7 @@ export const messageRequests = {
    * @returns {AxiosPromise<any>}
    */
   toggleMessageAnswer: (id: string): AxiosPromise<any> => {
-    return axios.put(
-      `/api/messages/answer/${id}`,
-      {},
-      { headers: getAuthHeaders() }
-    );
+    return axios.put(`/api/messages/answer/${id}`, {}, { headers: getAuthHeaders() });
   },
   /**
    * Delete a message
@@ -148,14 +140,14 @@ export const messageRequests = {
 export const fileRequests = {
   uploadFile: (formData: FormData) => {
     return axios.post(`/api/files/upload-file`, formData, {
-      headers: { "Content-Type": "multipart/form-data", ...getAuthHeaders() },
+      headers: { 'Content-Type': 'multipart/form-data', ...getAuthHeaders() },
     });
   },
   deleteFiles: (imageNames: string[]) => {
     return axios.post(
-      "/api/files/delete-file",
+      '/api/files/delete-file',
       { images: imageNames },
-      { headers: getAuthHeaders() }
+      { headers: getAuthHeaders() },
     );
   },
 };

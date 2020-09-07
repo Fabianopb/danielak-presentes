@@ -1,16 +1,16 @@
-import React from "react";
-import { Field, reduxForm, InjectedFormProps } from "redux-form";
-import { Form, Icon } from "semantic-ui-react";
-import { Prompt } from "react-router-dom";
-import { FormInput } from "../../components/FormComponents/FormComponents";
-import styles from "./CategoryForm.module.scss";
+import React from 'react';
+import { Field, reduxForm, InjectedFormProps } from 'redux-form';
+import { Form, Icon } from 'semantic-ui-react';
+import { Prompt } from 'react-router-dom';
+import { FormInput } from '../../components/FormComponents/FormComponents';
+import styles from './CategoryForm.module.scss';
 
-export const CATEGORY_FORM = "CategoryForm";
+export const CATEGORY_FORM = 'CategoryForm';
 
 type CategoryFormData = Category;
 
 const required = (value: string): string | undefined => {
-  return value ? undefined : "Campo obrigatório";
+  return value ? undefined : 'Campo obrigatório';
 };
 
 const CategoryForm: React.SFC<InjectedFormProps<CategoryFormData>> = ({
@@ -52,7 +52,7 @@ const CategoryForm: React.SFC<InjectedFormProps<CategoryFormData>> = ({
     <Prompt
       when={submitting || !pristine}
       message={() =>
-        "O formulário não foi enviado, se você sair da página o conteúdo não será salvo!"
+        'O formulário não foi enviado, se você sair da página o conteúdo não será salvo!'
       }
     />
   </div>

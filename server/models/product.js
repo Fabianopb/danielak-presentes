@@ -1,4 +1,4 @@
-const mongoose = require("mongoose");
+const mongoose = require('mongoose');
 
 const { Schema } = mongoose;
 
@@ -29,7 +29,7 @@ const ProductSchema = new Schema({
   description: {
     type: String,
     required: true,
-    default: "",
+    default: '',
   },
   category: {
     type: mongoose.Schema.Types.ObjectId,
@@ -93,4 +93,4 @@ const ProductSchema = new Schema({
   },
 });
 
-module.exports = mongoose.model("Product", ProductSchema);
+module.exports = mongoose.model('Product', ProductSchema);
