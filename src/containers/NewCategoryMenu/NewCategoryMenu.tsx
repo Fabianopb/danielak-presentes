@@ -2,24 +2,30 @@ import React from 'react';
 import { Row, Col } from 'react-flexbox-grid';
 import classNames from 'classnames';
 import useSWR from 'swr';
-// import { useHistory } from 'react-router-dom';
-import { useQueryParam, StringParam } from 'use-query-params';
+import { useHistory, useLocation } from 'react-router-dom';
+import { useQueryParams, StringParam } from 'use-query-params';
 import { isAdminPage } from '../../modules/helpers';
 import styles from './NewCategoryMenu.module.scss';
 import { fetchCategories } from '../../api';
+import { clearSession } from '../../modules/session';
 
 const NewCategoryMenu = () => {
+  const [query, setQuery] = useQueryParams({ categoryId: StringParam });
+
+  const history = useHistory();
+  const location = useLocation();
+
   const { data: categories } = useSWR('/categories', fetchCategories);
 
-  const [categoryId, setCategoryId] = useQueryParam('categoryId', StringParam);
+  const isRoot = location.pathname === '/';
 
-  // useEffect(() => {
-  //   if (router.location.search) {
-  //     productActions.fetchProducts();
-  //   }
-  // }, [router.location.search, productActions]);
+  const navigateToCategory = (categoryId?: string) => {
+    if (!isRoot) {
+      history.push('/');
+    }
+    setQuery({ categoryId });
+  };
 
-  const isRoot = window.location.pathname === '/';
   return (
     <Row center="xs" className={styles.menu}>
       <Col xs={12} lg={8}>
@@ -29,9 +35,9 @@ const NewCategoryMenu = () => {
               <div className={styles.categories}>
                 <div
                   className={classNames(styles.menuItem, {
-                    [styles.activeItem]: isRoot && !categoryId,
+                    [styles.activeItem]: isRoot && !query.categoryId,
                   })}
-                  onClick={() => setCategoryId(undefined)}
+                  onClick={() => navigateToCategory(undefined)}
                 >
                   Home
                 </div>
@@ -40,24 +46,30 @@ const NewCategoryMenu = () => {
                     <div
                       key={category._id}
                       className={classNames(styles.menuItem, {
-                        [styles.activeItem]: isRoot && categoryId === category._id,
+                        [styles.activeItem]: isRoot && query.categoryId === category._id,
                       })}
-                      onClick={() => setCategoryId(category._id)}
+                      onClick={() => navigateToCategory(category._id)}
                     >
                       {category.name}
                     </div>
                   ))}
               </div>
-              {/* <div className={styles.menuItem} onClick={() => routerActions.push('/about')}>
+              <div className={styles.menuItem} onClick={() => history.push('/about')}>
                 Contato
-              </div> */}
+              </div>
             </>
           )}
-          {/* {isAdminPage(window.location.pathname) && (
-            <div className={styles.menuItem} onClick={userActions.logout}>
+          {isAdminPage(window.location.pathname) && (
+            <div
+              className={styles.menuItem}
+              onClick={() => {
+                clearSession();
+                history.push('/');
+              }}
+            >
               Logout
             </div>
-          )} */}
+          )}
         </div>
       </Col>
     </Row>
