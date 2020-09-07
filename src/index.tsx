@@ -27,7 +27,6 @@ import { isSessionValid } from './modules/session';
 import 'semantic-ui-css/semantic.min.css';
 import './index.scss';
 import * as serviceWorker from './serviceWorker';
-import NewCategoryMenu from './containers/NewCategoryMenu/NewCategoryMenu';
 
 const history = createBrowserHistory();
 const sagaMiddleware = createSagaMiddleware();
@@ -56,7 +55,6 @@ ReactDOM.render(
       <QueryParamProvider ReactRouterRoute={Route}>
         <Layout>
           <CategoryMenu />
-          <NewCategoryMenu />
           <Switch>
             <Route exact path="/" component={withTracker(ProductGrid)} />
             <Route exact path="/product/:id" component={withTracker(ProductDetail)} />
