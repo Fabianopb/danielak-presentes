@@ -42,10 +42,10 @@ const AdminProduct = ({
   }, []);
 
   const submitProduct = (product: Product): void => {
-    if (match === "new") {
-      delete product._id;
-    }
-    productActions.upsertProduct(product as Product);
+    // eslint-disable-next-line @typescript-eslint/naming-convention
+    const { _id, ...rest } = product;
+    const productPayload = match === "new" ? rest : product;
+    productActions.upsertProduct(productPayload as Product);
   };
 
   return (

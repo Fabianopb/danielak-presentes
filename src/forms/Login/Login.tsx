@@ -12,7 +12,7 @@ const required = (value: string): string | undefined => {
   return value ? undefined : "Campo obrigatório";
 };
 
-const Login: React.SFC<InjectedFormProps<LoginFormData, {}>> = ({
+const Login: React.SFC<InjectedFormProps<LoginFormData>> = ({
   handleSubmit,
   pristine,
   submitting,
@@ -41,4 +41,4 @@ const Login: React.SFC<InjectedFormProps<LoginFormData, {}>> = ({
   </div>
 );
 
-export default reduxForm<LoginFormData, {}>({ form: LOGIN_FORM })(Login);
+export default reduxForm<LoginFormData>({ form: LOGIN_FORM })(Login);

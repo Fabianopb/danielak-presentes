@@ -49,20 +49,9 @@ const ChatWindow = ({ messages, messageActions }: ChatWindowProps) => {
     setIsOpen(!isOpen);
   };
 
-  const handleKeyPress = (event: { key: string }) => {
-    if (event.key === "Enter") {
-      sendMessage();
-    }
-  };
-
-  const sendMessage = () => {
-    if (input) {
-      const newEntry = chatHistory.concat({ speaker: "user", message: input });
-      setInput("");
-      setChatHistory(newEntry);
-      scrollToBottom();
-      messageActions.saveMessage(newEntry, messages.activeMessageId);
-      delay(answerUser, 2000);
+  const scrollToBottom = () => {
+    if (scrollEl.current) {
+      scrollEl.current.scrollIntoView({ behavior: "smooth" });
     }
   };
 
@@ -100,9 +89,20 @@ const ChatWindow = ({ messages, messageActions }: ChatWindowProps) => {
     }
   };
 
-  const scrollToBottom = () => {
-    if (scrollEl.current) {
-      scrollEl.current.scrollIntoView({ behavior: "smooth" });
+  const sendMessage = () => {
+    if (input) {
+      const newEntry = chatHistory.concat({ speaker: "user", message: input });
+      setInput("");
+      setChatHistory(newEntry);
+      scrollToBottom();
+      messageActions.saveMessage(newEntry, messages.activeMessageId);
+      delay(answerUser, 2000);
+    }
+  };
+
+  const handleKeyPress = (event: { key: string }) => {
+    if (event.key === "Enter") {
+      sendMessage();
     }
   };
 
@@ -127,7 +127,7 @@ const ChatWindow = ({ messages, messageActions }: ChatWindowProps) => {
             {chatHistory.map((history, index) => {
               if (history.speaker === "dani") {
                 return (
-                  <div key={index} className={styles.danikMsg}>
+                  <div key={history.step} className={styles.danikMsg}>
                     <div className={styles.iconWrapper}>
                       <Image src={robotAvatar} bordered circular />
                     </div>
@@ -137,7 +137,11 @@ const ChatWindow = ({ messages, messageActions }: ChatWindowProps) => {
               }
               if (history.speaker === "user") {
                 return (
-                  <div key={index} className={styles.userMsg}>
+                  <div
+                    // eslint-disable-next-line react/no-array-index-key
+                    key={`${history.speaker}_${index}`}
+                    className={styles.userMsg}
+                  >
                     <div className={styles.bullet}>{history.message}</div>
                     <div className={styles.iconWrapper}>
                       <Icon name="user" circular inverted color="grey" />

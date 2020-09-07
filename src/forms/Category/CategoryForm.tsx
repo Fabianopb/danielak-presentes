@@ -13,7 +13,7 @@ const required = (value: string): string | undefined => {
   return value ? undefined : "Campo obrigatório";
 };
 
-const CategoryForm: React.SFC<InjectedFormProps<CategoryFormData, {}>> = ({
+const CategoryForm: React.SFC<InjectedFormProps<CategoryFormData>> = ({
   handleSubmit,
   pristine,
   submitting,
@@ -58,7 +58,7 @@ const CategoryForm: React.SFC<InjectedFormProps<CategoryFormData, {}>> = ({
   </div>
 );
 
-export default reduxForm<CategoryFormData, {}>({
+export default reduxForm<CategoryFormData>({
   form: CATEGORY_FORM,
   destroyOnUnmount: false,
 })(CategoryForm);

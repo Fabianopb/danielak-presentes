@@ -94,7 +94,7 @@
     "typescript": "^3.5.2"
   },
   "lint-staged": {
-    "*.{js,ts}": [
+    "*.{js,ts,jsx,tsx}": [
       "eslint --fix"
     ]
   },
@@ -106,8 +106,8 @@
     "test-client": "react-scripts test",
     "ts": "tsc --project ./tsconfig.json --noEmit",
     "ts:watch": "tsc --project ./tsconfig.json --watch --noEmit",
-    "lint": "eslint ./src ./server -c .eslintrc --ext .js,.ts",
-    "lint:watch": "esw ./src ./server -c .eslintrc --ext .js,.ts --watch --cache --color",
+    "lint": "eslint ./src ./server -c .eslintrc --ext .js,.ts,.jsx,.tsx",
+    "lint:watch": "esw ./src ./server -c .eslintrc --ext .js,.ts,.jsx,.tsx --watch --cache --color",
     "serve": "node server/server.js"
   }
 }
