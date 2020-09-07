@@ -1,26 +1,24 @@
-import { call, put, select } from "redux-saga/effects";
-import Notifications from "react-notification-system-redux";
-import _ from "lodash";
-import { initialize } from "redux-form";
-import { routerActions } from "connected-react-router";
-import { categoryActions } from "../actions/categories";
-import { productActions } from "../actions/products";
-import { categoryRequests, productRequests } from "../modules/requests";
-import { categorySelectors } from "../modules/selectors";
-import { CATEGORY_FORM } from "../forms/Category/CategoryForm";
+import { call, put, select } from 'redux-saga/effects';
+import Notifications from 'react-notification-system-redux';
+import _ from 'lodash';
+import { initialize } from 'redux-form';
+import { routerActions } from 'connected-react-router';
+import { categoryActions } from '../actions/categories';
+import { productActions } from '../actions/products';
+import { categoryRequests, productRequests } from '../modules/requests';
+import { categorySelectors } from '../modules/selectors';
+import { CATEGORY_FORM } from '../forms/Category/CategoryForm';
 
 const notificationOpts = {
   autoDismiss: 5,
-  position: "tc" as const,
-  title: "",
+  position: 'tc' as const,
+  title: '',
 };
 
 export function* fetchCategoriesSaga() {
   try {
     yield put(categoryActions.startRequest());
-    const response: { data: Category[] } = yield call(
-      categoryRequests.getCategories
-    );
+    const response: { data: Category[] } = yield call(categoryRequests.getCategories);
     const categories: Category[] = response.data;
     yield put(categoryActions.receiveCategories(categories));
     yield put(categoryActions.setActiveCategory(categories[0]));
@@ -32,14 +30,12 @@ export function* fetchCategoriesSaga() {
   }
 }
 
-export function* fetchCategorySaga(
-  action: ReturnType<typeof categoryActions.fetchCategory>
-) {
+export function* fetchCategorySaga(action: ReturnType<typeof categoryActions.fetchCategory>) {
   try {
     yield put(categoryActions.startRequest());
     const response: { data: Category[] } = yield call(
       categoryRequests.getCategoryById,
-      action.payload
+      action.payload,
     );
     const category = response.data[0];
     yield put(initialize(CATEGORY_FORM, category));
@@ -52,9 +48,7 @@ export function* fetchCategorySaga(
   }
 }
 
-export function* upsertCategorySaga(
-  action: ReturnType<typeof categoryActions.upsertCategory>
-) {
+export function* upsertCategorySaga(action: ReturnType<typeof categoryActions.upsertCategory>) {
   try {
     yield put(categoryActions.startRequest());
     if (action.payload._id) {
@@ -62,8 +56,8 @@ export function* upsertCategorySaga(
     } else {
       yield call(categoryRequests.postCategory, action.payload);
     }
-    yield put(routerActions.push("/admin"));
-    notificationOpts.title = "Categorias atualizadas com sucesso!";
+    yield put(routerActions.push('/admin'));
+    notificationOpts.title = 'Categorias atualizadas com sucesso!';
     yield put(Notifications.success(notificationOpts));
   } catch (error) {
     notificationOpts.title = error.message;
@@ -74,26 +68,21 @@ export function* upsertCategorySaga(
 }
 
 export function* showAdminCategorySaga(
-  action: ReturnType<typeof categoryActions.showAdminCategory>
+  action: ReturnType<typeof categoryActions.showAdminCategory>,
 ) {
   const categories: Category[] = yield select(categorySelectors.categories);
-  const activeCategory = _.find(
-    categories,
-    (cat) => cat._id === action.payload
-  );
+  const activeCategory = _.find(categories, cat => cat._id === action.payload);
   yield put(categoryActions.setActiveCategory(activeCategory as Category));
   yield put(routerActions.push(`/admin/category/${action.payload}`));
 }
 
-export function* deleteCategorySaga(
-  action: ReturnType<typeof categoryActions.deleteCategory>
-) {
+export function* deleteCategorySaga(action: ReturnType<typeof categoryActions.deleteCategory>) {
   try {
     yield put(categoryActions.startRequest());
     yield put(categoryActions.closeDialog());
     yield call(categoryRequests.deleteCategory, action.payload);
-    yield put(routerActions.push("/admin"));
-    notificationOpts.title = "Categoria excluida com sucesso!";
+    yield put(routerActions.push('/admin'));
+    notificationOpts.title = 'Categoria excluida com sucesso!';
     yield put(Notifications.success(notificationOpts));
   } catch (error) {
     notificationOpts.title = error.message;
@@ -103,21 +92,13 @@ export function* deleteCategorySaga(
   }
 }
 
-export function* changeCategorySaga(
-  action: ReturnType<typeof categoryActions.changeCategory>
-) {
+export function* changeCategorySaga(action: ReturnType<typeof categoryActions.changeCategory>) {
   try {
     yield put(categoryActions.startRequest());
-    const response = yield call(
-      productRequests.getProductsByCategory,
-      action.payload as string
-    );
+    const response = yield call(productRequests.getProductsByCategory, action.payload as string);
     yield put(productActions.receiveProducts(response.data));
     const categories: Category[] = yield select(categorySelectors.categories);
-    const activeCategory = _.find(
-      categories,
-      (cat) => cat._id === action.payload
-    ) as Category;
+    const activeCategory = _.find(categories, cat => cat._id === action.payload) as Category;
     yield put(categoryActions.setActiveCategory(activeCategory));
   } catch (error) {
     notificationOpts.title = error.message;

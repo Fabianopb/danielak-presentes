@@ -1,10 +1,7 @@
-import { ProductActionsEnum, ProductActions } from "../actions/products";
-import { productsState } from "./initialState";
+import { ProductActionsEnum, ProductActions } from '../actions/products';
+import { productsState } from './initialState';
 
-const productsReducer = (
-  products = productsState,
-  action: ProductActions
-): ProductsState => {
+const productsReducer = (products = productsState, action: ProductActions): ProductsState => {
   switch (action.type) {
     case ProductActionsEnum.START_REQUEST:
       return { ...products, isFetching: true };

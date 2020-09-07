@@ -1,7 +1,7 @@
-import { compose } from "redux";
-import { Notification } from "react-notification-system";
-import { FormStateMap } from "redux-form";
-import { RouterState } from "connected-react-router";
+import { compose } from 'redux';
+import { Notification } from 'react-notification-system';
+import { FormStateMap } from 'redux-form';
+import { RouterState } from 'connected-react-router';
 
 declare global {
   interface Window {
@@ -85,7 +85,7 @@ declare global {
   }
 
   interface ChatHistory {
-    speaker: "dani" | "user";
+    speaker: 'dani' | 'user';
     message: string;
     step?: number;
   }

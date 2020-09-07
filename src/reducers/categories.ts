@@ -1,10 +1,7 @@
-import { CategoryActionsEnum, CategoryActions } from "../actions/categories";
-import { categoriesState } from "./initialState";
+import { CategoryActionsEnum, CategoryActions } from '../actions/categories';
+import { categoriesState } from './initialState';
 
-const categoriesReducer = (
-  state = categoriesState,
-  action: CategoryActions
-): CategoriesState => {
+const categoriesReducer = (state = categoriesState, action: CategoryActions): CategoriesState => {
   switch (action.type) {
     case CategoryActionsEnum.START_REQUEST:
       return { ...state, isFetching: true };
