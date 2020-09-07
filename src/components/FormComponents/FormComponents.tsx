@@ -1,6 +1,6 @@
-import React from "react";
-import { WrappedFieldProps, WrappedFieldInputProps } from "redux-form";
-import _ from "lodash";
+import React from 'react';
+import { WrappedFieldProps, WrappedFieldInputProps } from 'redux-form';
+import _ from 'lodash';
 import {
   Form,
   Input,
@@ -11,8 +11,8 @@ import {
   CheckboxProps,
   Dropdown,
   DropdownProps,
-} from "semantic-ui-react";
-import styles from "./FormComponents.module.scss";
+} from 'semantic-ui-react';
+import styles from './FormComponents.module.scss';
 
 const hasErrored = (touched: boolean, errorMessage: string): boolean =>
   touched && !_.isUndefined(errorMessage);
@@ -45,9 +45,7 @@ const FormInput = ({
         type={type}
         placeholder={placeholder}
       />
-      <div className={styles.errorMessage}>
-        {error && <span>{meta.error}</span>}
-      </div>
+      <div className={styles.errorMessage}>{error && <span>{meta.error}</span>}</div>
     </Form.Field>
   );
 };
@@ -67,22 +65,14 @@ const FormTextArea = ({
     <Form.Field error={error} required={required}>
       <label>{formLabel}</label>
       <TextArea {...input} type={type} placeholder={placeholder} />
-      <div className={styles.errorMessage}>
-        {error && <span>{meta.error}</span>}
-      </div>
+      <div className={styles.errorMessage}>{error && <span>{meta.error}</span>}</div>
     </Form.Field>
   );
 };
 
 interface FormCheckboxProps extends WrappedFieldProps, CheckboxProps {}
 
-const FormCheckbox = ({
-  meta,
-  required,
-  input,
-  formLabel,
-  value,
-}: FormCheckboxProps) => {
+const FormCheckbox = ({ meta, required, input, formLabel, value }: FormCheckboxProps) => {
   const error = hasErrored(meta.touched, meta.error);
   return (
     <Form.Field error={error} required={required}>

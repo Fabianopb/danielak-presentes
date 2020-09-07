@@ -1,11 +1,9 @@
-import React from "react";
-import { connect } from "react-redux";
+import React from 'react';
+import { connect } from 'react-redux';
 
-import Notifications from "react-notification-system-redux";
+import Notifications from 'react-notification-system-redux';
 
-const NotificationsManager = ({
-  notifications,
-}: Notifications.NotificationsProps) => (
+const NotificationsManager = ({ notifications }: Notifications.NotificationsProps) => (
   <Notifications notifications={notifications} />
 );
 

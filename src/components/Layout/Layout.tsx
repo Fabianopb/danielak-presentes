@@ -1,8 +1,8 @@
-import React, { ReactNode } from "react";
-import { Grid, Row, Col } from "react-flexbox-grid";
-import danikLogo from "../../assets/danik-logo.png";
-import danikLua from "../../assets/danik-lua.png";
-import styles from "./Layout.module.scss";
+import React, { ReactNode } from 'react';
+import { Grid, Row, Col } from 'react-flexbox-grid';
+import danikLogo from '../../assets/danik-logo.png';
+import danikLua from '../../assets/danik-lua.png';
+import styles from './Layout.module.scss';
 
 type LayoutProps = {
   children: ReactNode;

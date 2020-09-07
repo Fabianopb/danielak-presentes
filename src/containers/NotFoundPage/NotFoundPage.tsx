@@ -1,12 +1,12 @@
-import React from "react";
-import { bindActionCreators, Dispatch } from "redux";
-import { connect } from "react-redux";
-import { Row, Col } from "react-flexbox-grid";
-import { Location } from "history";
-import { routerActions as cRouterActions } from "connected-react-router";
-import { Image, Button } from "semantic-ui-react";
-import eyes from "../../assets/eyes-404.png";
-import styles from "./NotFoundPage.module.scss";
+import React from 'react';
+import { bindActionCreators, Dispatch } from 'redux';
+import { connect } from 'react-redux';
+import { Row, Col } from 'react-flexbox-grid';
+import { Location } from 'history';
+import { routerActions as cRouterActions } from 'connected-react-router';
+import { Image, Button } from 'semantic-ui-react';
+import eyes from '../../assets/eyes-404.png';
+import styles from './NotFoundPage.module.scss';
 
 interface OwnProps {
   location: Location;
@@ -31,17 +31,14 @@ const NotFoundPage = ({ location, routerActions }: NotFoundPageProps) => {
           </div>
           <p>A página que você procurava não foi encontrada</p>
           <p>
-            Talvez você estivesse procurando por algo em meu blog? Se for este o
-            caso tente acessar:
+            Talvez você estivesse procurando por algo em meu blog? Se for este o caso tente acessar:
             <br />
             <a href={blogUrl} target="_blank" rel="noopener noreferrer">
               {blogUrl}
             </a>
           </p>
-          <p>
-            E de qualquer forma não deixe de conferir nossos lindos produtos!
-          </p>
-          <Button primary name="home" onClick={() => push("/")}>
+          <p>E de qualquer forma não deixe de conferir nossos lindos produtos!</p>
+          <Button primary name="home" onClick={() => push('/')}>
             Home
           </Button>
         </div>

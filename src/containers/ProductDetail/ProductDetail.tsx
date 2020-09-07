@@ -1,20 +1,12 @@
-import React, { useState, useEffect } from "react";
-import { connect } from "react-redux";
-import { bindActionCreators, Dispatch } from "redux";
-import {
-  Dimmer,
-  Loader,
-  Button,
-  Icon,
-  Grid,
-  Popup,
-  Modal,
-} from "semantic-ui-react";
-import ImageGallery from "../../components/ImageGallery/ImageGallery";
-import { productActions as cProductActions } from "../../actions/products";
-import { currencyFormat } from "../../modules/helpers";
-import pagseguroLogo from "../../assets/pagseguro-logo.png";
-import styles from "./ProductDetail.module.scss";
+import React, { useState, useEffect } from 'react';
+import { connect } from 'react-redux';
+import { bindActionCreators, Dispatch } from 'redux';
+import { Dimmer, Loader, Button, Icon, Grid, Popup, Modal } from 'semantic-ui-react';
+import ImageGallery from '../../components/ImageGallery/ImageGallery';
+import { productActions as cProductActions } from '../../actions/products';
+import { currencyFormat } from '../../modules/helpers';
+import pagseguroLogo from '../../assets/pagseguro-logo.png';
+import styles from './ProductDetail.module.scss';
 
 interface StateProps {
   products: ProductsState;
@@ -27,11 +19,7 @@ interface DispatchProps {
 
 type ProductDetailProps = StateProps & DispatchProps;
 
-const ProductDetail = ({
-  products,
-  match,
-  productActions,
-}: ProductDetailProps) => {
+const ProductDetail = ({ products, match, productActions }: ProductDetailProps) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   useEffect(() => {
@@ -60,18 +48,12 @@ const ProductDetail = ({
                     />
                   </Grid.Column>
                   <Grid.Column className={styles.frame}>
-                    <div
-                      className={`${styles.detailsContainer} flex-column cross-axis-baseline`}
-                    >
-                      <div className={styles.title}>
-                        {products.activeProduct.name}
-                      </div>
+                    <div className={`${styles.detailsContainer} flex-column cross-axis-baseline`}>
+                      <div className={styles.title}>{products.activeProduct.name}</div>
                       <div className={styles.price}>
                         <span
                           className={
-                            products.activeProduct.discountPrice
-                              ? styles.disabledPrice
-                              : ""
+                            products.activeProduct.discountPrice ? styles.disabledPrice : ''
                           }
                         >
                           {currencyFormat(products.activeProduct.currentPrice)}
@@ -93,9 +75,7 @@ const ProductDetail = ({
                             />
                           }
                         />
-                        <div className={styles.discountInfo}>
-                          Com até 10% de desconto!
-                        </div>
+                        <div className={styles.discountInfo}>Com até 10% de desconto!</div>
                       </div>
                       {products.activeProduct.storeLink && (
                         <div className={styles.buttonContainer}>
@@ -109,7 +89,7 @@ const ProductDetail = ({
                                 products.activeProduct
                                   ? products.activeProduct.storeLink
                                   : undefined,
-                                "_blank"
+                                '_blank',
                               )
                             }
                           />
@@ -118,24 +98,18 @@ const ProductDetail = ({
                       <h3>Detalhes do produto e confecção</h3>
                       <div>Peso: {products.activeProduct.weight} g</div>
                       <div>
-                        Dimensões (cm): {products.activeProduct.width} x{" "}
-                        {products.activeProduct.depth} x{" "}
-                        {products.activeProduct.height}
+                        Dimensões (cm): {products.activeProduct.width} x{' '}
+                        {products.activeProduct.depth} x {products.activeProduct.height}
                         (comprimento x largura x altura)
                       </div>
                       <div>
-                        Quantidade mínima do pedido:{" "}
-                        {products.activeProduct.minAmount} unidades
+                        Quantidade mínima do pedido: {products.activeProduct.minAmount} unidades
                       </div>
                       <div>
-                        Tempo esperado para produção:{" "}
-                        {products.activeProduct.productionTime} dias úteis
+                        Tempo esperado para produção: {products.activeProduct.productionTime} dias
+                        úteis
                       </div>
-                      <img
-                        className={styles.pagseguro}
-                        src={pagseguroLogo}
-                        alt="pagseguro"
-                      />
+                      <img className={styles.pagseguro} src={pagseguroLogo} alt="pagseguro" />
                     </div>
                   </Grid.Column>
                 </Grid>
@@ -167,14 +141,11 @@ const ProductDetail = ({
       >
         <Modal.Content className={styles.modalContent}>
           <div className={styles.subtitle}>
-            Entre em contato direto e faça seu orçamento. Desconto à vista ou
-            até 3x sem juros.
+            Entre em contato direto e faça seu orçamento. Desconto à vista ou até 3x sem juros.
           </div>
           <p>
             <Icon name="mail" size="large" />
-            <a href="mailto:danielakpresentes@yahoo.com.br">
-              danielakpresentes@yahoo.com.br
-            </a>
+            <a href="mailto:danielakpresentes@yahoo.com.br">danielakpresentes@yahoo.com.br</a>
           </p>
           <p>
             <Icon name="whatsapp" size="large" className={styles.whatsapp} />
@@ -208,7 +179,7 @@ const ProductDetail = ({
 
 const mapStateToProps = (state: RootState) => ({
   products: state.products,
-  match: state.router.location.pathname.replace("/product/", ""),
+  match: state.router.location.pathname.replace('/product/', ''),
 });
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({

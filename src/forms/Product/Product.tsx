@@ -1,19 +1,19 @@
-import React from "react";
-import { Field, reduxForm, InjectedFormProps } from "redux-form";
-import { Form, Segment, Icon, Popup } from "semantic-ui-react";
-import { Prompt } from "react-router-dom";
-import Dropzone from "react-dropzone";
-import _ from "lodash";
+import React from 'react';
+import { Field, reduxForm, InjectedFormProps } from 'redux-form';
+import { Form, Segment, Icon, Popup } from 'semantic-ui-react';
+import { Prompt } from 'react-router-dom';
+import Dropzone from 'react-dropzone';
+import _ from 'lodash';
 import {
   FormInput,
   FormCheckbox,
   FormDropdown,
-} from "../../components/FormComponents/FormComponents";
-import { productActions } from "../../actions/products";
-import RichTextArea from "../../components/RichTextArea/RichTextArea";
-import styles from "./Product.module.scss";
+} from '../../components/FormComponents/FormComponents';
+import { productActions } from '../../actions/products';
+import RichTextArea from '../../components/RichTextArea/RichTextArea';
+import styles from './Product.module.scss';
 
-export const PRODUCT_FORM = "editProductForm";
+export const PRODUCT_FORM = 'editProductForm';
 
 type ProductFormData = Product;
 
@@ -25,14 +25,12 @@ interface ProductFormProps {
 }
 
 const required = (value: string): string | undefined => {
-  return value ? undefined : "Campo obrigatório";
+  return value ? undefined : 'Campo obrigatório';
 };
 
 const requiredDescription = (value: string): string | undefined => {
   if (value) {
-    return value.replace(/<(.|\n)*?>/g, "") !== ""
-      ? undefined
-      : "Campo obrigatório";
+    return value.replace(/<(.|\n)*?>/g, '') !== '' ? undefined : 'Campo obrigatório';
   }
   return undefined;
 };
@@ -49,14 +47,11 @@ const Product: React.SFC<
   touch,
   categories,
 }) => {
-  const isSomeImageUploading = _.some(
-    images,
-    (image) => image === ("uploading" as any)
-  );
+  const isSomeImageUploading = _.some(images, image => image === ('uploading' as any));
   const hasDropzone = images && images.length < 5 && !isSomeImageUploading;
   const catOptions = _.filter(
-    _.map(categories, (cat) => ({ text: cat.name, value: cat._id })),
-    (cat) => !_.isUndefined(cat.value)
+    _.map(categories, cat => ({ text: cat.name, value: cat._id })),
+    cat => !_.isUndefined(cat.value),
   );
   return (
     <div className={styles.productForm}>
@@ -98,30 +93,21 @@ const Product: React.SFC<
           {images &&
             _.map(images, (image, index) => (
               <div key={index} className={styles.previewContainer}>
-                {image === ("uploading" as any) ? (
+                {image === ('uploading' as any) ? (
                   <Segment className={styles.loading} loading />
                 ) : (
                   <div>
-                    <div
-                      className={styles.deleteButton}
-                      onClick={() => deleteImage(image)}
-                    >
+                    <div className={styles.deleteButton} onClick={() => deleteImage(image)}>
                       <Icon name="delete" />
                     </div>
-                    <img
-                      className={styles.imagePreview}
-                      src={image.small}
-                      alt={image.small}
-                    />
+                    <img className={styles.imagePreview} src={image.small} alt={image.small} />
                   </div>
                 )}
               </div>
             ))}
           {hasDropzone && (
             <Dropzone className={styles.fileDrop} onDrop={handleFileDrop}>
-              <div className={styles.fileDropText}>
-                Faça upload da imagem aqui
-              </div>
+              <div className={styles.fileDropText}>Faça upload da imagem aqui</div>
             </Dropzone>
           )}
         </div>
@@ -153,12 +139,7 @@ const Product: React.SFC<
             placeholder="Preço com desconto"
           />
         </Form.Group>
-        <Field
-          component={FormInput}
-          formLabel="Tags"
-          placeholder="Tags"
-          name="tags"
-        />
+        <Field component={FormInput} formLabel="Tags" placeholder="Tags" name="tags" />
         <Form.Group widths="equal">
           <Field
             component={FormInput}
@@ -226,11 +207,7 @@ const Product: React.SFC<
           />
         </Form.Group>
         <Field component={FormCheckbox} formLabel="Visível" name="isVisible" />
-        <Field
-          component={FormCheckbox}
-          formLabel="Em destaque"
-          name="isFeatured"
-        />
+        <Field component={FormCheckbox} formLabel="Em destaque" name="isFeatured" />
         <Form.Button
           className={styles.submitWrapper}
           icon
@@ -245,7 +222,7 @@ const Product: React.SFC<
       <Prompt
         when={submitting || !pristine || isSomeImageUploading}
         message={() =>
-          "O formulário não foi enviado, se você sair da página o conteúdo não será salvo!"
+          'O formulário não foi enviado, se você sair da página o conteúdo não será salvo!'
         }
       />
     </div>

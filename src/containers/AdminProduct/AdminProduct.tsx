@@ -1,13 +1,13 @@
-import React, { useEffect } from "react";
-import { connect } from "react-redux";
-import { bindActionCreators, Dispatch } from "redux";
-import { formValueSelector } from "redux-form";
-import { Dimmer, Loader, Icon, Modal, Button, Header } from "semantic-ui-react";
-import { routerActions as cRouterActions } from "connected-react-router";
-import ProductForm from "../../forms/Product/Product";
-import { productActions as cProductActions } from "../../actions/products";
-import { categoryActions as cCategoryActions } from "../../actions/categories";
-import styles from "./AdminProduct.module.scss";
+import React, { useEffect } from 'react';
+import { connect } from 'react-redux';
+import { bindActionCreators, Dispatch } from 'redux';
+import { formValueSelector } from 'redux-form';
+import { Dimmer, Loader, Icon, Modal, Button, Header } from 'semantic-ui-react';
+import { routerActions as cRouterActions } from 'connected-react-router';
+import ProductForm from '../../forms/Product/Product';
+import { productActions as cProductActions } from '../../actions/products';
+import { categoryActions as cCategoryActions } from '../../actions/categories';
+import styles from './AdminProduct.module.scss';
 
 interface StateProps {
   products: ProductsState;
@@ -44,7 +44,7 @@ const AdminProduct = ({
   const submitProduct = (product: Product): void => {
     // eslint-disable-next-line @typescript-eslint/naming-convention
     const { _id, ...rest } = product;
-    const productPayload = match === "new" ? rest : product;
+    const productPayload = match === 'new' ? rest : product;
     productActions.upsertProduct(productPayload as Product);
   };
 
@@ -53,13 +53,7 @@ const AdminProduct = ({
       <div className={styles.addProductHeader}>
         <h3>Adicionar produto</h3>
         <div className={styles.actionButtons}>
-          <Button
-            basic
-            icon
-            labelPosition="right"
-            color="blue"
-            onClick={routerActions.goBack}
-          >
+          <Button basic icon labelPosition="right" color="blue" onClick={routerActions.goBack}>
             Voltar
             <Icon name="chevron left" />
           </Button>
@@ -67,10 +61,8 @@ const AdminProduct = ({
             icon
             labelPosition="right"
             color="red"
-            disabled={match === "new"}
-            onClick={() =>
-              productActions.openDialog(products.activeProduct as Product)
-            }
+            disabled={match === 'new'}
+            onClick={() => productActions.openDialog(products.activeProduct as Product)}
           >
             Remover
             <Icon name="trash" />
@@ -90,15 +82,11 @@ const AdminProduct = ({
           onSubmit={submitProduct}
         />
       )}
-      <Modal
-        open={products.isDialogOpen}
-        onClose={productActions.closeDialog}
-        size="small"
-      >
+      <Modal open={products.isDialogOpen} onClose={productActions.closeDialog} size="small">
         <Header icon="trash" content="Apagar produto" />
         <Modal.Content>
           <p>
-            Tem certeza que deseja apagar o produto{" "}
+            Tem certeza que deseja apagar o produto{' '}
             <em>{products.activeProduct && products.activeProduct.name}</em>?
           </p>
         </Modal.Content>
@@ -117,11 +105,7 @@ const AdminProduct = ({
             icon
             labelPosition="right"
             color="red"
-            onClick={() =>
-              productActions.deleteProduct(
-                (products.activeProduct as Product)._id
-              )
-            }
+            onClick={() => productActions.deleteProduct((products.activeProduct as Product)._id)}
           >
             Remover
             <Icon name="remove" />
@@ -136,9 +120,9 @@ const mapStateToProps = (state: RootState) => ({
   products: state.products,
   categories: state.categories,
   formValues: {
-    images: formValueSelector("editProductForm")(state, "image"),
+    images: formValueSelector('editProductForm')(state, 'image'),
   },
-  match: state.router.location.pathname.replace("/admin/product/", ""),
+  match: state.router.location.pathname.replace('/admin/product/', ''),
 });
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
