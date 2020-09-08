@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Field, reduxForm, InjectedFormProps, formValueSelector } from 'redux-form';
 import { connect } from 'react-redux';
 import { Form, Segment, Icon, Popup } from 'semantic-ui-react';
@@ -16,6 +16,14 @@ import { uploadFile, deleteFiles } from '../../api';
 import { getImageNameFromUrl } from '../../modules/helpers';
 
 export const PRODUCT_FORM = 'editProductForm';
+
+function usePrevious<T>(value: T) {
+  const ref = useRef<T>();
+  useEffect(() => {
+    ref.current = value;
+  }, [value]);
+  return ref.current;
+}
 
 type ProductFormData = Product;
 
@@ -49,14 +57,14 @@ const Product: React.SFC<FormProps & InjectedFormProps<ProductFormData, FormProp
   change,
   images = [],
 }) => {
-  const [stateImages, setStateImages] = useState<ProductImage[]>(images);
+  const [stateImages, setStateImages] = useState<ProductImage[]>([]);
 
+  const previousImages = usePrevious(images);
   useEffect(() => {
-    if (images.length !== stateImages.length) {
+    if (!_.isEqual(previousImages, images)) {
       setStateImages(images);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [images, previousImages]);
 
   const handleFileDrop = async (files: any[]) => {
     try {
