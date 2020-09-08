@@ -39,11 +39,12 @@ const store = createStore(rootReducer(history), composeEnhancers(applyMiddleware
 
 sagaMiddleware.run(rootSaga);
 
-type ProtectedRouteProps = RouteProps & { component: React.ComponentClass };
-const ProtectedRoute: React.SFC<ProtectedRouteProps> = ({ component: Component, ...rest }) => (
+const ProtectedRoute = ({ component: Component, ...rest }: RouteProps) => (
   <Route
     {...rest}
-    render={props => (isSessionValid() ? <Component {...props} /> : <Redirect to="/login" />)}
+    render={props =>
+      isSessionValid() && Component ? <Component {...props} /> : <Redirect to="/login" />
+    }
   />
 );
 
