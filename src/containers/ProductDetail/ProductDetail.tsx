@@ -1,135 +1,102 @@
-import React, { useState, useEffect } from 'react';
-import { connect } from 'react-redux';
-import { bindActionCreators, Dispatch } from 'redux';
+import React, { useState } from 'react';
+import { useParams } from 'react-router-dom';
+import useSWR from 'swr';
 import { Dimmer, Loader, Button, Icon, Grid, Popup, Modal } from 'semantic-ui-react';
 import ImageGallery from '../../components/ImageGallery/ImageGallery';
-import { productActions as cProductActions } from '../../actions/products';
 import { currencyFormat } from '../../modules/helpers';
 import pagseguroLogo from '../../assets/pagseguro-logo.png';
 import styles from './ProductDetail.module.scss';
+import { fetchProductById } from '../../api';
 
-interface StateProps {
-  products: ProductsState;
-  match: string;
-}
+const ProductDetail = () => {
+  const params = useParams();
 
-interface DispatchProps {
-  productActions: typeof cProductActions;
-}
-
-type ProductDetailProps = StateProps & DispatchProps;
-
-const ProductDetail = ({ products, match, productActions }: ProductDetailProps) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  useEffect(() => {
-    productActions.getProductDetail(match);
-    // eslint-disable-next-line
-  }, []);
+  const { data, isValidating, error } = useSWR(`/product/${params.id}`, () =>
+    fetchProductById(params.id),
+  );
 
   return (
     <div>
       <Grid className={styles.productDetails} fluid="true">
         <Grid.Column width={2} only="computer" />
         <Grid.Column width={1} only="widescreen" />
-        {products.isFetching ? (
+        {isValidating && (
           <Dimmer active inverted>
             <Loader />
           </Dimmer>
-        ) : (
-          <Grid.Column computer={12} widescreen={10} width={16}>
-            {products.activeProduct ? (
-              <div>
-                <Grid stackable columns={2}>
-                  <Grid.Column className={styles.frame}>
-                    <ImageGallery
-                      images={products.activeProduct.image}
-                      selectedIndex={products.activeProduct.featuredImageIndex}
-                    />
-                  </Grid.Column>
-                  <Grid.Column className={styles.frame}>
-                    <div className={`${styles.detailsContainer} flex-column cross-axis-baseline`}>
-                      <div className={styles.title}>{products.activeProduct.name}</div>
-                      <div className={styles.price}>
-                        <span
-                          className={
-                            products.activeProduct.discountPrice ? styles.disabledPrice : ''
-                          }
-                        >
-                          {currencyFormat(products.activeProduct.currentPrice)}
-                        </span>
-                        {products.activeProduct.discountPrice &&
-                          currencyFormat(products.activeProduct.discountPrice)}
-                      </div>
-                      <div className={styles.buttonContainer}>
-                        <Popup
-                          inverted
-                          content="Clique para falar diretamente conosco e receber seu desconto."
-                          trigger={
-                            <Button
-                              primary
-                              icon="shop"
-                              content="Comprar aqui"
-                              labelPosition="left"
-                              onClick={() => setIsModalOpen(true)}
-                            />
-                          }
-                        />
-                        <div className={styles.discountInfo}>Com até 10% de desconto!</div>
-                      </div>
-                      {products.activeProduct.storeLink && (
-                        <div className={styles.buttonContainer}>
+        )}
+        <Grid.Column computer={12} widescreen={10} width={16}>
+          {data && (
+            <div>
+              <Grid stackable columns={2}>
+                <Grid.Column className={styles.frame}>
+                  <ImageGallery images={data.image} selectedIndex={data.featuredImageIndex} />
+                </Grid.Column>
+                <Grid.Column className={styles.frame}>
+                  <div className={`${styles.detailsContainer} flex-column cross-axis-baseline`}>
+                    <div className={styles.title}>{data.name}</div>
+                    <div className={styles.price}>
+                      <span className={data.discountPrice ? styles.disabledPrice : ''}>
+                        {currencyFormat(data.currentPrice)}
+                      </span>
+                      {data.discountPrice && currencyFormat(data.discountPrice)}
+                    </div>
+                    <div className={styles.buttonContainer}>
+                      <Popup
+                        inverted
+                        content="Clique para falar diretamente conosco e receber seu desconto."
+                        trigger={
                           <Button
                             primary
                             icon="shop"
-                            content="Loja Elo7"
+                            content="Comprar aqui"
                             labelPosition="left"
-                            onClick={() =>
-                              window.open(
-                                products.activeProduct
-                                  ? products.activeProduct.storeLink
-                                  : undefined,
-                                '_blank',
-                              )
-                            }
+                            onClick={() => setIsModalOpen(true)}
                           />
-                        </div>
-                      )}
-                      <h3>Detalhes do produto e confecção</h3>
-                      <div>Peso: {products.activeProduct.weight} g</div>
-                      <div>
-                        Dimensões (cm): {products.activeProduct.width} x{' '}
-                        {products.activeProduct.depth} x {products.activeProduct.height}
-                        (comprimento x largura x altura)
-                      </div>
-                      <div>
-                        Quantidade mínima do pedido: {products.activeProduct.minAmount} unidades
-                      </div>
-                      <div>
-                        Tempo esperado para produção: {products.activeProduct.productionTime} dias
-                        úteis
-                      </div>
-                      <img className={styles.pagseguro} src={pagseguroLogo} alt="pagseguro" />
+                        }
+                      />
+                      <div className={styles.discountInfo}>Com até 10% de desconto!</div>
                     </div>
-                  </Grid.Column>
-                </Grid>
-                <Grid>
-                  <Grid.Column className={styles.description}>
-                    <div
-                      // FIXME: what would be the alternative?
-                      // eslint-disable-next-line react/no-danger
-                      dangerouslySetInnerHTML={{
-                        __html: products.activeProduct.description,
-                      }}
-                    />
-                  </Grid.Column>
-                </Grid>
-              </div>
-            ) : (
-              <div>Produto não encontrado</div>
-            )}
-          </Grid.Column>
-        )}
+                    {data.storeLink && (
+                      <div className={styles.buttonContainer}>
+                        <Button
+                          primary
+                          icon="shop"
+                          content="Loja Elo7"
+                          labelPosition="left"
+                          onClick={() => window.open(data ? data.storeLink : undefined, '_blank')}
+                        />
+                      </div>
+                    )}
+                    <h3>Detalhes do produto e confecção</h3>
+                    <div>Peso: {data.weight} g</div>
+                    <div>
+                      Dimensões (cm): {data.width} x {data.depth} x {data.height}
+                      (comprimento x largura x altura)
+                    </div>
+                    <div>Quantidade mínima do pedido: {data.minAmount} unidades</div>
+                    <div>Tempo esperado para produção: {data.productionTime} dias úteis</div>
+                    <img className={styles.pagseguro} src={pagseguroLogo} alt="pagseguro" />
+                  </div>
+                </Grid.Column>
+              </Grid>
+              <Grid>
+                <Grid.Column className={styles.description}>
+                  <div
+                    // FIXME: what would be the alternative?
+                    // eslint-disable-next-line react/no-danger
+                    dangerouslySetInnerHTML={{
+                      __html: data.description,
+                    }}
+                  />
+                </Grid.Column>
+              </Grid>
+            </div>
+          )}
+          {error && <div>Produto não encontrado</div>}
+        </Grid.Column>
         <Grid.Column width={2} only="computer" />
         <Grid.Column width={1} only="widescreen" />
       </Grid>
@@ -177,13 +144,4 @@ const ProductDetail = ({ products, match, productActions }: ProductDetailProps) 
   );
 };
 
-const mapStateToProps = (state: RootState) => ({
-  products: state.products,
-  match: state.router.location.pathname.replace('/product/', ''),
-});
-
-const mapDispatchToProps = (dispatch: Dispatch) => ({
-  productActions: bindActionCreators({ ...cProductActions }, dispatch),
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(ProductDetail);
+export default ProductDetail;
