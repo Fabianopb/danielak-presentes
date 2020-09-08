@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import { bindActionCreators, Dispatch } from 'redux';
 import { connect } from 'react-redux';
 import {
@@ -14,38 +14,40 @@ import {
   Header,
 } from 'semantic-ui-react';
 import useSWR from 'swr';
-import _ from 'lodash';
 import moment from 'moment';
 import cn from 'classnames';
 import { productActions as cProductActions } from '../../actions/products';
-import { categoryActions as cCategoryActions } from '../../actions/categories';
 import styles from './AdminMain.module.scss';
-import { fetchMessages, toggleMessageVisibility, deleteMessage } from '../../api';
+import { fetchMessages, toggleMessageVisibility, deleteMessage, fetchCategories } from '../../api';
 
 interface StateProps {
   products: ProductsState;
-  categories: CategoriesState;
 }
 
 interface DispatchProps {
   productActions: typeof cProductActions;
-  categoryActions: typeof cCategoryActions;
 }
 
 type AdminMainProps = StateProps & DispatchProps;
 
-const AdminMain = ({ products, categories, productActions, categoryActions }: AdminMainProps) => {
+const AdminMain = ({ products, productActions }: AdminMainProps) => {
   const [idToDelete, setIdToDelete] = useState<string>();
+
+  const history = useHistory();
 
   const { data: messages, isValidating: loadingMessages, revalidate: revalidateMessages } = useSWR(
     '/messages',
     fetchMessages,
   );
 
+  const { data: categories, isValidating: loadingCategories } = useSWR(
+    '/categories',
+    fetchCategories,
+  );
+
   useEffect(() => {
     productActions.fetchProducts();
-    categoryActions.fetchCategories();
-  }, [productActions, categoryActions]);
+  }, [productActions]);
 
   const destroyMessage = async () => {
     if (idToDelete) {
@@ -60,7 +62,7 @@ const AdminMain = ({ products, categories, productActions, categoryActions }: Ad
     await revalidateMessages();
   };
 
-  const definedCategories = _.filter(categories.data, cat => !_.isUndefined(cat._id));
+  const definedCategories = categories && categories.filter(cat => cat._id !== undefined);
 
   return (
     <div className={styles.adminMain}>
@@ -74,7 +76,7 @@ const AdminMain = ({ products, categories, productActions, categoryActions }: Ad
         </Link>
       </div>
       <div className={styles.productList}>
-        {products.isFetching || categories.isFetching ? (
+        {products.isFetching || loadingCategories ? (
           <Dimmer active inverted>
             <Loader />
           </Dimmer>
@@ -90,7 +92,7 @@ const AdminMain = ({ products, categories, productActions, categoryActions }: Ad
             </Table.Header>
             <Table.Body>
               {products.data.map(product => {
-                const category = _.find(categories.data, cat => cat._id === product.category);
+                const category = categories && categories.find(cat => cat._id === product.category);
                 return (
                   <Table.Row
                     className={styles.clickableRow}
@@ -130,7 +132,7 @@ const AdminMain = ({ products, categories, productActions, categoryActions }: Ad
         </Link>
       </div>
       <div className={styles.productList}>
-        {categories.isFetching ? (
+        {loadingCategories ? (
           <Dimmer active inverted>
             <Loader />
           </Dimmer>
@@ -143,16 +145,17 @@ const AdminMain = ({ products, categories, productActions, categoryActions }: Ad
               </Table.Row>
             </Table.Header>
             <Table.Body>
-              {definedCategories.map(category => (
-                <Table.Row
-                  className={styles.clickableRow}
-                  key={category._id}
-                  onClick={() => categoryActions.showAdminCategory(category._id as string)}
-                >
-                  <Table.Cell>{category.name}</Table.Cell>
-                  <Table.Cell>{category.description}</Table.Cell>
-                </Table.Row>
-              ))}
+              {definedCategories &&
+                definedCategories.map(category => (
+                  <Table.Row
+                    className={styles.clickableRow}
+                    key={category._id}
+                    onClick={() => history.push(`/admin/category/${category._id}`)}
+                  >
+                    <Table.Cell>{category.name}</Table.Cell>
+                    <Table.Cell>{category.description}</Table.Cell>
+                  </Table.Row>
+                ))}
             </Table.Body>
           </Table>
         )}
@@ -236,12 +239,10 @@ const AdminMain = ({ products, categories, productActions, categoryActions }: Ad
 
 const mapStateToProps = (state: RootState) => ({
   products: state.products,
-  categories: state.categories,
 });
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
   productActions: bindActionCreators({ ...cProductActions }, dispatch),
-  categoryActions: bindActionCreators({ ...cCategoryActions }, dispatch),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(AdminMain);
