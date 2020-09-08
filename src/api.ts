@@ -14,6 +14,17 @@ export const fetchAllProducts = () => axios.get<Product[]>(`/api/products`).then
 export const fetchProductById = (productId: string) =>
   axios.get<Product[]>(`/api/products?_id=${productId}`).then(res => res.data[0]);
 
+export const createProduct = (product: Omit<Product, '_id'>) =>
+  axios.post(`/api/products`, product, { headers: getAuthHeaders() });
+
+export const editProduct = (product: Product) =>
+  axios.put(`/api/products/${product._id}`, product, {
+    headers: getAuthHeaders(),
+  });
+
+export const deleteProduct = (productId: string) =>
+  axios.delete(`/api/products/${productId}`, { headers: getAuthHeaders() });
+
 export const fetchCategories = () => axios.get<Category[]>(`/api/categories`).then(res => res.data);
 
 export const fetchMessages = () => axios.get<Message[]>(`/api/messages`).then(res => res.data);
