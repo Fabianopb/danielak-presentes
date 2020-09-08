@@ -1,51 +1,31 @@
-import React, { useEffect } from 'react';
-import { connect } from 'react-redux';
-import { bindActionCreators, Dispatch } from 'redux';
-import { formValueSelector } from 'redux-form';
+import React, { useState } from 'react';
+import { useParams, useHistory } from 'react-router-dom';
+import useSWR from 'swr';
 import { Dimmer, Loader, Icon, Modal, Button, Header } from 'semantic-ui-react';
-import { routerActions as cRouterActions } from 'connected-react-router';
 import ProductForm from '../../forms/Product/Product';
-import { productActions as cProductActions } from '../../actions/products';
-import { categoryActions as cCategoryActions } from '../../actions/categories';
 import styles from './AdminProduct.module.scss';
+import { fetchCategories, fetchProductById } from '../../api';
 
-interface StateProps {
-  products: ProductsState;
-  categories: CategoriesState;
-  formValues: {
-    images: ProductImage[];
-  };
-  match: string;
-}
+const AdminProduct = () => {
+  const [isOpen, setIsOpen] = useState(false);
 
-interface DispatchProps {
-  productActions: typeof cProductActions;
-  categoryActions: typeof cCategoryActions;
-  routerActions: typeof cRouterActions;
-}
+  const params = useParams();
+  const history = useHistory();
 
-type AdminProductProps = StateProps & DispatchProps;
+  const { data: categories, isValidating: loadingCategories } = useSWR(
+    '/categories',
+    fetchCategories,
+  );
 
-const AdminProduct = ({
-  products,
-  categories,
-  formValues,
-  match,
-  productActions,
-  categoryActions,
-  routerActions,
-}: AdminProductProps) => {
-  useEffect(() => {
-    categoryActions.fetchCategories();
-    productActions.fetchProducts(match);
-    // eslint-disable-next-line
-  }, []);
+  const { data: product, isValidating: loadingProduct } = useSWR(`/product/${params.id}`, () =>
+    fetchProductById(params.id),
+  );
 
-  const submitProduct = (product: Product): void => {
+  const submitProduct = (values: Product): void => {
     // eslint-disable-next-line @typescript-eslint/naming-convention
-    const { _id, ...rest } = product;
-    const productPayload = match === 'new' ? rest : product;
-    productActions.upsertProduct(productPayload as Product);
+    const { _id, ...rest } = values;
+    const productPayload = params.id === 'new' ? rest : product;
+    // productActions.upsertProduct(productPayload as Product);
   };
 
   return (
@@ -53,7 +33,13 @@ const AdminProduct = ({
       <div className={styles.addProductHeader}>
         <h3>Adicionar produto</h3>
         <div className={styles.actionButtons}>
-          <Button basic icon labelPosition="right" color="blue" onClick={routerActions.goBack}>
+          <Button
+            basic
+            icon
+            labelPosition="right"
+            color="blue"
+            onClick={() => history.push('/admin')}
+          >
             Voltar
             <Icon name="chevron left" />
           </Button>
@@ -61,43 +47,35 @@ const AdminProduct = ({
             icon
             labelPosition="right"
             color="red"
-            disabled={match === 'new'}
-            onClick={() => productActions.openDialog(products.activeProduct as Product)}
+            disabled={params.id === 'new'}
+            onClick={() => setIsOpen(true)}
           >
             Remover
             <Icon name="trash" />
           </Button>
         </div>
       </div>
-      {products.isFetching || categories.isFetching ? (
+      {loadingProduct && loadingCategories && (
         <Dimmer active inverted>
           <Loader />
         </Dimmer>
-      ) : (
+      )}
+      {product && categories && (
         <ProductForm
-          images={formValues.images}
-          handleFileDrop={productActions.handleFileDrop}
-          deleteImage={productActions.deleteImage}
-          categories={categories.data}
+          initialValues={params.id === 'new' ? {} : product}
+          categories={categories}
           onSubmit={submitProduct}
         />
       )}
-      <Modal open={products.isDialogOpen} onClose={productActions.closeDialog} size="small">
+      <Modal open={isOpen} onClose={() => setIsOpen(false)} size="small">
         <Header icon="trash" content="Apagar produto" />
         <Modal.Content>
           <p>
-            Tem certeza que deseja apagar o produto{' '}
-            <em>{products.activeProduct && products.activeProduct.name}</em>?
+            Tem certeza que deseja apagar o produto <em>{product && product.name}</em>?
           </p>
         </Modal.Content>
         <Modal.Actions>
-          <Button
-            basic
-            icon
-            labelPosition="right"
-            color="blue"
-            onClick={productActions.closeDialog}
-          >
+          <Button basic icon labelPosition="right" color="blue" onClick={() => setIsOpen(false)}>
             Cancelar
             <Icon name="ban" />
           </Button>
@@ -105,7 +83,7 @@ const AdminProduct = ({
             icon
             labelPosition="right"
             color="red"
-            onClick={() => productActions.deleteProduct((products.activeProduct as Product)._id)}
+            // onClick={() => productActions.deleteProduct((product as Product)._id)}
           >
             Remover
             <Icon name="remove" />
@@ -116,19 +94,4 @@ const AdminProduct = ({
   );
 };
 
-const mapStateToProps = (state: RootState) => ({
-  products: state.products,
-  categories: state.categories,
-  formValues: {
-    images: formValueSelector('editProductForm')(state, 'image'),
-  },
-  match: state.router.location.pathname.replace('/admin/product/', ''),
-});
-
-const mapDispatchToProps = (dispatch: Dispatch) => ({
-  productActions: bindActionCreators({ ...cProductActions }, dispatch),
-  categoryActions: bindActionCreators({ ...cCategoryActions }, dispatch),
-  routerActions: bindActionCreators({ ...cRouterActions }, dispatch),
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(AdminProduct);
+export default AdminProduct;
