@@ -1,26 +1,16 @@
 import React from 'react';
-import { bindActionCreators, Dispatch } from 'redux';
-import { connect } from 'react-redux';
 import { Row, Col } from 'react-flexbox-grid';
-import { Location } from 'history';
-import { routerActions as cRouterActions } from 'connected-react-router';
+import { useLocation, useHistory } from 'react-router-dom';
 import { Image, Button } from 'semantic-ui-react';
 import eyes from '../../assets/eyes-404.png';
 import styles from './NotFoundPage.module.scss';
 
-interface OwnProps {
-  location: Location;
-}
+const NotFoundPage = () => {
+  const location = useLocation();
+  const history = useHistory();
 
-interface DispatchProps {
-  routerActions: typeof cRouterActions;
-}
-
-type NotFoundPageProps = OwnProps & DispatchProps;
-
-const NotFoundPage = ({ location, routerActions }: NotFoundPageProps) => {
   const blogUrl = `http://danielakpresentes.blogspot.com${location.pathname}`;
-  const { push } = routerActions;
+
   return (
     <Row center="xs">
       <Col xs={12} lg={8}>
@@ -38,7 +28,7 @@ const NotFoundPage = ({ location, routerActions }: NotFoundPageProps) => {
             </a>
           </p>
           <p>E de qualquer forma não deixe de conferir nossos lindos produtos!</p>
-          <Button primary name="home" onClick={() => push('/')}>
+          <Button primary name="home" onClick={() => history.push('/')}>
             Home
           </Button>
         </div>
@@ -47,8 +37,4 @@ const NotFoundPage = ({ location, routerActions }: NotFoundPageProps) => {
   );
 };
 
-const mapDispatchToProps = (dispatch: Dispatch) => ({
-  routerActions: bindActionCreators({ ...cRouterActions }, dispatch),
-});
-
-export default connect(null, mapDispatchToProps)(NotFoundPage);
+export default NotFoundPage;
