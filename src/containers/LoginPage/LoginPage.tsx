@@ -1,46 +1,47 @@
-import React from 'react';
-import { connect } from 'react-redux';
-import { bindActionCreators, Dispatch } from 'redux';
+import React, { useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import { Dimmer, Loader } from 'semantic-ui-react';
-import { userActions as cUserActions } from '../../actions/users';
 import LoginForm from '../../forms/Login/Login';
 import styles from './LoginPage.module.scss';
+import { loginAdminUser } from '../../api';
+import { setSession } from '../../modules/session';
 
-interface StateProps {
-  users: UsersState;
-}
+const LoginPage = () => {
+  const history = useHistory();
 
-interface DispatchProps {
-  userActions: typeof cUserActions;
-}
+  const [loginError, setLoginError] = useState<any>();
+  const [isLogging, setIsLogging] = useState(false);
 
-type LoginPageProps = StateProps & DispatchProps;
+  return (
+    <div className={styles.loginPage}>
+      <h3 className={styles.loginTitle}>Login</h3>
+      {isLogging ? (
+        <Dimmer active inverted>
+          <Loader />
+        </Dimmer>
+      ) : (
+        <div>
+          {!!loginError && <div className={styles.loginError}>Login Failed</div>}
+          <div className={styles.loginContainer}>
+            <LoginForm
+              onSubmit={async creds => {
+                try {
+                  setIsLogging(true);
+                  const { token, expiry } = await loginAdminUser(creds);
+                  setSession(token, expiry);
+                  history.push('/admin');
+                } catch (error) {
+                  setLoginError(error);
+                } finally {
+                  setIsLogging(false);
+                }
+              }}
+            />
+          </div>
+        </div>
+      )}
+    </div>
+  );
+};
 
-const LoginPage = ({ users, userActions }: LoginPageProps) => (
-  <div className={styles.loginPage}>
-    <h3 className={styles.loginTitle}>Login</h3>
-    {users.isLogging ? (
-      <Dimmer active inverted>
-        <Loader />
-      </Dimmer>
-    ) : (
-      <div className={styles.loginContainer}>
-        <LoginForm
-          onSubmit={creds => {
-            userActions.login(creds);
-          }}
-        />
-      </div>
-    )}
-  </div>
-);
-
-const mapStateToProps = (state: RootState) => ({
-  users: state.users,
-});
-
-const mapDispatchToProps = (dispatch: Dispatch) => ({
-  userActions: bindActionCreators({ ...cUserActions }, dispatch),
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(LoginPage);
+export default LoginPage;

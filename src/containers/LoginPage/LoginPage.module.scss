@@ -9,4 +9,10 @@
     display: flex;
     justify-content: center;
   }
+
+  .loginError {
+    text-align: center;
+    color: red;
+    font-weight: bold;
+  }
 }
