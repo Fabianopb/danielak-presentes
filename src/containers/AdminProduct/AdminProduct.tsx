@@ -4,7 +4,14 @@ import useSWR from 'swr';
 import { Dimmer, Loader, Icon, Modal, Button, Header } from 'semantic-ui-react';
 import ProductForm from '../../forms/Product/Product';
 import styles from './AdminProduct.module.scss';
-import { fetchCategories, fetchProductById } from '../../api';
+import {
+  fetchCategories,
+  fetchProductById,
+  deleteProduct,
+  deleteFiles,
+  createProduct,
+  editProduct,
+} from '../../api';
 
 const AdminProduct = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -21,11 +28,33 @@ const AdminProduct = () => {
     fetchProductById(params.id),
   );
 
-  const submitProduct = (values: Product): void => {
+  const submitProduct = async (values: Product) => {
     // eslint-disable-next-line @typescript-eslint/naming-convention
     const { _id, ...rest } = values;
-    const productPayload = params.id === 'new' ? rest : product;
-    // productActions.upsertProduct(productPayload as Product);
+    try {
+      if (params.id === 'new') {
+        await createProduct(rest);
+      } else {
+        await editProduct(values);
+      }
+      history.push('/admin');
+    } catch (error) {
+      // eslint-disable-next-line no-console
+      console.error(error);
+    }
+  };
+
+  const confirmProductDelete = async (prod: Product) => {
+    try {
+      await Promise.all([
+        deleteProduct(prod._id),
+        deleteFiles(prod.image.flatMap(img => [img.small, img.large])),
+      ]);
+      history.push('/admin');
+    } catch (error) {
+      // eslint-disable-next-line no-console
+      console.error(error);
+    }
   };
 
   return (
@@ -83,7 +112,7 @@ const AdminProduct = () => {
             icon
             labelPosition="right"
             color="red"
-            // onClick={() => productActions.deleteProduct((product as Product)._id)}
+            onClick={() => (product ? confirmProductDelete(product) : undefined)}
           >
             Remover
             <Icon name="remove" />
