@@ -1,5 +1,6 @@
-import React from 'react';
-import { Field, reduxForm, InjectedFormProps } from 'redux-form';
+import React, { useState, useEffect } from 'react';
+import { Field, reduxForm, InjectedFormProps, formValueSelector } from 'redux-form';
+import { connect } from 'react-redux';
 import { Form, Segment, Icon, Popup } from 'semantic-ui-react';
 import { Prompt } from 'react-router-dom';
 import Dropzone from 'react-dropzone';
@@ -9,20 +10,24 @@ import {
   FormCheckbox,
   FormDropdown,
 } from '../../components/FormComponents/FormComponents';
-import { productActions } from '../../actions/products';
 import RichTextArea from '../../components/RichTextArea/RichTextArea';
 import styles from './Product.module.scss';
+import { uploadFile, deleteFiles } from '../../api';
+import { getImageNameFromUrl } from '../../modules/helpers';
 
 export const PRODUCT_FORM = 'editProductForm';
 
 type ProductFormData = Product;
 
 interface ProductFormProps {
-  handleFileDrop: typeof productActions.handleFileDrop;
-  deleteImage: typeof productActions.deleteImage;
-  images: ProductImage[];
   categories: Category[];
 }
+
+interface ProductFormStateProps {
+  images: ProductImage[];
+}
+
+type FormProps = ProductFormProps & ProductFormStateProps;
 
 const required = (value: string): string | undefined => {
   return value ? undefined : 'Campo obrigatório';
@@ -35,20 +40,69 @@ const requiredDescription = (value: string): string | undefined => {
   return undefined;
 };
 
-const Product: React.SFC<
-  ProductFormProps & InjectedFormProps<ProductFormData, ProductFormProps>
-> = ({
+const Product: React.SFC<FormProps & InjectedFormProps<ProductFormData, FormProps>> = ({
+  categories,
   handleSubmit,
-  handleFileDrop,
-  deleteImage,
   pristine,
   submitting,
-  images,
   touch,
-  categories,
+  change,
+  images = [],
 }) => {
-  const isSomeImageUploading = _.some(images, image => image === ('uploading' as any));
-  const hasDropzone = images && images.length < 5 && !isSomeImageUploading;
+  const [stateImages, setStateImages] = useState<ProductImage[]>(images);
+
+  useEffect(() => {
+    if (images.length !== stateImages.length) {
+      setStateImages(images);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const handleFileDrop = async (files: any[]) => {
+    try {
+      setStateImages([...images, { small: '', large: '', loading: true }]);
+      const formData = new FormData();
+      formData.append('file', files[0]);
+      const response = await uploadFile(formData);
+      const newImages = [
+        ...images,
+        {
+          large: response.data[0].Location,
+          small: response.data[1].Location,
+        },
+      ];
+      change('image', newImages);
+      setStateImages(newImages);
+    } catch (error) {
+      const originalImages = images.slice(0, -1);
+      change('image', originalImages);
+      setStateImages(originalImages);
+    }
+  };
+
+  const handleDeleteImage = async (imageUrls: ProductImage) => {
+    try {
+      const imageIndex = images.findIndex(
+        image => image.large === imageUrls.large && image.small === imageUrls.small,
+      );
+      setStateImages(
+        images.map((img, index) => (index === imageIndex ? { ...img, loading: true } : { ...img })),
+      );
+      const largeImageName = getImageNameFromUrl(imageUrls.large);
+      const smallImageName = getImageNameFromUrl(imageUrls.small);
+      await deleteFiles([largeImageName, smallImageName]);
+      const newImages = images.filter((image, index) => index !== imageIndex);
+      change('image', newImages);
+      setStateImages(newImages);
+    } catch (error) {
+      // eslint-disable-next-line no-console
+      console.error(error);
+      setStateImages(stateImages.map(img => ({ ...img, loading: false })));
+    }
+  };
+
+  const isUploadingOrDeleting = stateImages.some(img => img.loading);
+  const hasDropzone = stateImages && stateImages.length < 5 && !isUploadingOrDeleting;
   const catOptions = _.filter(
     _.map(categories, cat => ({ text: cat.name, value: cat._id })),
     cat => !_.isUndefined(cat.value),
@@ -90,21 +144,20 @@ const Product: React.SFC<
           />
         </div>
         <div className={styles.dropzoneArea}>
-          {images &&
-            _.map(images, (image, index) => (
-              <div key={index} className={styles.previewContainer}>
-                {image === ('uploading' as any) ? (
-                  <Segment className={styles.loading} loading />
-                ) : (
-                  <div>
-                    <div className={styles.deleteButton} onClick={() => deleteImage(image)}>
-                      <Icon name="delete" />
-                    </div>
-                    <img className={styles.imagePreview} src={image.small} alt={image.small} />
+          {stateImages.map(image => (
+            <div key={image.small} className={styles.previewContainer}>
+              {image.loading ? (
+                <Segment className={styles.loading} loading />
+              ) : (
+                <div>
+                  <div className={styles.deleteButton} onClick={() => handleDeleteImage(image)}>
+                    <Icon name="delete" />
                   </div>
-                )}
-              </div>
-            ))}
+                  <img className={styles.imagePreview} src={image.small} alt={image.small} />
+                </div>
+              )}
+            </div>
+          ))}
           {hasDropzone && (
             <Dropzone className={styles.fileDrop} onDrop={handleFileDrop}>
               <div className={styles.fileDropText}>Faça upload da imagem aqui</div>
@@ -213,14 +266,14 @@ const Product: React.SFC<
           icon
           labelPosition="right"
           color="blue"
-          disabled={submitting || pristine || isSomeImageUploading}
+          disabled={submitting || pristine || isUploadingOrDeleting}
         >
           Salvar
           <Icon name="check" />
         </Form.Button>
       </Form>
       <Prompt
-        when={submitting || !pristine || isSomeImageUploading}
+        when={submitting || !pristine || isUploadingOrDeleting}
         message={() =>
           'O formulário não foi enviado, se você sair da página o conteúdo não será salvo!'
         }
@@ -229,7 +282,14 @@ const Product: React.SFC<
   );
 };
 
-export default reduxForm<ProductFormData, ProductFormProps>({
+const ProductReduxForm = reduxForm<ProductFormData, FormProps>({
   form: PRODUCT_FORM,
-  destroyOnUnmount: false,
 })(Product);
+
+const selector = formValueSelector(PRODUCT_FORM);
+export default connect((state: RootState) => {
+  const images = selector(state, 'image');
+  return {
+    images,
+  };
+})(ProductReduxForm);
