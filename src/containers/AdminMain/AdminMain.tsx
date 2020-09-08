@@ -1,7 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Link, useHistory } from 'react-router-dom';
-import { bindActionCreators, Dispatch } from 'redux';
-import { connect } from 'react-redux';
 import {
   Table,
   Icon,
@@ -16,21 +14,16 @@ import {
 import useSWR from 'swr';
 import moment from 'moment';
 import cn from 'classnames';
-import { productActions as cProductActions } from '../../actions/products';
 import styles from './AdminMain.module.scss';
-import { fetchMessages, toggleMessageVisibility, deleteMessage, fetchCategories } from '../../api';
+import {
+  fetchMessages,
+  toggleMessageVisibility,
+  deleteMessage,
+  fetchCategories,
+  fetchAllProducts,
+} from '../../api';
 
-interface StateProps {
-  products: ProductsState;
-}
-
-interface DispatchProps {
-  productActions: typeof cProductActions;
-}
-
-type AdminMainProps = StateProps & DispatchProps;
-
-const AdminMain = ({ products, productActions }: AdminMainProps) => {
+const AdminMain = () => {
   const [idToDelete, setIdToDelete] = useState<string>();
 
   const history = useHistory();
@@ -45,9 +38,7 @@ const AdminMain = ({ products, productActions }: AdminMainProps) => {
     fetchCategories,
   );
 
-  useEffect(() => {
-    productActions.fetchProducts();
-  }, [productActions]);
+  const { data: products, isValidating: loadingProducts } = useSWR('/products', fetchAllProducts);
 
   const destroyMessage = async () => {
     if (idToDelete) {
@@ -76,7 +67,7 @@ const AdminMain = ({ products, productActions }: AdminMainProps) => {
         </Link>
       </div>
       <div className={styles.productList}>
-        {products.isFetching || loadingCategories ? (
+        {loadingProducts || loadingCategories ? (
           <Dimmer active inverted>
             <Loader />
           </Dimmer>
@@ -91,32 +82,34 @@ const AdminMain = ({ products, productActions }: AdminMainProps) => {
               </Table.Row>
             </Table.Header>
             <Table.Body>
-              {products.data.map(product => {
-                const category = categories && categories.find(cat => cat._id === product.category);
-                return (
-                  <Table.Row
-                    className={styles.clickableRow}
-                    key={product._id}
-                    onClick={() => productActions.showAdminProduct(product._id)}
-                  >
-                    <Table.Cell className={styles.nameRow}>
-                      <div className={styles.thumbnailContainer}>
-                        {product.image.length > 0 && (
-                          <Image
-                            className={styles.thumbnail}
-                            src={product.image[product.featuredImageIndex].small}
-                            alt="N/A"
-                          />
-                        )}
-                      </div>
-                      <div className={styles.productName}>{product.name}</div>
-                    </Table.Cell>
-                    <Table.Cell textAlign="center">{category ? category.name : '---'}</Table.Cell>
-                    <Table.Cell textAlign="center">{product.currentPrice}</Table.Cell>
-                    <Table.Cell textAlign="center">{product.discountPrice || '---'}</Table.Cell>
-                  </Table.Row>
-                );
-              })}
+              {products &&
+                products.map(product => {
+                  const category =
+                    categories && categories.find(cat => cat._id === product.category);
+                  return (
+                    <Table.Row
+                      className={styles.clickableRow}
+                      key={product._id}
+                      onClick={() => history.push(`/admin/product/${product._id}`)}
+                    >
+                      <Table.Cell className={styles.nameRow}>
+                        <div className={styles.thumbnailContainer}>
+                          {product.image.length > 0 && (
+                            <Image
+                              className={styles.thumbnail}
+                              src={product.image[product.featuredImageIndex].small}
+                              alt="N/A"
+                            />
+                          )}
+                        </div>
+                        <div className={styles.productName}>{product.name}</div>
+                      </Table.Cell>
+                      <Table.Cell textAlign="center">{category ? category.name : '---'}</Table.Cell>
+                      <Table.Cell textAlign="center">{product.currentPrice}</Table.Cell>
+                      <Table.Cell textAlign="center">{product.discountPrice || '---'}</Table.Cell>
+                    </Table.Row>
+                  );
+                })}
             </Table.Body>
           </Table>
         )}
@@ -237,12 +230,4 @@ const AdminMain = ({ products, productActions }: AdminMainProps) => {
   );
 };
 
-const mapStateToProps = (state: RootState) => ({
-  products: state.products,
-});
-
-const mapDispatchToProps = (dispatch: Dispatch) => ({
-  productActions: bindActionCreators({ ...cProductActions }, dispatch),
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(AdminMain);
+export default AdminMain;
