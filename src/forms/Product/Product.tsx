@@ -2,7 +2,6 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Field, reduxForm, InjectedFormProps, formValueSelector } from 'redux-form';
 import { connect } from 'react-redux';
 import { Form, Segment, Icon, Popup } from 'semantic-ui-react';
-import { Prompt } from 'react-router-dom';
 import Dropzone from 'react-dropzone';
 import _ from 'lodash';
 import {
@@ -280,12 +279,6 @@ const Product: React.SFC<FormProps & InjectedFormProps<ProductFormData, FormProp
           <Icon name="check" />
         </Form.Button>
       </Form>
-      <Prompt
-        when={submitting || !pristine || isUploadingOrDeleting}
-        message={() =>
-          'O formulário não foi enviado, se você sair da página o conteúdo não será salvo!'
-        }
-      />
     </div>
   );
 };
