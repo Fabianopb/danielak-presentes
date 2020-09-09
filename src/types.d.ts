@@ -1,6 +1,5 @@
 import { compose } from 'redux';
 import { FormStateMap } from 'redux-form';
-import { RouterState } from 'connected-react-router';
 
 declare global {
   interface Window {
@@ -9,7 +8,6 @@ declare global {
 
   interface RootState {
     form: FormStateMap;
-    router: RouterState;
   }
 
   interface CategoriesState {

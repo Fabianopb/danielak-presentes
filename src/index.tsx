@@ -1,13 +1,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { Switch, Route, RouteProps, Redirect } from 'react-router-dom';
-import { applyMiddleware, compose, createStore } from 'redux';
+import { Switch, Route, RouteProps, Redirect, Router } from 'react-router-dom';
+import { createStore, combineReducers } from 'redux';
 import { Provider } from 'react-redux';
 import { createBrowserHistory } from 'history';
 import { QueryParamProvider } from 'use-query-params';
-import { routerMiddleware, ConnectedRouter } from 'connected-react-router';
 import ReactGA from 'react-ga';
-import rootReducer from './reducers/root';
+import { reducer as form } from 'redux-form';
 import Layout from './components/Layout/Layout';
 import AboutPage from './components/AboutPage/AboutPage';
 import withTracker from './components/withTracker';
@@ -27,11 +26,7 @@ import * as serviceWorker from './serviceWorker';
 
 const history = createBrowserHistory();
 
-const middleware = [routerMiddleware(history)];
-const composeEnhancers =
-  (process.env.NODE_ENV !== 'production' && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__) || compose;
-
-const store = createStore(rootReducer(history), composeEnhancers(applyMiddleware(...middleware)));
+const store = createStore(combineReducers({ form }));
 
 const ProtectedRoute = ({ component: Component, ...rest }: RouteProps) => (
   <Route
@@ -46,7 +41,7 @@ ReactGA.initialize('UA-69092915-1');
 
 ReactDOM.render(
   <Provider store={store}>
-    <ConnectedRouter history={history}>
+    <Router history={history}>
       <QueryParamProvider ReactRouterRoute={Route}>
         <Layout>
           <CategoryMenu />
@@ -63,7 +58,7 @@ ReactDOM.render(
           {!window.location.pathname.includes('/admin') && <ChatWindow />}
         </Layout>
       </QueryParamProvider>
-    </ConnectedRouter>
+    </Router>
   </Provider>,
   document.getElementById('root'),
 );
