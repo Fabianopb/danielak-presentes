@@ -9,7 +9,6 @@ declare global {
   }
 
   interface RootState {
-    products: ProductsState;
     form: FormStateMap;
     notifications: Notification[];
     router: RouterState;

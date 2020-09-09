@@ -1,14 +1,6 @@
 import { RouterActionType } from 'connected-react-router';
 
-export const productsState: ProductsState = {
-  isFetching: false,
-  activeProduct: null,
-  isDialogOpen: false,
-  data: [],
-};
-
 export const initialState: RootState = {
-  products: productsState,
   form: {},
   notifications: [],
   router: {
