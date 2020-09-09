@@ -25,6 +25,7 @@ const AdminCategory = () => {
       } else {
         await editCategory(values);
       }
+      history.push('/admin');
     } catch (error) {
       // eslint-disable-next-line no-console
       console.error(error);
