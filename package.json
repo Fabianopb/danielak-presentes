@@ -51,7 +51,6 @@
     "react-scripts": "^3.0.1",
     "redux": "^4.0.1",
     "redux-form": "^8.2.4",
-    "redux-saga": "^1.0.5",
     "semantic-ui-css": "^2.2.10",
     "semantic-ui-react": "^0.82.1",
     "sharp": "^0.25.4",

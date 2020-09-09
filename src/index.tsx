@@ -3,7 +3,6 @@ import ReactDOM from 'react-dom';
 import { Switch, Route, RouteProps, Redirect } from 'react-router-dom';
 import { applyMiddleware, compose, createStore } from 'redux';
 import { Provider } from 'react-redux';
-import createSagaMiddleware from 'redux-saga';
 import { createBrowserHistory } from 'history';
 import { QueryParamProvider } from 'use-query-params';
 import { routerMiddleware, ConnectedRouter } from 'connected-react-router';
@@ -27,9 +26,8 @@ import './index.scss';
 import * as serviceWorker from './serviceWorker';
 
 const history = createBrowserHistory();
-const sagaMiddleware = createSagaMiddleware();
 
-const middleware = [routerMiddleware(history), sagaMiddleware];
+const middleware = [routerMiddleware(history)];
 const composeEnhancers =
   (process.env.NODE_ENV !== 'production' && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__) || compose;
 
