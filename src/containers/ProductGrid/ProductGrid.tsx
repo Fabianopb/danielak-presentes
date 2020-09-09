@@ -2,6 +2,7 @@ import React from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
 import { Dimmer, Loader, Image, Divider } from 'semantic-ui-react';
 import useSWR from 'swr';
+import queryString from 'query-string';
 import { Carousel } from 'react-responsive-carousel';
 import carousel1 from '../../assets/carousel-1.jpg';
 import carousel2 from '../../assets/carousel-2.jpg';
@@ -16,6 +17,8 @@ const ProductGrid = () => {
 
   const history = useHistory();
   const location = useLocation();
+
+  const { categoryId } = queryString.parse(location.search);
 
   return (
     <div className={styles.productsView}>
@@ -53,29 +56,31 @@ const ProductGrid = () => {
           </Dimmer>
         ) : (
           data &&
-          data.map(product => (
-            <div
-              className={styles.productCell}
-              key={product._id}
-              onClick={() => history.push(`/product/${product._id}${location.search}`)}
-            >
-              <div className={styles.imageContainer}>
-                {product.image.length > 0 && (
-                  <Image
-                    className={styles.productImage}
-                    src={product.image[product.featuredImageIndex].large}
-                  />
-                )}
+          data
+            .filter(product => (categoryId ? product.category === categoryId : true))
+            .map(product => (
+              <div
+                className={styles.productCell}
+                key={product._id}
+                onClick={() => history.push(`/product/${product._id}${location.search}`)}
+              >
+                <div className={styles.imageContainer}>
+                  {product.image.length > 0 && (
+                    <Image
+                      className={styles.productImage}
+                      src={product.image[product.featuredImageIndex].large}
+                    />
+                  )}
+                </div>
+                <div className={styles.title}>{product.name}</div>
+                <div className={styles.currentPrice}>
+                  <span className={product.discountPrice ? styles.disabledPrice : ''}>
+                    {currencyFormat(product.currentPrice)}
+                  </span>
+                  {product.discountPrice && currencyFormat(product.discountPrice)}
+                </div>
               </div>
-              <div className={styles.title}>{product.name}</div>
-              <div className={styles.currentPrice}>
-                <span className={product.discountPrice ? styles.disabledPrice : ''}>
-                  {currencyFormat(product.currentPrice)}
-                </span>
-                {product.discountPrice && currencyFormat(product.discountPrice)}
-              </div>
-            </div>
-          ))
+            ))
         )}
       </div>
     </div>
