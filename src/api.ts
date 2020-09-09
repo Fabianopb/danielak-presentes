@@ -30,12 +30,12 @@ export const fetchCategories = () => axios.get<Category[]>(`/api/categories`).th
 export const fetchCategoryById = (categoryId: string) =>
   axios.get<Category[]>(`/api/categories?_id=${categoryId}`).then(res => res.data[0]);
 
-export const putCategory = (category: Category) =>
+export const editCategory = (category: Category) =>
   axios.put(`/api/categories/${category._id}`, category, {
     headers: getAuthHeaders(),
   });
 
-export const postCategory = (category: Category) =>
+export const createCategory = (category: Category) =>
   axios.post(`/api/categories`, category, {
     headers: getAuthHeaders(),
   });
