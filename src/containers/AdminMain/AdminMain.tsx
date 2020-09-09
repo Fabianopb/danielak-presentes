@@ -1,7 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
-import { bindActionCreators, Dispatch } from 'redux';
-import { connect } from 'react-redux';
+import React, { useState } from 'react';
+import { Link, useHistory } from 'react-router-dom';
 import {
   Table,
   Icon,
@@ -13,62 +11,49 @@ import {
   Modal,
   Header,
 } from 'semantic-ui-react';
-import _ from 'lodash';
+import useSWR from 'swr';
 import moment from 'moment';
 import cn from 'classnames';
-import { productActions as cProductActions } from '../../actions/products';
-import { categoryActions as cCategoryActions } from '../../actions/categories';
-import { messageActions as cMessageActions } from '../../actions/messages';
 import styles from './AdminMain.module.scss';
+import {
+  fetchMessages,
+  toggleMessageVisibility,
+  deleteMessage,
+  fetchCategories,
+  fetchAllProducts,
+} from '../../api';
 
-interface StateProps {
-  products: ProductsState;
-  categories: CategoriesState;
-  messages: MessagesState;
-}
+const AdminMain = () => {
+  const [idToDelete, setIdToDelete] = useState<string>();
 
-interface DispatchProps {
-  productActions: typeof cProductActions;
-  categoryActions: typeof cCategoryActions;
-  messageActions: typeof cMessageActions;
-}
+  const history = useHistory();
 
-type AdminMainProps = StateProps & DispatchProps;
+  const { data: messages, isValidating: loadingMessages, revalidate: revalidateMessages } = useSWR(
+    '/messages',
+    fetchMessages,
+  );
 
-const AdminMain = ({
-  products,
-  categories,
-  messages,
-  productActions,
-  categoryActions,
-  messageActions,
-}: AdminMainProps) => {
-  const [idToDelete, setIdToDelete] = useState('');
+  const { data: categories, isValidating: loadingCategories } = useSWR(
+    '/categories',
+    fetchCategories,
+  );
 
-  useEffect(() => {
-    productActions.fetchProducts();
-    categoryActions.fetchCategories();
-    messageActions.fetchMessages();
-  }, [productActions, categoryActions, messageActions]);
+  const { data: products, isValidating: loadingProducts } = useSWR('/products', fetchAllProducts);
 
-  const handleDelete = (id: string) => {
-    setIdToDelete(id);
-    messageActions.toggleDialog(true);
+  const destroyMessage = async () => {
+    if (idToDelete) {
+      await deleteMessage(idToDelete);
+      await revalidateMessages();
+      setIdToDelete(undefined);
+    }
   };
 
-  const destroyMessage = () => {
-    messageActions.deleteMessage(idToDelete);
+  const toggleMessageState = async (id: string) => {
+    await toggleMessageVisibility(id);
+    await revalidateMessages();
   };
 
-  const toggleAnswer = (id: string) => {
-    messageActions.toggleAnswer(id);
-  };
-
-  const closeDialog = () => {
-    messageActions.toggleDialog(false);
-  };
-
-  const definedCategories = _.filter(categories.data, cat => !_.isUndefined(cat._id));
+  const definedCategories = categories && categories.filter(cat => cat._id !== undefined);
 
   return (
     <div className={styles.adminMain}>
@@ -82,7 +67,7 @@ const AdminMain = ({
         </Link>
       </div>
       <div className={styles.productList}>
-        {products.isFetching || categories.isFetching ? (
+        {loadingProducts || loadingCategories ? (
           <Dimmer active inverted>
             <Loader />
           </Dimmer>
@@ -97,32 +82,34 @@ const AdminMain = ({
               </Table.Row>
             </Table.Header>
             <Table.Body>
-              {products.data.map(product => {
-                const category = _.find(categories.data, cat => cat._id === product.category);
-                return (
-                  <Table.Row
-                    className={styles.clickableRow}
-                    key={product._id}
-                    onClick={() => productActions.showAdminProduct(product._id)}
-                  >
-                    <Table.Cell className={styles.nameRow}>
-                      <div className={styles.thumbnailContainer}>
-                        {product.image.length > 0 && (
-                          <Image
-                            className={styles.thumbnail}
-                            src={product.image[product.featuredImageIndex].small}
-                            alt="N/A"
-                          />
-                        )}
-                      </div>
-                      <div className={styles.productName}>{product.name}</div>
-                    </Table.Cell>
-                    <Table.Cell textAlign="center">{category ? category.name : '---'}</Table.Cell>
-                    <Table.Cell textAlign="center">{product.currentPrice}</Table.Cell>
-                    <Table.Cell textAlign="center">{product.discountPrice || '---'}</Table.Cell>
-                  </Table.Row>
-                );
-              })}
+              {products &&
+                products.map(product => {
+                  const category =
+                    categories && categories.find(cat => cat._id === product.category);
+                  return (
+                    <Table.Row
+                      className={styles.clickableRow}
+                      key={product._id}
+                      onClick={() => history.push(`/admin/product/${product._id}`)}
+                    >
+                      <Table.Cell className={styles.nameRow}>
+                        <div className={styles.thumbnailContainer}>
+                          {product.image.length > 0 && (
+                            <Image
+                              className={styles.thumbnail}
+                              src={product.image[product.featuredImageIndex].small}
+                              alt="N/A"
+                            />
+                          )}
+                        </div>
+                        <div className={styles.productName}>{product.name}</div>
+                      </Table.Cell>
+                      <Table.Cell textAlign="center">{category ? category.name : '---'}</Table.Cell>
+                      <Table.Cell textAlign="center">{product.currentPrice}</Table.Cell>
+                      <Table.Cell textAlign="center">{product.discountPrice || '---'}</Table.Cell>
+                    </Table.Row>
+                  );
+                })}
             </Table.Body>
           </Table>
         )}
@@ -138,7 +125,7 @@ const AdminMain = ({
         </Link>
       </div>
       <div className={styles.productList}>
-        {categories.isFetching ? (
+        {loadingCategories ? (
           <Dimmer active inverted>
             <Loader />
           </Dimmer>
@@ -151,16 +138,17 @@ const AdminMain = ({
               </Table.Row>
             </Table.Header>
             <Table.Body>
-              {definedCategories.map(category => (
-                <Table.Row
-                  className={styles.clickableRow}
-                  key={category._id}
-                  onClick={() => categoryActions.showAdminCategory(category._id as string)}
-                >
-                  <Table.Cell>{category.name}</Table.Cell>
-                  <Table.Cell>{category.description}</Table.Cell>
-                </Table.Row>
-              ))}
+              {definedCategories &&
+                definedCategories.map(category => (
+                  <Table.Row
+                    className={styles.clickableRow}
+                    key={category._id}
+                    onClick={() => history.push(`/admin/category/${category._id}`)}
+                  >
+                    <Table.Cell>{category.name}</Table.Cell>
+                    <Table.Cell>{category.description}</Table.Cell>
+                  </Table.Row>
+                ))}
             </Table.Body>
           </Table>
         )}
@@ -170,7 +158,7 @@ const AdminMain = ({
         <h2>Lista de mensagens</h2>
       </div>
       <div className={styles.productList}>
-        {messages.isFetching ? (
+        {loadingMessages ? (
           <Dimmer active inverted>
             <Loader />
           </Dimmer>
@@ -184,61 +172,62 @@ const AdminMain = ({
               </Table.Row>
             </Table.Header>
             <Table.Body>
-              {messages.data.map(message => {
-                const answeredIcon = message.answered ? 'paper plane' : 'envelope';
-                return (
-                  <Table.Row
-                    key={message._id}
-                    className={cn({ [styles.answered]: message.answered })}
-                  >
-                    <Table.Cell collapsing>{moment(message.createdAt).format('L LT')}</Table.Cell>
-                    <Table.Cell>
-                      {message.text.map((paragraph, index) => (
-                        // eslint-disable-next-line react/no-array-index-key
-                        <p key={`message-paragraph-${index}`}>{paragraph}</p>
-                      ))}
-                    </Table.Cell>
-                    <Table.Cell collapsing>
-                      <Icon name={answeredIcon} link onClick={() => toggleAnswer(message._id)} />
-                      <Icon name="trash" link onClick={() => handleDelete(message._id)} />
-                    </Table.Cell>
-                  </Table.Row>
-                );
-              })}
+              {messages &&
+                messages.map(message => {
+                  const answeredIcon = message.answered ? 'paper plane' : 'envelope';
+                  return (
+                    <Table.Row
+                      key={message._id}
+                      className={cn({ [styles.answered]: message.answered })}
+                    >
+                      <Table.Cell collapsing>{moment(message.createdAt).format('L LT')}</Table.Cell>
+                      <Table.Cell>
+                        {message.text.map((paragraph, index) => (
+                          // eslint-disable-next-line react/no-array-index-key
+                          <p key={`message-paragraph-${index}`}>{paragraph}</p>
+                        ))}
+                      </Table.Cell>
+                      <Table.Cell collapsing>
+                        <Icon
+                          name={answeredIcon}
+                          link
+                          onClick={() => toggleMessageState(message._id)}
+                        />
+                        <Icon name="trash" link onClick={() => setIdToDelete(message._id)} />
+                      </Table.Cell>
+                    </Table.Row>
+                  );
+                })}
             </Table.Body>
           </Table>
         )}
       </div>
-      <Modal open={messages.isDialogOpen} onClose={closeDialog} size="small">
-        <Header icon="trash" content="Remover mensagem" />
-        <Modal.Content>
-          <p>Tem certeza que deseja remover a mensagem?</p>
-        </Modal.Content>
-        <Modal.Actions>
-          <Button basic icon labelPosition="right" color="blue" onClick={closeDialog}>
-            Cancelar
-            <Icon name="ban" />
-          </Button>
-          <Button icon labelPosition="right" color="red" onClick={destroyMessage}>
-            Remover
-            <Icon name="remove" />
-          </Button>
-        </Modal.Actions>
-      </Modal>
+      {idToDelete && (
+        <Modal open={!!idToDelete} onClose={() => setIdToDelete(undefined)} size="small">
+          <Header icon="trash" content="Remover mensagem" />
+          <Modal.Content>
+            <p>Tem certeza que deseja remover a mensagem?</p>
+          </Modal.Content>
+          <Modal.Actions>
+            <Button
+              basic
+              icon
+              labelPosition="right"
+              color="blue"
+              onClick={() => setIdToDelete(undefined)}
+            >
+              Cancelar
+              <Icon name="ban" />
+            </Button>
+            <Button icon labelPosition="right" color="red" onClick={destroyMessage}>
+              Remover
+              <Icon name="remove" />
+            </Button>
+          </Modal.Actions>
+        </Modal>
+      )}
     </div>
   );
 };
 
-const mapStateToProps = (state: RootState) => ({
-  products: state.products,
-  categories: state.categories,
-  messages: state.messages,
-});
-
-const mapDispatchToProps = (dispatch: Dispatch) => ({
-  productActions: bindActionCreators({ ...cProductActions }, dispatch),
-  categoryActions: bindActionCreators({ ...cCategoryActions }, dispatch),
-  messageActions: bindActionCreators({ ...cMessageActions }, dispatch),
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(AdminMain);
+export default AdminMain;

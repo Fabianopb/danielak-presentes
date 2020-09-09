@@ -1,7 +1,6 @@
 import React from 'react';
 import { Field, reduxForm, InjectedFormProps } from 'redux-form';
 import { Form, Icon } from 'semantic-ui-react';
-import { Prompt } from 'react-router-dom';
 import { FormInput } from '../../components/FormComponents/FormComponents';
 import styles from './CategoryForm.module.scss';
 
@@ -49,16 +48,9 @@ const CategoryForm: React.SFC<InjectedFormProps<CategoryFormData>> = ({
         <Icon name="check" />
       </Form.Button>
     </Form>
-    <Prompt
-      when={submitting || !pristine}
-      message={() =>
-        'O formulário não foi enviado, se você sair da página o conteúdo não será salvo!'
-      }
-    />
   </div>
 );
 
 export default reduxForm<CategoryFormData>({
   form: CATEGORY_FORM,
-  destroyOnUnmount: false,
 })(CategoryForm);

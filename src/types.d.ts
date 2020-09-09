@@ -46,6 +46,7 @@ declare global {
   interface ProductImage {
     large: string;
     small: string;
+    loading?: boolean;
   }
 
   interface Product {

@@ -1,9 +1,7 @@
 import React from 'react';
-import { connect } from 'react-redux';
-import { bindActionCreators, Dispatch } from 'redux';
+import { useHistory, useLocation } from 'react-router-dom';
 import { Dimmer, Loader, Image, Divider } from 'semantic-ui-react';
 import useSWR from 'swr';
-import { RouterState, routerActions as cRouterActions } from 'connected-react-router';
 import { Carousel } from 'react-responsive-carousel';
 import carousel1 from '../../assets/carousel-1.jpg';
 import carousel2 from '../../assets/carousel-2.jpg';
@@ -13,18 +11,11 @@ import 'react-responsive-carousel/lib/styles/carousel.min.css';
 import styles from './ProductGrid.module.scss';
 import { fetchAllProducts } from '../../api';
 
-interface StateProps {
-  router: RouterState;
-}
-
-interface DispatchProps {
-  routerActions: typeof cRouterActions;
-}
-
-type ProductGridProps = StateProps & DispatchProps;
-
-const ProductGrid = ({ router, routerActions }: ProductGridProps) => {
+const ProductGrid = () => {
   const { data, isValidating } = useSWR('/products', fetchAllProducts);
+
+  const history = useHistory();
+  const location = useLocation();
 
   return (
     <div className={styles.productsView}>
@@ -66,7 +57,7 @@ const ProductGrid = ({ router, routerActions }: ProductGridProps) => {
             <div
               className={styles.productCell}
               key={product._id}
-              onClick={() => routerActions.push(`/product/${product._id}${router.location.search}`)}
+              onClick={() => history.push(`/product/${product._id}${location.search}`)}
             >
               <div className={styles.imageContainer}>
                 {product.image.length > 0 && (
@@ -91,12 +82,4 @@ const ProductGrid = ({ router, routerActions }: ProductGridProps) => {
   );
 };
 
-const mapStateToProps = (state: RootState) => ({
-  router: state.router,
-});
-
-const mapDispatchToProps = (dispatch: Dispatch) => ({
-  routerActions: bindActionCreators({ ...cRouterActions }, dispatch),
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(ProductGrid);
+export default ProductGrid;

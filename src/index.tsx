@@ -5,6 +5,7 @@ import { applyMiddleware, compose, createStore } from 'redux';
 import { Provider } from 'react-redux';
 import createSagaMiddleware from 'redux-saga';
 import { createBrowserHistory } from 'history';
+import { QueryParamProvider } from 'use-query-params';
 import { routerMiddleware, ConnectedRouter } from 'connected-react-router';
 import ReactGA from 'react-ga';
 import rootSaga from './sagas/root';
@@ -38,11 +39,12 @@ const store = createStore(rootReducer(history), composeEnhancers(applyMiddleware
 
 sagaMiddleware.run(rootSaga);
 
-type ProtectedRouteProps = RouteProps & { component: React.ComponentClass };
-const ProtectedRoute: React.SFC<ProtectedRouteProps> = ({ component: Component, ...rest }) => (
+const ProtectedRoute = ({ component: Component, ...rest }: RouteProps) => (
   <Route
     {...rest}
-    render={props => (isSessionValid() ? <Component {...props} /> : <Redirect to="/login" />)}
+    render={props =>
+      isSessionValid() && Component ? <Component {...props} /> : <Redirect to="/login" />
+    }
   />
 );
 
@@ -51,21 +53,23 @@ ReactGA.initialize('UA-69092915-1');
 ReactDOM.render(
   <Provider store={store}>
     <ConnectedRouter history={history}>
-      <Layout>
-        <CategoryMenu />
-        <Switch>
-          <Route exact path="/" component={withTracker(ProductGrid)} />
-          <Route exact path="/product/:id" component={withTracker(ProductDetail)} />
-          <Route exact path="/login" component={LoginPage} />
-          <Route exact path="/about" component={withTracker(AboutPage)} />
-          <ProtectedRoute exact path="/admin" component={AdminMain} />
-          <ProtectedRoute path="/admin/product/:id" component={AdminProduct} />
-          <ProtectedRoute path="/admin/category/:id" component={AdminCategory} />
-          <Route component={NotFoundPage} />
-        </Switch>
-        {!window.location.pathname.includes('/admin') && <ChatWindow />}
-        <NotificationsManager />
-      </Layout>
+      <QueryParamProvider ReactRouterRoute={Route}>
+        <Layout>
+          <CategoryMenu />
+          <Switch>
+            <Route exact path="/" component={withTracker(ProductGrid)} />
+            <Route exact path="/product/:id" component={withTracker(ProductDetail)} />
+            <Route exact path="/login" component={LoginPage} />
+            <Route exact path="/about" component={withTracker(AboutPage)} />
+            <ProtectedRoute exact path="/admin" component={AdminMain} />
+            <ProtectedRoute path="/admin/product/:id" component={AdminProduct} />
+            <ProtectedRoute path="/admin/category/:id" component={AdminCategory} />
+            <Route component={NotFoundPage} />
+          </Switch>
+          {!window.location.pathname.includes('/admin') && <ChatWindow />}
+          <NotificationsManager />
+        </Layout>
+      </QueryParamProvider>
     </ConnectedRouter>
   </Provider>,
   document.getElementById('root'),

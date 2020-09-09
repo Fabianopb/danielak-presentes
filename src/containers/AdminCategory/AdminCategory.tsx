@@ -1,40 +1,45 @@
-import React, { useEffect } from 'react';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
+import React, { useState } from 'react';
+import { useParams, useHistory } from 'react-router-dom';
 import { Dimmer, Loader, Icon, Button, Modal, Header } from 'semantic-ui-react';
-import { routerActions as cRouterActions } from 'connected-react-router';
+import useSWR from 'swr';
 import CategoryForm from '../../forms/Category/CategoryForm';
-import { categoryActions as cCategoryActions } from '../../actions/categories';
 import styles from './AdminCategory.module.scss';
+import { fetchCategoryById, createCategory, editCategory, deleteCategory } from '../../api';
 
-interface StateProps {
-  categories: CategoriesState;
-  match: string;
-}
+const AdminCategory = () => {
+  const params = useParams();
+  const history = useHistory();
 
-interface DispatchProps {
-  categoryActions: typeof cCategoryActions;
-  routerActions: typeof cRouterActions;
-}
+  const [isOpen, setIsOpen] = useState(false);
 
-type AdminCategoryProps = StateProps & DispatchProps;
+  const { data: category, isValidating: loadingCategory } = useSWR(`/category/${params.id}`, () =>
+    fetchCategoryById(params.id),
+  );
 
-const AdminCategory = ({
-  categories,
-  match,
-  categoryActions,
-  routerActions,
-}: AdminCategoryProps) => {
-  useEffect(() => {
-    categoryActions.fetchCategory(match);
-    // eslint-disable-next-line
-  }, []);
-
-  const submitCategory = (category: Category) => {
+  const submitCategory = async (values: Category) => {
     // eslint-disable-next-line @typescript-eslint/naming-convention
-    const { _id, ...rest } = category;
-    const categoryPayload = match === 'new' ? rest : category;
-    categoryActions.upsertCategory(categoryPayload);
+    const { _id, ...rest } = values;
+    try {
+      if (params.id === 'new') {
+        await createCategory(rest);
+      } else {
+        await editCategory(values);
+      }
+      history.push('/admin');
+    } catch (error) {
+      // eslint-disable-next-line no-console
+      console.error(error);
+    }
+  };
+
+  const confirmCategoryDelete = async (cat: Category) => {
+    try {
+      await deleteCategory(cat._id as string);
+      history.push('/admin');
+    } catch (error) {
+      // eslint-disable-next-line no-console
+      console.error(error);
+    }
   };
 
   return (
@@ -42,7 +47,13 @@ const AdminCategory = ({
       <div className={styles.addCategoryHeader}>
         <h3>Adicionar categoria</h3>
         <div className={styles.actionButtons}>
-          <Button basic icon labelPosition="right" color="blue" onClick={routerActions.goBack}>
+          <Button
+            basic
+            icon
+            labelPosition="right"
+            color="blue"
+            onClick={() => history.push('/admin')}
+          >
             Voltar
             <Icon name="chevron left" />
           </Button>
@@ -50,37 +61,29 @@ const AdminCategory = ({
             icon
             labelPosition="right"
             color="red"
-            disabled={match === 'new'}
-            onClick={() => categoryActions.openDialog()}
+            disabled={params.id === 'new'}
+            onClick={() => setIsOpen(true)}
           >
             Remover
             <Icon name="trash" />
           </Button>
         </div>
       </div>
-      {categories.isFetching ? (
+      {loadingCategory && (
         <Dimmer active inverted>
           <Loader />
         </Dimmer>
-      ) : (
-        <CategoryForm onSubmit={submitCategory} />
       )}
-      <Modal open={categories.isDialogOpen} onClose={categoryActions.closeDialog} size="small">
+      {category && <CategoryForm onSubmit={submitCategory} initialValues={category} />}
+      <Modal open={isOpen} onClose={() => setIsOpen(false)} size="small">
         <Header icon="trash" content="Apagar produto" />
         <Modal.Content>
           <p>
-            Tem certeza que deseja apagar a categoria{' '}
-            <em>{categories.activeCategory && categories.activeCategory.name}</em>?
+            Tem certeza que deseja apagar a categoria <em>{category && category.name}</em>?
           </p>
         </Modal.Content>
         <Modal.Actions>
-          <Button
-            basic
-            icon
-            labelPosition="right"
-            color="blue"
-            onClick={categoryActions.closeDialog}
-          >
+          <Button basic icon labelPosition="right" color="blue" onClick={() => setIsOpen(false)}>
             Cancelar
             <Icon name="ban" />
           </Button>
@@ -88,9 +91,7 @@ const AdminCategory = ({
             icon
             labelPosition="right"
             color="red"
-            onClick={() =>
-              categoryActions.deleteCategory((categories.activeCategory as Category)._id as string)
-            }
+            onClick={() => (category ? confirmCategoryDelete(category) : undefined)}
           >
             Remover
             <Icon name="remove" />
@@ -101,13 +102,4 @@ const AdminCategory = ({
   );
 };
 
-export default connect<StateProps, DispatchProps, unknown, RootState>(
-  state => ({
-    categories: state.categories,
-    match: state.router.location.pathname.replace('/admin/category/', ''),
-  }),
-  dispatch => ({
-    categoryActions: bindActionCreators({ ...cCategoryActions }, dispatch),
-    routerActions: bindActionCreators({ ...cRouterActions }, dispatch),
-  }),
-)(AdminCategory);
+export default AdminCategory;

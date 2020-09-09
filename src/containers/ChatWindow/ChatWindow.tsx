@@ -1,36 +1,56 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { bindActionCreators, Dispatch } from 'redux';
-import { connect } from 'react-redux';
 import { Icon, Image, Input, InputOnChangeData } from 'semantic-ui-react';
 import cn from 'classnames';
 import moment from 'moment';
-import { findLast, delay } from 'lodash';
-import { messageActions as cMessageActions } from '../../actions/messages';
 import robotAvatar from '../../assets/dani-robot.png';
 import styles from './ChatWindow.module.scss';
+import { createMessage, editMessage } from '../../api';
 
-interface StateProps {
-  messages: MessagesState;
+const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
+
+function usePrevious<T>(value: T) {
+  const ref = useRef<T>();
+  useEffect(() => {
+    ref.current = value;
+  }, [value]);
+  return ref.current;
 }
 
-interface DispatchProps {
-  messageActions: typeof cMessageActions;
-}
+const botMessages = [
+  {
+    speaker: 'dani' as const,
+    message: 'Olá, posso ajudar? Deixe sua mensagem e seu contato que retornarei em breve!',
+    step: 0,
+  },
+  {
+    speaker: 'dani' as const,
+    message: 'Não esqueça de deixar seu nome, telefone/whatsapp ou e-mail! :)',
+    step: 1,
+  },
+  {
+    speaker: 'dani' as const,
+    message: 'Obrigada! Pode continuar enviando mensagens se desejar.',
+    step: 2,
+  },
+  {
+    speaker: 'dani' as const,
+    message: 'Quando terminar, é só fechar esta janelinha e aguardar o retorno.',
+    step: 3,
+  },
+];
 
-type ChatWindowProps = StateProps & DispatchProps;
-
-const initialMessage = {
-  speaker: 'dani' as const,
-  message: 'Olá, posso ajudar? Deixe sua mensagem e seu contato que retornarei em breve!',
-  step: 0,
-};
-
-const ChatWindow = ({ messages, messageActions }: ChatWindowProps) => {
+const ChatWindow = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [input, setInput] = useState('');
-  const [chatHistory, setChatHistory] = useState<ChatHistory[]>([initialMessage]);
+  const [step, setStep] = useState(0);
+  const [messageId, setMessageId] = useState<string>();
+  const [chatHistory, setChatHistory] = useState<ChatHistory[]>([]);
 
   const scrollEl = useRef<HTMLDivElement>(null);
+
+  const previousUserMessageCount = usePrevious(
+    chatHistory.filter(msg => msg.speaker === 'user').length,
+  );
 
   useEffect(() => {
     const timestamp = localStorage.getItem('chatWindowTimestamp');
@@ -42,59 +62,45 @@ const ChatWindow = ({ messages, messageActions }: ChatWindowProps) => {
     }
   }, []);
 
-  const toggleWindow = (): void => {
-    setIsOpen(!isOpen);
-  };
-
   const scrollToBottom = () => {
     if (scrollEl.current) {
       scrollEl.current.scrollIntoView({ behavior: 'smooth' });
     }
   };
 
-  const answerUser = () => {
-    const lastDaniMsg = findLast(chatHistory, history => history.speaker === 'dani') as ChatHistory;
-    if (lastDaniMsg.step === 0) {
-      const newEntry = chatHistory.concat({
-        speaker: 'dani',
-        message: 'Não esqueça de deixar seu nome, telefone/whatsapp ou e-mail! :)',
-        step: 1,
-      });
-      setChatHistory(newEntry);
+  useEffect(() => {
+    const currentUserMessageCount = chatHistory.filter(msg => msg.speaker === 'user').length;
+    if (previousUserMessageCount !== currentUserMessageCount && step < botMessages.length) {
+      setChatHistory(currentHistory => [...currentHistory, botMessages[step]]);
+      setStep(step + 1);
       scrollToBottom();
     }
-    if (lastDaniMsg.step === 1) {
-      const newEntry = chatHistory.concat([
-        {
-          speaker: 'dani',
-          message: 'Obrigada! Pode continuar enviando mensagens se desejar.',
-          step: 2,
-        },
-        {
-          speaker: 'dani',
-          message: 'Quando terminar, é só fechar esta janelinha e aguardar o retorno.',
-          step: 2,
-        },
-      ]);
-      setChatHistory(newEntry);
-      scrollToBottom();
-    }
+  }, [chatHistory, previousUserMessageCount, step]);
+
+  const toggleWindow = (): void => {
+    setIsOpen(!isOpen);
   };
 
-  const sendMessage = () => {
-    if (input) {
-      const newEntry = chatHistory.concat({ speaker: 'user', message: input });
-      setInput('');
-      setChatHistory(newEntry);
-      scrollToBottom();
-      messageActions.saveMessage(newEntry, messages.activeMessageId);
-      delay(answerUser, 2000);
+  const sendMessage = async (message: string) => {
+    const newEntry = { speaker: 'user' as const, message };
+    const allUserText = [...chatHistory, newEntry]
+      .filter(history => history.speaker === 'user')
+      .map(history => history.message);
+    if (messageId) {
+      await editMessage(messageId, allUserText);
+    } else {
+      const createdMessage = await createMessage(allUserText);
+      setMessageId(createdMessage.id);
     }
+    setChatHistory(currentHistory => [...currentHistory, newEntry]);
+    scrollToBottom();
+    await delay(2000);
   };
 
   const handleKeyPress = (event: { key: string }) => {
-    if (event.key === 'Enter') {
-      sendMessage();
+    if (input && event.key === 'Enter') {
+      sendMessage(input);
+      setInput('');
     }
   };
 
@@ -154,12 +160,4 @@ const ChatWindow = ({ messages, messageActions }: ChatWindowProps) => {
   );
 };
 
-const mapStateToProps = (state: RootState) => ({
-  messages: state.messages,
-});
-
-const mapDispatchToProps = (dispatch: Dispatch) => ({
-  messageActions: bindActionCreators({ ...cMessageActions }, dispatch),
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(ChatWindow);
+export default ChatWindow;
