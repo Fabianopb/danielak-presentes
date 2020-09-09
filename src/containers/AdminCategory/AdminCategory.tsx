@@ -4,7 +4,7 @@ import { Dimmer, Loader, Icon, Button, Modal, Header } from 'semantic-ui-react';
 import useSWR from 'swr';
 import CategoryForm from '../../forms/Category/CategoryForm';
 import styles from './AdminCategory.module.scss';
-import { fetchCategoryById } from '../../api';
+import { fetchCategoryById, createCategory, editCategory, deleteCategory } from '../../api';
 
 const AdminCategory = () => {
   const params = useParams();
@@ -19,11 +19,27 @@ const AdminCategory = () => {
   const submitCategory = async (values: Category) => {
     // eslint-disable-next-line @typescript-eslint/naming-convention
     const { _id, ...rest } = values;
-    const categoryPayload = params.id === 'new' ? rest : values;
-    // categoryActions.upsertCategory(categoryPayload);
+    try {
+      if (params.id === 'new') {
+        await createCategory(rest);
+      } else {
+        await editCategory(values);
+      }
+    } catch (error) {
+      // eslint-disable-next-line no-console
+      console.error(error);
+    }
   };
 
-  const confirmCategoryDelete = async (cat: Category) => {};
+  const confirmCategoryDelete = async (cat: Category) => {
+    try {
+      await deleteCategory(cat._id as string);
+      history.push('/admin');
+    } catch (error) {
+      // eslint-disable-next-line no-console
+      console.error(error);
+    }
+  };
 
   return (
     <div className={styles.adminCategory}>
