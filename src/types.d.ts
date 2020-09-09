@@ -12,7 +12,6 @@ declare global {
     categories: CategoriesState;
     products: ProductsState;
     messages: MessagesState;
-    users: UsersState;
     form: FormStateMap;
     notifications: Notification[];
     router: RouterState;

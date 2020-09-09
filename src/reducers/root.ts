@@ -6,7 +6,6 @@ import { History } from 'history';
 import categories from './categories';
 import products from './products';
 import messages from './messages';
-import users from './users';
 import { AnyAction } from '../modules/helpers';
 
 const rootReducer = (history: History) =>
@@ -14,7 +13,6 @@ const rootReducer = (history: History) =>
     categories,
     products,
     messages,
-    users,
     form,
     notifications,
     router: connectRouter(history),

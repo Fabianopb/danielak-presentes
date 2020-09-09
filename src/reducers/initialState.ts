@@ -29,7 +29,6 @@ export const initialState: RootState = {
   categories: categoriesState,
   products: productsState,
   messages: messagesState,
-  users: usersState,
   form: {},
   notifications: [],
   router: {
