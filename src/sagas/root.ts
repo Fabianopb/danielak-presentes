@@ -2,7 +2,6 @@ import { all, takeLatest } from 'redux-saga/effects';
 import { CategoryActionsEnum } from '../actions/categories';
 import { MessageActionsEnum } from '../actions/messages';
 import { ProductActionsEnum } from '../actions/products';
-import { UserActionsEnum } from '../actions/users';
 import {
   fetchCategoriesSaga,
   fetchCategorySaga,
@@ -21,7 +20,6 @@ import {
   showAdminProductSaga,
   handleFileDropSaga,
 } from './products';
-import { loginSaga, logoutSaga } from './users';
 
 export default function* rootSaga() {
   yield all([
@@ -45,8 +43,5 @@ export default function* rootSaga() {
     takeLatest(MessageActionsEnum.SAVE_MESSAGE, saveMessageSaga),
     takeLatest(MessageActionsEnum.TOGGLE_ANSWER, toggleAnswerSaga),
     takeLatest(MessageActionsEnum.DELETE_MESSAGE, deleteMessageSaga),
-    // users sagas
-    takeLatest(UserActionsEnum.LOG_IN, loginSaga),
-    takeLatest(UserActionsEnum.LOG_OUT, logoutSaga),
   ]);
 }
