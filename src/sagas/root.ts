@@ -1,6 +1,5 @@
 import { all, takeLatest } from 'redux-saga/effects';
 import { CategoryActionsEnum } from '../actions/categories';
-import { MessageActionsEnum } from '../actions/messages';
 import { ProductActionsEnum } from '../actions/products';
 import {
   fetchCategoriesSaga,
@@ -10,7 +9,6 @@ import {
   deleteCategorySaga,
   changeCategorySaga,
 } from './categories';
-import { getMessagesSaga, saveMessageSaga, toggleAnswerSaga, deleteMessageSaga } from './messages';
 import {
   getProductDetailSaga,
   fetchProductsSaga,
@@ -38,10 +36,5 @@ export default function* rootSaga() {
     takeLatest(ProductActionsEnum.DELETE_IMAGE, deleteImageSaga),
     takeLatest(ProductActionsEnum.SHOW_ADMIN_PRODUCT, showAdminProductSaga),
     takeLatest(ProductActionsEnum.HANDLE_FILE_DROP, handleFileDropSaga),
-    // messages sagas
-    takeLatest(MessageActionsEnum.FETCH_MESSAGES, getMessagesSaga),
-    takeLatest(MessageActionsEnum.SAVE_MESSAGE, saveMessageSaga),
-    takeLatest(MessageActionsEnum.TOGGLE_ANSWER, toggleAnswerSaga),
-    takeLatest(MessageActionsEnum.DELETE_MESSAGE, deleteMessageSaga),
   ]);
 }
