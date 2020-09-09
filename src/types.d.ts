@@ -1,7 +1,5 @@
 import { compose } from 'redux';
-import { Notification } from 'react-notification-system';
 import { FormStateMap } from 'redux-form';
-import { RouterState } from 'connected-react-router';
 
 declare global {
   interface Window {
@@ -9,13 +7,7 @@ declare global {
   }
 
   interface RootState {
-    categories: CategoriesState;
-    products: ProductsState;
-    messages: MessagesState;
-    users: UsersState;
     form: FormStateMap;
-    notifications: Notification[];
-    router: RouterState;
   }
 
   interface CategoriesState {

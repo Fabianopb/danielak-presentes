@@ -1,15 +1,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { Switch, Route, RouteProps, Redirect } from 'react-router-dom';
-import { applyMiddleware, compose, createStore } from 'redux';
+import { Switch, Route, RouteProps, Redirect, Router } from 'react-router-dom';
+import { createStore, combineReducers } from 'redux';
 import { Provider } from 'react-redux';
-import createSagaMiddleware from 'redux-saga';
 import { createBrowserHistory } from 'history';
 import { QueryParamProvider } from 'use-query-params';
-import { routerMiddleware, ConnectedRouter } from 'connected-react-router';
 import ReactGA from 'react-ga';
-import rootSaga from './sagas/root';
-import rootReducer from './reducers/root';
+import { reducer as form } from 'redux-form';
 import Layout from './components/Layout/Layout';
 import AboutPage from './components/AboutPage/AboutPage';
 import withTracker from './components/withTracker';
@@ -22,22 +19,14 @@ import AdminMain from './containers/AdminMain/AdminMain';
 import LoginPage from './containers/LoginPage/LoginPage';
 import AdminProduct from './containers/AdminProduct/AdminProduct';
 import AdminCategory from './containers/AdminCategory/AdminCategory';
-import NotificationsManager from './containers/Notifications/Notifications';
 import { isSessionValid } from './modules/session';
 import 'semantic-ui-css/semantic.min.css';
 import './index.scss';
 import * as serviceWorker from './serviceWorker';
 
 const history = createBrowserHistory();
-const sagaMiddleware = createSagaMiddleware();
 
-const middleware = [routerMiddleware(history), sagaMiddleware];
-const composeEnhancers =
-  (process.env.NODE_ENV !== 'production' && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__) || compose;
-
-const store = createStore(rootReducer(history), composeEnhancers(applyMiddleware(...middleware)));
-
-sagaMiddleware.run(rootSaga);
+const store = createStore(combineReducers({ form }));
 
 const ProtectedRoute = ({ component: Component, ...rest }: RouteProps) => (
   <Route
@@ -52,7 +41,7 @@ ReactGA.initialize('UA-69092915-1');
 
 ReactDOM.render(
   <Provider store={store}>
-    <ConnectedRouter history={history}>
+    <Router history={history}>
       <QueryParamProvider ReactRouterRoute={Route}>
         <Layout>
           <CategoryMenu />
@@ -67,10 +56,9 @@ ReactDOM.render(
             <Route component={NotFoundPage} />
           </Switch>
           {!window.location.pathname.includes('/admin') && <ChatWindow />}
-          <NotificationsManager />
         </Layout>
       </QueryParamProvider>
-    </ConnectedRouter>
+    </Router>
   </Provider>,
   document.getElementById('root'),
 );
