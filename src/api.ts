@@ -27,6 +27,9 @@ export const deleteProduct = (productId: string) =>
 
 export const fetchCategories = () => axios.get<Category[]>(`/api/categories`).then(res => res.data);
 
+export const fetchCategoryById = (categoryId: string) =>
+  axios.get<Category[]>(`/api/categories?_id=${categoryId}`).then(res => res.data[0]);
+
 export const fetchMessages = () => axios.get<Message[]>(`/api/messages`).then(res => res.data);
 
 export const toggleMessageVisibility = (messageId: string) =>
