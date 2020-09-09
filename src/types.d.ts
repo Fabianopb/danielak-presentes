@@ -11,7 +11,6 @@ declare global {
   interface RootState {
     categories: CategoriesState;
     products: ProductsState;
-    messages: MessagesState;
     form: FormStateMap;
     notifications: Notification[];
     router: RouterState;
