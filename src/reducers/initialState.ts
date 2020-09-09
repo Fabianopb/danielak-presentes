@@ -2,7 +2,6 @@ import { RouterActionType } from 'connected-react-router';
 
 export const initialState: RootState = {
   form: {},
-  notifications: [],
   router: {
     location: {
       pathname: '',

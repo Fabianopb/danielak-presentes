@@ -21,7 +21,6 @@ import AdminMain from './containers/AdminMain/AdminMain';
 import LoginPage from './containers/LoginPage/LoginPage';
 import AdminProduct from './containers/AdminProduct/AdminProduct';
 import AdminCategory from './containers/AdminCategory/AdminCategory';
-import NotificationsManager from './containers/Notifications/Notifications';
 import { isSessionValid } from './modules/session';
 import 'semantic-ui-css/semantic.min.css';
 import './index.scss';
@@ -64,7 +63,6 @@ ReactDOM.render(
             <Route component={NotFoundPage} />
           </Switch>
           {!window.location.pathname.includes('/admin') && <ChatWindow />}
-          <NotificationsManager />
         </Layout>
       </QueryParamProvider>
     </ConnectedRouter>
