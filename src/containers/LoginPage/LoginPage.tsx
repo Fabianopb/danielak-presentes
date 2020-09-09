@@ -32,7 +32,6 @@ const LoginPage = () => {
                   history.push('/admin');
                 } catch (error) {
                   setLoginError(error);
-                } finally {
                   setIsLogging(false);
                 }
               }}
