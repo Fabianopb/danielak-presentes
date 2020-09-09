@@ -8,7 +8,6 @@ import { createBrowserHistory } from 'history';
 import { QueryParamProvider } from 'use-query-params';
 import { routerMiddleware, ConnectedRouter } from 'connected-react-router';
 import ReactGA from 'react-ga';
-import rootSaga from './sagas/root';
 import rootReducer from './reducers/root';
 import Layout from './components/Layout/Layout';
 import AboutPage from './components/AboutPage/AboutPage';
@@ -36,8 +35,6 @@ const composeEnhancers =
   (process.env.NODE_ENV !== 'production' && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__) || compose;
 
 const store = createStore(rootReducer(history), composeEnhancers(applyMiddleware(...middleware)));
-
-sagaMiddleware.run(rootSaga);
 
 const ProtectedRoute = ({ component: Component, ...rest }: RouteProps) => (
   <Route
