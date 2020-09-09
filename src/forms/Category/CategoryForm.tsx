@@ -60,5 +60,4 @@ const CategoryForm: React.SFC<InjectedFormProps<CategoryFormData>> = ({
 
 export default reduxForm<CategoryFormData>({
   form: CATEGORY_FORM,
-  destroyOnUnmount: false,
 })(CategoryForm);
