@@ -33,6 +33,8 @@ app.get('*', (request, response) => {
   response.sendFile(path.resolve('build', 'index.html'));
 });
 
-app.listen(process.env.PORT || 9000);
+const port = process.env.PORT || 9000;
+
+app.listen(port);
 // eslint-disable-next-line no-console
-console.log('Server up and running...');
+console.log(`Server up and running on :${port}`);
