@@ -17,7 +17,6 @@ app.get('/api/v2/example', async (req, res) => {
   return res.json(result);
 });
 
-app.set('db', Knex(knexfile.development));
 app.listen(9001);
 // eslint-disable-next-line no-console
 console.log(`PG server up and running in ${process.env.NODE_ENV} on :9001...`);
