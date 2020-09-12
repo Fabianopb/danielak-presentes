@@ -115,6 +115,6 @@
     "migrate:make": "knex --knexfile ./pg-server/knexfile.ts migrate:make -x ts",
     "migrate:latest": "knex --knexfile ./pg-server/knexfile.ts migrate:latest",
     "migrate:rollback": "knex --knexfile ./pg-server/knexfile.ts migrate:rollback",
-    "create:db:dev": "ts-node ./scripts/createDb.ts"
+    "create:db:dev": "APP_ENV=development ts-node ./scripts/createDb.ts"
   }
 }
