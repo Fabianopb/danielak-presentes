@@ -1,7 +1,6 @@
 import express from 'express';
 import path from 'path';
-import Knex from 'knex';
-import knexfile from './knexfile';
+import helloWorldRoutes from './helloWorld/routes';
 
 const app = express();
 
@@ -11,11 +10,7 @@ app.get('/api/v2', (req, res) => {
   res.send('Hello PG world!');
 });
 
-app.get('/api/v2/example', async (req, res) => {
-  const db = await Knex(knexfile.development);
-  const result = await db('hello_world').select();
-  return res.json(result);
-});
+app.use('/api/v2', [helloWorldRoutes]);
 
 app.listen(9001);
 // eslint-disable-next-line no-console
