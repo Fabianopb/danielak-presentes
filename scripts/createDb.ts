@@ -1,5 +1,5 @@
 import Knex from 'knex';
-import knexfile from '../knexfile';
+import knexfile from '../pg-server/knexfile';
 
 (async () => {
   const config = knexfile.development;
