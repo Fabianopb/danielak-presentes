@@ -101,8 +101,8 @@
   },
   "scripts": {
     "start-client": "react-scripts start",
-    "start-server": "nodemon server/server.js",
-    "start-pg-server": "nodemon --exec 'ts-node' pg-server/index.ts",
+    "start-server": "nodemon --exec ts-node server/server.js",
+    "start-pg-server": "nodemon --exec ts-node pg-server/index.ts",
     "build-client": "react-scripts build",
     "heroku-postbuild": "yarn build-client",
     "test-client": "react-scripts test",
