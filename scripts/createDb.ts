@@ -1,8 +1,10 @@
 import Knex from 'knex';
 import knexfile from '../pg-server/knexfile';
+import { getAppEnv } from '../pg-server/config';
 
 (async () => {
-  const config = knexfile.development;
+  const appEnv = getAppEnv();
+  const config = knexfile[appEnv];
   const devDbName = config.connection.database;
   const knex = Knex({ ...config, connection: { ...config.connection, database: undefined } });
 
