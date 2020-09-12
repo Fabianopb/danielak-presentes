@@ -14,7 +14,12 @@ const knexConfig = {
 
   test: {
     client: 'pg',
-    connection: 'postgres://localhost/<danik_test>',
+    connection: {
+      host: 'localhost',
+      user: 'postgres',
+      password: '',
+      database: 'danik_test',
+    },
     migrations: {
       directory: './migrations',
     },
@@ -22,7 +27,12 @@ const knexConfig = {
 
   production: {
     client: 'pg',
-    connection: process.env.PG_DATABASE_URL,
+    connection: {
+      host: '',
+      user: '',
+      password: '',
+      database: '',
+    },
     migrations: {
       directory: './migrations',
     },
