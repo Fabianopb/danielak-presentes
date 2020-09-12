@@ -13,7 +13,7 @@ const products = require('./routes/products');
 const categories = require('./routes/categories');
 const users = require('./routes/users');
 const messages = require('./routes/messages');
-const helloWorldRoutes = require('../pg-server/helloWorld/routes.ts').default;
+const helloWorldRoutes = require('../pg-server/helloWorld/routes').default;
 
 app.use(passport.initialize());
 
