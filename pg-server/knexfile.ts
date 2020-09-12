@@ -1,4 +1,6 @@
-const knexConfig = {
+import Knex from 'knex';
+
+const knexConfig: Record<string, Knex.Config> = {
   development: {
     client: 'pg',
     connection: {
@@ -28,10 +30,11 @@ const knexConfig = {
   production: {
     client: 'pg',
     connection: {
-      host: '',
-      user: '',
-      password: '',
-      database: '',
+      host: process.env.POSTGRES_HOST,
+      user: process.env.POSTGRES_USER,
+      password: process.env.POSTGRES_PASSWORD,
+      database: process.env.POSTGRES_DATABASE,
+      port: 5432,
     },
     migrations: {
       directory: './migrations',
