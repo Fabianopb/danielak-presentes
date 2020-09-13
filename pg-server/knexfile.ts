@@ -1,6 +1,8 @@
-import Knex from 'knex';
+import { parse } from 'pg-connection-string';
 
-const knexConfig: Record<string, Knex.Config> = {
+const prodConnection = parse(process.env.DATABASE_URL || '');
+
+const knexConfig = {
   development: {
     client: 'pg',
     connection: {
@@ -30,11 +32,11 @@ const knexConfig: Record<string, Knex.Config> = {
   production: {
     client: 'pg',
     connection: {
-      host: process.env.POSTGRES_HOST,
-      user: process.env.POSTGRES_USER,
-      password: process.env.POSTGRES_PASSWORD,
-      database: process.env.POSTGRES_DATABASE,
-      port: 5432,
+      host: prodConnection.host || '',
+      user: prodConnection.user || '',
+      password: prodConnection.password || '',
+      database: prodConnection.database || '',
+      port: Number(prodConnection.port || 5432),
     },
     migrations: {
       directory: './migrations',
