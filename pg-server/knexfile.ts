@@ -1,0 +1,47 @@
+import { parse } from 'pg-connection-string';
+
+const prodConnection = parse(process.env.DATABASE_URL || '');
+
+const knexConfig = {
+  development: {
+    client: 'pg',
+    connection: {
+      host: 'localhost',
+      user: 'postgres',
+      password: '',
+      database: 'danik_dev',
+    },
+    migrations: {
+      directory: './migrations',
+    },
+  },
+
+  test: {
+    client: 'pg',
+    connection: {
+      host: 'localhost',
+      user: 'postgres',
+      password: '',
+      database: 'danik_test',
+    },
+    migrations: {
+      directory: './migrations',
+    },
+  },
+
+  production: {
+    client: 'pg',
+    connection: {
+      host: prodConnection.host || '',
+      user: prodConnection.user || '',
+      password: prodConnection.password || '',
+      database: prodConnection.database || '',
+      port: Number(prodConnection.port || 5432),
+    },
+    migrations: {
+      directory: './migrations',
+    },
+  },
+};
+
+export default knexConfig;

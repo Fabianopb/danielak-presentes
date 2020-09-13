@@ -13,6 +13,7 @@ const products = require('./routes/products');
 const categories = require('./routes/categories');
 const users = require('./routes/users');
 const messages = require('./routes/messages');
+const helloWorldRoutes = require('../pg-server/helloWorld/routes').default;
 
 app.use(passport.initialize());
 
@@ -21,6 +22,8 @@ app.use('/api/products', products);
 app.use('/api/categories', categories);
 app.use('/api/users', users);
 app.use('/api/messages', messages);
+
+app.use('/api/v2', [helloWorldRoutes]);
 
 mongoose.connect(process.env.DANIK_MONGODB, {
   useNewUrlParser: true,
@@ -33,6 +36,8 @@ app.get('*', (request, response) => {
   response.sendFile(path.resolve('build', 'index.html'));
 });
 
-app.listen(process.env.PORT || 9000);
+const port = process.env.PORT || 9000;
+
+app.listen(port);
 // eslint-disable-next-line no-console
-console.log('Server up and running...');
+console.log(`Server up and running on :${port}`);
