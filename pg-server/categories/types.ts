@@ -5,3 +5,5 @@ export type Category = {
   removed: boolean;
   createdAt: Date;
 };
+
+export type CategoryPayload = Omit<Category, 'id' | 'createdAt'>;
