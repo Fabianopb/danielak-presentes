@@ -13,7 +13,6 @@ const products = require('./routes/products');
 const categories = require('./routes/categories');
 const users = require('./routes/users');
 const messages = require('./routes/messages');
-const helloWorldRoutes = require('../pg-server/helloWorld/routes').default;
 const userV2Routes = require('../pg-server/users/routes').default;
 
 app.use(passport.initialize());
@@ -24,7 +23,6 @@ app.use('/api/categories', categories);
 app.use('/api/users', users);
 app.use('/api/messages', messages);
 
-app.use('/api/v2', helloWorldRoutes);
 app.use('/api/v2/users', userV2Routes);
 
 mongoose.connect(process.env.DANIK_MONGODB, {
