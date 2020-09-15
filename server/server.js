@@ -13,6 +13,7 @@ const products = require('./routes/products');
 const categories = require('./routes/categories');
 const users = require('./routes/users');
 const messages = require('./routes/messages');
+const { default: migrateData } = require('../scripts/migrateData');
 
 const userV2Routes = require('../pg-server/users/routes').default;
 const categoriesV2Routes = require('../pg-server/categories/routes').default;
@@ -31,6 +32,8 @@ mongoose.connect(process.env.DANIK_MONGODB, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 });
+
+migrateData();
 
 app.use(express.static(path.resolve('build')));
 
