@@ -11,7 +11,7 @@ export const getAppEnv = () => {
   return appEnv;
 };
 
-export const getDb = () => {
-  const appEnv = getAppEnv();
-  return Knex(kenxfile[appEnv]);
-};
+const appEnv = getAppEnv();
+const db = Knex(kenxfile[appEnv]);
+
+export { db };

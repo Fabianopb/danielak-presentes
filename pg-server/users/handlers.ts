@@ -1,6 +1,6 @@
 import crypto from 'crypto';
 import jwt from 'jsonwebtoken';
-import { getDb } from '../config';
+import { db } from '../config';
 import { User } from './types';
 
 const table = 'users';
@@ -37,7 +37,6 @@ export const registerAdminUser = async () => {
   if (!process.env.DANIK_PASSWORD || !process.env.DANIK_USERNAME) {
     throw new Error('Admin username and password must be defined in the environment');
   }
-  const db = await getDb();
   const users = await db<User>(table).select();
   if (users.length > 0) {
     throw new Error('Admin user already exists!');

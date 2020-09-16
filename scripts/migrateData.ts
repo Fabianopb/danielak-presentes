@@ -12,10 +12,9 @@ import { insertCategory } from '../pg-server/categories/handlers';
 import { insertMessage } from '../pg-server/messages/handlers';
 import { insertProduct } from '../pg-server/products/handlers';
 
-import { getDb } from '../pg-server/config';
+import { db } from '../pg-server/config';
 
 export default async () => {
-  const db = getDb();
   try {
     console.log('\n\n---=== CATEGORIES MIGRATION ===---');
     console.log('Checking if categories have to be migrated...');
