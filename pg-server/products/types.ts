@@ -19,3 +19,5 @@ export type Product = {
   images: string[];
   createdAt: Date;
 };
+
+export type ProductPayload = Omit<Product, 'id' | 'createdAt'>;
