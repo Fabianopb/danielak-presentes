@@ -10,7 +10,8 @@ export const selectAllMessages = async () => {
 
 export const insertMessage = async (payload: MessagePayload) => {
   const db = getDb();
-  return db<Message>(table).insert(payload).returning('id').first();
+  const messageIds = await db<Message>(table).insert(payload).returning('id');
+  return messageIds[0];
 };
 
 export const updateMessage = async (id: string, payload: MessagePayload) => {
@@ -26,5 +27,9 @@ export const deleteMessage = async (id: string) => {
 export const toggleMessageAnswered = async (id: string) => {
   const db = getDb();
   const isAnswered = await db<Message>(table).where({ id }).returning('isAnswered').first();
-  return db<Message>(table).where({ id }).update('isAnswered', !isAnswered).returning('*').first();
+  const messages = await db<Message>(table)
+    .where({ id })
+    .update('isAnswered', !isAnswered)
+    .returning('*');
+  return messages[0];
 };
