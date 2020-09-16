@@ -18,9 +18,7 @@ router.get('/messages', async (req, res) => {
 
 router.post('/messages', bodyParser.json(), async (req, res) => {
   const newMessageId = await insertMessage(req.body);
-  if (newMessageId) {
-    return res.status(200).json({ id: newMessageId });
-  }
+  return res.status(200).json({ id: newMessageId });
 });
 
 router.put('/messages/:id', bodyParser.json(), async (req, res) => {
