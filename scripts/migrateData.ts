@@ -19,12 +19,12 @@ export default async () => {
   console.log('Checking if categories have to be migrated...');
   const pgCategories = await getDb()<CategoryT>('categories').select();
   console.log(`${pgCategories.length} categories found in Postgres!`);
-  console.log('Fetching categories from MongoDB...');
-  const mongoCategories = await Category.find({});
-  console.log(`${mongoCategories.length} categories found in MongoDB!`);
   if (pgCategories.length) {
     console.log('categories table is already populated, skipping migration...');
   } else {
+    console.log('Fetching categories from MongoDB...');
+    const mongoCategories = await Category.find({});
+    console.log(`${mongoCategories.length} categories found in MongoDB!`);
     const categoriesPromises = mongoCategories.map(({ name, description, removed }: any) =>
       insertCategory({ name, description, removed }),
     );
@@ -43,6 +43,7 @@ export default async () => {
     console.log('Fetching products from MongoDB...');
     const mongoProducts = await Product.find({});
     console.log(`${mongoProducts.length} products found in MongoDB!`);
+    const mongoCategories = await Category.find({});
     const latestPgCategories = await getDb()<CategoryT>('categories').select();
     const productsPromises = mongoProducts.map((product: any) => {
       const {
