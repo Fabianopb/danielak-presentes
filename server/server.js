@@ -18,6 +18,7 @@ const { default: migrateData } = require('../scripts/migrateData');
 const userV2Routes = require('../pg-server/users/routes').default;
 const categoriesV2Routes = require('../pg-server/categories/routes').default;
 const messagesV2Routes = require('../pg-server/messages/routes').default;
+const productsV2Routes = require('../pg-server/products/routes').default;
 
 app.use(passport.initialize());
 
@@ -27,7 +28,7 @@ app.use('/api/categories', categories);
 app.use('/api/users', users);
 app.use('/api/messages', messages);
 
-app.use('/api/v2', [userV2Routes, categoriesV2Routes, messagesV2Routes]);
+app.use('/api/v2', [userV2Routes, categoriesV2Routes, messagesV2Routes, productsV2Routes]);
 
 mongoose.connect(process.env.DANIK_MONGODB, {
   useNewUrlParser: true,
