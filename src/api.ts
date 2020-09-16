@@ -6,7 +6,7 @@ const getAuthHeaders = () => ({
 
 export const loginAdminUser = (credentials: { email: string; password: string }) =>
   axios
-    .post<{ token: string; expiry: string }>(`/api/users/login`, credentials)
+    .post<{ token: string; expiry: string }>(`/api/v2/users/login`, credentials)
     .then(res => res.data);
 
 export const fetchAllProducts = () => axios.get<Product[]>(`/api/products`).then(res => res.data);
