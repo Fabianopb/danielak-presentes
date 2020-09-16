@@ -5,3 +5,5 @@ export type Message = {
   isAnswered: boolean;
   createdAt: Date;
 };
+
+export type MessagePayload = Omit<Message, 'id' | 'createdAt'>;
