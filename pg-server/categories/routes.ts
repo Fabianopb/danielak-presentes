@@ -1,5 +1,4 @@
 import { Router } from 'express';
-
 import bodyParser from 'body-parser';
 import authorize from '../auth/authorize';
 import { selectAllCategories, insertCategory, updateCategory, deleteCategory } from './handlers';

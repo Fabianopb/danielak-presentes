@@ -10,7 +10,7 @@ export async function up(knex: Knex): Promise<void> {
     table.uuid('categoryId').notNullable();
     table.integer('currentPrice').notNullable();
     table.integer('discountPrice');
-    table.jsonb('tags').defaultTo([]).notNullable();
+    table.string('tags').defaultTo('').notNullable();
     table.integer('productionTime').notNullable();
     table.integer('minAmount').notNullable();
     table.integer('width').notNullable();
