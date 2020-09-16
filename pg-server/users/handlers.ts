@@ -48,5 +48,3 @@ export const registerAdminUser = async () => {
 
   await db<User>(table).insert(adminUser);
 };
-
-export const loginUser = async () => {};

@@ -9,12 +9,12 @@ import { User } from './types';
 initPassport();
 const router = Router();
 
-router.route('/register').get(async (req, res) => {
+router.route('/users/register').get(async (req, res) => {
   await registerAdminUser();
   return res.status(200).json('Admin user registered!');
 });
 
-router.route('/login').post(bodyParser.json(), passport.authenticate('local'), (req, res) => {
+router.route('/users/login').post(bodyParser.json(), passport.authenticate('local'), (req, res) => {
   const user = req.user as User | undefined;
   if (!user) {
     return res.status(401).json('info');
