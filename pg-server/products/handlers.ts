@@ -7,6 +7,10 @@ export const selectAllProducts = async () => {
   return db<Product>(table).select();
 };
 
+export const selectProductById = async (id: string) => {
+  return db<Product>(table).where({ id }).first();
+};
+
 export const insertProduct = async (payload: ProductPayload) => {
   await db<Product>(table).insert(payload);
 };
