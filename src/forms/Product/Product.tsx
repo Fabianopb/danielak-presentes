@@ -14,7 +14,7 @@ import styles from './Product.module.scss';
 import { uploadFile, deleteFiles } from '../../api';
 import { getImageNameFromUrl } from '../../modules/helpers';
 
-export const PRODUCT_FORM = 'editProductForm';
+const PRODUCT_FORM = 'editProductForm';
 
 function usePrevious<T>(value: T) {
   const ref = useRef<T>();

@@ -4,7 +4,7 @@ import { Form, Icon } from 'semantic-ui-react';
 import { FormInput } from '../../components/FormComponents/FormComponents';
 import styles from './CategoryForm.module.scss';
 
-export const CATEGORY_FORM = 'CategoryForm';
+const CATEGORY_FORM = 'CategoryForm';
 
 export type CategoryFormData = {
   name: string;

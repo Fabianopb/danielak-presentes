@@ -5,8 +5,6 @@ import {
   Form,
   Input,
   InputProps,
-  TextArea,
-  TextAreaProps,
   Checkbox,
   CheckboxProps,
   Dropdown,
@@ -45,26 +43,6 @@ const FormInput = ({
         type={type}
         placeholder={placeholder}
       />
-      <div className={styles.errorMessage}>{error && <span>{meta.error}</span>}</div>
-    </Form.Field>
-  );
-};
-
-interface FormTextAreaProps extends WrappedFieldProps, TextAreaProps {}
-
-const FormTextArea = ({
-  meta,
-  required,
-  formLabel,
-  input,
-  type,
-  placeholder,
-}: FormTextAreaProps) => {
-  const error = hasErrored(meta.touched, meta.error);
-  return (
-    <Form.Field error={error} required={required}>
-      <label>{formLabel}</label>
-      <TextArea {...input} type={type} placeholder={placeholder} />
       <div className={styles.errorMessage}>{error && <span>{meta.error}</span>}</div>
     </Form.Field>
   );
@@ -112,4 +90,4 @@ const FormDropdown = ({
   );
 };
 
-export { FormInput, FormTextArea, FormCheckbox, FormDropdown };
+export { FormInput, FormCheckbox, FormDropdown };
