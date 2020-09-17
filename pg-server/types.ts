@@ -14,7 +14,7 @@ export type Product = {
   categoryId: string;
   currentPrice: number;
   discountPrice?: number;
-  tags: string[];
+  tags: string;
   productionTime: number;
   minAmount: number;
   width: number;
@@ -23,7 +23,10 @@ export type Product = {
   weight: number;
   isVisible: boolean;
   isFeatured: boolean;
-  images: string[];
+  images: {
+    large: string;
+    small: string;
+  }[];
   createdAt: Date;
 };
 
