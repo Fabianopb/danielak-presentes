@@ -5,6 +5,7 @@ import useSWR from 'swr';
 import CategoryForm from '../../forms/Category/CategoryForm';
 import styles from './AdminCategory.module.scss';
 import { fetchCategoryById, createCategory, editCategory, deleteCategory } from '../../api';
+import { MongoCategory } from '../../types';
 
 const AdminCategory = () => {
   const params = useParams();
@@ -16,7 +17,7 @@ const AdminCategory = () => {
     fetchCategoryById(params.id),
   );
 
-  const submitCategory = async (values: Category) => {
+  const submitCategory = async (values: MongoCategory) => {
     // eslint-disable-next-line @typescript-eslint/naming-convention
     const { _id, ...rest } = values;
     try {
@@ -32,7 +33,7 @@ const AdminCategory = () => {
     }
   };
 
-  const confirmCategoryDelete = async (cat: Category) => {
+  const confirmCategoryDelete = async (cat: MongoCategory) => {
     try {
       await deleteCategory(cat._id as string);
       history.push('/admin');

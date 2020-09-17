@@ -3,10 +3,11 @@ import { Field, reduxForm, InjectedFormProps } from 'redux-form';
 import { Form, Icon } from 'semantic-ui-react';
 import { FormInput } from '../../components/FormComponents/FormComponents';
 import styles from './CategoryForm.module.scss';
+import { MongoCategory } from '../../types';
 
 export const CATEGORY_FORM = 'CategoryForm';
 
-type CategoryFormData = Category;
+type CategoryFormData = MongoCategory;
 
 const required = (value: string): string | undefined => {
   return value ? undefined : 'Campo obrigatório';
