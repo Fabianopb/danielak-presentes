@@ -6,6 +6,12 @@ import robotAvatar from '../../assets/dani-robot.png';
 import styles from './ChatWindow.module.scss';
 import { createMessage, editMessage } from '../../api';
 
+type ChatHistory = {
+  speaker: 'dani' | 'user';
+  message: string;
+  step?: number;
+};
+
 const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
 
 function usePrevious<T>(value: T) {

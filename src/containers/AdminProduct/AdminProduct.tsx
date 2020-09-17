@@ -12,6 +12,7 @@ import {
   createProduct,
   editProduct,
 } from '../../api';
+import { MongoProduct } from '../../types';
 
 const AdminProduct = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -28,7 +29,7 @@ const AdminProduct = () => {
     fetchProductById(params.id),
   );
 
-  const submitProduct = async (values: Product) => {
+  const submitProduct = async (values: MongoProduct) => {
     // eslint-disable-next-line @typescript-eslint/naming-convention
     const { _id, ...rest } = values;
     try {
@@ -44,7 +45,7 @@ const AdminProduct = () => {
     }
   };
 
-  const confirmProductDelete = async (prod: Product) => {
+  const confirmProductDelete = async (prod: MongoProduct) => {
     try {
       await Promise.all([
         deleteProduct(prod._id),

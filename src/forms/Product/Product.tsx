@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Field, reduxForm, InjectedFormProps, formValueSelector } from 'redux-form';
+import { Field, reduxForm, InjectedFormProps, formValueSelector, FormStateMap } from 'redux-form';
 import { connect } from 'react-redux';
 import { Form, Segment, Icon, Popup } from 'semantic-ui-react';
 import Dropzone from 'react-dropzone';
@@ -13,6 +13,7 @@ import RichTextArea from '../../components/RichTextArea/RichTextArea';
 import styles from './Product.module.scss';
 import { uploadFile, deleteFiles } from '../../api';
 import { getImageNameFromUrl } from '../../modules/helpers';
+import { MongoProduct, ClientImage, MongoCategory } from '../../types';
 
 export const PRODUCT_FORM = 'editProductForm';
 
@@ -24,14 +25,14 @@ function usePrevious<T>(value: T) {
   return ref.current;
 }
 
-type ProductFormData = Product;
+type ProductFormData = MongoProduct;
 
 interface ProductFormProps {
-  categories: Category[];
+  categories: MongoCategory[];
 }
 
 interface ProductFormStateProps {
-  images: ProductImage[];
+  images: ClientImage[];
 }
 
 type FormProps = ProductFormProps & ProductFormStateProps;
@@ -56,7 +57,7 @@ const Product: React.SFC<FormProps & InjectedFormProps<ProductFormData, FormProp
   change,
   images = [],
 }) => {
-  const [stateImages, setStateImages] = useState<ProductImage[]>([]);
+  const [stateImages, setStateImages] = useState<ClientImage[]>([]);
 
   const previousImages = usePrevious(images);
   useEffect(() => {
@@ -87,7 +88,7 @@ const Product: React.SFC<FormProps & InjectedFormProps<ProductFormData, FormProp
     }
   };
 
-  const handleDeleteImage = async (imageUrls: ProductImage) => {
+  const handleDeleteImage = async (imageUrls: ClientImage) => {
     try {
       const imageIndex = images.findIndex(
         image => image.large === imageUrls.large && image.small === imageUrls.small,
@@ -288,7 +289,7 @@ const ProductReduxForm = reduxForm<ProductFormData, FormProps>({
 })(Product);
 
 const selector = formValueSelector(PRODUCT_FORM);
-export default connect((state: RootState) => {
+export default connect((state: { form: FormStateMap }) => {
   const images = selector(state, 'image');
   return {
     images,

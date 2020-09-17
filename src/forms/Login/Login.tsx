@@ -6,7 +6,10 @@ import styles from './Login.module.scss';
 
 const LOGIN_FORM = 'loginForm';
 
-type LoginFormData = LoginRequestParams;
+type LoginFormData = {
+  email: string;
+  password: string;
+};
 
 const required = (value: string): string | undefined => {
   return value ? undefined : 'Campo obrigatório';
