@@ -174,11 +174,11 @@ const AdminMain = () => {
             <Table.Body>
               {messages &&
                 messages.map(message => {
-                  const answeredIcon = message.answered ? 'paper plane' : 'envelope';
+                  const answeredIcon = message.isAnswered ? 'paper plane' : 'envelope';
                   return (
                     <Table.Row
-                      key={message._id}
-                      className={cn({ [styles.answered]: message.answered })}
+                      key={message.id}
+                      className={cn({ [styles.answered]: message.isAnswered })}
                     >
                       <Table.Cell collapsing>{moment(message.createdAt).format('L LT')}</Table.Cell>
                       <Table.Cell>
@@ -191,9 +191,9 @@ const AdminMain = () => {
                         <Icon
                           name={answeredIcon}
                           link
-                          onClick={() => toggleMessageState(message._id)}
+                          onClick={() => toggleMessageState(message.id)}
                         />
-                        <Icon name="trash" link onClick={() => setIdToDelete(message._id)} />
+                        <Icon name="trash" link onClick={() => setIdToDelete(message.id)} />
                       </Table.Cell>
                     </Table.Row>
                   );
