@@ -62,7 +62,7 @@ export const editMessage = (messageId: string, text: string[]) =>
   axios.put(`/api/v2/messages/${messageId}`, { text });
 
 export const deleteMessage = (messageId: string) =>
-  axios.delete(`/api/messages/${messageId}`, { headers: getAuthHeaders() });
+  axios.delete(`/api/v2/messages/${messageId}`, { headers: getAuthHeaders() });
 
 export const uploadFile = (formData: FormData) =>
   axios.post(`/api/files/upload-file`, formData, {
