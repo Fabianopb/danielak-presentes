@@ -66,9 +66,9 @@ export const deleteMessage = (messageId: string) =>
   axios.delete(`/api/v2/messages/${messageId}`, { headers: getAuthHeaders() });
 
 export const uploadFile = (formData: FormData) =>
-  axios.post(`/api/files/upload-file`, formData, {
+  axios.post(`/api/v2/files/upload`, formData, {
     headers: { 'Content-Type': 'multipart/form-data', ...getAuthHeaders() },
   });
 
 export const deleteFiles = (imageNames: string[]) =>
-  axios.post('/api/files/delete-file', { images: imageNames }, { headers: getAuthHeaders() });
+  axios.post('/api/v2/files/delete', { images: imageNames }, { headers: getAuthHeaders() });
