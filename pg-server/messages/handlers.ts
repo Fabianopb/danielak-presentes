@@ -21,10 +21,10 @@ export const deleteMessage = async (id: string) => {
 };
 
 export const toggleMessageAnswered = async (id: string) => {
-  const isAnswered = await db<Message>(table).where({ id }).returning('isAnswered').first();
-  const messages = await db<Message>(table)
+  const messages = await db<Message>(table).where({ id });
+  const result = await db<Message>(table)
     .where({ id })
-    .update('isAnswered', !isAnswered)
+    .update('isAnswered', !messages[0].isAnswered)
     .returning('*');
-  return messages[0];
+  return result[0];
 };
