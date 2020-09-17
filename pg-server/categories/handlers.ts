@@ -7,6 +7,10 @@ export const selectAllCategories = async () => {
   return db<Category>(table).select();
 };
 
+export const selectCategoryById = async (id: string) => {
+  return db<Category>(table).where({ id }).first();
+};
+
 export const insertCategory = async (payload: CategoryPayload) => {
   await db<Category>(table).insert(payload);
 };
