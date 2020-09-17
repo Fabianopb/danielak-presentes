@@ -3,7 +3,7 @@ import { Field, reduxForm, InjectedFormProps, formValueSelector, FormStateMap } 
 import { connect } from 'react-redux';
 import { Form, Segment, Icon, Popup } from 'semantic-ui-react';
 import Dropzone from 'react-dropzone';
-import _ from 'lodash';
+import isEqual from 'lodash.isequal';
 import {
   FormInput,
   FormCheckbox,
@@ -97,7 +97,7 @@ const Product: React.SFC<FormProps & InjectedFormProps<ProductFormData, FormProp
 
   const previousImages = usePrevious(images);
   useEffect(() => {
-    if (!_.isEqual(previousImages, images)) {
+    if (!isEqual(previousImages, images)) {
       setStateImages(images);
     }
   }, [images, previousImages]);
