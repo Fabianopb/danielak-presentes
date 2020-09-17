@@ -47,4 +47,4 @@ export type Category = {
   createdAt: Date;
 };
 
-export type CategoryPayload = Omit<Category, 'id' | 'createdAt'>;
+export type CategoryPayload = Omit<Category, 'id' | 'createdAt' | 'removed'>;
