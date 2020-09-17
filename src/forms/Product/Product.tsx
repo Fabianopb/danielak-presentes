@@ -115,11 +115,11 @@ const Product: React.SFC<FormProps & InjectedFormProps<ProductFormData, FormProp
           small: response.data[1].Location,
         },
       ];
-      change('image', newImages);
+      change('images', newImages);
       setStateImages(newImages);
     } catch (error) {
       const originalImages = images.slice(0, -1);
-      change('image', originalImages);
+      change('images', originalImages);
       setStateImages(originalImages);
     }
   };
@@ -136,7 +136,7 @@ const Product: React.SFC<FormProps & InjectedFormProps<ProductFormData, FormProp
       const smallImageName = getImageNameFromUrl(imageUrls.small);
       await deleteFiles([largeImageName, smallImageName]);
       const newImages = images.filter((image, index) => index !== imageIndex);
-      change('image', newImages);
+      change('images', newImages);
       setStateImages(newImages);
     } catch (error) {
       // eslint-disable-next-line no-console
@@ -171,7 +171,7 @@ const Product: React.SFC<FormProps & InjectedFormProps<ProductFormData, FormProp
           component={FormDropdown}
           formLabel="Categoria"
           placeholder="Escolha uma categoria"
-          name="category"
+          name="categoryId"
           options={catOptions}
           required
           validate={[required]}
