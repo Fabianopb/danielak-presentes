@@ -55,11 +55,11 @@ export const toggleMessageVisibility = (messageId: string) =>
 
 export const createMessage = (text: string[]) =>
   axios
-    .post<{ id: string }>('/api/messages', { text })
+    .post<{ id: string }>('/api/v2/messages', { text })
     .then(res => res.data);
 
 export const editMessage = (messageId: string, text: string[]) =>
-  axios.put(`/api/messages/${messageId}`, { text });
+  axios.put(`/api/v2/messages/${messageId}`, { text });
 
 export const deleteMessage = (messageId: string) =>
   axios.delete(`/api/messages/${messageId}`, { headers: getAuthHeaders() });
