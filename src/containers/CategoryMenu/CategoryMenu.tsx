@@ -44,11 +44,11 @@ const CategoryMenu = () => {
                 {categories &&
                   categories.map(category => (
                     <div
-                      key={category._id}
+                      key={category.id}
                       className={classNames(styles.menuItem, {
-                        [styles.activeItem]: isRoot && query.categoryId === category._id,
+                        [styles.activeItem]: isRoot && query.categoryId === category.id,
                       })}
-                      onClick={() => navigateToCategory(category._id)}
+                      onClick={() => navigateToCategory(category.id)}
                     >
                       {category.name}
                     </div>
