@@ -32,7 +32,7 @@
     "history": "^4.6.3",
     "jsonwebtoken": "^8.3.0",
     "knex": "^0.21.5",
-    "lodash": "^4.17.13",
+    "lodash": "^4.17.19",
     "moment": "^2.20.1",
     "mongoose": "^5.7.5",
     "multiparty": "^4.2.2",
