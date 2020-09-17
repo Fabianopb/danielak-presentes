@@ -20,8 +20,6 @@ import {
 
 const transformProductFormValuesToApi = (values: ProductFormData): ApiProductPayload => {
   if (
-    values.featuredImageIndex === undefined ||
-    values.currentPrice === undefined ||
     values.productionTime === undefined ||
     values.minAmount === undefined ||
     values.weight === undefined ||
@@ -31,7 +29,7 @@ const transformProductFormValuesToApi = (values: ProductFormData): ApiProductPay
   ) {
     throw new Error('There are undefined values in the form that should be defined');
   }
-  return values as ApiProductPayload;
+  return { ...values, featuredImageIndex: 0 } as ApiProductPayload;
 };
 
 const AdminProduct = () => {
