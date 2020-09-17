@@ -13,7 +13,6 @@ import RichTextArea from '../../components/RichTextArea/RichTextArea';
 import styles from './Product.module.scss';
 import { uploadFile, deleteFiles } from '../../api';
 import { getImageNameFromUrl } from '../../modules/helpers';
-import { MongoProduct, ClientImage, MongoCategory } from '../../types';
 
 export const PRODUCT_FORM = 'editProductForm';
 
@@ -25,10 +24,47 @@ function usePrevious<T>(value: T) {
   return ref.current;
 }
 
-type ProductFormData = MongoProduct;
+export type ClientImage = {
+  large: string;
+  small: string;
+  loading?: boolean;
+};
+
+export type ProductFormData = {
+  name: string;
+  featuredImageIndex?: number;
+  storeLink?: string;
+  description: string;
+  categoryId: string;
+  currentPrice?: number;
+  discountPrice?: number;
+  tags: string;
+  productionTime?: number;
+  minAmount?: number;
+  width?: number;
+  height?: number;
+  depth?: number;
+  weight?: number;
+  isVisible: boolean;
+  isFeatured: boolean;
+  images: {
+    large: string;
+    small: string;
+  }[];
+};
+
+export const emptyProductFormValues: ProductFormData = {
+  name: '',
+  description: '',
+  categoryId: '',
+  tags: '',
+  isVisible: true,
+  isFeatured: false,
+  images: [],
+};
 
 interface ProductFormProps {
-  categories: MongoCategory[];
+  categories: { id: string; name: string }[];
 }
 
 interface ProductFormStateProps {
@@ -111,10 +147,7 @@ const Product: React.SFC<FormProps & InjectedFormProps<ProductFormData, FormProp
 
   const isUploadingOrDeleting = stateImages.some(img => img.loading);
   const hasDropzone = stateImages && stateImages.length < 5 && !isUploadingOrDeleting;
-  const catOptions = _.filter(
-    _.map(categories, cat => ({ text: cat.name, value: cat._id })),
-    cat => !_.isUndefined(cat.value),
-  );
+  const catOptions = categories.map(cat => ({ text: cat.name, value: cat.id }));
   return (
     <div className={styles.productForm}>
       <Form onSubmit={handleSubmit}>
@@ -286,6 +319,7 @@ const Product: React.SFC<FormProps & InjectedFormProps<ProductFormData, FormProp
 
 const ProductReduxForm = reduxForm<ProductFormData, FormProps>({
   form: PRODUCT_FORM,
+  enableReinitialize: true,
 })(Product);
 
 const selector = formValueSelector(PRODUCT_FORM);
