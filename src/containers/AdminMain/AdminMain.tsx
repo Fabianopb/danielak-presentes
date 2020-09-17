@@ -53,7 +53,7 @@ const AdminMain = () => {
     await revalidateMessages();
   };
 
-  const definedCategories = categories && categories.filter(cat => cat._id !== undefined);
+  const definedCategories = categories && categories.filter(cat => cat.id !== undefined);
   const sortedMessages =
     messages &&
     messages.sort((a, b) => moment(a.createdAt).valueOf() - moment(b.createdAt).valueOf());
@@ -88,7 +88,7 @@ const AdminMain = () => {
               {products &&
                 products.map(product => {
                   const category =
-                    categories && categories.find(cat => cat._id === product.category);
+                    categories && categories.find(cat => cat.id === product.category);
                   return (
                     <Table.Row
                       className={styles.clickableRow}
@@ -145,8 +145,8 @@ const AdminMain = () => {
                 definedCategories.map(category => (
                   <Table.Row
                     className={styles.clickableRow}
-                    key={category._id}
-                    onClick={() => history.push(`/admin/category/${category._id}`)}
+                    key={category.id}
+                    onClick={() => history.push(`/admin/category/${category.id}`)}
                   >
                     <Table.Cell>{category.name}</Table.Cell>
                     <Table.Cell>{category.description}</Table.Cell>
