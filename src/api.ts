@@ -1,11 +1,8 @@
 import axios from 'axios';
 import * as API from '../pg-server/types';
+import { getAuthHeaders } from './modules/helpers';
 
 export type ApiProductPayload = API.ProductPayload;
-
-const getAuthHeaders = () => ({
-  Authorization: `Bearer ${localStorage.getItem('token')}`,
-});
 
 export const loginAdminUser = (credentials: { email: string; password: string }) =>
   axios
