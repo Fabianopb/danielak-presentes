@@ -4,7 +4,7 @@ import _ from 'lodash';
 import styles from './ImageGallery.module.scss';
 
 type ImageGalleryProps = {
-  images: Array<{ large: string; small: string }>;
+  images: { large: string; small: string }[];
   selectedIndex: number;
 };
 
