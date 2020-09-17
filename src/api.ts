@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { MongoProduct, MongoMessage, MongoCategory } from './types';
 
 const getAuthHeaders = () => ({
   Authorization: `Bearer ${localStorage.getItem('token')}`,
@@ -9,15 +10,16 @@ export const loginAdminUser = (credentials: { email: string; password: string })
     .post<{ token: string; expiry: string }>(`/api/v2/users/login`, credentials)
     .then(res => res.data);
 
-export const fetchAllProducts = () => axios.get<Product[]>(`/api/products`).then(res => res.data);
+export const fetchAllProducts = () =>
+  axios.get<MongoProduct[]>(`/api/products`).then(res => res.data);
 
 export const fetchProductById = (productId: string) =>
-  axios.get<Product[]>(`/api/products?_id=${productId}`).then(res => res.data[0]);
+  axios.get<MongoProduct[]>(`/api/products?_id=${productId}`).then(res => res.data[0]);
 
-export const createProduct = (product: Omit<Product, '_id'>) =>
+export const createProduct = (product: Omit<MongoProduct, '_id'>) =>
   axios.post(`/api/products`, product, { headers: getAuthHeaders() });
 
-export const editProduct = (product: Product) =>
+export const editProduct = (product: MongoProduct) =>
   axios.put(`/api/products/${product._id}`, product, {
     headers: getAuthHeaders(),
   });
@@ -25,17 +27,18 @@ export const editProduct = (product: Product) =>
 export const deleteProduct = (productId: string) =>
   axios.delete(`/api/products/${productId}`, { headers: getAuthHeaders() });
 
-export const fetchCategories = () => axios.get<Category[]>(`/api/categories`).then(res => res.data);
+export const fetchCategories = () =>
+  axios.get<MongoCategory[]>(`/api/categories`).then(res => res.data);
 
 export const fetchCategoryById = (categoryId: string) =>
-  axios.get<Category[]>(`/api/categories?_id=${categoryId}`).then(res => res.data[0]);
+  axios.get<MongoCategory[]>(`/api/categories?_id=${categoryId}`).then(res => res.data[0]);
 
-export const editCategory = (category: Category) =>
+export const editCategory = (category: MongoCategory) =>
   axios.put(`/api/categories/${category._id}`, category, {
     headers: getAuthHeaders(),
   });
 
-export const createCategory = (category: Category) =>
+export const createCategory = (category: MongoCategory) =>
   axios.post(`/api/categories`, category, {
     headers: getAuthHeaders(),
   });
@@ -43,7 +46,7 @@ export const createCategory = (category: Category) =>
 export const deleteCategory = (categoryId: string) =>
   axios.delete(`/api/categories/${categoryId}`, { headers: getAuthHeaders() });
 
-export const fetchMessages = () => axios.get<Message[]>(`/api/messages`).then(res => res.data);
+export const fetchMessages = () => axios.get<MongoMessage[]>(`/api/messages`).then(res => res.data);
 
 export const toggleMessageVisibility = (messageId: string) =>
   axios.put(`/api/messages/answer/${messageId}`, {}, { headers: getAuthHeaders() });
