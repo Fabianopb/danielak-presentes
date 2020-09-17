@@ -324,7 +324,7 @@ const ProductReduxForm = reduxForm<ProductFormData, FormProps>({
 
 const selector = formValueSelector(PRODUCT_FORM);
 export default connect((state: { form: FormStateMap }) => {
-  const images = selector(state, 'image');
+  const images = selector(state, 'images');
   return {
     images,
   };
