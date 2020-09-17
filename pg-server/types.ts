@@ -1,3 +1,10 @@
+export type User = {
+  id: string;
+  email: string;
+  salt: string;
+  hash: string;
+};
+
 export type Product = {
   id: string;
   name: string;
@@ -21,3 +28,23 @@ export type Product = {
 };
 
 export type ProductPayload = Omit<Product, 'id' | 'createdAt'>;
+
+export type Message = {
+  id: string;
+  text: string[];
+  isNew: boolean;
+  isAnswered: boolean;
+  createdAt: Date;
+};
+
+export type MessagePayload = Omit<Message, 'id' | 'createdAt'>;
+
+export type Category = {
+  id: string;
+  name: string;
+  description: string;
+  removed: boolean;
+  createdAt: Date;
+};
+
+export type CategoryPayload = Omit<Category, 'id' | 'createdAt'>;
