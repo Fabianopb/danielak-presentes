@@ -31,11 +31,3 @@ export type MongoCategory = {
   description: string;
   removed: boolean;
 };
-
-export type MongoMessage = {
-  _id: string;
-  text: string[];
-  new: boolean;
-  answered: boolean;
-  createdAt: Date;
-};
