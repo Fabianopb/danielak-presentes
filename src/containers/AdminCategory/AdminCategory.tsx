@@ -2,10 +2,9 @@ import React, { useState } from 'react';
 import { useParams, useHistory } from 'react-router-dom';
 import { Dimmer, Loader, Icon, Button, Modal, Header } from 'semantic-ui-react';
 import useSWR from 'swr';
-import CategoryForm from '../../forms/Category/CategoryForm';
+import CategoryForm, { CategoryFormData } from '../../forms/Category/CategoryForm';
 import styles from './AdminCategory.module.scss';
 import { fetchCategoryById, createCategory, editCategory, deleteCategory } from '../../api';
-import { MongoCategory } from '../../types';
 
 const AdminCategory = () => {
   const params = useParams();
@@ -13,18 +12,21 @@ const AdminCategory = () => {
 
   const [isOpen, setIsOpen] = useState(false);
 
-  const { data: category, isValidating: loadingCategory } = useSWR(`/category/${params.id}`, () =>
-    fetchCategoryById(params.id),
+  const { data: category, isValidating: loadingCategory } = useSWR(
+    params.id === 'new' ? null : `/category/${params.id}`,
+    () => fetchCategoryById(params.id),
   );
 
-  const submitCategory = async (values: MongoCategory) => {
-    // eslint-disable-next-line @typescript-eslint/naming-convention
-    const { _id, ...rest } = values;
+  const initialValues: CategoryFormData = category
+    ? { name: category.name, description: category.description }
+    : { name: '', description: '' };
+
+  const submitCategory = async (values: CategoryFormData) => {
     try {
-      if (params.id === 'new') {
-        await createCategory(rest);
+      if (!category) {
+        await createCategory(values);
       } else {
-        await editCategory(values);
+        await editCategory(category.id, values);
       }
       history.push('/admin');
     } catch (error) {
@@ -33,9 +35,9 @@ const AdminCategory = () => {
     }
   };
 
-  const confirmCategoryDelete = async (cat: MongoCategory) => {
+  const confirmCategoryDelete = async (id: string) => {
     try {
-      await deleteCategory(cat._id as string);
+      await deleteCategory(id);
       history.push('/admin');
     } catch (error) {
       // eslint-disable-next-line no-console
@@ -62,7 +64,7 @@ const AdminCategory = () => {
             icon
             labelPosition="right"
             color="red"
-            disabled={params.id === 'new'}
+            disabled={!category}
             onClick={() => setIsOpen(true)}
           >
             Remover
@@ -75,7 +77,7 @@ const AdminCategory = () => {
           <Loader />
         </Dimmer>
       )}
-      {category && <CategoryForm onSubmit={submitCategory} initialValues={category} />}
+      <CategoryForm onSubmit={submitCategory} initialValues={initialValues} />
       <Modal open={isOpen} onClose={() => setIsOpen(false)} size="small">
         <Header icon="trash" content="Apagar produto" />
         <Modal.Content>
@@ -92,7 +94,7 @@ const AdminCategory = () => {
             icon
             labelPosition="right"
             color="red"
-            onClick={() => (category ? confirmCategoryDelete(category) : undefined)}
+            onClick={() => (category ? confirmCategoryDelete(category.id) : undefined)}
           >
             Remover
             <Icon name="remove" />
