@@ -19,7 +19,7 @@ router.post('/files/upload', authorize, async (req, res) => {
 });
 
 router.post('/files/delete', authorize, bodyParser.json(), async (req, res) => {
-  const data = deleteFiles(req.body.images);
+  const data = await deleteFiles(req.body.images);
   return res.status(200).send(data);
 });
 
