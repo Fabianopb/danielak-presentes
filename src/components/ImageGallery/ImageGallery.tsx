@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { Image, Icon } from 'semantic-ui-react';
-import _ from 'lodash';
 import styles from './ImageGallery.module.scss';
 
 type ImageGalleryProps = {
@@ -21,8 +20,8 @@ const ImageGallery = ({ images, selectedIndex }: ImageGalleryProps) => {
         <Image className={styles.image} src={images[selectedImageIndex].large} />
       )}
       <div className={styles.thumbnailsContainer}>
-        {_.map(images, (image: string, index: number) => (
-          <div key={index} className={styles.thumbnailBox}>
+        {images.map((image: { large: string; small: string }, index: number) => (
+          <div key={image.large} className={styles.thumbnailBox}>
             {selectedImageIndex === index ? (
               [
                 <Image key="image" className={styles.image} src={image.small} />,

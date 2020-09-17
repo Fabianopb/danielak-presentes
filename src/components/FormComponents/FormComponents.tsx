@@ -1,6 +1,5 @@
 import React from 'react';
 import { WrappedFieldProps, WrappedFieldInputProps } from 'redux-form';
-import _ from 'lodash';
 import {
   Form,
   Input,
@@ -13,7 +12,7 @@ import {
 import styles from './FormComponents.module.scss';
 
 const hasErrored = (touched: boolean, errorMessage: string): boolean =>
-  touched && !_.isUndefined(errorMessage);
+  touched && errorMessage !== undefined;
 
 interface FormInputProps extends WrappedFieldProps, InputProps {
   /** Wrapped field label */
