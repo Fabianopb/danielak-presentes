@@ -11,7 +11,7 @@ router.post('/files/upload', authorize, async (req, res) => {
   const form = new multiparty.Form();
   form.parse(req, async (error, fields, files) => {
     if (error) {
-      throw new Error(error);
+      throw new Error(error.message);
     }
     const data = await processAndUploadFile(files.file[0].path);
     return res.status(200).send(data);
