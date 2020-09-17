@@ -1,5 +1,6 @@
 import { db } from '../config';
 import { Message, MessagePayload } from '../types';
+import { serializePayload } from '../utils';
 
 const table = 'messages';
 
@@ -8,12 +9,14 @@ export const selectAllMessages = async () => {
 };
 
 export const insertMessage = async (payload: MessagePayload) => {
-  const messageIds = await db<Message>(table).insert(payload).returning('id');
+  const serializedPayload = serializePayload(payload);
+  const messageIds = await db<Message>(table).insert(serializedPayload).returning('id');
   return messageIds[0];
 };
 
 export const updateMessage = async (id: string, payload: MessagePayload) => {
-  await db<Message>(table).where('id', id).update(payload);
+  const serializedPayload = serializePayload(payload);
+  await db<Message>(table).where('id', id).update(serializedPayload);
 };
 
 export const deleteMessage = async (id: string) => {
