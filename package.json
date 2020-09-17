@@ -110,7 +110,7 @@
   },
   "scripts": {
     "start-client": "react-scripts start",
-    "start-server": "nodemon --exec ts-node server/server.js",
+    "start-server": "nodemon -r dotenv/config --exec ts-node pg-server/index.ts",
     "build-client": "react-scripts build",
     "build-server": "tsc --project ./tsconfig.build.json",
     "heroku-postbuild": "ts-node ./scripts/build.ts",
@@ -119,7 +119,7 @@
     "ts:watch": "tsc --project ./tsconfig.json --watch --noEmit",
     "lint": "eslint ./src ./server -c .eslintrc --ext .js,.ts,.jsx,.tsx",
     "lint:watch": "esw ./src ./server -c .eslintrc --ext .js,.ts,.jsx,.tsx --watch --cache --color",
-    "serve": "node build-server/server/server.js",
+    "serve": "node -r dotenv/config build-server/server/server.js",
     "migrate:make": "knex --knexfile ./pg-server/knexfile.ts migrate:make -x ts",
     "migrate:latest": "knex --knexfile ./pg-server/knexfile.ts migrate:latest",
     "migrate:rollback": "knex --knexfile ./pg-server/knexfile.ts migrate:rollback",
