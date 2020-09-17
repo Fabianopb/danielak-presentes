@@ -1,5 +1,6 @@
 import axios from 'axios';
-import { MongoProduct, MongoMessage, MongoCategory } from './types';
+import { MongoProduct, MongoCategory } from './types';
+import * as API from '../pg-server/types';
 
 const getAuthHeaders = () => ({
   Authorization: `Bearer ${localStorage.getItem('token')}`,
@@ -46,7 +47,8 @@ export const createCategory = (category: MongoCategory) =>
 export const deleteCategory = (categoryId: string) =>
   axios.delete(`/api/categories/${categoryId}`, { headers: getAuthHeaders() });
 
-export const fetchMessages = () => axios.get<MongoMessage[]>(`/api/messages`).then(res => res.data);
+export const fetchMessages = () =>
+  axios.get<API.Message[]>(`/api/v2/messages`).then(res => res.data);
 
 export const toggleMessageVisibility = (messageId: string) =>
   axios.put(`/api/messages/answer/${messageId}`, {}, { headers: getAuthHeaders() });
