@@ -51,7 +51,7 @@ export const fetchMessages = () =>
   axios.get<API.Message[]>(`/api/v2/messages`).then(res => res.data);
 
 export const toggleMessageVisibility = (messageId: string) =>
-  axios.put(`/api/messages/answer/${messageId}`, {}, { headers: getAuthHeaders() });
+  axios.put(`/api/v2/messages/${messageId}/answer`, {}, { headers: getAuthHeaders() });
 
 export const createMessage = (text: string[]) =>
   axios
