@@ -88,19 +88,19 @@ const AdminMain = () => {
               {products &&
                 products.map(product => {
                   const category =
-                    categories && categories.find(cat => cat.id === product.category);
+                    categories && categories.find(cat => cat.id === product.categoryId);
                   return (
                     <Table.Row
                       className={styles.clickableRow}
-                      key={product._id}
-                      onClick={() => history.push(`/admin/product/${product._id}`)}
+                      key={product.id}
+                      onClick={() => history.push(`/admin/product/${product.id}`)}
                     >
                       <Table.Cell className={styles.nameRow}>
                         <div className={styles.thumbnailContainer}>
-                          {product.image.length > 0 && (
+                          {product.images.length > 0 && (
                             <Image
                               className={styles.thumbnail}
-                              src={product.image[product.featuredImageIndex].small}
+                              src={product.images[product.featuredImageIndex].small}
                               alt="N/A"
                             />
                           )}
