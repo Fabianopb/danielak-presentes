@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { MongoProduct, MongoCategory } from './types';
+import { MongoProduct } from './types';
 import * as API from '../pg-server/types';
 
 const getAuthHeaders = () => ({
@@ -29,23 +29,23 @@ export const deleteProduct = (productId: string) =>
   axios.delete(`/api/products/${productId}`, { headers: getAuthHeaders() });
 
 export const fetchCategories = () =>
-  axios.get<MongoCategory[]>(`/api/categories`).then(res => res.data);
+  axios.get<API.Category[]>(`/api/v2/categories`).then(res => res.data);
 
 export const fetchCategoryById = (categoryId: string) =>
-  axios.get<MongoCategory[]>(`/api/categories?_id=${categoryId}`).then(res => res.data[0]);
+  axios.get<API.Category>(`/api/v2/categories/${categoryId}`).then(res => res.data);
 
-export const editCategory = (category: MongoCategory) =>
-  axios.put(`/api/categories/${category._id}`, category, {
+export const editCategory = (id: string, category: API.CategoryPayload) =>
+  axios.put(`/api/v2/categories/${id}`, category, {
     headers: getAuthHeaders(),
   });
 
-export const createCategory = (category: MongoCategory) =>
-  axios.post(`/api/categories`, category, {
+export const createCategory = (category: API.CategoryPayload) =>
+  axios.post(`/api/v2/categories`, category, {
     headers: getAuthHeaders(),
   });
 
 export const deleteCategory = (categoryId: string) =>
-  axios.delete(`/api/categories/${categoryId}`, { headers: getAuthHeaders() });
+  axios.delete(`/api/v2/categories/${categoryId}`, { headers: getAuthHeaders() });
 
 export const fetchMessages = () =>
   axios.get<API.Message[]>(`/api/v2/messages`).then(res => res.data);
