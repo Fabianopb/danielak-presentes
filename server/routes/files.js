@@ -58,7 +58,7 @@ router.route('/upload-file').post(authorize, (request, response) => {
       ]);
       return response.status(200).send(data);
     } catch (err) {
-      return response.status(500).json({ err: error.toString() });
+      return response.status(500).json(err);
     }
   });
 });
