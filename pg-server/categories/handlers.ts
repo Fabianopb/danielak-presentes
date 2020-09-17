@@ -1,5 +1,5 @@
 import { db } from '../config';
-import { Category, CategoryPayload } from './types';
+import { Category, CategoryPayload } from '../types';
 
 const table = 'categories';
 

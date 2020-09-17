@@ -5,8 +5,7 @@ import Category from '../server/models/category';
 import Message from '../server/models/message';
 import Product from '../server/models/product';
 
-import { Category as CategoryT } from '../pg-server/categories/types';
-import { Message as MessageT } from '../pg-server/messages/types';
+import { Category as CategoryT, Message as MessageT } from '../pg-server/types';
 
 import { insertCategory } from '../pg-server/categories/handlers';
 import { insertMessage } from '../pg-server/messages/handlers';

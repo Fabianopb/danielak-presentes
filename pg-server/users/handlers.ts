@@ -1,7 +1,7 @@
 import crypto from 'crypto';
 import jwt from 'jsonwebtoken';
 import { db } from '../config';
-import { User } from './types';
+import { User } from '../types';
 
 const table = 'users';
 

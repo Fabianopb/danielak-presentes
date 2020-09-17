@@ -4,7 +4,7 @@ import bodyParser from 'body-parser';
 import passport from 'passport';
 import { registerAdminUser, generateJwt } from './handlers';
 import initPassport from '../auth/passport';
-import { User } from './types';
+import { User } from '../types';
 
 initPassport();
 const router = Router();

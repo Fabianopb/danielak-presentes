@@ -1,5 +1,5 @@
 import { db } from '../config';
-import { Message, MessagePayload } from './types';
+import { Message, MessagePayload } from '../types';
 
 const table = 'messages';
 

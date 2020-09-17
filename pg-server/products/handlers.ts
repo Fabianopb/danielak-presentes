@@ -1,5 +1,5 @@
 import { db } from '../config';
-import { Product, ProductPayload } from './types';
+import { Product, ProductPayload } from '../types';
 
 const table = 'products';
 
