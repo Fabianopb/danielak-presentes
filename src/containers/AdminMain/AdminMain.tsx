@@ -54,6 +54,9 @@ const AdminMain = () => {
   };
 
   const definedCategories = categories && categories.filter(cat => cat._id !== undefined);
+  const sortedMessages =
+    messages &&
+    messages.sort((a, b) => moment(a.createdAt).valueOf() - moment(b.createdAt).valueOf());
 
   return (
     <div className={styles.adminMain}>
@@ -172,8 +175,8 @@ const AdminMain = () => {
               </Table.Row>
             </Table.Header>
             <Table.Body>
-              {messages &&
-                messages.map(message => {
+              {sortedMessages &&
+                sortedMessages.map(message => {
                   const answeredIcon = message.isAnswered ? 'paper plane' : 'envelope';
                   return (
                     <Table.Row
