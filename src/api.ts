@@ -1,5 +1,4 @@
 import axios from 'axios';
-import { MongoProduct } from './types';
 import * as API from '../pg-server/types';
 
 const getAuthHeaders = () => ({
@@ -12,21 +11,21 @@ export const loginAdminUser = (credentials: { email: string; password: string })
     .then(res => res.data);
 
 export const fetchAllProducts = () =>
-  axios.get<MongoProduct[]>(`/api/products`).then(res => res.data);
+  axios.get<API.Product[]>(`/api/v2/products`).then(res => res.data);
 
 export const fetchProductById = (productId: string) =>
-  axios.get<MongoProduct[]>(`/api/products?_id=${productId}`).then(res => res.data[0]);
+  axios.get<API.Product>(`/api/v2/products/${productId}`).then(res => res.data);
 
-export const createProduct = (product: Omit<MongoProduct, '_id'>) =>
-  axios.post(`/api/products`, product, { headers: getAuthHeaders() });
+export const createProduct = (product: API.ProductPayload) =>
+  axios.post(`/api/v2/products`, product, { headers: getAuthHeaders() });
 
-export const editProduct = (product: MongoProduct) =>
-  axios.put(`/api/products/${product._id}`, product, {
+export const editProduct = (id: string, product: API.ProductPayload) =>
+  axios.put(`/api/v2/products/${id}`, product, {
     headers: getAuthHeaders(),
   });
 
 export const deleteProduct = (productId: string) =>
-  axios.delete(`/api/products/${productId}`, { headers: getAuthHeaders() });
+  axios.delete(`/api/v2/products/${productId}`, { headers: getAuthHeaders() });
 
 export const fetchCategories = () =>
   axios.get<API.Category[]>(`/api/v2/categories`).then(res => res.data);
