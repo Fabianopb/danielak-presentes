@@ -26,7 +26,7 @@ export default async () => {
       const mongoCategories = await Category.find({});
       console.log(`${mongoCategories.length} categories found in MongoDB!`);
       const categoriesPromises = mongoCategories.map(({ name, description, removed }: any) =>
-        insertCategory({ name, description, removed }),
+        insertCategory({ name, description, removed } as any),
       );
       console.log('Inserting categories in Postgres...');
       await Promise.all(categoriesPromises);
