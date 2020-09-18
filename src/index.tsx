@@ -4,6 +4,7 @@ import { Switch, Route, RouteProps, Redirect, Router } from 'react-router-dom';
 import { createStore, combineReducers } from 'redux';
 import { Provider } from 'react-redux';
 import { createBrowserHistory } from 'history';
+import { SWRConfig } from 'swr';
 import { QueryParamProvider } from 'use-query-params';
 import ReactGA from 'react-ga';
 import { reducer as form } from 'redux-form';
@@ -42,22 +43,24 @@ ReactGA.initialize('UA-69092915-1');
 ReactDOM.render(
   <Provider store={store}>
     <Router history={history}>
-      <QueryParamProvider ReactRouterRoute={Route}>
-        <Layout>
-          <CategoryMenu />
-          <Switch>
-            <Route exact path="/" component={withTracker(ProductGrid)} />
-            <Route exact path="/product/:id" component={withTracker(ProductDetail)} />
-            <Route exact path="/login" component={LoginPage} />
-            <Route exact path="/about" component={withTracker(AboutPage)} />
-            <ProtectedRoute exact path="/admin" component={AdminMain} />
-            <ProtectedRoute path="/admin/product/:id" component={AdminProduct} />
-            <ProtectedRoute path="/admin/category/:id" component={AdminCategory} />
-            <Route component={NotFoundPage} />
-          </Switch>
-          {!window.location.pathname.includes('/admin') && <ChatWindow />}
-        </Layout>
-      </QueryParamProvider>
+      <SWRConfig value={{ revalidateOnFocus: false }}>
+        <QueryParamProvider ReactRouterRoute={Route}>
+          <Layout>
+            <CategoryMenu />
+            <Switch>
+              <Route exact path="/" component={withTracker(ProductGrid)} />
+              <Route exact path="/product/:id" component={withTracker(ProductDetail)} />
+              <Route exact path="/login" component={LoginPage} />
+              <Route exact path="/about" component={withTracker(AboutPage)} />
+              <ProtectedRoute exact path="/admin" component={AdminMain} />
+              <ProtectedRoute path="/admin/product/:id" component={AdminProduct} />
+              <ProtectedRoute path="/admin/category/:id" component={AdminCategory} />
+              <Route component={NotFoundPage} />
+            </Switch>
+            {!window.location.pathname.includes('/admin') && <ChatWindow />}
+          </Layout>
+        </QueryParamProvider>
+      </SWRConfig>
     </Router>
   </Provider>,
   document.getElementById('root'),
