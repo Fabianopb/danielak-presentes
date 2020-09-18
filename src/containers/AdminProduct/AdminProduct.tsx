@@ -1,8 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { useParams, useHistory } from 'react-router-dom';
 import useSWR from 'swr';
 import { Dimmer, Loader, Icon, Modal, Button, Header } from 'semantic-ui-react';
-import ProductForm from '../../forms/Product/Product';
+import ProductForm, {
+  ProductFormData,
+  ClientImage,
+  emptyProductFormValues,
+} from '../../forms/Product/Product';
 import styles from './AdminProduct.module.scss';
 import {
   fetchCategories,
@@ -11,8 +15,22 @@ import {
   deleteFiles,
   createProduct,
   editProduct,
+  ApiProductPayload,
 } from '../../api';
-import { MongoProduct } from '../../types';
+
+const transformProductFormValuesToApi = (values: ProductFormData): ApiProductPayload => {
+  if (
+    values.productionTime === undefined ||
+    values.minAmount === undefined ||
+    values.weight === undefined ||
+    values.height === undefined ||
+    values.width === undefined ||
+    values.depth === undefined
+  ) {
+    throw new Error('There are undefined values in the form that should be defined');
+  }
+  return { ...values, featuredImageIndex: 0 } as ApiProductPayload;
+};
 
 const AdminProduct = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -25,18 +43,26 @@ const AdminProduct = () => {
     fetchCategories,
   );
 
-  const { data: product, isValidating: loadingProduct } = useSWR(`/product/${params.id}`, () =>
-    fetchProductById(params.id),
+  const { data: product, isValidating: loadingProduct } = useSWR(
+    params.id === 'new' ? null : `/product/${params.id}`,
+    () => fetchProductById(params.id),
   );
 
-  const submitProduct = async (values: MongoProduct) => {
-    // eslint-disable-next-line @typescript-eslint/naming-convention
-    const { _id, ...rest } = values;
+  const initialValues = useMemo<ProductFormData>(() => {
+    if (product) {
+      const { id, createdAt, ...rest } = product;
+      return rest;
+    }
+    return emptyProductFormValues;
+  }, [product]);
+
+  const submitProduct = async (values: ProductFormData) => {
+    const validValues = transformProductFormValuesToApi(values);
     try {
-      if (params.id === 'new') {
-        await createProduct(rest);
+      if (!product) {
+        await createProduct(validValues);
       } else {
-        await editProduct(values);
+        await editProduct(product.id, validValues);
       }
       history.push('/admin');
     } catch (error) {
@@ -45,11 +71,11 @@ const AdminProduct = () => {
     }
   };
 
-  const confirmProductDelete = async (prod: MongoProduct) => {
+  const confirmProductDelete = async (id: string, images: ClientImage[]) => {
     try {
       await Promise.all([
-        deleteProduct(prod._id),
-        deleteFiles(prod.image.flatMap(img => [img.small, img.large])),
+        deleteProduct(id),
+        deleteFiles(images.flatMap(img => [img.small, img.large])),
       ]);
       history.push('/admin');
     } catch (error) {
@@ -77,7 +103,7 @@ const AdminProduct = () => {
             icon
             labelPosition="right"
             color="red"
-            disabled={params.id === 'new'}
+            disabled={!product}
             onClick={() => setIsOpen(true)}
           >
             Remover
@@ -90,9 +116,9 @@ const AdminProduct = () => {
           <Loader />
         </Dimmer>
       )}
-      {product && categories && (
+      {categories && (
         <ProductForm
-          initialValues={params.id === 'new' ? {} : product}
+          initialValues={initialValues}
           categories={categories}
           onSubmit={submitProduct}
         />
@@ -113,7 +139,7 @@ const AdminProduct = () => {
             icon
             labelPosition="right"
             color="red"
-            onClick={() => (product ? confirmProductDelete(product) : undefined)}
+            onClick={() => (product ? confirmProductDelete(product.id, product.images) : undefined)}
           >
             Remover
             <Icon name="remove" />

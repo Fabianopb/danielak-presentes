@@ -3,7 +3,7 @@ import { Field, reduxForm, InjectedFormProps, formValueSelector, FormStateMap } 
 import { connect } from 'react-redux';
 import { Form, Segment, Icon, Popup } from 'semantic-ui-react';
 import Dropzone from 'react-dropzone';
-import _ from 'lodash';
+import isEqual from 'lodash.isequal';
 import {
   FormInput,
   FormCheckbox,
@@ -13,9 +13,8 @@ import RichTextArea from '../../components/RichTextArea/RichTextArea';
 import styles from './Product.module.scss';
 import { uploadFile, deleteFiles } from '../../api';
 import { getImageNameFromUrl } from '../../modules/helpers';
-import { MongoProduct, ClientImage, MongoCategory } from '../../types';
 
-export const PRODUCT_FORM = 'editProductForm';
+const PRODUCT_FORM = 'editProductForm';
 
 function usePrevious<T>(value: T) {
   const ref = useRef<T>();
@@ -25,10 +24,47 @@ function usePrevious<T>(value: T) {
   return ref.current;
 }
 
-type ProductFormData = MongoProduct;
+export type ClientImage = {
+  large: string;
+  small: string;
+  loading?: boolean;
+};
+
+export type ProductFormData = {
+  name: string;
+  featuredImageIndex?: number;
+  storeLink?: string;
+  description: string;
+  categoryId: string;
+  currentPrice?: number;
+  discountPrice?: number;
+  tags: string;
+  productionTime?: number;
+  minAmount?: number;
+  width?: number;
+  height?: number;
+  depth?: number;
+  weight?: number;
+  isVisible: boolean;
+  isFeatured: boolean;
+  images: {
+    large: string;
+    small: string;
+  }[];
+};
+
+export const emptyProductFormValues: ProductFormData = {
+  name: '',
+  description: '',
+  categoryId: '',
+  tags: '',
+  isVisible: true,
+  isFeatured: false,
+  images: [],
+};
 
 interface ProductFormProps {
-  categories: MongoCategory[];
+  categories: { id: string; name: string }[];
 }
 
 interface ProductFormStateProps {
@@ -61,7 +97,7 @@ const Product: React.SFC<FormProps & InjectedFormProps<ProductFormData, FormProp
 
   const previousImages = usePrevious(images);
   useEffect(() => {
-    if (!_.isEqual(previousImages, images)) {
+    if (!isEqual(previousImages, images)) {
       setStateImages(images);
     }
   }, [images, previousImages]);
@@ -79,11 +115,11 @@ const Product: React.SFC<FormProps & InjectedFormProps<ProductFormData, FormProp
           small: response.data[1].Location,
         },
       ];
-      change('image', newImages);
+      change('images', newImages);
       setStateImages(newImages);
     } catch (error) {
       const originalImages = images.slice(0, -1);
-      change('image', originalImages);
+      change('images', originalImages);
       setStateImages(originalImages);
     }
   };
@@ -100,7 +136,7 @@ const Product: React.SFC<FormProps & InjectedFormProps<ProductFormData, FormProp
       const smallImageName = getImageNameFromUrl(imageUrls.small);
       await deleteFiles([largeImageName, smallImageName]);
       const newImages = images.filter((image, index) => index !== imageIndex);
-      change('image', newImages);
+      change('images', newImages);
       setStateImages(newImages);
     } catch (error) {
       // eslint-disable-next-line no-console
@@ -111,10 +147,7 @@ const Product: React.SFC<FormProps & InjectedFormProps<ProductFormData, FormProp
 
   const isUploadingOrDeleting = stateImages.some(img => img.loading);
   const hasDropzone = stateImages && stateImages.length < 5 && !isUploadingOrDeleting;
-  const catOptions = _.filter(
-    _.map(categories, cat => ({ text: cat.name, value: cat._id })),
-    cat => !_.isUndefined(cat.value),
-  );
+  const catOptions = categories.map(cat => ({ text: cat.name, value: cat.id }));
   return (
     <div className={styles.productForm}>
       <Form onSubmit={handleSubmit}>
@@ -138,7 +171,7 @@ const Product: React.SFC<FormProps & InjectedFormProps<ProductFormData, FormProp
           component={FormDropdown}
           formLabel="Categoria"
           placeholder="Escolha uma categoria"
-          name="category"
+          name="categoryId"
           options={catOptions}
           required
           validate={[required]}
@@ -286,11 +319,12 @@ const Product: React.SFC<FormProps & InjectedFormProps<ProductFormData, FormProp
 
 const ProductReduxForm = reduxForm<ProductFormData, FormProps>({
   form: PRODUCT_FORM,
+  enableReinitialize: true,
 })(Product);
 
 const selector = formValueSelector(PRODUCT_FORM);
 export default connect((state: { form: FormStateMap }) => {
-  const images = selector(state, 'image');
+  const images = selector(state, 'images');
   return {
     images,
   };

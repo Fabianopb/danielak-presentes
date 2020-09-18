@@ -1,12 +1,11 @@
 import React from 'react';
 import { WrappedFieldProps } from 'redux-form';
 import ReactQuill from 'react-quill';
-import _ from 'lodash';
 import 'react-quill/dist/quill.snow.css';
 import styles from './RichTextArea.module.scss';
 
 const hasErrored = (touched: boolean, errorMessage: string): boolean =>
-  touched && !_.isUndefined(errorMessage);
+  touched && errorMessage !== undefined;
 
 const modules = {
   toolbar: [

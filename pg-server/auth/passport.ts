@@ -1,7 +1,7 @@
 import passport from 'passport';
 import { Strategy } from 'passport-local';
 import { db } from '../config';
-import { User } from '../users/types';
+import { User } from '../types';
 import { isValidPassword } from '../users/handlers';
 
 const table = 'users';

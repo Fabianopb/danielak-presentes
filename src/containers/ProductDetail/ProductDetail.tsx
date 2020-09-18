@@ -32,7 +32,7 @@ const ProductDetail = () => {
             <div>
               <Grid stackable columns={2}>
                 <Grid.Column className={styles.frame}>
-                  <ImageGallery images={data.image} selectedIndex={data.featuredImageIndex} />
+                  <ImageGallery images={data.images} selectedIndex={data.featuredImageIndex} />
                 </Grid.Column>
                 <Grid.Column className={styles.frame}>
                   <div className={`${styles.detailsContainer} flex-column cross-axis-baseline`}>

@@ -1,35 +1,3 @@
-import _ from 'lodash';
-
-type FunctionType = (...args: any[]) => any;
-interface ActionCreatorsMapObject {
-  [actionCreator: string]: FunctionType;
-}
-export type ActionsUnion<A extends ActionCreatorsMapObject> = ReturnType<A[keyof A]>;
-
-interface Action<T extends string> {
-  type: T;
-}
-interface ActionWithPayload<T extends string, P> extends Action<T> {
-  payload: P;
-}
-
-// tslint:disable-next-line:no-any
-export interface AnyAction {
-  type: string;
-  payload?: any;
-}
-
-export function createAction<T extends string>(type: T): Action<T>;
-export function createAction<T extends string, P>(type: T, payload: P): ActionWithPayload<T, P>;
-export function createAction<T extends string, P>(type: T, payload?: P) {
-  return payload !== undefined ? { type, payload } : { type };
-}
-
-/**
- * Transform currency format
- * @param {number} value value to be converted
- * @returns {string}
- */
 export const currencyFormat = (value: number): string => {
   return new Intl.NumberFormat('pt-BR', {
     style: 'currency',
@@ -46,5 +14,5 @@ export const getImageNameFromUrl = (url: string): string => {
 };
 
 export const isAdminPage = (path: string): boolean => {
-  return _.includes(path, 'admin');
+  return path.includes('admin');
 };

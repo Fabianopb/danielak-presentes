@@ -1,12 +1,9 @@
 import React from 'react';
 import { WrappedFieldProps, WrappedFieldInputProps } from 'redux-form';
-import _ from 'lodash';
 import {
   Form,
   Input,
   InputProps,
-  TextArea,
-  TextAreaProps,
   Checkbox,
   CheckboxProps,
   Dropdown,
@@ -15,7 +12,7 @@ import {
 import styles from './FormComponents.module.scss';
 
 const hasErrored = (touched: boolean, errorMessage: string): boolean =>
-  touched && !_.isUndefined(errorMessage);
+  touched && errorMessage !== undefined;
 
 interface FormInputProps extends WrappedFieldProps, InputProps {
   /** Wrapped field label */
@@ -45,26 +42,6 @@ const FormInput = ({
         type={type}
         placeholder={placeholder}
       />
-      <div className={styles.errorMessage}>{error && <span>{meta.error}</span>}</div>
-    </Form.Field>
-  );
-};
-
-interface FormTextAreaProps extends WrappedFieldProps, TextAreaProps {}
-
-const FormTextArea = ({
-  meta,
-  required,
-  formLabel,
-  input,
-  type,
-  placeholder,
-}: FormTextAreaProps) => {
-  const error = hasErrored(meta.touched, meta.error);
-  return (
-    <Form.Field error={error} required={required}>
-      <label>{formLabel}</label>
-      <TextArea {...input} type={type} placeholder={placeholder} />
       <div className={styles.errorMessage}>{error && <span>{meta.error}</span>}</div>
     </Form.Field>
   );
@@ -112,4 +89,4 @@ const FormDropdown = ({
   );
 };
 
-export { FormInput, FormTextArea, FormCheckbox, FormDropdown };
+export { FormInput, FormCheckbox, FormDropdown };

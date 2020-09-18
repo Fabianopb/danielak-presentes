@@ -1,13 +1,24 @@
 import { Router } from 'express';
 import bodyParser from 'body-parser';
 import authorize from '../auth/authorize';
-import { selectAllProducts, insertProduct, updateProduct, deleteProduct } from './handlers';
+import {
+  selectAllProducts,
+  insertProduct,
+  updateProduct,
+  deleteProduct,
+  selectProductById,
+} from './handlers';
 
 const router = Router();
 
 router.get('/products', async (req, res) => {
   const products = await selectAllProducts();
   return res.status(200).json(products);
+});
+
+router.get('/products/:id', async (req, res) => {
+  const product = await selectProductById(req.params.id);
+  return res.status(200).json(product);
 });
 
 router.post('/products', authorize, bodyParser.json(), async (req, res) => {

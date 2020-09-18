@@ -31,7 +31,7 @@ router.delete('/messages/:id', authorize, async (req, res) => {
   return res.status(200).json({ message: 'Message removed' });
 });
 
-router.put('/answer/:id', bodyParser.json(), async (req, res) => {
+router.put('/messages/:id/answer', bodyParser.json(), async (req, res) => {
   const message = await toggleMessageAnswered(req.params.id);
   return res.status(200).json({ message });
 });

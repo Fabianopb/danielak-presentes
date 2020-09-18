@@ -15,7 +15,6 @@
     "outDir": "build-server"
   },
   "include": [
-    "server",
     "pg-server"
   ]
 }

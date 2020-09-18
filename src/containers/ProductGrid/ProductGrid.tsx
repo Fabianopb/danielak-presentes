@@ -57,18 +57,18 @@ const ProductGrid = () => {
         ) : (
           data &&
           data
-            .filter(product => (categoryId ? product.category === categoryId : true))
+            .filter(product => (categoryId ? product.categoryId === categoryId : true))
             .map(product => (
               <div
                 className={styles.productCell}
-                key={product._id}
-                onClick={() => history.push(`/product/${product._id}${location.search}`)}
+                key={product.id}
+                onClick={() => history.push(`/product/${product.id}${location.search}`)}
               >
                 <div className={styles.imageContainer}>
-                  {product.image.length > 0 && (
+                  {product.images.length > 0 && (
                     <Image
                       className={styles.productImage}
-                      src={product.image[product.featuredImageIndex].large}
+                      src={product.images[product.featuredImageIndex].large}
                     />
                   )}
                 </div>

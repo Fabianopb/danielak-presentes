@@ -53,7 +53,10 @@ const AdminMain = () => {
     await revalidateMessages();
   };
 
-  const definedCategories = categories && categories.filter(cat => cat._id !== undefined);
+  const definedCategories = categories && categories.filter(cat => cat.id !== undefined);
+  const sortedMessages =
+    messages &&
+    messages.sort((a, b) => moment(a.createdAt).valueOf() - moment(b.createdAt).valueOf());
 
   return (
     <div className={styles.adminMain}>
@@ -85,19 +88,19 @@ const AdminMain = () => {
               {products &&
                 products.map(product => {
                   const category =
-                    categories && categories.find(cat => cat._id === product.category);
+                    categories && categories.find(cat => cat.id === product.categoryId);
                   return (
                     <Table.Row
                       className={styles.clickableRow}
-                      key={product._id}
-                      onClick={() => history.push(`/admin/product/${product._id}`)}
+                      key={product.id}
+                      onClick={() => history.push(`/admin/product/${product.id}`)}
                     >
                       <Table.Cell className={styles.nameRow}>
                         <div className={styles.thumbnailContainer}>
-                          {product.image.length > 0 && (
+                          {product.images.length > 0 && (
                             <Image
                               className={styles.thumbnail}
-                              src={product.image[product.featuredImageIndex].small}
+                              src={product.images[product.featuredImageIndex].small}
                               alt="N/A"
                             />
                           )}
@@ -142,8 +145,8 @@ const AdminMain = () => {
                 definedCategories.map(category => (
                   <Table.Row
                     className={styles.clickableRow}
-                    key={category._id}
-                    onClick={() => history.push(`/admin/category/${category._id}`)}
+                    key={category.id}
+                    onClick={() => history.push(`/admin/category/${category.id}`)}
                   >
                     <Table.Cell>{category.name}</Table.Cell>
                     <Table.Cell>{category.description}</Table.Cell>
@@ -172,13 +175,13 @@ const AdminMain = () => {
               </Table.Row>
             </Table.Header>
             <Table.Body>
-              {messages &&
-                messages.map(message => {
-                  const answeredIcon = message.answered ? 'paper plane' : 'envelope';
+              {sortedMessages &&
+                sortedMessages.map(message => {
+                  const answeredIcon = message.isAnswered ? 'paper plane' : 'envelope';
                   return (
                     <Table.Row
-                      key={message._id}
-                      className={cn({ [styles.answered]: message.answered })}
+                      key={message.id}
+                      className={cn({ [styles.answered]: message.isAnswered })}
                     >
                       <Table.Cell collapsing>{moment(message.createdAt).format('L LT')}</Table.Cell>
                       <Table.Cell>
@@ -191,9 +194,9 @@ const AdminMain = () => {
                         <Icon
                           name={answeredIcon}
                           link
-                          onClick={() => toggleMessageState(message._id)}
+                          onClick={() => toggleMessageState(message.id)}
                         />
-                        <Icon name="trash" link onClick={() => setIdToDelete(message._id)} />
+                        <Icon name="trash" link onClick={() => setIdToDelete(message.id)} />
                       </Table.Cell>
                     </Table.Row>
                   );

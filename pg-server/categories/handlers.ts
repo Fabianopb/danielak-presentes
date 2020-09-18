@@ -1,10 +1,14 @@
 import { db } from '../config';
-import { Category, CategoryPayload } from './types';
+import { Category, CategoryPayload } from '../types';
 
 const table = 'categories';
 
 export const selectAllCategories = async () => {
   return db<Category>(table).select();
+};
+
+export const selectCategoryById = async (id: string) => {
+  return db<Category>(table).where({ id }).first();
 };
 
 export const insertCategory = async (payload: CategoryPayload) => {
