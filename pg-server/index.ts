@@ -8,6 +8,16 @@ import messagesV2Routes from './messages/routes';
 import productsV2Routes from './products/routes';
 import filesV2Routes from './files/routes';
 
+class NotFoundError extends Error {
+  public statusCode?: number;
+
+  constructor(message?: string) {
+    super(message);
+    this.name = 'NotFoundError';
+    this.statusCode = 404;
+  }
+}
+
 const port = process.env.PORT || 9000;
 
 const app = express();
@@ -24,8 +34,8 @@ app.use('/api/v2', [
 
 app.use(express.static(path.resolve('build')));
 
-app.use((req, res) => {
-  res.status(404).send('Not found');
+app.use(() => {
+  throw new NotFoundError('Route not found');
 });
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
