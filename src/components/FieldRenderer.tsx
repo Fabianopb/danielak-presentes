@@ -1,5 +1,5 @@
-import React, { useMemo } from 'react';
-import { Message } from 'semantic-ui-react';
+import React, { CSSProperties, useMemo } from 'react';
+import MessageContainer from './MessageContainer';
 
 type RenderProps<T> = {
   value?: T;
@@ -7,6 +7,9 @@ type RenderProps<T> = {
 };
 
 type Props<T> = { input: RenderProps<T> } & {
+  style?: CSSProperties;
+  className?: string;
+  label?: string;
   meta: {
     error?: any;
     touched?: boolean;
@@ -16,6 +19,9 @@ type Props<T> = { input: RenderProps<T> } & {
 };
 
 const FieldRenderer = <T extends any>({
+  style,
+  className,
+  label,
   meta,
   showError = 'onBlur',
   children,
@@ -27,9 +33,10 @@ const FieldRenderer = <T extends any>({
   );
 
   return (
-    <div>
+    <div className={className} style={style}>
+      {label && <div style={{ marginTop: 8 }}>{label}</div>}
       <div>{children(fieldProps.input)}</div>
-      {errorMessage && <Message error content={errorMessage} style={{ marginTop: 8 }} />}
+      {errorMessage && <MessageContainer message={errorMessage} />}
     </div>
   );
 };
