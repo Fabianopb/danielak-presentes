@@ -1,5 +1,5 @@
 /// <reference types="./declarations" />
-import express from 'express';
+import express, { NextFunction, Request, Response } from 'express';
 import path from 'path';
 import passport from 'passport';
 import userV2Routes from './users/routes';
@@ -7,6 +7,18 @@ import categoriesV2Routes from './categories/routes';
 import messagesV2Routes from './messages/routes';
 import productsV2Routes from './products/routes';
 import filesV2Routes from './files/routes';
+
+class NotFoundError extends Error {
+  public statusCode?: number;
+
+  constructor(message?: string) {
+    super(message);
+    this.name = 'NotFoundError';
+    this.statusCode = 404;
+  }
+}
+
+const port = process.env.PORT || 9000;
 
 const app = express();
 
@@ -22,11 +34,19 @@ app.use('/api/v2', [
 
 app.use(express.static(path.resolve('build')));
 
+app.use(() => {
+  throw new NotFoundError('Route not found');
+});
+
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+app.use((error: any, req: Request, res: Response, next: NextFunction) => {
+  const statusCode = error.statusCode || 500;
+  res.status(statusCode).json({ statusCode, error: error.message });
+});
+
 app.get('*', (request, response) => {
   response.sendFile(path.resolve('build', 'index.html'));
 });
-
-const port = process.env.PORT || 9000;
 
 app.listen(port);
 // eslint-disable-next-line no-console

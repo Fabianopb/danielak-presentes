@@ -34,7 +34,6 @@
     "knex": "^0.21.5",
     "lodash.isequal": "^4.5.0",
     "moment": "^2.20.1",
-    "mongoose": "^5.7.5",
     "multiparty": "^4.2.2",
     "passport": "^0.4.0",
     "passport-local": "^1.0.0",
@@ -110,7 +109,7 @@
   },
   "scripts": {
     "start-client": "react-scripts start",
-    "start-server": "nodemon -r dotenv/config --exec ts-node pg-server/index.ts",
+    "start-server": "APP_ENV=development nodemon -r dotenv/config --exec ts-node pg-server/index.ts",
     "build-client": "react-scripts build",
     "build-server": "tsc --project ./tsconfig.build.json",
     "heroku-postbuild": "ts-node ./scripts/build.ts",
