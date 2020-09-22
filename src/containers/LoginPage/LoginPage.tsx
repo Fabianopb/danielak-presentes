@@ -1,5 +1,6 @@
 import React from 'react';
 import { useHistory } from 'react-router-dom';
+import styled from 'styled-components';
 import { Form as SemanticForm, Input, Message, Button } from 'semantic-ui-react';
 import { Field, Form } from 'react-final-form';
 import { FORM_ERROR } from 'final-form';
@@ -12,6 +13,22 @@ type FormValues = {
   email: string;
   password: string;
 };
+
+const StyledInput = styled(Input)`
+  width: 300px;
+  margin-top: 8px;
+`;
+
+const MessageContainer = styled.div.attrs({ className: 'ui form error' })`
+  width: 300px;
+  margin-top: 8px;
+`;
+
+const ButtonContainer = styled.div`
+  width: 300px;
+  margin-top: 8px;
+  text-align: right;
+`;
 
 const LoginPage = () => {
   const history = useHistory();
@@ -37,25 +54,27 @@ const LoginPage = () => {
               <Field name="email">
                 {field => (
                   <FieldRenderer {...field}>
-                    {input => <Input {...input} disabled={submitting} />}
+                    {input => <StyledInput {...input} disabled={submitting} />}
                   </FieldRenderer>
                 )}
               </Field>
               <Field name="password">
                 {field => (
                   <FieldRenderer {...field}>
-                    {input => <Input {...input} type="password" disabled={submitting} />}
+                    {input => <StyledInput {...input} type="password" disabled={submitting} />}
                   </FieldRenderer>
                 )}
               </Field>
               {submitError && (
-                <div className="ui form error">
+                <MessageContainer>
                   <Message error header="Login Failed" content={submitError} />
-                </div>
+                </MessageContainer>
               )}
-              <Button disabled={submitting} loading={submitting}>
-                Login
-              </Button>
+              <ButtonContainer>
+                <Button disabled={submitting} loading={submitting}>
+                  Login
+                </Button>
+              </ButtonContainer>
             </SemanticForm>
           )}
         />
