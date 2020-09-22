@@ -66,14 +66,23 @@ const LoginPage = () => {
               <Field name="email">
                 {field => (
                   <FieldRenderer {...field}>
-                    {input => <StyledInput {...input} disabled={submitting} />}
+                    {input => (
+                      <StyledInput {...input} placeholder="Usuário" disabled={submitting} />
+                    )}
                   </FieldRenderer>
                 )}
               </Field>
               <Field name="password">
                 {field => (
                   <FieldRenderer {...field}>
-                    {input => <StyledInput {...input} type="password" disabled={submitting} />}
+                    {input => (
+                      <StyledInput
+                        {...input}
+                        type="password"
+                        placeholder="Senha"
+                        disabled={submitting}
+                      />
+                    )}
                   </FieldRenderer>
                 )}
               </Field>
