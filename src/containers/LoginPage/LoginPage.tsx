@@ -85,7 +85,7 @@ const LoginPage = () => {
                 )}
               </Field>
               {submitError && <MessageContainer header="Login Failed" message={submitError} />}
-              <Button primary disabled={submitting} loading={submitting}>
+              <Button primary disabled={submitting} loading={submitting} style={{ marginTop: 16 }}>
                 Login
               </Button>
             </SemanticForm>
