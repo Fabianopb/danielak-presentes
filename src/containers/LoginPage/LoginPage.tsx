@@ -1,44 +1,65 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useHistory } from 'react-router-dom';
-import { Dimmer, Loader } from 'semantic-ui-react';
-import LoginForm from '../../forms/Login/Login';
+import { Form as SemanticForm, Input, Message, Button } from 'semantic-ui-react';
+import { Field, Form } from 'react-final-form';
+import { FORM_ERROR } from 'final-form';
 import styles from './LoginPage.module.scss';
 import { loginAdminUser } from '../../api';
 import { setSession } from '../../modules/session';
+import FieldRenderer from '../../components/FieldRenderer';
+
+type FormValues = {
+  email: string;
+  password: string;
+};
 
 const LoginPage = () => {
   const history = useHistory();
 
-  const [loginError, setLoginError] = useState<any>();
-  const [isLogging, setIsLogging] = useState(false);
+  const handleFormSubmit = async (values: FormValues) => {
+    try {
+      const { token, expiry } = await loginAdminUser(values);
+      setSession(token, expiry);
+      history.push('/admin');
+    } catch (error) {
+      return { [FORM_ERROR]: error.message };
+    }
+  };
 
   return (
     <div className={styles.loginPage}>
       <h3 className={styles.loginTitle}>Login</h3>
-      {isLogging ? (
-        <Dimmer active inverted>
-          <Loader />
-        </Dimmer>
-      ) : (
-        <div>
-          {!!loginError && <div className={styles.loginError}>Login Failed</div>}
-          <div className={styles.loginContainer}>
-            <LoginForm
-              onSubmit={async creds => {
-                try {
-                  setIsLogging(true);
-                  const { token, expiry } = await loginAdminUser(creds);
-                  setSession(token, expiry);
-                  history.push('/admin');
-                } catch (error) {
-                  setLoginError(error);
-                  setIsLogging(false);
-                }
-              }}
-            />
-          </div>
-        </div>
-      )}
+      <div className={styles.loginContainer}>
+        <Form<FormValues>
+          onSubmit={handleFormSubmit}
+          render={({ handleSubmit, submitError, submitting }) => (
+            <SemanticForm onSubmit={handleSubmit}>
+              <Field name="email">
+                {field => (
+                  <FieldRenderer {...field}>
+                    {input => <Input {...input} disabled={submitting} />}
+                  </FieldRenderer>
+                )}
+              </Field>
+              <Field name="password">
+                {field => (
+                  <FieldRenderer {...field}>
+                    {input => <Input {...input} type="password" disabled={submitting} />}
+                  </FieldRenderer>
+                )}
+              </Field>
+              {submitError && (
+                <div className="ui form error">
+                  <Message error header="Login Failed" content={submitError} />
+                </div>
+              )}
+              <Button disabled={submitting} loading={submitting}>
+                Login
+              </Button>
+            </SemanticForm>
+          )}
+        />
+      </div>
     </div>
   );
 };
