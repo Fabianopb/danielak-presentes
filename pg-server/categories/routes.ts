@@ -8,7 +8,7 @@ import {
   deleteCategory,
   selectCategoryById,
 } from './handlers';
-import { asyncHandler } from '../utils';
+import { asyncHandler, NotFoundError } from '../utils';
 
 const router = Router();
 
@@ -24,6 +24,9 @@ router.get(
   '/categories/:id',
   asyncHandler(async (req, res) => {
     const category = await selectCategoryById(req.params.id);
+    if (!category) {
+      throw new NotFoundError(`Category with id '${req.params.id}' was not found!`);
+    }
     return res.status(200).json(category);
   }),
 );
