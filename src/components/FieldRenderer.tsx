@@ -1,12 +1,8 @@
-import React, { CSSProperties, useMemo } from 'react';
+import React, { CSSProperties, ReactNode, useMemo } from 'react';
+import styled from 'styled-components';
 import MessageContainer from './MessageContainer';
 
-type RenderProps<T> = {
-  value?: T;
-  onChange?: (value: T) => void;
-};
-
-type Props<T> = { input: RenderProps<T> } & {
+type Props = {
   style?: CSSProperties;
   className?: string;
   label?: string;
@@ -15,8 +11,13 @@ type Props<T> = { input: RenderProps<T> } & {
     touched?: boolean;
   };
   showError?: boolean | 'onBlur';
-  children: (props: RenderProps<T>) => JSX.Element;
+  children: ReactNode;
 };
+
+const Label = styled.div`
+  font-weight: bold;
+  margin: 8px 0 4px 0;
+`;
 
 const FieldRenderer = <T extends any>({
   style,
@@ -25,8 +26,7 @@ const FieldRenderer = <T extends any>({
   meta,
   showError = 'onBlur',
   children,
-  ...fieldProps
-}: Props<T>) => {
+}: Props) => {
   const errorMessage = useMemo(
     () => (showError === true || (showError === 'onBlur' && meta.touched) ? meta.error : undefined),
     [meta.error, meta.touched, showError],
@@ -34,8 +34,8 @@ const FieldRenderer = <T extends any>({
 
   return (
     <div className={className} style={style}>
-      {label && <div style={{ marginTop: 8 }}>{label}</div>}
-      <div>{children(fieldProps.input)}</div>
+      {label && <Label>{label}</Label>}
+      <div>{children}</div>
       {errorMessage && <MessageContainer message={errorMessage} />}
     </div>
   );
