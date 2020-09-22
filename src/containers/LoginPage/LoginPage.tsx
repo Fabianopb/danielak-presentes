@@ -1,12 +1,13 @@
 import React from 'react';
 import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
-import { Form as SemanticForm, Input, Message, Button } from 'semantic-ui-react';
+import { Form as SemanticForm, Input, Button } from 'semantic-ui-react';
 import { Field, Form } from 'react-final-form';
 import { FORM_ERROR } from 'final-form';
 import { loginAdminUser } from '../../api';
 import { setSession } from '../../modules/session';
 import FieldRenderer from '../../components/FieldRenderer';
+import MessageContainer from '../../components/MessageContainer';
 
 type FormValues = {
   email: string;
@@ -16,17 +17,6 @@ type FormValues = {
 const StyledInput = styled(Input)`
   width: 300px;
   margin-top: 8px;
-`;
-
-const MessageContainer = styled.div.attrs({ className: 'ui form error' })`
-  width: 300px;
-  margin-top: 8px;
-`;
-
-const ButtonContainer = styled.div`
-  width: 300px;
-  margin-top: 8px;
-  text-align: right;
 `;
 
 const Page = styled.div`
@@ -41,6 +31,8 @@ const FormContainer = styled.div`
   display: flex;
   justify-content: center;
 `;
+
+// TODO: validation: all fields required
 
 const LoginPage = () => {
   const history = useHistory();
@@ -67,7 +59,12 @@ const LoginPage = () => {
                 {field => (
                   <FieldRenderer {...field}>
                     {input => (
-                      <StyledInput {...input} placeholder="Usuário" disabled={submitting} />
+                      <StyledInput
+                        {...input}
+                        placeholder="Usuário"
+                        disabled={submitting}
+                        required
+                      />
                     )}
                   </FieldRenderer>
                 )}
@@ -81,21 +78,16 @@ const LoginPage = () => {
                         type="password"
                         placeholder="Senha"
                         disabled={submitting}
+                        required
                       />
                     )}
                   </FieldRenderer>
                 )}
               </Field>
-              {submitError && (
-                <MessageContainer>
-                  <Message error header="Login Failed" content={submitError} />
-                </MessageContainer>
-              )}
-              <ButtonContainer>
-                <Button primary disabled={submitting} loading={submitting}>
-                  Login
-                </Button>
-              </ButtonContainer>
+              {submitError && <MessageContainer header="Login Failed" message={submitError} />}
+              <Button primary disabled={submitting} loading={submitting}>
+                Login
+              </Button>
             </SemanticForm>
           )}
         />
