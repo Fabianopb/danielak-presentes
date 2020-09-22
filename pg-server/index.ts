@@ -7,16 +7,7 @@ import categoriesV2Routes from './categories/routes';
 import messagesV2Routes from './messages/routes';
 import productsV2Routes from './products/routes';
 import filesV2Routes from './files/routes';
-
-class NotFoundError extends Error {
-  public statusCode?: number;
-
-  constructor(message?: string) {
-    super(message);
-    this.name = 'NotFoundError';
-    this.statusCode = 404;
-  }
-}
+import { NotFoundError } from './utils';
 
 const port = process.env.PORT || 9000;
 
