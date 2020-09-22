@@ -8,7 +8,7 @@ import {
   deleteProduct,
   selectProductById,
 } from './handlers';
-import { asyncHandler } from '../utils';
+import { asyncHandler, NotFoundError } from '../utils';
 
 const router = Router();
 
@@ -24,6 +24,9 @@ router.get(
   '/products/:id',
   asyncHandler(async (req, res) => {
     const product = await selectProductById(req.params.id);
+    if (!product) {
+      throw new NotFoundError(`Product with id '${req.params.id}' was not found!`);
+    }
     return res.status(200).json(product);
   }),
 );
