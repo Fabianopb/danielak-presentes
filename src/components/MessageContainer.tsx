@@ -8,7 +8,7 @@ type Props = {
 };
 
 const Root = styled.div.attrs({ className: 'ui form error' })`
-  margin: 8px 0;
+  margin-top: 8px;
 `;
 
 const MessageContainer = ({ header, message }: Props) => (
