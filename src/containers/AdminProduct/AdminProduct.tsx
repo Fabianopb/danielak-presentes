@@ -26,6 +26,7 @@ import {
   ApiProductPayload,
 } from '../../api';
 import FieldRenderer from '../../components/FieldRenderer';
+import MessageContainer from '../../components/MessageContainer';
 
 type FormValues = {
   name: string;
@@ -186,7 +187,7 @@ const AdminProduct = () => {
       <Form
         onSubmit={submitProduct}
         initialValues={initialValues}
-        render={({ handleSubmit }) => (
+        render={({ handleSubmit, submitting, submitError }) => (
           <SemanticForm onSubmit={handleSubmit}>
             <InlineFormRow>
               <Field name="name">
@@ -334,6 +335,17 @@ const AdminProduct = () => {
                 </FieldRenderer>
               )}
             </Field>
+            {submitError && <MessageContainer message={submitError} />}
+            <Button
+              primary
+              icon
+              labelPosition="right"
+              disabled={submitting}
+              style={{ marginTop: 16 }}
+            >
+              Salvar
+              <Icon name="check" />
+            </Button>
           </SemanticForm>
         )}
       />
