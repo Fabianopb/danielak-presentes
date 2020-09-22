@@ -109,30 +109,19 @@ const AdminCategory = () => {
             <Field name="name">
               {field => (
                 <StyledField {...field} label="Categoria">
-                  {input => (
-                    <Input
-                      {...input}
-                      placeholder="Nome da categoria"
-                      disabled={submitting}
-                      required
-                      fluid
-                    />
-                  )}
+                  <Input
+                    {...field.input}
+                    placeholder="Nome da categoria"
+                    disabled={submitting}
+                    fluid
+                  />
                 </StyledField>
               )}
             </Field>
             <Field name="description">
               {field => (
                 <StyledField {...field} label="Descrição">
-                  {input => (
-                    <Input
-                      {...input}
-                      placeholder="Descrição"
-                      disabled={submitting}
-                      required
-                      fluid
-                    />
-                  )}
+                  <Input {...field.input} placeholder="Descrição" disabled={submitting} fluid />
                 </StyledField>
               )}
             </Field>
