@@ -357,6 +357,7 @@ const AdminProduct = () => {
           </p>
         </Modal.Content>
         <Modal.Actions>
+          {deleteError && <MessageContainer message={deleteError} />}
           <Button basic icon labelPosition="right" color="blue" onClick={() => setIsOpen(false)}>
             Cancelar
             <Icon name="ban" />
