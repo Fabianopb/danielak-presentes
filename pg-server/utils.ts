@@ -1,5 +1,15 @@
 import { NextFunction, Request, RequestHandler, Response } from 'express';
 
+export class NotFoundError extends Error {
+  public statusCode?: number;
+
+  constructor(message?: string) {
+    super(message);
+    this.name = 'NotFoundError';
+    this.statusCode = 404;
+  }
+}
+
 export const serializePayload = <T extends Record<string, unknown>>(payload: T) =>
   Object.entries(payload).reduce(
     (acc, [key, value]) =>
