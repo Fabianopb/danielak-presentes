@@ -56,7 +56,7 @@ const AdminCategory = () => {
       }
       history.push('/admin');
     } catch (error) {
-      return { [FORM_ERROR]: JSON.stringify(error) };
+      return { [FORM_ERROR]: JSON.stringify(error.message) };
     }
   };
 
@@ -65,7 +65,7 @@ const AdminCategory = () => {
       await deleteCategory(id);
       history.push('/admin');
     } catch (error) {
-      setDeleteError(JSON.stringify(error));
+      setDeleteError(JSON.stringify(error.message));
     }
   };
 
@@ -137,7 +137,13 @@ const AdminCategory = () => {
               )}
             </Field>
             {submitError && <MessageContainer message={submitError} />}
-            <Button primary icon labelPosition="right" disabled={submitting}>
+            <Button
+              primary
+              icon
+              labelPosition="right"
+              disabled={submitting}
+              style={{ marginTop: 16 }}
+            >
               Salvar
               <Icon name="check" />
             </Button>
