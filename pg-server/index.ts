@@ -25,6 +25,10 @@ app.use('/api/v2', [
 
 app.use(express.static(path.resolve('build')));
 
+app.get('*', (request, response) => {
+  response.sendFile(path.resolve('build', 'index.html'));
+});
+
 app.use(() => {
   throw new NotFoundError('Route not found');
 });
@@ -33,10 +37,6 @@ app.use(() => {
 app.use((error: any, req: Request, res: Response, next: NextFunction) => {
   const statusCode = error.statusCode || 500;
   res.status(statusCode).json({ statusCode, error: error.message });
-});
-
-app.get('*', (request, response) => {
-  response.sendFile(path.resolve('build', 'index.html'));
 });
 
 app.listen(port);
