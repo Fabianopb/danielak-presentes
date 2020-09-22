@@ -4,7 +4,6 @@ import styled from 'styled-components';
 import { Form as SemanticForm, Input, Message, Button } from 'semantic-ui-react';
 import { Field, Form } from 'react-final-form';
 import { FORM_ERROR } from 'final-form';
-import styles from './LoginPage.module.scss';
 import { loginAdminUser } from '../../api';
 import { setSession } from '../../modules/session';
 import FieldRenderer from '../../components/FieldRenderer';
@@ -30,6 +29,19 @@ const ButtonContainer = styled.div`
   text-align: right;
 `;
 
+const Page = styled.div`
+  margin: 32px;
+`;
+
+const Title = styled.h3`
+  text-align: center;
+`;
+
+const FormContainer = styled.div`
+  display: flex;
+  justify-content: center;
+`;
+
 const LoginPage = () => {
   const history = useHistory();
 
@@ -44,9 +56,9 @@ const LoginPage = () => {
   };
 
   return (
-    <div className={styles.loginPage}>
-      <h3 className={styles.loginTitle}>Login</h3>
-      <div className={styles.loginContainer}>
+    <Page>
+      <Title>Login</Title>
+      <FormContainer>
         <Form<FormValues>
           onSubmit={handleFormSubmit}
           render={({ handleSubmit, submitError, submitting }) => (
@@ -71,15 +83,15 @@ const LoginPage = () => {
                 </MessageContainer>
               )}
               <ButtonContainer>
-                <Button disabled={submitting} loading={submitting}>
+                <Button primary disabled={submitting} loading={submitting}>
                   Login
                 </Button>
               </ButtonContainer>
             </SemanticForm>
           )}
         />
-      </div>
-    </div>
+      </FormContainer>
+    </Page>
   );
 };
 
