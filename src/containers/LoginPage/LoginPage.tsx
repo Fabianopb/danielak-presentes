@@ -58,29 +58,19 @@ const LoginPage = () => {
               <Field name="email">
                 {field => (
                   <FieldRenderer {...field}>
-                    {input => (
-                      <StyledInput
-                        {...input}
-                        placeholder="Usuário"
-                        disabled={submitting}
-                        required
-                      />
-                    )}
+                    <StyledInput {...field.input} placeholder="Usuário" disabled={submitting} />
                   </FieldRenderer>
                 )}
               </Field>
               <Field name="password">
                 {field => (
                   <FieldRenderer {...field}>
-                    {input => (
-                      <StyledInput
-                        {...input}
-                        type="password"
-                        placeholder="Senha"
-                        disabled={submitting}
-                        required
-                      />
-                    )}
+                    <StyledInput
+                      {...field.input}
+                      type="password"
+                      placeholder="Senha"
+                      disabled={submitting}
+                    />
                   </FieldRenderer>
                 )}
               </Field>
