@@ -27,7 +27,7 @@ router.route('/users/register').get(
 );
 
 router.route('/users/login').post(bodyParser.json(), (req, res, next) => {
-  passport.authenticate('local', (error, user, info) => {
+  passport.authenticate('local', { session: false }, (error, user, info) => {
     if (error) {
       next(error);
     }
