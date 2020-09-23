@@ -1,4 +1,3 @@
-/// <reference types="./declarations" />
 import express, { NextFunction, Request, Response } from 'express';
 import path from 'path';
 import passport from 'passport';
