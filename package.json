@@ -64,7 +64,7 @@
     "@types/file-type": "^10.9.1",
     "@types/jsonwebtoken": "^8.5.0",
     "@types/multiparty": "^0.0.32",
-    "@types/node": "^10.5.4",
+    "@types/node": "14.11.2",
     "@types/passport": "^1.0.4",
     "@types/passport-local": "^1.0.33",
     "@types/query-string": "6.3.0",
