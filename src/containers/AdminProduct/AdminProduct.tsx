@@ -12,10 +12,13 @@ import {
   Input,
   Checkbox,
   Dropdown,
+  Segment,
 } from 'semantic-ui-react';
 import { FORM_ERROR } from 'final-form';
 import { Field, Form } from 'react-final-form';
 import ReactQuill from 'react-quill';
+import Dropzone from 'react-dropzone';
+import isEqual from 'lodash.isequal';
 import 'react-quill/dist/quill.snow.css';
 import styled from 'styled-components';
 import styles from './AdminProduct.module.scss';
@@ -27,10 +30,12 @@ import {
   createProduct,
   editProduct,
   ApiProductPayload,
+  uploadFile,
 } from '../../api';
 import FieldRenderer from '../../components/FieldRenderer';
 import MessageContainer from '../../components/MessageContainer';
 import RichTextArea from '../../components/RichTextArea/RichTextArea';
+import { getImageNameFromUrl } from '../../modules/helpers';
 
 type FormValues = {
   name: string;
@@ -118,6 +123,15 @@ const transformProductFormValuesToApi = (values: FormValues): ApiProductPayload 
 const AdminProduct = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [deleteError, setDeleteError] = useState<string>();
+  const [stateImages, setStateImages] = useState<ClientImage[]>([]);
+  const [imageError, setImageError] = useState<string>();
+
+  // const previousImages = usePrevious(images);
+  // useEffect(() => {
+  //   if (!isEqual(previousImages, images)) {
+  //     setStateImages(images);
+  //   }
+  // }, [images, previousImages]);
 
   const params = useParams();
   const history = useHistory();
@@ -176,6 +190,52 @@ const AdminProduct = () => {
   };
 
   const categoriesOptions = (categories || []).map(cat => ({ text: cat.name, value: cat.id }));
+
+  const handleFileDrop = async (files: any[]) => {
+    try {
+      setStateImages([...stateImages, { small: '', large: '', loading: true }]);
+      const formData = new FormData();
+      formData.append('file', files[0]);
+      const response = await uploadFile(formData);
+      setStateImages(
+        stateImages
+          .filter(image => !image.loading)
+          .concat([
+            {
+              large: response.data[0].Location,
+              small: response.data[1].Location,
+            },
+          ]),
+      );
+      setImageError(undefined);
+    } catch (error) {
+      setStateImages(stateImages.filter(image => !image.loading));
+      setImageError(JSON.stringify(error.message));
+    }
+  };
+
+  const handleDeleteImage = async (imageUrls: ClientImage) => {
+    try {
+      const imageIndex = stateImages.findIndex(
+        image => image.large === imageUrls.large && image.small === imageUrls.small,
+      );
+      setStateImages(
+        stateImages.map((img, index) =>
+          index === imageIndex ? { ...img, loading: true } : { ...img },
+        ),
+      );
+      const largeImageName = getImageNameFromUrl(imageUrls.large);
+      const smallImageName = getImageNameFromUrl(imageUrls.small);
+      await deleteFiles([largeImageName, smallImageName]);
+      setStateImages(stateImages.filter((image, index) => index !== imageIndex));
+    } catch (error) {
+      setStateImages(stateImages.map(img => ({ ...img, loading: false })));
+      setImageError(JSON.stringify(error.message));
+    }
+  };
+
+  const isUploadingOrDeleting = stateImages.some(img => img.loading);
+  const hasDropzone = stateImages && stateImages.length < 5 && !isUploadingOrDeleting;
 
   return (
     <div className={styles.adminProduct}>
@@ -243,7 +303,27 @@ const AdminProduct = () => {
                 </FieldRenderer>
               )}
             </Field>
-            {/* TODO: image upload */}
+            <div className={styles.dropzoneArea} style={{ marginTop: 24 }}>
+              {stateImages.map(image => (
+                <div key={image.small} className={styles.previewContainer}>
+                  {image.loading ? (
+                    <Segment className={styles.loading} loading />
+                  ) : (
+                    <div>
+                      <div className={styles.deleteButton} onClick={() => handleDeleteImage(image)}>
+                        <Icon name="delete" />
+                      </div>
+                      <img className={styles.imagePreview} src={image.small} alt={image.small} />
+                    </div>
+                  )}
+                </div>
+              ))}
+              {hasDropzone && (
+                <Dropzone className={styles.fileDrop} onDrop={handleFileDrop}>
+                  <div className={styles.fileDropText}>Faça upload da imagem aqui</div>
+                </Dropzone>
+              )}
+            </div>
             <Field name="description" label="Descrição">
               {field => (
                 <FieldRenderer {...field} style={{ marginTop: 24 }}>
