@@ -14,10 +14,14 @@ router.post(
     const form = new multiparty.Form();
     form.parse(req, async (error, fields, files) => {
       if (error) {
-        throw new Error(error.message);
+        return res.status(500).send(error);
       }
-      const data = await processAndUploadFile(files.file[0].path);
-      return res.status(200).send(data);
+      try {
+        const data = await processAndUploadFile(files.file[0].path);
+        return res.status(200).send(data);
+      } catch (err) {
+        return res.status(400).send(err);
+      }
     });
   }),
 );
