@@ -15,6 +15,8 @@ import {
 } from 'semantic-ui-react';
 import { FORM_ERROR } from 'final-form';
 import { Field, Form } from 'react-final-form';
+import ReactQuill from 'react-quill';
+import 'react-quill/dist/quill.snow.css';
 import styled from 'styled-components';
 import styles from './AdminProduct.module.scss';
 import {
@@ -28,6 +30,7 @@ import {
 } from '../../api';
 import FieldRenderer from '../../components/FieldRenderer';
 import MessageContainer from '../../components/MessageContainer';
+import RichTextArea from '../../components/RichTextArea/RichTextArea';
 
 type FormValues = {
   name: string;
@@ -77,6 +80,26 @@ const StyledField = styled(FieldRenderer)`
     margin-left: 16px;
   }
 `;
+
+const StyledQuillContainer = styled.div`
+  .ql-toolbar.ql-snow,
+  .ql-container.ql-snow {
+    border-color: #dedede;
+  }
+
+  /* .error {
+    :global(.ql-toolbar.ql-snow), :global(.ql-container.ql-snow) {
+      background-color: #fff6f6;
+      border-color: #e0b4b4;
+    } */
+`;
+
+const quillModules = {
+  toolbar: [
+    ['bold', 'italic', 'underline'],
+    [{ list: 'ordered' }, { list: 'bullet' }, { indent: '-1' }, { indent: '+1' }],
+  ],
+};
 
 const transformProductFormValuesToApi = (values: FormValues): ApiProductPayload => {
   if (
@@ -221,7 +244,19 @@ const AdminProduct = () => {
               )}
             </Field>
             {/* TODO: image upload */}
-            {/* TODO: rich text description */}
+            <Field name="description" label="Descrição">
+              {field => (
+                <FieldRenderer {...field} style={{ marginTop: 24 }}>
+                  <StyledQuillContainer>
+                    <ReactQuill
+                      value={field.input.value}
+                      onChange={field.input.onChange}
+                      modules={quillModules}
+                    />
+                  </StyledQuillContainer>
+                </FieldRenderer>
+              )}
+            </Field>
             <InlineFormRow>
               <Field name="currentPrice">
                 {field => (
