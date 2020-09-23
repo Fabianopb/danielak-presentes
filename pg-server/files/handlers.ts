@@ -26,12 +26,12 @@ const uploadFile = (buffer: S3.Body, name: string, type: { ext: string; mime: st
 
 export const processAndUploadFile = async (filePath: string) => {
   const largeFileBuffer = fs.readFileSync(filePath);
+
   const type = fileType(largeFileBuffer);
   if (!type) {
     throw new Error('Formato de arquivo inválido');
   }
-  const timestamp = Date.now().toString();
-  const largeFileName = `products/${timestamp}-lg`;
+
   const metadata = await sharp(filePath).metadata();
   if (!/^(jpg|jpeg|png)$/.test(metadata.format || '')) {
     throw new Error('Formato de arquivo inválido');
@@ -39,7 +39,11 @@ export const processAndUploadFile = async (filePath: string) => {
   if ((metadata.width && metadata.width < 580) || (metadata.height && metadata.height < 580)) {
     throw new Error('Altura ou largura menor que 580 pixels');
   }
+
   const smallFileBuffer = await sharp(filePath).resize(140).toBuffer();
+
+  const timestamp = Date.now().toString();
+  const largeFileName = `products/${timestamp}-lg`;
   const smallFileName = `products/${timestamp}-sm`;
   return Promise.all([
     uploadFile(largeFileBuffer, largeFileName, type),
