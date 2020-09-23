@@ -11,6 +11,7 @@ import {
   Form as SemanticForm,
   Input,
   Checkbox,
+  Dropdown,
 } from 'semantic-ui-react';
 import { FORM_ERROR } from 'final-form';
 import { Field, Form } from 'react-final-form';
@@ -125,17 +126,18 @@ const AdminProduct = () => {
   }, [product]);
 
   const submitProduct = async (values: FormValues) => {
-    const validValues = transformProductFormValuesToApi(values);
-    try {
-      if (!product) {
-        await createProduct(validValues);
-      } else {
-        await editProduct(product.id, validValues);
-      }
-      history.push('/admin');
-    } catch (error) {
-      return { [FORM_ERROR]: JSON.stringify(error.message) };
-    }
+    console.log(values);
+    // const validValues = transformProductFormValuesToApi(values);
+    // try {
+    //   if (!product) {
+    //     await createProduct(validValues);
+    //   } else {
+    //     await editProduct(product.id, validValues);
+    //   }
+    //   history.push('/admin');
+    // } catch (error) {
+    //   return { [FORM_ERROR]: JSON.stringify(error.message) };
+    // }
   };
 
   const confirmProductDelete = async (id: string, images: ClientImage[]) => {
@@ -205,7 +207,19 @@ const AdminProduct = () => {
                 )}
               </Field>
             </InlineFormRow>
-            {/* TODO: category dropdown */}
+            <Field name="categoryId" label="Categoria">
+              {field => (
+                <FieldRenderer {...field} style={{ marginTop: 24 }}>
+                  <Dropdown
+                    value={field.input.value}
+                    onChange={(event, data) => field.input.onChange(data.value)}
+                    selection
+                    placeholder="Escolha uma categoria"
+                    options={categoriesOptions}
+                  />
+                </FieldRenderer>
+              )}
+            </Field>
             {/* TODO: image upload */}
             {/* TODO: rich text description */}
             <InlineFormRow>
