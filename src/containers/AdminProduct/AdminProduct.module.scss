@@ -1,3 +1,67 @@
+@import '../../assets/colors';
+
+@mixin image-box {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 24px;
+  margin-right: 16px;
+  padding: 8px;
+  width: 160px;
+  height: 160px;
+  background-color: $brilliant-white;
+  border-width: 1px;
+  border-color: $cadillac;
+  border-style: dashed;
+  border-radius: 8px;
+}
+
+
+.dropzoneArea {
+  display: flex;
+
+  .previewContainer {
+    position: relative;
+    @include image-box;
+
+    .loading {
+      margin: 0;
+      padding: 0;
+      border: 0;
+    }
+
+    .imagePreview {
+      width: 100%;
+    }
+
+    .deleteButton {
+      position: absolute;
+      right: -10px;
+      top: -10px;
+      border-radius: 18px;
+      cursor: pointer;
+    }
+  }
+
+  .fileDrop {
+    @include image-box;
+    cursor: pointer;
+
+    &[aria-disabled="true"] {
+      border-color: #666;
+    }
+
+    .fileDropText {
+      text-align: center;
+    }
+  }
+}
+
+.submitWrapper {
+  text-align: right;
+}
+
+
 .adminProduct {
   margin: 32px;
   

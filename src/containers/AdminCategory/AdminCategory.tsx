@@ -1,27 +1,53 @@
 import React, { useState } from 'react';
 import { useParams, useHistory } from 'react-router-dom';
-import { Dimmer, Loader, Icon, Button, Modal, Header } from 'semantic-ui-react';
+import styled from 'styled-components';
+import {
+  Dimmer,
+  Loader,
+  Icon,
+  Button,
+  Modal,
+  Header,
+  Form as SemanticForm,
+  Input,
+} from 'semantic-ui-react';
+import { FORM_ERROR } from 'final-form';
+import { Field, Form } from 'react-final-form';
 import useSWR from 'swr';
-import CategoryForm, { CategoryFormData } from '../../forms/Category/CategoryForm';
 import styles from './AdminCategory.module.scss';
 import { fetchCategoryById, createCategory, editCategory, deleteCategory } from '../../api';
+import FieldRenderer from '../../components/FieldRenderer';
+import MessageContainer from '../../components/MessageContainer';
+
+type FormValues = {
+  name: string;
+  description: string;
+};
+
+const StyledField = styled(FieldRenderer)`
+  width: 300px;
+  margin-top: 12px;
+`;
+
+// TODO: validation: all fields required
 
 const AdminCategory = () => {
   const params = useParams();
   const history = useHistory();
 
   const [isOpen, setIsOpen] = useState(false);
+  const [deleteError, setDeleteError] = useState<string>();
 
   const { data: category, isValidating: loadingCategory } = useSWR(
     params.id === 'new' ? null : `/category/${params.id}`,
     () => fetchCategoryById(params.id),
   );
 
-  const initialValues: CategoryFormData = category
+  const initialValues: FormValues = category
     ? { name: category.name, description: category.description }
     : { name: '', description: '' };
 
-  const submitCategory = async (values: CategoryFormData) => {
+  const handleFormSubmit = async (values: FormValues) => {
     try {
       if (!category) {
         await createCategory(values);
@@ -30,8 +56,7 @@ const AdminCategory = () => {
       }
       history.push('/admin');
     } catch (error) {
-      // eslint-disable-next-line no-console
-      console.error(error);
+      return { [FORM_ERROR]: JSON.stringify(error.message) };
     }
   };
 
@@ -40,8 +65,7 @@ const AdminCategory = () => {
       await deleteCategory(id);
       history.push('/admin');
     } catch (error) {
-      // eslint-disable-next-line no-console
-      console.error(error);
+      setDeleteError(JSON.stringify(error.message));
     }
   };
 
@@ -77,7 +101,44 @@ const AdminCategory = () => {
           <Loader />
         </Dimmer>
       )}
-      <CategoryForm onSubmit={submitCategory} initialValues={initialValues} />
+      <Form
+        onSubmit={handleFormSubmit}
+        initialValues={initialValues}
+        render={({ handleSubmit, submitting, submitError }) => (
+          <SemanticForm onSubmit={handleSubmit}>
+            <Field name="name">
+              {field => (
+                <StyledField {...field} label="Categoria">
+                  <Input
+                    {...field.input}
+                    placeholder="Nome da categoria"
+                    disabled={submitting}
+                    fluid
+                  />
+                </StyledField>
+              )}
+            </Field>
+            <Field name="description">
+              {field => (
+                <StyledField {...field} label="Descrição">
+                  <Input {...field.input} placeholder="Descrição" disabled={submitting} fluid />
+                </StyledField>
+              )}
+            </Field>
+            {submitError && <MessageContainer message={submitError} />}
+            <Button
+              primary
+              icon
+              labelPosition="right"
+              disabled={submitting}
+              style={{ marginTop: 16 }}
+            >
+              Salvar
+              <Icon name="check" />
+            </Button>
+          </SemanticForm>
+        )}
+      />
       <Modal open={isOpen} onClose={() => setIsOpen(false)} size="small">
         <Header icon="trash" content="Apagar produto" />
         <Modal.Content>
@@ -86,6 +147,7 @@ const AdminCategory = () => {
           </p>
         </Modal.Content>
         <Modal.Actions>
+          {deleteError && <MessageContainer message={deleteError} />}
           <Button basic icon labelPosition="right" color="blue" onClick={() => setIsOpen(false)}>
             Cancelar
             <Icon name="ban" />
