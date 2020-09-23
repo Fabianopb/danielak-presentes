@@ -11654,10 +11654,10 @@ react-dropzone@^4.2.8:
     attr-accept "^1.1.3"
     prop-types "^15.5.7"
 
-react-easy-swipe@^0.0.16:
-  version "0.0.16"
-  resolved "https://registry.yarnpkg.com/react-easy-swipe/-/react-easy-swipe-0.0.16.tgz#5a3d949a8f975d05be92a818254315d1318a81ea"
-  integrity sha1-Wj2Umo+XXQW+kqgYJUMV0TGKgeo=
+react-easy-swipe@^0.0.21:
+  version "0.0.21"
+  resolved "https://registry.yarnpkg.com/react-easy-swipe/-/react-easy-swipe-0.0.21.tgz#ce9384d576f7a8529dc2ca377c1bf03920bac8eb"
+  integrity sha512-OeR2jAxdoqUMHIn/nS9fgreI5hSpgGoL5ezdal4+oO7YSSgJR8ga+PkYGJrSrJ9MKlPcQjMQXnketrD7WNmNsg==
   dependencies:
     prop-types "^15.5.8"
 
@@ -11704,14 +11704,14 @@ react-quill@^1.2.6:
     quill "^1.2.6"
     react-dom-factories "^1.0.0"
 
-react-responsive-carousel@^3.1.45:
-  version "3.1.49"
-  resolved "https://registry.yarnpkg.com/react-responsive-carousel/-/react-responsive-carousel-3.1.49.tgz#5a074c09965533f49163d79c7f86a46e0c0eaea2"
-  integrity sha512-mudzwtDUWY4Apl00V6ycYJxVdiggXF46GegGFdeR72FL9Km8RDyFPQFBqsaKWCX5uTxWkLEw5qgn2uHsn2gnJA==
+react-responsive-carousel@3.2.10:
+  version "3.2.10"
+  resolved "https://registry.yarnpkg.com/react-responsive-carousel/-/react-responsive-carousel-3.2.10.tgz#2de13bdc131d78b8b92d3653d295a77d8c20cf2e"
+  integrity sha512-O8MV2LoR07BttvWaXesyWkE6s8xRW6p6HiMkelZ3TuPYQwKnlw+fYtZN+bQ3/1jg0D5JQGATY4Hnw/4WEXHnag==
   dependencies:
     classnames "^2.2.5"
     prop-types "^15.5.8"
-    react-easy-swipe "^0.0.16"
+    react-easy-swipe "^0.0.21"
 
 react-router-dom@^5.2.0:
   version "5.2.0"
