@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useRef, useEffect } from 'react';
+import React, { useState, useMemo } from 'react';
 import { useParams, useHistory } from 'react-router-dom';
 import useSWR from 'swr';
 import {
@@ -13,12 +13,12 @@ import {
   Checkbox,
   Dropdown,
   Segment,
+  Popup,
 } from 'semantic-ui-react';
 import { FORM_ERROR } from 'final-form';
 import { Field, Form } from 'react-final-form';
 import ReactQuill from 'react-quill';
 import Dropzone from 'react-dropzone';
-import isEqual from 'lodash.isequal';
 import 'react-quill/dist/quill.snow.css';
 import styled from 'styled-components';
 import styles from './AdminProduct.module.scss';
@@ -34,7 +34,6 @@ import {
 } from '../../api';
 import FieldRenderer from '../../components/FieldRenderer';
 import MessageContainer from '../../components/MessageContainer';
-import RichTextArea from '../../components/RichTextArea/RichTextArea';
 import { getImageNameFromUrl } from '../../modules/helpers';
 
 type FormValues = {
@@ -54,10 +53,6 @@ type FormValues = {
   weight?: number;
   isVisible: boolean;
   isFeatured: boolean;
-  images: {
-    large: string;
-    small: string;
-  }[];
 };
 
 type ClientImage = {
@@ -65,14 +60,6 @@ type ClientImage = {
   small: string;
   loading?: boolean;
 };
-
-function usePrevious<T>(value: T) {
-  const ref = useRef<T>();
-  useEffect(() => {
-    ref.current = value;
-  }, [value]);
-  return ref.current;
-}
 
 const InlineFormRow = styled.div`
   display: flex;
@@ -126,13 +113,6 @@ const AdminProduct = () => {
   const [stateImages, setStateImages] = useState<ClientImage[]>([]);
   const [imageError, setImageError] = useState<string>();
 
-  // const previousImages = usePrevious(images);
-  // useEffect(() => {
-  //   if (!isEqual(previousImages, images)) {
-  //     setStateImages(images);
-  //   }
-  // }, [images, previousImages]);
-
   const params = useParams();
   const history = useHistory();
 
@@ -163,18 +143,18 @@ const AdminProduct = () => {
   }, [product]);
 
   const submitProduct = async (values: FormValues) => {
-    console.log(values);
-    // const validValues = transformProductFormValuesToApi(values);
-    // try {
-    //   if (!product) {
-    //     await createProduct(validValues);
-    //   } else {
-    //     await editProduct(product.id, validValues);
-    //   }
-    //   history.push('/admin');
-    // } catch (error) {
-    //   return { [FORM_ERROR]: JSON.stringify(error.message) };
-    // }
+    const validValues = transformProductFormValuesToApi(values);
+    const valuesWithImages = { ...validValues, images: stateImages };
+    try {
+      if (!product) {
+        await createProduct(valuesWithImages);
+      } else {
+        await editProduct(product.id, valuesWithImages);
+      }
+      history.push('/admin');
+    } catch (error) {
+      return { [FORM_ERROR]: JSON.stringify(error.message) };
+    }
   };
 
   const confirmProductDelete = async (id: string, images: ClientImage[]) => {
@@ -303,6 +283,14 @@ const AdminProduct = () => {
                 </FieldRenderer>
               )}
             </Field>
+            <div style={{ marginTop: 24 }}>
+              <label>Upload de imagens</label>
+              <Popup
+                trigger={<Icon name="question" circular />}
+                content="Altura e largura devem ser maiores que 580px"
+                position="top left"
+              />
+            </div>
             <div className={styles.dropzoneArea} style={{ marginTop: 24 }}>
               {stateImages.map(image => (
                 <div key={image.small} className={styles.previewContainer}>
