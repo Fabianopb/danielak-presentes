@@ -7,6 +7,7 @@ if (!process.env.DANIK_AUTH_KEY) {
 const authorize = jwt({
   secret: process.env.DANIK_AUTH_KEY,
   userProperty: 'payload',
+  algorithms: ['HS256'],
 });
 
 export default authorize;
