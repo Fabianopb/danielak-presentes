@@ -1,6 +1,6 @@
 import AWS, { S3 } from 'aws-sdk';
 import sharp from 'sharp';
-import fileType from 'file-type';
+import FileType from 'file-type';
 import fs from 'fs';
 
 AWS.config.update({
@@ -27,15 +27,16 @@ const uploadFile = (buffer: S3.Body, name: string, type: { ext: string; mime: st
 export const processAndUploadFile = async (filePath: string) => {
   const largeFileBuffer = fs.readFileSync(filePath);
 
-  const type = fileType(largeFileBuffer);
+  const type = await FileType.fromBuffer(largeFileBuffer);
   if (!type) {
+    throw new Error('File type could not be defined!');
+  }
+
+  if (!['jpg', 'jpeg', 'png'].includes(type.ext)) {
     throw new Error('Formato de arquivo inválido');
   }
 
   const metadata = await sharp(filePath).metadata();
-  if (!/^(jpg|jpeg|png)$/.test(metadata.format || '')) {
-    throw new Error('Formato de arquivo inválido');
-  }
   if ((metadata.width && metadata.width < 580) || (metadata.height && metadata.height < 580)) {
     throw new Error('Altura ou largura menor que 580 pixels');
   }
