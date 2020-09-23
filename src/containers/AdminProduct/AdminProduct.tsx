@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import { useParams, useHistory } from 'react-router-dom';
 import useSWR from 'swr';
 import {
@@ -125,6 +125,12 @@ const AdminProduct = () => {
     params.id === 'new' ? null : `/product/${params.id}`,
     () => fetchProductById(params.id),
   );
+
+  useEffect(() => {
+    if (product) {
+      setStateImages(product.images);
+    }
+  }, [product]);
 
   const initialValues = useMemo<FormValues>(() => {
     if (product) {
