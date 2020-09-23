@@ -311,6 +311,7 @@ const AdminProduct = () => {
                   <div className={styles.fileDropText}>Faça upload da imagem aqui</div>
                 </Dropzone>
               )}
+              {imageError && <MessageContainer message={imageError} />}
             </div>
             <Field name="description" label="Descrição">
               {field => (
@@ -457,7 +458,7 @@ const AdminProduct = () => {
               primary
               icon
               labelPosition="right"
-              disabled={submitting}
+              disabled={submitting || isUploadingOrDeleting}
               style={{ marginTop: 16 }}
             >
               Salvar
