@@ -20,7 +20,7 @@
     ]
   },
   "dependencies": {
-    "aws-sdk": "^2.325.0",
+    "aws-sdk": "2.758.0",
     "axios": "^0.18.0",
     "body-parser": "^1.18.3",
     "classnames": "^2.2.6",
