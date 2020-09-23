@@ -30,7 +30,7 @@
     "file-type": "^9.0.0",
     "final-form": "^4.20.1",
     "history": "^4.6.3",
-    "jsonwebtoken": "^8.3.0",
+    "jsonwebtoken": "8.5.1",
     "knex": "^0.21.5",
     "moment": "^2.20.1",
     "multiparty": "^4.2.2",
