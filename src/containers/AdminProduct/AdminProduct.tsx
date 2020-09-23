@@ -322,8 +322,8 @@ const AdminProduct = () => {
                   )}
                 </Dropzone>
               )}
-              {imageError && <MessageContainer message={imageError} />}
             </div>
+            {imageError && <MessageContainer message={imageError} />}
             <Field name="description" label="Descrição">
               {field => (
                 <FieldRenderer {...field} style={{ marginTop: 24 }}>
