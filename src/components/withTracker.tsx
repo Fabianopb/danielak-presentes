@@ -26,7 +26,7 @@ export default function withTracker(WrappedComponent: React.ComponentType, optio
       trackPage(pathname + search);
     }
 
-    public componentWillReceiveProps(nextProps: TrackerProps) {
+    public UNSAFE_componentWillReceiveProps(nextProps: TrackerProps) {
       const {
         props: {
           location: { pathname: currentPath, search: currentSearch },
