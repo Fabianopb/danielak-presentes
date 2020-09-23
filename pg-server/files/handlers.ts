@@ -2,14 +2,11 @@ import AWS, { S3 } from 'aws-sdk';
 import sharp from 'sharp';
 import fileType from 'file-type';
 import fs from 'fs';
-import bluebird from 'bluebird';
 
 AWS.config.update({
   accessKeyId: process.env.DANIK_AWS_ACCESS_KEY_ID,
   secretAccessKey: process.env.DANIK_AWS_SECRET_ACCESS_KEY,
 });
-
-AWS.config.setPromisesDependency(bluebird);
 
 const s3 = new AWS.S3();
 
@@ -44,7 +41,7 @@ export const processAndUploadFile = async (filePath: string) => {
   }
   const smallFileBuffer = await sharp(filePath).resize(140).toBuffer();
   const smallFileName = `products/${timestamp}-sm`;
-  return bluebird.all([
+  return Promise.all([
     uploadFile(largeFileBuffer, largeFileName, type),
     uploadFile(smallFileBuffer, smallFileName, type),
   ]);
