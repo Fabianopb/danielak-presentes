@@ -313,8 +313,13 @@ const AdminProduct = () => {
                 </div>
               ))}
               {hasDropzone && (
-                <Dropzone className={styles.fileDrop} onDrop={handleFileDrop}>
-                  <div className={styles.fileDropText}>Faça upload da imagem aqui</div>
+                <Dropzone onDrop={handleFileDrop}>
+                  {({ getRootProps, getInputProps }) => (
+                    <div {...getRootProps()} className={styles.fileDrop}>
+                      <input {...getInputProps()} />
+                      <div className={styles.fileDropText}>Faça upload da imagem aqui</div>
+                    </div>
+                  )}
                 </Dropzone>
               )}
               {imageError && <MessageContainer message={imageError} />}
