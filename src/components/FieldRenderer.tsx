@@ -19,7 +19,7 @@ const Label = styled.div`
   margin: 8px 0 4px 0;
 `;
 
-const FieldRenderer = <T extends any>({
+const FieldRenderer = ({
   style,
   className,
   label,
