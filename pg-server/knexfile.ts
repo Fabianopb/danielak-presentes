@@ -37,6 +37,7 @@ const knexConfig = {
       password: prodConnection.password || '',
       database: prodConnection.database || '',
       port: Number(prodConnection.port || 5432),
+      ssl: { rejectUnauthorized: false },
     },
     migrations: {
       directory: './migrations',
