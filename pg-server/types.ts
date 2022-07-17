@@ -34,7 +34,7 @@ export type ProductPayload = Omit<Product, 'id' | 'createdAt'>;
 
 export type Message = {
   id: string;
-  text: string[];
+  text: (string | Record<string, unknown>)[];
   isNew: boolean;
   isAnswered: boolean;
   createdAt: Date;
