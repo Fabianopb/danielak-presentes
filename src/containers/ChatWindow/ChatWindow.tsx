@@ -139,7 +139,11 @@ const ChatWindow = () => {
                     key={`${history.speaker}_${index}`}
                     className={styles.userMsg}
                   >
-                    <div className={styles.bullet}>{history.message}</div>
+                    <div className={styles.bullet}>
+                      {typeof history.message === 'string'
+                        ? history.message
+                        : '[falha ao mostrar mensagem]'}
+                    </div>
                     <div className={styles.iconWrapper}>
                       <Icon name="user" circular inverted color="grey" />
                     </div>
