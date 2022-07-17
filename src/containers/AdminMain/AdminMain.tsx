@@ -189,7 +189,7 @@ const AdminMain = () => {
                           if (typeof paragraph !== 'string') {
                             return (
                               // eslint-disable-next-line react/no-array-index-key
-                              <p key={`message-paragraph-${index}`}>[falha ao mosrar mensagem]</p>
+                              <p key={`message-paragraph-${index}`}>[falha ao mostrar mensagem]</p>
                             );
                           }
                           return (
