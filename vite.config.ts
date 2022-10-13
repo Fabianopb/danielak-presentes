@@ -17,7 +17,4 @@ export default defineConfig({
       '^/api/.*': `http://localhost:${port}`,
     },
   },
-  define: {
-    global: {},
-  },
 });
