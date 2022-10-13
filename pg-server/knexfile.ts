@@ -8,7 +8,7 @@ const knexConfig = {
     connection: {
       host: 'localhost',
       user: 'postgres',
-      password: '',
+      password: 'postgres',
       database: 'danik_dev',
     },
     migrations: {
