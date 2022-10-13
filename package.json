@@ -6,18 +6,6 @@
     "node": "16.x",
     "yarn": "1.x"
   },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
-  },
   "dependencies": {
     "aws-sdk": "2.758.0",
     "axios": "1.1.2",
@@ -101,13 +89,14 @@
     "start-client": "vite",
     "start-server": "APP_ENV=development nodemon -r dotenv/config --exec ts-node pg-server/index.ts",
     "build-client": "tsc && vite build",
-    "build-server": "tsc --project ./tsconfig.build.json",
+    "build-server": "tsc pg-server/index.ts --esModuleInterop --outDir dist",
+    "build": "yarn build-client && yarn build-server",
     "heroku-postbuild": "ts-node ./scripts/build.ts",
     "ts": "tsc --project ./tsconfig.json --noEmit",
     "ts:watch": "tsc --project ./tsconfig.json --watch --noEmit",
     "lint": "eslint pg-server scripts src --ext .ts,.tsx",
     "lint-watch": "esw pg-server scripts src --ext .ts,.tsx --watch --color",
-    "serve": "node -r dotenv/config build-server/index.js",
+    "serve": "node -r dotenv/config dist/index.js",
     "migrate:make": "knex --knexfile ./pg-server/knexfile.ts migrate:make -x ts",
     "migrate:latest": "knex --knexfile ./pg-server/knexfile.ts migrate:latest",
     "migrate:rollback": "knex --knexfile ./pg-server/knexfile.ts migrate:rollback",
