@@ -14,13 +14,7 @@ const app = express();
 
 app.use(passport.initialize());
 
-app.use('/api/v2', [
-  userV2Routes,
-  categoriesV2Routes,
-  messagesV2Routes,
-  productsV2Routes,
-  filesV2Routes,
-]);
+app.use('/api/v2', [userV2Routes, categoriesV2Routes, messagesV2Routes, productsV2Routes, filesV2Routes]);
 
 app.use(express.static(path.resolve('build')));
 

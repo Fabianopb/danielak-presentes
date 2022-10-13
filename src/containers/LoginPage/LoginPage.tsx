@@ -55,21 +55,16 @@ const LoginPage = () => {
           render={({ handleSubmit, submitError, submitting }) => (
             <SemanticForm onSubmit={handleSubmit}>
               <Field name="email">
-                {field => (
+                {(field) => (
                   <FieldRenderer {...field}>
                     <StyledInput {...field.input} placeholder="Usuário" disabled={submitting} />
                   </FieldRenderer>
                 )}
               </Field>
               <Field name="password">
-                {field => (
+                {(field) => (
                   <FieldRenderer {...field}>
-                    <StyledInput
-                      {...field.input}
-                      type="password"
-                      placeholder="Senha"
-                      disabled={submitting}
-                    />
+                    <StyledInput {...field.input} type="password" placeholder="Senha" disabled={submitting} />
                   </FieldRenderer>
                 )}
               </Field>

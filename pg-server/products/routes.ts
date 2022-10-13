@@ -1,13 +1,7 @@
 import { Router } from 'express';
 import bodyParser from 'body-parser';
 import authorize from '../auth/authorize';
-import {
-  selectAllProducts,
-  insertProduct,
-  updateProduct,
-  deleteProduct,
-  selectProductById,
-} from './handlers';
+import { selectAllProducts, insertProduct, updateProduct, deleteProduct, selectProductById } from './handlers';
 import { asyncHandler, NotFoundError } from '../utils';
 
 const router = Router();
@@ -17,7 +11,7 @@ router.get(
   asyncHandler(async (req, res) => {
     const products = await selectAllProducts();
     res.status(200).json(products);
-  }),
+  })
 );
 
 router.get(
@@ -28,7 +22,7 @@ router.get(
       throw new NotFoundError(`Product with id '${req.params.id}' was not found!`);
     }
     return res.status(200).json(product);
-  }),
+  })
 );
 
 router.post(
@@ -38,7 +32,7 @@ router.post(
   asyncHandler(async (req, res) => {
     await insertProduct(req.body);
     return res.status(200).json({ message: 'New product saved!' });
-  }),
+  })
 );
 
 router.put(
@@ -48,7 +42,7 @@ router.put(
   asyncHandler(async (req, res) => {
     await updateProduct(req.params.id, req.body);
     return res.status(200).json({ message: 'Product updated' });
-  }),
+  })
 );
 
 router.delete(
@@ -57,7 +51,7 @@ router.delete(
   asyncHandler(async (req, res) => {
     await deleteProduct(req.params.id);
     return res.status(200).json({ message: 'Product removed' });
-  }),
+  })
 );
 
 export default router;

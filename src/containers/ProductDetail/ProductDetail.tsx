@@ -13,9 +13,7 @@ const ProductDetail = () => {
 
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const { data, isValidating, error } = useSWR(`/product/${params.id}`, () =>
-    fetchProductById(params.id),
-  );
+  const { data, isValidating, error } = useSWR(`/product/${params.id}`, () => fetchProductById(params.id));
 
   return (
     <div>
@@ -100,12 +98,7 @@ const ProductDetail = () => {
         <Grid.Column width={2} only="computer" />
         <Grid.Column width={1} only="widescreen" />
       </Grid>
-      <Modal
-        size="small"
-        dimmer="inverted"
-        open={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
-      >
+      <Modal size="small" dimmer="inverted" open={isModalOpen} onClose={() => setIsModalOpen(false)}>
         <Modal.Content className={styles.modalContent}>
           <div className={styles.subtitle}>
             Entre em contato direto e faça seu orçamento. Desconto à vista ou até 3x sem juros.
@@ -120,11 +113,7 @@ const ProductDetail = () => {
           </p>
           <p>
             <Icon name="facebook" size="large" className={styles.facebook} />
-            <a
-              href="https://www.facebook.com/danikpresentes/"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
+            <a href="https://www.facebook.com/danikpresentes/" target="_blank" rel="noopener noreferrer">
               https://www.facebook.com/danikpresentes
             </a>
           </p>

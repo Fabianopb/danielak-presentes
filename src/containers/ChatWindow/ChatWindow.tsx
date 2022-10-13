@@ -12,7 +12,7 @@ type ChatHistory = {
   step?: number;
 };
 
-const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
+const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
 function usePrevious<T>(value: T) {
   const ref = useRef<T>();
@@ -54,9 +54,7 @@ const ChatWindow = () => {
 
   const scrollEl = useRef<HTMLDivElement>(null);
 
-  const previousUserMessageCount = usePrevious(
-    chatHistory.filter(msg => msg.speaker === 'user').length,
-  );
+  const previousUserMessageCount = usePrevious(chatHistory.filter((msg) => msg.speaker === 'user').length);
 
   useEffect(() => {
     const timestamp = localStorage.getItem('chatWindowTimestamp');
@@ -75,9 +73,9 @@ const ChatWindow = () => {
   };
 
   useEffect(() => {
-    const currentUserMessageCount = chatHistory.filter(msg => msg.speaker === 'user').length;
+    const currentUserMessageCount = chatHistory.filter((msg) => msg.speaker === 'user').length;
     if (previousUserMessageCount !== currentUserMessageCount && step < botMessages.length) {
-      setChatHistory(currentHistory => [...currentHistory, botMessages[step]]);
+      setChatHistory((currentHistory) => [...currentHistory, botMessages[step]]);
       setStep(step + 1);
       scrollToBottom();
     }
@@ -90,15 +88,15 @@ const ChatWindow = () => {
   const sendMessage = async (message: string) => {
     const newEntry = { speaker: 'user' as const, message };
     const allUserText = [...chatHistory, newEntry]
-      .filter(history => history.speaker === 'user')
-      .map(history => history.message);
+      .filter((history) => history.speaker === 'user')
+      .map((history) => history.message);
     if (messageId) {
       await editMessage(messageId, allUserText);
     } else {
       const createdMessage = await createMessage(allUserText);
       setMessageId(createdMessage.id);
     }
-    setChatHistory(currentHistory => [...currentHistory, newEntry]);
+    setChatHistory((currentHistory) => [...currentHistory, newEntry]);
     scrollToBottom();
     await delay(2000);
   };
@@ -140,9 +138,7 @@ const ChatWindow = () => {
                     className={styles.userMsg}
                   >
                     <div className={styles.bullet}>
-                      {typeof history.message === 'string'
-                        ? history.message
-                        : '[falha ao mostrar mensagem]'}
+                      {typeof history.message === 'string' ? history.message : '[falha ao mostrar mensagem]'}
                     </div>
                     <div className={styles.iconWrapper}>
                       <Icon name="user" circular inverted color="grey" />

@@ -41,7 +41,7 @@ const CategoryMenu = () => {
                   Home
                 </div>
                 {categories &&
-                  categories.map(category => (
+                  categories.map((category) => (
                     <div
                       key={category.id}
                       className={classNames(styles.menuItem, {

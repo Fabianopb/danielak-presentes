@@ -24,8 +24,8 @@ const initPassport = () => {
         } catch (error) {
           return done(error);
         }
-      },
-    ),
+      }
+    )
   );
   passport.serializeUser((user, done) => {
     done(null, user);

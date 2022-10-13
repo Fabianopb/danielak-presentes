@@ -1,27 +1,11 @@
 import { useState } from 'react';
 import { Link, useHistory } from 'react-router-dom';
-import {
-  Table,
-  Icon,
-  Dimmer,
-  Loader,
-  Button,
-  Divider,
-  Image,
-  Modal,
-  Header,
-} from 'semantic-ui-react';
+import { Table, Icon, Dimmer, Loader, Button, Divider, Image, Modal, Header } from 'semantic-ui-react';
 import useSWR from 'swr';
 import moment from 'moment';
 import cn from 'classnames';
 import styles from './AdminMain.module.scss';
-import {
-  fetchMessages,
-  toggleMessageVisibility,
-  deleteMessage,
-  fetchCategories,
-  fetchAllProducts,
-} from '../../api';
+import { fetchMessages, toggleMessageVisibility, deleteMessage, fetchCategories, fetchAllProducts } from '../../api';
 
 const AdminMain = () => {
   const [idToDelete, setIdToDelete] = useState<string>();
@@ -34,10 +18,7 @@ const AdminMain = () => {
     revalidate: revalidateMessages,
   } = useSWR('/messages', fetchMessages);
 
-  const { data: categories, isValidating: loadingCategories } = useSWR(
-    '/categories',
-    fetchCategories,
-  );
+  const { data: categories, isValidating: loadingCategories } = useSWR('/categories', fetchCategories);
 
   const { data: products, isValidating: loadingProducts } = useSWR('/products', fetchAllProducts);
 
@@ -54,10 +35,9 @@ const AdminMain = () => {
     await revalidateMessages();
   };
 
-  const definedCategories = categories && categories.filter(cat => cat.id !== undefined);
+  const definedCategories = categories && categories.filter((cat) => cat.id !== undefined);
   const sortedMessages =
-    messages &&
-    messages.sort((a, b) => moment(a.createdAt).valueOf() - moment(b.createdAt).valueOf());
+    messages && messages.sort((a, b) => moment(a.createdAt).valueOf() - moment(b.createdAt).valueOf());
 
   return (
     <div className={styles.adminMain}>
@@ -87,9 +67,8 @@ const AdminMain = () => {
             </Table.Header>
             <Table.Body>
               {products &&
-                products.map(product => {
-                  const category =
-                    categories && categories.find(cat => cat.id === product.categoryId);
+                products.map((product) => {
+                  const category = categories && categories.find((cat) => cat.id === product.categoryId);
                   return (
                     <Table.Row
                       className={styles.clickableRow}
@@ -143,7 +122,7 @@ const AdminMain = () => {
             </Table.Header>
             <Table.Body>
               {definedCategories &&
-                definedCategories.map(category => (
+                definedCategories.map((category) => (
                   <Table.Row
                     className={styles.clickableRow}
                     key={category.id}
@@ -177,30 +156,21 @@ const AdminMain = () => {
             </Table.Header>
             <Table.Body>
               {sortedMessages &&
-                sortedMessages.map(message => {
+                sortedMessages.map((message) => {
                   const answeredIcon = message.isAnswered ? 'paper plane' : 'envelope';
                   return (
-                    <Table.Row
-                      key={message.id}
-                      className={cn({ [styles.answered]: message.isAnswered })}
-                    >
+                    <Table.Row key={message.id} className={cn({ [styles.answered]: message.isAnswered })}>
                       <Table.Cell collapsing>{moment(message.createdAt).format('L LT')}</Table.Cell>
                       <Table.Cell>
                         {message.text.map((paragraph, index) => (
                           // eslint-disable-next-line react/no-array-index-key
                           <p key={`message-paragraph-${index}`}>
-                            {typeof paragraph === 'string'
-                              ? paragraph
-                              : '[falha ao mostrar mensagem]'}
+                            {typeof paragraph === 'string' ? paragraph : '[falha ao mostrar mensagem]'}
                           </p>
                         ))}
                       </Table.Cell>
                       <Table.Cell collapsing>
-                        <Icon
-                          name={answeredIcon}
-                          link
-                          onClick={() => toggleMessageState(message.id)}
-                        />
+                        <Icon name={answeredIcon} link onClick={() => toggleMessageState(message.id)} />
                         <Icon name="trash" link onClick={() => setIdToDelete(message.id)} />
                       </Table.Cell>
                     </Table.Row>
@@ -217,13 +187,7 @@ const AdminMain = () => {
             <p>Tem certeza que deseja remover a mensagem?</p>
           </Modal.Content>
           <Modal.Actions>
-            <Button
-              basic
-              icon
-              labelPosition="right"
-              color="blue"
-              onClick={() => setIdToDelete(undefined)}
-            >
+            <Button basic icon labelPosition="right" color="blue" onClick={() => setIdToDelete(undefined)}>
               Cancelar
               <Icon name="ban" />
             </Button>

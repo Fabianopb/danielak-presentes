@@ -13,7 +13,7 @@ router.route('/users/register').get(
   asyncHandler(async (req, res) => {
     await registerAdminUser();
     return res.status(200).json('Admin user registered!');
-  }),
+  })
 );
 
 router.route('/users/login').post(bodyParser.json(), (req, res, next) => {

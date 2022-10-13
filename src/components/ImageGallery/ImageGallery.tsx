@@ -16,9 +16,7 @@ const ImageGallery = ({ images, selectedIndex }: ImageGalleryProps) => {
 
   return (
     <div>
-      {images.length > 0 && (
-        <Image className={styles.image} src={images[selectedImageIndex].large} />
-      )}
+      {images.length > 0 && <Image className={styles.image} src={images[selectedImageIndex].large} />}
       <div className={styles.thumbnailsContainer}>
         {images.map((image: { large: string; small: string }, index: number) => (
           <div key={image.large} className={styles.thumbnailBox}>
@@ -30,11 +28,7 @@ const ImageGallery = ({ images, selectedIndex }: ImageGalleryProps) => {
                 </div>,
               ]
             ) : (
-              <Image
-                src={image.small}
-                className={styles.selectable}
-                onClick={() => selectImage(index)}
-              />
+              <Image src={image.small} className={styles.selectable} onClick={() => selectImage(index)} />
             )}
           </div>
         ))}

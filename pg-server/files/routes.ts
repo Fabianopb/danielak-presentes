@@ -23,7 +23,7 @@ router.post(
         return res.status(400).send(err);
       }
     });
-  }),
+  })
 );
 
 router.post(
@@ -33,7 +33,7 @@ router.post(
   asyncHandler(async (req, res) => {
     const data = await deleteImageFiles(req.body.images);
     return res.status(200).send(data);
-  }),
+  })
 );
 
 export default router;

@@ -1,16 +1,7 @@
 import { useState } from 'react';
 import { useParams, useHistory } from 'react-router-dom';
 import styled from 'styled-components';
-import {
-  Dimmer,
-  Loader,
-  Icon,
-  Button,
-  Modal,
-  Header,
-  Form as SemanticForm,
-  Input,
-} from 'semantic-ui-react';
+import { Dimmer, Loader, Icon, Button, Modal, Header, Form as SemanticForm, Input } from 'semantic-ui-react';
 import { FORM_ERROR } from 'final-form';
 import { Field, Form } from 'react-final-form';
 import useSWR from 'swr';
@@ -40,7 +31,7 @@ const AdminCategory = () => {
 
   const { data: category, isValidating: loadingCategory } = useSWR(
     params.id === 'new' ? null : `/category/${params.id}`,
-    () => fetchCategoryById(params.id),
+    () => fetchCategoryById(params.id)
   );
 
   const initialValues: FormValues = category
@@ -74,23 +65,11 @@ const AdminCategory = () => {
       <div className={styles.addCategoryHeader}>
         <h3>Adicionar categoria</h3>
         <div className={styles.actionButtons}>
-          <Button
-            basic
-            icon
-            labelPosition="right"
-            color="blue"
-            onClick={() => history.push('/admin')}
-          >
+          <Button basic icon labelPosition="right" color="blue" onClick={() => history.push('/admin')}>
             Voltar
             <Icon name="chevron left" />
           </Button>
-          <Button
-            icon
-            labelPosition="right"
-            color="red"
-            disabled={!category}
-            onClick={() => setIsOpen(true)}
-          >
+          <Button icon labelPosition="right" color="red" disabled={!category} onClick={() => setIsOpen(true)}>
             Remover
             <Icon name="trash" />
           </Button>
@@ -107,32 +86,21 @@ const AdminCategory = () => {
         render={({ handleSubmit, submitting, submitError }) => (
           <SemanticForm onSubmit={handleSubmit}>
             <Field name="name">
-              {field => (
+              {(field) => (
                 <StyledField {...field} label="Categoria">
-                  <Input
-                    {...field.input}
-                    placeholder="Nome da categoria"
-                    disabled={submitting}
-                    fluid
-                  />
+                  <Input {...field.input} placeholder="Nome da categoria" disabled={submitting} fluid />
                 </StyledField>
               )}
             </Field>
             <Field name="description">
-              {field => (
+              {(field) => (
                 <StyledField {...field} label="Descrição">
                   <Input {...field.input} placeholder="Descrição" disabled={submitting} fluid />
                 </StyledField>
               )}
             </Field>
             {submitError && <MessageContainer message={submitError} />}
-            <Button
-              primary
-              icon
-              labelPosition="right"
-              disabled={submitting}
-              style={{ marginTop: 16 }}
-            >
+            <Button primary icon labelPosition="right" disabled={submitting} style={{ marginTop: 16 }}>
               Salvar
               <Icon name="check" />
             </Button>

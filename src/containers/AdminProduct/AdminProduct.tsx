@@ -116,14 +116,11 @@ const AdminProduct = () => {
   const params = useParams<{ id: string }>();
   const history = useHistory();
 
-  const { data: categories, isValidating: loadingCategories } = useSWR(
-    '/categories',
-    fetchCategories,
-  );
+  const { data: categories, isValidating: loadingCategories } = useSWR('/categories', fetchCategories);
 
   const { data: product, isValidating: loadingProduct } = useSWR(
     params.id === 'new' ? null : `/product/${params.id}`,
-    () => fetchProductById(params.id),
+    () => fetchProductById(params.id)
   );
 
   useEffect(() => {
@@ -165,17 +162,14 @@ const AdminProduct = () => {
 
   const confirmProductDelete = async (id: string, images: ClientImage[]) => {
     try {
-      await Promise.all([
-        deleteProduct(id),
-        deleteFiles(images.flatMap(img => [img.small, img.large])),
-      ]);
+      await Promise.all([deleteProduct(id), deleteFiles(images.flatMap((img) => [img.small, img.large]))]);
       history.push('/admin');
     } catch (error: any) {
       setDeleteError(JSON.stringify(error.message));
     }
   };
 
-  const categoriesOptions = (categories || []).map(cat => ({ text: cat.name, value: cat.id }));
+  const categoriesOptions = (categories || []).map((cat) => ({ text: cat.name, value: cat.id }));
 
   const handleFileDrop = async (files: any[]) => {
     try {
@@ -185,17 +179,17 @@ const AdminProduct = () => {
       const response = await uploadFile(formData);
       setStateImages(
         stateImages
-          .filter(image => !image.loading)
+          .filter((image) => !image.loading)
           .concat([
             {
               large: response.data[0].Location,
               small: response.data[1].Location,
             },
-          ]),
+          ])
       );
       setImageError(undefined);
     } catch (error: any) {
-      setStateImages(stateImages.filter(image => !image.loading));
+      setStateImages(stateImages.filter((image) => !image.loading));
       setImageError(JSON.stringify(error.message));
     }
   };
@@ -203,24 +197,20 @@ const AdminProduct = () => {
   const handleDeleteImage = async (imageUrls: ClientImage) => {
     try {
       const imageIndex = stateImages.findIndex(
-        image => image.large === imageUrls.large && image.small === imageUrls.small,
+        (image) => image.large === imageUrls.large && image.small === imageUrls.small
       );
-      setStateImages(
-        stateImages.map((img, index) =>
-          index === imageIndex ? { ...img, loading: true } : { ...img },
-        ),
-      );
+      setStateImages(stateImages.map((img, index) => (index === imageIndex ? { ...img, loading: true } : { ...img })));
       const largeImageName = getImageNameFromUrl(imageUrls.large);
       const smallImageName = getImageNameFromUrl(imageUrls.small);
       await deleteFiles([largeImageName, smallImageName]);
       setStateImages(stateImages.filter((image, index) => index !== imageIndex));
     } catch (error: any) {
-      setStateImages(stateImages.map(img => ({ ...img, loading: false })));
+      setStateImages(stateImages.map((img) => ({ ...img, loading: false })));
       setImageError(JSON.stringify(error.message));
     }
   };
 
-  const isUploadingOrDeleting = stateImages.some(img => img.loading);
+  const isUploadingOrDeleting = stateImages.some((img) => img.loading);
   const hasDropzone = stateImages && stateImages.length < 5 && !isUploadingOrDeleting;
 
   return (
@@ -228,23 +218,11 @@ const AdminProduct = () => {
       <div className={styles.addProductHeader}>
         <h3>Adicionar produto</h3>
         <div className={styles.actionButtons}>
-          <Button
-            basic
-            icon
-            labelPosition="right"
-            color="blue"
-            onClick={() => history.push('/admin')}
-          >
+          <Button basic icon labelPosition="right" color="blue" onClick={() => history.push('/admin')}>
             Voltar
             <Icon name="chevron left" />
           </Button>
-          <Button
-            icon
-            labelPosition="right"
-            color="red"
-            disabled={!product}
-            onClick={() => setIsOpen(true)}
-          >
+          <Button icon labelPosition="right" color="red" disabled={!product} onClick={() => setIsOpen(true)}>
             Remover
             <Icon name="trash" />
           </Button>
@@ -262,14 +240,14 @@ const AdminProduct = () => {
           <SemanticForm onSubmit={handleSubmit}>
             <InlineFormRow>
               <Field name="name">
-                {field => (
+                {(field) => (
                   <StyledField {...field} label="Nome do produto">
                     <Input {...field.input} placeholder="Nome do produto" fluid />
                   </StyledField>
                 )}
               </Field>
               <Field name="storeLink">
-                {field => (
+                {(field) => (
                   <StyledField {...field} label="Link da loja">
                     <Input {...field.input} placeholder="Link da loja" fluid />
                   </StyledField>
@@ -277,7 +255,7 @@ const AdminProduct = () => {
               </Field>
             </InlineFormRow>
             <Field name="categoryId" label="Categoria">
-              {field => (
+              {(field) => (
                 <FieldRenderer {...field} style={{ marginTop: 24 }}>
                   <Dropdown
                     value={field.input.value}
@@ -298,7 +276,7 @@ const AdminProduct = () => {
               />
             </div>
             <div className={styles.dropzoneArea} style={{ marginTop: 24 }}>
-              {stateImages.map(image => (
+              {stateImages.map((image) => (
                 <div key={image.small} className={styles.previewContainer}>
                   {image.loading ? (
                     <Segment className={styles.loading} loading />
@@ -325,42 +303,32 @@ const AdminProduct = () => {
             </div>
             {imageError && <MessageContainer message={imageError} />}
             <Field name="description" label="Descrição">
-              {field => (
+              {(field) => (
                 <FieldRenderer {...field} style={{ marginTop: 24 }}>
                   <StyledQuillContainer>
-                    <ReactQuill
-                      value={field.input.value}
-                      onChange={field.input.onChange}
-                      modules={quillModules}
-                    />
+                    <ReactQuill value={field.input.value} onChange={field.input.onChange} modules={quillModules} />
                   </StyledQuillContainer>
                 </FieldRenderer>
               )}
             </Field>
             <InlineFormRow>
               <Field name="currentPrice">
-                {field => (
+                {(field) => (
                   <StyledField {...field} label="Preço">
                     <Input {...field.input} type="number" placeholder="Preço" label="R$" fluid />
                   </StyledField>
                 )}
               </Field>
               <Field name="discountPrice">
-                {field => (
+                {(field) => (
                   <StyledField {...field} label="Preço com desconto">
-                    <Input
-                      {...field.input}
-                      type="number"
-                      placeholder="Preço com desconto"
-                      label="R$"
-                      fluid
-                    />
+                    <Input {...field.input} type="number" placeholder="Preço com desconto" label="R$" fluid />
                   </StyledField>
                 )}
               </Field>
             </InlineFormRow>
             <Field name="tags">
-              {field => (
+              {(field) => (
                 <FieldRenderer {...field} label="Tags" style={{ marginTop: 24 }}>
                   <Input {...field.input} placeholder="Tags separadas por vírgula" fluid />
                 </FieldRenderer>
@@ -368,14 +336,14 @@ const AdminProduct = () => {
             </Field>
             <InlineFormRow>
               <Field name="productionTime">
-                {field => (
+                {(field) => (
                   <StyledField {...field} label="Dias para produção">
                     <Input {...field.input} type="number" placeholder="Dias para produção" fluid />
                   </StyledField>
                 )}
               </Field>
               <Field name="minAmount">
-                {field => (
+                {(field) => (
                   <StyledField {...field} label="Quantidade mínima">
                     <Input {...field.input} type="number" placeholder="Quantidade mínima" fluid />
                   </StyledField>
@@ -384,7 +352,7 @@ const AdminProduct = () => {
             </InlineFormRow>
             <InlineFormRow>
               <Field name="depth">
-                {field => (
+                {(field) => (
                   <StyledField {...field} label="Comprimento">
                     <Input
                       {...field.input}
@@ -398,7 +366,7 @@ const AdminProduct = () => {
                 )}
               </Field>
               <Field name="width">
-                {field => (
+                {(field) => (
                   <StyledField {...field} label="Largura">
                     <Input
                       {...field.input}
@@ -412,36 +380,22 @@ const AdminProduct = () => {
                 )}
               </Field>
               <Field name="height">
-                {field => (
+                {(field) => (
                   <StyledField {...field} label="Altura">
-                    <Input
-                      {...field.input}
-                      type="number"
-                      placeholder="Altura"
-                      fluid
-                      labelPosition="right"
-                      label="cm"
-                    />
+                    <Input {...field.input} type="number" placeholder="Altura" fluid labelPosition="right" label="cm" />
                   </StyledField>
                 )}
               </Field>
               <Field name="weight">
-                {field => (
+                {(field) => (
                   <StyledField {...field} label="Peso">
-                    <Input
-                      {...field.input}
-                      type="number"
-                      placeholder="Peso"
-                      fluid
-                      labelPosition="right"
-                      label="g"
-                    />
+                    <Input {...field.input} type="number" placeholder="Peso" fluid labelPosition="right" label="g" />
                   </StyledField>
                 )}
               </Field>
             </InlineFormRow>
             <Field name="isVisible">
-              {field => (
+              {(field) => (
                 <FieldRenderer {...field} style={{ marginTop: 24 }}>
                   <Checkbox
                     checked={field.input.value}
@@ -453,7 +407,7 @@ const AdminProduct = () => {
               )}
             </Field>
             <Field name="isFeatured">
-              {field => (
+              {(field) => (
                 <FieldRenderer {...field} style={{ marginTop: 8 }}>
                   <Checkbox
                     checked={field.input.value}

@@ -25,9 +25,6 @@ export const deleteMessage = async (id: string) => {
 
 export const toggleMessageAnswered = async (id: string) => {
   const messages = await db<Message>(table).where({ id });
-  const result = await db<Message>(table)
-    .where({ id })
-    .update('isAnswered', !messages[0].isAnswered)
-    .returning('*');
+  const result = await db<Message>(table).where({ id }).update('isAnswered', !messages[0].isAnswered).returning('*');
   return result[0];
 };

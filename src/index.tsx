@@ -24,9 +24,7 @@ const history = createBrowserHistory();
 const ProtectedRoute = ({ component: Component, ...rest }: RouteProps) => (
   <Route
     {...rest}
-    render={props =>
-      isSessionValid() && Component ? <Component {...props} /> : <Redirect to="/login" />
-    }
+    render={(props) => (isSessionValid() && Component ? <Component {...props} /> : <Redirect to="/login" />)}
   />
 );
 
@@ -50,7 +48,7 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
         </Layout>
       </QueryParamProvider>
     </SWRConfig>
-  </Router>,
+  </Router>
 );
 
 // If you want your app to work offline and load faster, you can change
