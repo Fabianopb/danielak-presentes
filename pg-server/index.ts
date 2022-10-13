@@ -8,7 +8,7 @@ import productsV2Routes from './products/routes';
 import filesV2Routes from './files/routes';
 import { NotFoundError } from './utils';
 
-const port = process.env.PORT || 9000;
+const port = process.env.PORT || 9090;
 
 const app = express();
 
