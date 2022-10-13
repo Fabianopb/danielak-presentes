@@ -90,7 +90,6 @@
     "start-server": "APP_ENV=development nodemon -r dotenv/config --exec ts-node pg-server/index.ts",
     "build-client": "tsc && vite build",
     "build-server": "tsc pg-server/index.ts --esModuleInterop --outDir dist",
-    "build": "yarn build-client && yarn build-server",
     "heroku-postbuild": "ts-node ./scripts/build.ts",
     "ts": "tsc --project ./tsconfig.json --noEmit",
     "ts:watch": "tsc --project ./tsconfig.json --watch --noEmit",
