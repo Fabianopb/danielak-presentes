@@ -1,4 +1,3 @@
-import React from 'react';
 import { Row, Col } from 'react-flexbox-grid';
 import { useLocation, useHistory } from 'react-router-dom';
 import { Image, Button } from 'semantic-ui-react';

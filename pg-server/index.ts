@@ -8,24 +8,18 @@ import productsV2Routes from './products/routes';
 import filesV2Routes from './files/routes';
 import { NotFoundError } from './utils';
 
-const port = process.env.PORT || 9000;
+const port = process.env.PORT || 9090;
 
 const app = express();
 
 app.use(passport.initialize());
 
-app.use('/api/v2', [
-  userV2Routes,
-  categoriesV2Routes,
-  messagesV2Routes,
-  productsV2Routes,
-  filesV2Routes,
-]);
+app.use('/api/v2', [userV2Routes, categoriesV2Routes, messagesV2Routes, productsV2Routes, filesV2Routes]);
 
-app.use(express.static(path.resolve('build')));
+app.use(express.static(path.resolve('dist')));
 
 app.get('*', (request, response) => {
-  response.sendFile(path.resolve('build', 'index.html'));
+  response.sendFile(path.resolve('dist', 'index.html'));
 });
 
 app.use(() => {

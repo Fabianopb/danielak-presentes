@@ -59,7 +59,7 @@ export const deleteImageFiles = (imageUrls: string[]) => {
   const params = {
     Bucket: process.env.DANIK_S3_BUCKET,
     Delete: {
-      Objects: imageUrls.map(image => ({ Key: image })),
+      Objects: imageUrls.map((image) => ({ Key: image })),
     },
   };
   return s3.deleteObjects(params).promise();

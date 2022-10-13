@@ -1,4 +1,3 @@
-import React from 'react';
 import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
 import { Form as SemanticForm, Input, Button } from 'semantic-ui-react';
@@ -42,7 +41,7 @@ const LoginPage = () => {
       const { token, expiry } = await loginAdminUser(values);
       setSession(token, expiry);
       history.push('/admin');
-    } catch (error) {
+    } catch (error: any) {
       return { [FORM_ERROR]: error.message };
     }
   };
@@ -56,21 +55,16 @@ const LoginPage = () => {
           render={({ handleSubmit, submitError, submitting }) => (
             <SemanticForm onSubmit={handleSubmit}>
               <Field name="email">
-                {field => (
+                {(field) => (
                   <FieldRenderer {...field}>
                     <StyledInput {...field.input} placeholder="Usuário" disabled={submitting} />
                   </FieldRenderer>
                 )}
               </Field>
               <Field name="password">
-                {field => (
+                {(field) => (
                   <FieldRenderer {...field}>
-                    <StyledInput
-                      {...field.input}
-                      type="password"
-                      placeholder="Senha"
-                      disabled={submitting}
-                    />
+                    <StyledInput {...field.input} type="password" placeholder="Senha" disabled={submitting} />
                   </FieldRenderer>
                 )}
               </Field>

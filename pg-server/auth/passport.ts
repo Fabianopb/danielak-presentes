@@ -24,13 +24,13 @@ const initPassport = () => {
         } catch (error) {
           return done(error);
         }
-      },
-    ),
+      }
+    )
   );
   passport.serializeUser((user, done) => {
     done(null, user);
   });
-  passport.deserializeUser((user, done) => {
+  passport.deserializeUser<boolean>((user, done) => {
     done(null, user);
   });
 };

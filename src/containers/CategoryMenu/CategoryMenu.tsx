@@ -1,4 +1,3 @@
-import React from 'react';
 import { Row, Col } from 'react-flexbox-grid';
 import classNames from 'classnames';
 import useSWR from 'swr';
@@ -42,7 +41,7 @@ const CategoryMenu = () => {
                   Home
                 </div>
                 {categories &&
-                  categories.map(category => (
+                  categories.map((category) => (
                     <div
                       key={category.id}
                       className={classNames(styles.menuItem, {

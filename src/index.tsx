@@ -1,13 +1,10 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
+import ReactDOM from 'react-dom/client';
 import { Switch, Route, RouteProps, Redirect, Router } from 'react-router-dom';
 import { createBrowserHistory } from 'history';
 import { SWRConfig } from 'swr';
 import { QueryParamProvider } from 'use-query-params';
-import ReactGA from 'react-ga';
 import Layout from './components/Layout/Layout';
 import AboutPage from './components/AboutPage/AboutPage';
-import withTracker from './components/withTracker';
 import ChatWindow from './containers/ChatWindow/ChatWindow';
 import NotFoundPage from './containers/NotFoundPage/NotFoundPage';
 import CategoryMenu from './containers/CategoryMenu/CategoryMenu';
@@ -27,25 +24,21 @@ const history = createBrowserHistory();
 const ProtectedRoute = ({ component: Component, ...rest }: RouteProps) => (
   <Route
     {...rest}
-    render={props =>
-      isSessionValid() && Component ? <Component {...props} /> : <Redirect to="/login" />
-    }
+    render={(props) => (isSessionValid() && Component ? <Component {...props} /> : <Redirect to="/login" />)}
   />
 );
 
-ReactGA.initialize('UA-69092915-1');
-
-ReactDOM.render(
+ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <Router history={history}>
     <SWRConfig value={{ revalidateOnFocus: false }}>
       <QueryParamProvider ReactRouterRoute={Route}>
         <Layout>
           <CategoryMenu />
           <Switch>
-            <Route exact path="/" component={withTracker(ProductGrid)} />
-            <Route exact path="/product/:id" component={withTracker(ProductDetail)} />
+            <Route exact path="/" component={ProductGrid} />
+            <Route exact path="/product/:id" component={ProductDetail} />
             <Route exact path="/login" component={LoginPage} />
-            <Route exact path="/about" component={withTracker(AboutPage)} />
+            <Route exact path="/about" component={AboutPage} />
             <ProtectedRoute exact path="/admin" component={AdminMain} />
             <ProtectedRoute path="/admin/product/:id" component={AdminProduct} />
             <ProtectedRoute path="/admin/category/:id" component={AdminCategory} />
@@ -55,8 +48,7 @@ ReactDOM.render(
         </Layout>
       </QueryParamProvider>
     </SWRConfig>
-  </Router>,
-  document.getElementById('root'),
+  </Router>
 );
 
 // If you want your app to work offline and load faster, you can change

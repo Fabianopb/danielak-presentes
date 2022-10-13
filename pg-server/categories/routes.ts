@@ -1,13 +1,7 @@
 import { Router } from 'express';
 import bodyParser from 'body-parser';
 import authorize from '../auth/authorize';
-import {
-  selectAllCategories,
-  insertCategory,
-  updateCategory,
-  deleteCategory,
-  selectCategoryById,
-} from './handlers';
+import { selectAllCategories, insertCategory, updateCategory, deleteCategory, selectCategoryById } from './handlers';
 import { asyncHandler, NotFoundError } from '../utils';
 
 const router = Router();
@@ -17,7 +11,7 @@ router.get(
   asyncHandler(async (req, res) => {
     const categories = await selectAllCategories();
     return res.status(200).json(categories);
-  }),
+  })
 );
 
 router.get(
@@ -28,7 +22,7 @@ router.get(
       throw new NotFoundError(`Category with id '${req.params.id}' was not found!`);
     }
     return res.status(200).json(category);
-  }),
+  })
 );
 
 router.post(
@@ -38,7 +32,7 @@ router.post(
   asyncHandler(async (req, res) => {
     await insertCategory(req.body);
     return res.status(200).json({ message: 'Category inserted' });
-  }),
+  })
 );
 
 router.put(
@@ -48,7 +42,7 @@ router.put(
   asyncHandler(async (req, res) => {
     await updateCategory(req.params.id, req.body);
     return res.status(200).json({ message: 'Category updated' });
-  }),
+  })
 );
 
 router.delete(
@@ -57,7 +51,7 @@ router.delete(
   asyncHandler(async (req, res) => {
     await deleteCategory(req.params.id);
     return res.status(200).json({ message: 'Category deleted' });
-  }),
+  })
 );
 
 export default router;

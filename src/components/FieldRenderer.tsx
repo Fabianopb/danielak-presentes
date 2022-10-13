@@ -1,4 +1,4 @@
-import React, { CSSProperties, ReactNode, useMemo } from 'react';
+import { CSSProperties, ReactNode, useMemo } from 'react';
 import styled from 'styled-components';
 import MessageContainer from './MessageContainer';
 
@@ -19,17 +19,10 @@ const Label = styled.div`
   margin: 8px 0 4px 0;
 `;
 
-const FieldRenderer = ({
-  style,
-  className,
-  label,
-  meta,
-  showError = 'onBlur',
-  children,
-}: Props) => {
+const FieldRenderer = ({ style, className, label, meta, showError = 'onBlur', children }: Props) => {
   const errorMessage = useMemo(
     () => (showError === true || (showError === 'onBlur' && meta.touched) ? meta.error : undefined),
-    [meta.error, meta.touched, showError],
+    [meta.error, meta.touched, showError]
   );
 
   return (

@@ -27,7 +27,7 @@ export const generateJwt = (id: string, email: string) => {
       email,
       exp: Math.round(expiry.getTime() / 1000),
     },
-    process.env.DANIK_AUTH_KEY,
+    process.env.DANIK_AUTH_KEY
   );
 
   return { token, expiry };
