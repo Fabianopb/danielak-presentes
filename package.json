@@ -91,7 +91,7 @@
     "build-client": "tsc && vite build",
     "build-server": "tsc pg-server/index.ts --esModuleInterop --outDir dist",
     "build": "yarn build-client && yarn build-server",
-    "heroku-postbuild": "ts-node ./scripts/build.ts",
+    "heroku-postbuild": "yarn migrate:latest",
     "ts": "tsc --project ./tsconfig.json --noEmit",
     "ts:watch": "tsc --project ./tsconfig.json --watch --noEmit",
     "lint": "eslint pg-server scripts src --ext .ts,.tsx",
