@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useEffect } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import { useParams, useHistory } from 'react-router-dom';
 import useSWR from 'swr';
 import {
@@ -113,7 +113,7 @@ const AdminProduct = () => {
   const [stateImages, setStateImages] = useState<ClientImage[]>([]);
   const [imageError, setImageError] = useState<string>();
 
-  const params = useParams();
+  const params = useParams<{ id: string }>();
   const history = useHistory();
 
   const { data: categories, isValidating: loadingCategories } = useSWR(
@@ -158,7 +158,7 @@ const AdminProduct = () => {
         await editProduct(product.id, valuesWithImages);
       }
       history.push('/admin');
-    } catch (error) {
+    } catch (error: any) {
       return { [FORM_ERROR]: JSON.stringify(error.message) };
     }
   };
@@ -170,7 +170,7 @@ const AdminProduct = () => {
         deleteFiles(images.flatMap(img => [img.small, img.large])),
       ]);
       history.push('/admin');
-    } catch (error) {
+    } catch (error: any) {
       setDeleteError(JSON.stringify(error.message));
     }
   };
@@ -194,7 +194,7 @@ const AdminProduct = () => {
           ]),
       );
       setImageError(undefined);
-    } catch (error) {
+    } catch (error: any) {
       setStateImages(stateImages.filter(image => !image.loading));
       setImageError(JSON.stringify(error.message));
     }
@@ -214,7 +214,7 @@ const AdminProduct = () => {
       const smallImageName = getImageNameFromUrl(imageUrls.small);
       await deleteFiles([largeImageName, smallImageName]);
       setStateImages(stateImages.filter((image, index) => index !== imageIndex));
-    } catch (error) {
+    } catch (error: any) {
       setStateImages(stateImages.map(img => ({ ...img, loading: false })));
       setImageError(JSON.stringify(error.message));
     }

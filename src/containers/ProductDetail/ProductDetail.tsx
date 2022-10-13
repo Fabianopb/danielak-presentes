@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import useSWR from 'swr';
 import { Dimmer, Loader, Button, Icon, Grid, Popup, Modal } from 'semantic-ui-react';
@@ -9,7 +9,7 @@ import styles from './ProductDetail.module.scss';
 import { fetchProductById } from '../../api';
 
 const ProductDetail = () => {
-  const params = useParams();
+  const params = useParams<{ id: string }>();
 
   const [isModalOpen, setIsModalOpen] = useState(false);
 

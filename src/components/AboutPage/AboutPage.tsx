@@ -1,4 +1,3 @@
-import React from 'react';
 import { Row, Col } from 'react-flexbox-grid';
 import { Icon } from 'semantic-ui-react';
 import styles from './AboutPage.module.scss';

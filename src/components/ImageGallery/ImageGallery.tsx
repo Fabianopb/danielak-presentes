@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Image, Icon } from 'semantic-ui-react';
 import styles from './ImageGallery.module.scss';
 

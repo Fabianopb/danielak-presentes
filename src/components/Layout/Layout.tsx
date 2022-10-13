@@ -1,4 +1,4 @@
-import React, { ReactNode } from 'react';
+import { ReactNode } from 'react';
 import { Grid, Row, Col } from 'react-flexbox-grid';
 import danikLogo from '../../assets/danik-logo.png';
 import danikLua from '../../assets/danik-lua.png';

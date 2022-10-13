@@ -1,4 +1,3 @@
-import React from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
 import { Dimmer, Loader, Image, Divider } from 'semantic-ui-react';
 import useSWR from 'swr';

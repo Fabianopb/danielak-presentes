@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import {
   Table,
@@ -28,10 +28,11 @@ const AdminMain = () => {
 
   const history = useHistory();
 
-  const { data: messages, isValidating: loadingMessages, revalidate: revalidateMessages } = useSWR(
-    '/messages',
-    fetchMessages,
-  );
+  const {
+    data: messages,
+    isValidating: loadingMessages,
+    revalidate: revalidateMessages,
+  } = useSWR('/messages', fetchMessages);
 
   const { data: categories, isValidating: loadingCategories } = useSWR(
     '/categories',

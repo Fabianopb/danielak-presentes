@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useParams, useHistory } from 'react-router-dom';
 import styled from 'styled-components';
 import {
@@ -32,7 +32,7 @@ const StyledField = styled(FieldRenderer)`
 // TODO: validation: all fields required
 
 const AdminCategory = () => {
-  const params = useParams();
+  const params = useParams<{ id: string }>();
   const history = useHistory();
 
   const [isOpen, setIsOpen] = useState(false);
@@ -55,7 +55,7 @@ const AdminCategory = () => {
         await editCategory(category.id, values);
       }
       history.push('/admin');
-    } catch (error) {
+    } catch (error: any) {
       return { [FORM_ERROR]: JSON.stringify(error.message) };
     }
   };
@@ -64,7 +64,7 @@ const AdminCategory = () => {
     try {
       await deleteCategory(id);
       history.push('/admin');
-    } catch (error) {
+    } catch (error: any) {
       setDeleteError(JSON.stringify(error.message));
     }
   };
