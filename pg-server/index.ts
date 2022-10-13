@@ -16,10 +16,10 @@ app.use(passport.initialize());
 
 app.use('/api/v2', [userV2Routes, categoriesV2Routes, messagesV2Routes, productsV2Routes, filesV2Routes]);
 
-app.use(express.static(path.resolve('build')));
+app.use(express.static(path.resolve('dist')));
 
 app.get('*', (request, response) => {
-  response.sendFile(path.resolve('build', 'index.html'));
+  response.sendFile(path.resolve('dist', 'index.html'));
 });
 
 app.use(() => {
