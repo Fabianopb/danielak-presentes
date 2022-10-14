@@ -25,7 +25,7 @@ jobs:
     - name: Build
       run: yarn build
 
-    - name: Copy modules into dist
+    - name: Copy node modules into dist
       run: cp -r node_modules dist/node_modules
 
     - name: Deploy to EC2
