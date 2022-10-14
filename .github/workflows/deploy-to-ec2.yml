@@ -23,7 +23,7 @@ jobs:
       run: yarn install --frozen-lockfile
 
     - name: Build
-      run: yarn build
+      run: yarn build-client && build-server
 
     - name: Copy node modules into dist
       run: cp -r node_modules dist/node_modules
