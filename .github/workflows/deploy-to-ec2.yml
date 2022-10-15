@@ -35,4 +35,4 @@ jobs:
         SOURCE: "dist/"
         REMOTE_HOST: ${{ secrets.EC2_REMOTE_HOST }}
         REMOTE_USER: ${{ secrets.EC2_REMOTE_USER }}
-        TARGET: "danik/dist"
+        TARGET: "danik"

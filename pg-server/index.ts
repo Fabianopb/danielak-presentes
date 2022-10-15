@@ -9,6 +9,7 @@ import filesV2Routes from './files/routes';
 import { NotFoundError } from './utils';
 
 const port = process.env.PORT || 9090;
+const distPath = process.env.DANIK_DIST_PATH || 'dist';
 
 const app = express();
 
@@ -16,10 +17,10 @@ app.use(passport.initialize());
 
 app.use('/api/v2', [userV2Routes, categoriesV2Routes, messagesV2Routes, productsV2Routes, filesV2Routes]);
 
-app.use(express.static(path.resolve('dist')));
+app.use(express.static(distPath));
 
 app.get('*', (request, response) => {
-  response.sendFile(path.resolve('dist', 'index.html'));
+  response.sendFile(path.join(distPath, 'index.html'));
 });
 
 app.use(() => {
