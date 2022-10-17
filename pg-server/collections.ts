@@ -1,1 +1,1 @@
-export const DANIK_CATEGORIES = 'categories';
+export const CATEGORIES = 'categories';

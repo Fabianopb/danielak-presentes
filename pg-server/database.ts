@@ -1,6 +1,6 @@
-import { MongoClient, Db } from 'mongodb';
-import {} from './collections';
-import {} from './schemas';
+import { MongoClient, Db, Document } from 'mongodb';
+import { CATEGORIES } from './collections';
+import { categorySchema } from './schemas';
 
 const cloudServer = process.env.APP_ENV !== 'production' ? '' : '+srv';
 const user = encodeURIComponent(process.env.DANIK_MONGO_USERNAME || '');
@@ -12,14 +12,14 @@ const databaseName = process.env.DANIK_MONGO_DB_NAME;
 let client: MongoClient;
 export let database: Db;
 
-// const createSchemaSetter =
-//   (existingCollectionNames: string[]) => async (collectionName: string, validator: Document) => {
-//     if (existingCollectionNames.includes(collectionName)) {
-//       await database.command({ collMod: collectionName, validator });
-//     } else {
-//       await database.createCollection(collectionName, { validator });
-//     }
-//   };
+const createSchemaSetter =
+  (existingCollectionNames: string[]) => async (collectionName: string, validator: Document) => {
+    if (existingCollectionNames.includes(collectionName)) {
+      await database.command({ collMod: collectionName, validator });
+    } else {
+      await database.createCollection(collectionName, { validator });
+    }
+  };
 
 export const init = async () => {
   if (!uri) {
@@ -33,9 +33,11 @@ export const init = async () => {
   await client.connect();
   database = client.db(databaseName);
 
-  // const collections = await database.collections();
-  // const existingCollectionNames = collections.map((c) => c.collectionName);
-  // const setupSchema = createSchemaSetter(existingCollectionNames);
+  const collections = await database.collections();
+  const existingCollectionNames = collections.map((c) => c.collectionName);
+  const setupSchema = createSchemaSetter(existingCollectionNames);
+
+  setupSchema(CATEGORIES, categorySchema);
 };
 
 export const close = () => {
