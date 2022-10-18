@@ -1,7 +1,7 @@
 import { Router } from 'express';
-import authorize from '../auth/authorize';
 import { selectAllProducts, insertProduct, updateProduct, deleteProduct, selectProductById } from './handlers';
 import { asyncHandler, NotFoundError } from '../utils';
+import auth from '../auth';
 
 const router = Router();
 
@@ -26,7 +26,7 @@ router.get(
 
 router.post(
   '/products',
-  authorize,
+  auth,
   asyncHandler(async (req, res) => {
     await insertProduct(req.body);
     return res.status(200).json({ message: 'New product saved!' });
@@ -35,7 +35,7 @@ router.post(
 
 router.put(
   '/products/:id',
-  authorize,
+  auth,
   asyncHandler(async (req, res) => {
     await updateProduct(req.params.id, req.body);
     return res.status(200).json({ message: 'Product updated' });
@@ -44,7 +44,7 @@ router.put(
 
 router.delete(
   '/products/:id',
-  authorize,
+  auth,
   asyncHandler(async (req, res) => {
     await deleteProduct(req.params.id);
     return res.status(200).json({ message: 'Product removed' });

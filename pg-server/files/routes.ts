@@ -1,14 +1,14 @@
 import { Router } from 'express';
 import multiparty from 'multiparty';
-import authorize from '../auth/authorize';
 import { processAndUploadFile, deleteImageFiles } from './handlers';
 import { asyncHandler } from '../utils';
+import auth from '../auth';
 
 const router = Router();
 
 router.post(
   '/files/upload',
-  authorize,
+  auth,
   asyncHandler(async (req, res) => {
     const form = new multiparty.Form();
     form.parse(req, async (error, fields, files) => {
@@ -27,7 +27,7 @@ router.post(
 
 router.post(
   '/files/delete',
-  authorize,
+  auth,
   asyncHandler(async (req, res) => {
     const data = await deleteImageFiles(req.body.images);
     return res.status(200).send(data);

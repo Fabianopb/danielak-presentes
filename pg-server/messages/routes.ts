@@ -1,13 +1,13 @@
 import { Router } from 'express';
-import authorize from '../auth/authorize';
 import { selectAllMessages, insertMessage, updateMessage, deleteMessage, toggleMessageAnswered } from './handlers';
 import { asyncHandler } from '../utils';
+import auth from '../auth';
 
 const router = Router();
 
 router.get(
   '/messages',
-  asyncHandler(async (req, res) => {
+  asyncHandler(async (_, res) => {
     const messages = await selectAllMessages();
     return res.status(200).json(messages);
   })
@@ -31,7 +31,7 @@ router.put(
 
 router.delete(
   '/messages/:id',
-  authorize,
+  auth,
   asyncHandler(async (req, res) => {
     await deleteMessage(req.params.id);
     return res.status(200).json({ message: 'Message removed' });
