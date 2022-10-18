@@ -1,5 +1,4 @@
 import { Router } from 'express';
-import bodyParser from 'body-parser';
 import authorize from '../auth/authorize';
 import { selectAllProducts, insertProduct, updateProduct, deleteProduct, selectProductById } from './handlers';
 import { asyncHandler, NotFoundError } from '../utils';
@@ -28,7 +27,6 @@ router.get(
 router.post(
   '/products',
   authorize,
-  bodyParser.json(),
   asyncHandler(async (req, res) => {
     await insertProduct(req.body);
     return res.status(200).json({ message: 'New product saved!' });
@@ -38,7 +36,6 @@ router.post(
 router.put(
   '/products/:id',
   authorize,
-  bodyParser.json(),
   asyncHandler(async (req, res) => {
     await updateProduct(req.params.id, req.body);
     return res.status(200).json({ message: 'Product updated' });

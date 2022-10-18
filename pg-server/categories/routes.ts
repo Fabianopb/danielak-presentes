@@ -1,5 +1,4 @@
 import { Router } from 'express';
-import bodyParser from 'body-parser';
 import authorize from '../auth/authorize';
 import { selectAllCategories, insertCategory, updateCategory, deleteCategory, selectCategoryById } from './handlers';
 import { asyncHandler, NotFoundError } from '../utils';
@@ -28,7 +27,6 @@ router.get(
 router.post(
   '/categories',
   authorize,
-  bodyParser.json(),
   asyncHandler(async (req, res) => {
     await insertCategory(req.body);
     return res.status(200).json({ message: 'Category inserted' });
@@ -38,7 +36,6 @@ router.post(
 router.put(
   '/categories/:id',
   authorize,
-  bodyParser.json(),
   asyncHandler(async (req, res) => {
     await updateCategory(req.params.id, req.body);
     return res.status(200).json({ message: 'Category updated' });

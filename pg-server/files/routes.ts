@@ -1,5 +1,4 @@
 import { Router } from 'express';
-import bodyParser from 'body-parser';
 import multiparty from 'multiparty';
 import authorize from '../auth/authorize';
 import { processAndUploadFile, deleteImageFiles } from './handlers';
@@ -29,7 +28,6 @@ router.post(
 router.post(
   '/files/delete',
   authorize,
-  bodyParser.json(),
   asyncHandler(async (req, res) => {
     const data = await deleteImageFiles(req.body.images);
     return res.status(200).send(data);
