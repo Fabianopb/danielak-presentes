@@ -15,6 +15,8 @@ export const init = () => {
   const app = express();
 
   app.use(bodyParser.json());
+  app.use(bodyParser.urlencoded({ extended: true }));
+
   app.use(passport.initialize());
 
   app.use('/api/v2', [userV2Routes, categoriesV2Routes, messagesV2Routes, productsV2Routes, filesV2Routes]);
