@@ -22,7 +22,7 @@
     "moment": "2.29.0",
     "mongodb": "4.10.0",
     "multiparty": "^4.2.2",
-    "passport": "0.4.1",
+    "passport": "0.6.0",
     "passport-local": "^1.0.0",
     "pg": "^8.3.3",
     "pg-connection-string": "^2.3.0",
