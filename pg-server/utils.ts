@@ -1,13 +1,23 @@
 import { NextFunction, Request, RequestHandler, Response } from 'express';
 
-export class NotFoundError extends Error {
-  public statusCode?: number;
+export class BadRequestError extends Error {
+  statusCode = 400;
+  name = 'BadRequestError';
+}
 
-  constructor(message?: string) {
-    super(message);
-    this.name = 'NotFoundError';
-    this.statusCode = 404;
-  }
+export class UnauthorizedError extends Error {
+  statusCode = 402;
+  name = 'UnauthorizedError';
+}
+
+export class ForbiddenError extends Error {
+  statusCode = 403;
+  name = 'ForbiddenError';
+}
+
+export class NotFoundError extends Error {
+  statusCode = 404;
+  name = 'NotFoundError';
 }
 
 export const serializePayload = <T extends Record<string, unknown>>(payload: T) =>

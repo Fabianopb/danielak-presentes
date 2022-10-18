@@ -4,8 +4,8 @@ import { getAuthHeaders } from './modules/helpers';
 
 export type ApiProductPayload = API.ProductPayload;
 
-export const loginAdminUser = (credentials: { email: string; password: string }) =>
-  axios.post<{ token: string; expiry: string }>(`/api/v2/users/login`, credentials).then((res) => res.data);
+export const loginAdminUser = (credentials: { username: string; password: string }) =>
+  axios.post<{ token: string }>(`/api/v3/users/login`, credentials).then((res) => res.data);
 
 export const fetchAllProducts = () => axios.get<API.Product[]>(`/api/v2/products`).then((res) => res.data);
 

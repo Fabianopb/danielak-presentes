@@ -1,13 +1,13 @@
 import express, { NextFunction, Request, Response } from 'express';
 import path from 'path';
 import passport from 'passport';
-import userV2Routes from './users/routes';
 import categoriesV2Routes from './categories/routes';
 import messagesV2Routes from './messages/routes';
 import productsV2Routes from './products/routes';
 import filesV2Routes from './files/routes';
 import bodyParser from 'body-parser';
 import categoriesRouter from './routes/categories';
+import usersRouter from './routes/users';
 
 const port = process.env.PORT || 9090;
 
@@ -19,9 +19,9 @@ export const init = () => {
 
   app.use(passport.initialize());
 
-  app.use('/api/v2', [userV2Routes, categoriesV2Routes, messagesV2Routes, productsV2Routes, filesV2Routes]);
+  app.use('/api/v2', [categoriesV2Routes, messagesV2Routes, productsV2Routes, filesV2Routes]);
 
-  app.use('/api/v3', [categoriesRouter]);
+  app.use('/api/v3', [categoriesRouter, usersRouter]);
 
   app.use(express.static('danik-dist'));
 

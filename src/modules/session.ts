@@ -1,29 +1,25 @@
-import moment from 'moment';
+import jwtDecode from 'jwt-decode';
 
-/**
- * Sets session in the local storage
- * @param {string} token session token
- * @param {string} expiry expiry date
- * @returns {void}
- */
-export const setSession = (token: string, expiry: string): void => {
-  localStorage.setItem('token', token);
-  localStorage.setItem('expiry', expiry);
+export const getToken = () => localStorage.getItem('danik_token');
+
+export const setSession = (token: string) => {
+  localStorage.setItem('danik_token', token);
 };
 
-/**
- * Clears session from local storage
- * @returns {void}
- */
-export const clearSession = (): void => {
-  localStorage.removeItem('token');
-  localStorage.removeItem('expiry');
+export const clearSession = () => {
+  localStorage.removeItem('danik_token');
 };
 
-/**
- * Verifies if session is still valid
- * @returns {boolean} `true` if session is valid
- */
-export const isSessionValid = (): boolean => {
-  return moment(localStorage.getItem('expiry') as string).isAfter(moment());
+export const isSessionValid = () => {
+  const token = localStorage.getItem('danik_token');
+  if (!token) {
+    return false;
+  }
+  const decoded = jwtDecode<{ exp: number }>(token);
+  const now = new Date();
+  if (now.valueOf() > decoded.exp * 1000) {
+    clearSession();
+    return false;
+  }
+  return true;
 };

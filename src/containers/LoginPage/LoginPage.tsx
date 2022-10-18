@@ -9,7 +9,7 @@ import FieldRenderer from '../../components/FieldRenderer';
 import MessageContainer from '../../components/MessageContainer';
 
 type FormValues = {
-  email: string;
+  username: string;
   password: string;
 };
 
@@ -38,8 +38,8 @@ const LoginPage = () => {
 
   const handleFormSubmit = async (values: FormValues) => {
     try {
-      const { token, expiry } = await loginAdminUser(values);
-      setSession(token, expiry);
+      const { token } = await loginAdminUser(values);
+      setSession(token);
       history.push('/admin');
     } catch (error: any) {
       return { [FORM_ERROR]: error.message };
@@ -54,7 +54,7 @@ const LoginPage = () => {
           onSubmit={handleFormSubmit}
           render={({ handleSubmit, submitError, submitting }) => (
             <SemanticForm onSubmit={handleSubmit}>
-              <Field name="email">
+              <Field name="username">
                 {(field) => (
                   <FieldRenderer {...field}>
                     <StyledInput {...field.input} placeholder="Usuário" disabled={submitting} />

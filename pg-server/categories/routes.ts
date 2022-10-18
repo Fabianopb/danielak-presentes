@@ -1,7 +1,7 @@
 import { Router } from 'express';
-import authorize from '../auth/authorize';
 import { selectAllCategories, insertCategory, updateCategory, deleteCategory, selectCategoryById } from './handlers';
 import { asyncHandler, NotFoundError } from '../utils';
+import auth from '../auth';
 
 const router = Router();
 
@@ -26,7 +26,7 @@ router.get(
 
 router.post(
   '/categories',
-  authorize,
+  auth,
   asyncHandler(async (req, res) => {
     await insertCategory(req.body);
     return res.status(200).json({ message: 'Category inserted' });
@@ -35,7 +35,7 @@ router.post(
 
 router.put(
   '/categories/:id',
-  authorize,
+  auth,
   asyncHandler(async (req, res) => {
     await updateCategory(req.params.id, req.body);
     return res.status(200).json({ message: 'Category updated' });
@@ -44,7 +44,7 @@ router.put(
 
 router.delete(
   '/categories/:id',
-  authorize,
+  auth,
   asyncHandler(async (req, res) => {
     await deleteCategory(req.params.id);
     return res.status(200).json({ message: 'Category deleted' });
