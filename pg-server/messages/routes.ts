@@ -1,5 +1,4 @@
 import { Router } from 'express';
-import bodyParser from 'body-parser';
 import authorize from '../auth/authorize';
 import { selectAllMessages, insertMessage, updateMessage, deleteMessage, toggleMessageAnswered } from './handlers';
 import { asyncHandler } from '../utils';
@@ -16,7 +15,6 @@ router.get(
 
 router.post(
   '/messages',
-  bodyParser.json(),
   asyncHandler(async (req, res) => {
     const newMessageId = await insertMessage(req.body);
     return res.status(200).json({ id: newMessageId });
@@ -25,7 +23,6 @@ router.post(
 
 router.put(
   '/messages/:id',
-  bodyParser.json(),
   asyncHandler(async (req, res) => {
     await updateMessage(req.params.id, req.body);
     return res.status(200).json({ message: 'Message updated' });
@@ -43,7 +40,6 @@ router.delete(
 
 router.put(
   '/messages/:id/answer',
-  bodyParser.json(),
   asyncHandler(async (req, res) => {
     const message = await toggleMessageAnswered(req.params.id);
     return res.status(200).json({ message });

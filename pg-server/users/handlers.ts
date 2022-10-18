@@ -33,16 +33,12 @@ export const generateJwt = (id: string, email: string) => {
   return { token, expiry };
 };
 
-export const registerAdminUser = async () => {
-  if (!process.env.DANIK_PASSWORD || !process.env.DANIK_USERNAME) {
-    throw new Error('Admin username and password must be defined in the environment');
-  }
+export const registerAdminUser = async (email: string, password: string) => {
   const users = await db<User>(table).select();
   if (users.length > 0) {
     throw new Error('Admin user already exists!');
   }
-  const email = process.env.DANIK_USERNAME;
-  const { salt, hash } = getEncryptedCreds(process.env.DANIK_PASSWORD);
+  const { salt, hash } = getEncryptedCreds(password);
   const adminUser = { email, salt, hash };
 
   await db<User>(table).insert(adminUser);
