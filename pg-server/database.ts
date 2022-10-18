@@ -22,11 +22,8 @@ const createSchemaSetter =
   };
 
 export const init = async () => {
-  if (!uri) {
-    throw new Error('MONGO_URI is not defined in the environment!');
-  }
   if (!databaseName) {
-    throw new Error('MONGO_DB_NAME is not defined in the environment!');
+    throw new Error('DANIK_MONGO_DB_NAME is not defined in the environment!');
   }
   client = new MongoClient(uri);
 
