@@ -1,6 +1,5 @@
 import express, { NextFunction, Request, Response } from 'express';
 import path from 'path';
-import passport from 'passport';
 import categoriesV2Routes from './categories/routes';
 import messagesV2Routes from './messages/routes';
 import productsV2Routes from './products/routes';
@@ -17,21 +16,21 @@ export const init = () => {
   app.use(bodyParser.json());
   app.use(bodyParser.urlencoded({ extended: true }));
 
-  app.use(passport.initialize());
-
   app.use('/api/v2', [categoriesV2Routes, messagesV2Routes, productsV2Routes, filesV2Routes]);
 
   app.use('/api/v3', [categoriesRouter, usersRouter]);
 
-  app.use(express.static('danik-dist'));
+  app.use(express.static(path.resolve('danik-dist')));
 
-  app.get('*', (request, response) => {
-    response.sendFile(path.join('danik-dist', 'index.html'));
+  app.get('*', (_, response) => {
+    response.sendFile(path.resolve('danik-dist', 'index.html'));
   });
 
   app.use((error: any, _1: Request, res: Response, _2: NextFunction) => {
     const statusCode = error.statusCode || 500;
-    res.status(statusCode).json({ statusCode, error: error.message });
+    const name = error.name || 'Unknown error!';
+    const message = error.message || 'Unknown error!';
+    res.status(statusCode).json({ statusCode, name, message });
   });
 
   app.listen(port);
