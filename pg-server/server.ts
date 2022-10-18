@@ -7,7 +7,7 @@ import messagesV2Routes from './messages/routes';
 import productsV2Routes from './products/routes';
 import filesV2Routes from './files/routes';
 import bodyParser from 'body-parser';
-import categoriesRouter from './categories';
+import categoriesRouter from './routes/categories';
 
 const port = process.env.PORT || 9090;
 

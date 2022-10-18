@@ -1,6 +1,6 @@
 import { Router } from 'express';
-import { database } from './database';
-import { CATEGORIES } from './collections';
+import { database } from '../database';
+import { CATEGORIES } from '../collections';
 
 const categoriesRouter = Router();
 
