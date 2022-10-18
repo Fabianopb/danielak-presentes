@@ -4,12 +4,12 @@ import { CATEGORIES } from './collections';
 
 const categoriesRouter = Router();
 
-categoriesRouter.get('/badges', async (_, res, next) => {
+categoriesRouter.get('/categories', async (_, res, next) => {
   try {
     const collection = database.collection(CATEGORIES);
     const cursor = collection.find();
-    const badges = await cursor.toArray();
-    return res.status(200).json(badges);
+    const categories = await cursor.toArray();
+    return res.status(200).json(categories);
   } catch (error) {
     next(error);
   }
