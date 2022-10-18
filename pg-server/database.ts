@@ -3,9 +3,9 @@ import { CATEGORIES } from './collections';
 import { categorySchema } from './schemas';
 
 const cloudServer = process.env.APP_ENV !== 'production' ? '' : '+srv';
-const user = encodeURIComponent(process.env.DANIK_MONGO_USERNAME || '');
-const password = encodeURIComponent(process.env.DANIK_MONGO_PASSWORD || '');
-const cluster = process.env.DANIK_MONGO_CLUSTER;
+const user = encodeURIComponent(process.env.MONGO_USERNAME || '');
+const password = encodeURIComponent(process.env.MONGO_PASSWORD || '');
+const cluster = process.env.MONGO_CLUSTER;
 const uri = `mongodb${cloudServer}://${user}:${password}@${cluster}/?retryWrites=true&w=majority`;
 
 const databaseName = process.env.DANIK_MONGO_DB_NAME;
