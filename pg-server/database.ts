@@ -1,6 +1,6 @@
 import { MongoClient, Db, Document } from 'mongodb';
-import { CATEGORIES } from './collections';
-import { categorySchema } from './schemas';
+import { CATEGORIES, USERS } from './collections';
+import { categorySchema, usersSchema } from './schemas';
 
 const cloudServer = process.env.APP_ENV !== 'production' ? '' : '+srv';
 const user = encodeURIComponent(process.env.MONGO_USERNAME || '');
@@ -34,6 +34,7 @@ export const init = async () => {
   const existingCollectionNames = collections.map((c) => c.collectionName);
   const setupSchema = createSchemaSetter(existingCollectionNames);
 
+  setupSchema(USERS, usersSchema);
   setupSchema(CATEGORIES, categorySchema);
 };
 
