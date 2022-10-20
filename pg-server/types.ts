@@ -43,11 +43,10 @@ export type Message = {
 export type MessagePayload = Omit<Message, 'id' | 'createdAt'>;
 
 export type Category = {
-  id: string;
+  _id: string;
   name: string;
   description: string;
-  removed: boolean;
   createdAt: Date;
 };
 
-export type CategoryPayload = Omit<Category, 'id' | 'createdAt' | 'removed'>;
+export type CategoryPayload = Omit<Category, '_id' | 'createdAt' | 'removed'>;

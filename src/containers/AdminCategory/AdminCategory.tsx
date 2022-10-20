@@ -43,7 +43,7 @@ const AdminCategory = () => {
       if (!category) {
         await createCategory(values);
       } else {
-        await editCategory(category.id, values);
+        await editCategory(category._id, values);
       }
       history.push('/admin');
     } catch (error: any) {
@@ -124,7 +124,7 @@ const AdminCategory = () => {
             icon
             labelPosition="right"
             color="red"
-            onClick={() => (category ? confirmCategoryDelete(category.id) : undefined)}
+            onClick={() => (category ? confirmCategoryDelete(category._id) : undefined)}
           >
             Remover
             <Icon name="remove" />

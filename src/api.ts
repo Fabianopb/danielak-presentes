@@ -23,23 +23,23 @@ export const editProduct = (id: string, product: API.ProductPayload) =>
 export const deleteProduct = (productId: string) =>
   axios.delete(`/api/v2/products/${productId}`, { headers: getAuthHeaders() });
 
-export const fetchCategories = () => axios.get<API.Category[]>(`/api/v2/categories`).then((res) => res.data);
+export const fetchCategories = () => axios.get<API.Category[]>(`/api/v3/categories`).then((res) => res.data);
 
 export const fetchCategoryById = (categoryId: string) =>
-  axios.get<API.Category>(`/api/v2/categories/${categoryId}`).then((res) => res.data);
+  axios.get<API.Category>(`/api/v3/categories/${categoryId}`).then((res) => res.data);
 
 export const editCategory = (id: string, category: API.CategoryPayload) =>
-  axios.put(`/api/v2/categories/${id}`, category, {
+  axios.put(`/api/v3/categories/${id}`, category, {
     headers: getAuthHeaders(),
   });
 
 export const createCategory = (category: API.CategoryPayload) =>
-  axios.post(`/api/v2/categories`, category, {
+  axios.post(`/api/v3/categories`, category, {
     headers: getAuthHeaders(),
   });
 
 export const deleteCategory = (categoryId: string) =>
-  axios.delete(`/api/v2/categories/${categoryId}`, { headers: getAuthHeaders() });
+  axios.delete(`/api/v3/categories/${categoryId}`, { headers: getAuthHeaders() });
 
 export const fetchMessages = () => axios.get<API.Message[]>(`/api/v2/messages`).then((res) => res.data);
 
