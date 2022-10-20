@@ -2,6 +2,10 @@ import AWS, { S3 } from 'aws-sdk';
 import sharp from 'sharp';
 import FileType from 'file-type';
 import fs from 'fs';
+import { Router } from 'express';
+import multiparty from 'multiparty';
+import { asyncHandler } from '../utils';
+import auth from '../auth';
 
 AWS.config.update({
   accessKeyId: process.env.DANIK_AWS_ACCESS_KEY_ID,
@@ -64,3 +68,35 @@ export const deleteImageFiles = (imageUrls: string[]) => {
   };
   return s3.deleteObjects(params).promise();
 };
+
+const router = Router();
+
+router.post(
+  '/files/upload',
+  auth,
+  asyncHandler(async (req, res) => {
+    const form = new multiparty.Form();
+    form.parse(req, async (error, fields, files) => {
+      if (error) {
+        return res.status(500).send(error);
+      }
+      try {
+        const data = await processAndUploadFile(files.file[0].path);
+        return res.status(200).send(data);
+      } catch (err) {
+        return res.status(400).send(err);
+      }
+    });
+  })
+);
+
+router.post(
+  '/files/delete',
+  auth,
+  asyncHandler(async (req, res) => {
+    const data = await deleteImageFiles(req.body.images);
+    return res.status(200).send(data);
+  })
+);
+
+export default router;
