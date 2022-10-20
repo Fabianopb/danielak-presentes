@@ -169,7 +169,7 @@ const AdminProduct = () => {
     }
   };
 
-  const categoriesOptions = (categories || []).map((cat) => ({ text: cat.name, value: cat.id }));
+  const categoriesOptions = (categories || []).map((cat) => ({ text: cat.name, value: cat._id }));
 
   const handleFileDrop = async (files: any[]) => {
     try {
