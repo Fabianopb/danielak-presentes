@@ -6,7 +6,7 @@ export const currencyFormat = (value: number): string => {
 };
 
 export const getAuthHeaders = () => ({
-  Authorization: `Bearer ${localStorage.getItem('token')}`,
+  Authorization: `Bearer ${localStorage.getItem('danik_token')}`,
 });
 
 export const getImageNameFromUrl = (url: string): string => {
