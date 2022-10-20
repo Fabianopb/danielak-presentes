@@ -48,6 +48,7 @@ const botMessages = [
 const ChatWindow = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [input, setInput] = useState('');
+  console.log(input);
   const [step, setStep] = useState(0);
   const [messageId, setMessageId] = useState<string>();
   const [chatHistory, setChatHistory] = useState<ChatHistory[]>([]);
@@ -96,6 +97,7 @@ const ChatWindow = () => {
       const createdMessage = await createMessage(allUserText);
       setMessageId(createdMessage.id);
     }
+    setInput('');
     setChatHistory((currentHistory) => [...currentHistory, newEntry]);
     scrollToBottom();
     await delay(2000);
@@ -104,7 +106,6 @@ const ChatWindow = () => {
   const handleKeyPress = (event: { key: string }) => {
     if (input && event.key === 'Enter') {
       sendMessage(input);
-      setInput('');
     }
   };
 
@@ -158,7 +159,7 @@ const ChatWindow = () => {
               onChange={(_, data: InputOnChangeData) => setInput(data.value)}
               onKeyPress={handleKeyPress}
             />
-            <Icon name="send" color="grey" link onClick={sendMessage} />
+            <Icon name="send" color="grey" link onClick={() => sendMessage(input)} />
           </div>
         </div>
       </div>
