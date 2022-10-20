@@ -41,18 +41,18 @@ export const createCategory = (category: API.CategoryPayload) =>
 export const deleteCategory = (categoryId: string) =>
   axios.delete(`/api/v3/categories/${categoryId}`, { headers: getAuthHeaders() });
 
-export const fetchMessages = () => axios.get<API.Message[]>(`/api/v2/messages`).then((res) => res.data);
+export const fetchMessages = () => axios.get<API.Message[]>(`/api/v3/messages`).then((res) => res.data);
 
 export const toggleMessageVisibility = (messageId: string) =>
-  axios.put(`/api/v2/messages/${messageId}/answer`, {}, { headers: getAuthHeaders() });
+  axios.put(`/api/v3/messages/${messageId}/answer`, {}, { headers: getAuthHeaders() });
 
 export const createMessage = (text: string[]) =>
-  axios.post<{ id: string }>('/api/v2/messages', { text }).then((res) => res.data);
+  axios.post<{ id: string }>('/api/v3/messages', { text }).then((res) => res.data);
 
-export const editMessage = (messageId: string, text: string[]) => axios.put(`/api/v2/messages/${messageId}`, { text });
+export const editMessage = (messageId: string, text: string[]) => axios.put(`/api/v3/messages/${messageId}`, { text });
 
 export const deleteMessage = (messageId: string) =>
-  axios.delete(`/api/v2/messages/${messageId}`, { headers: getAuthHeaders() });
+  axios.delete(`/api/v3/messages/${messageId}`, { headers: getAuthHeaders() });
 
 export const uploadFile = (formData: FormData) =>
   axios.post(`/api/v2/files/upload`, formData, {
