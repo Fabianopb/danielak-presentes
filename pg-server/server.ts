@@ -1,6 +1,5 @@
 import express, { NextFunction, Request, Response } from 'express';
 import path from 'path';
-import categoriesV2Routes from './categories/routes';
 import messagesV2Routes from './messages/routes';
 import productsV2Routes from './products/routes';
 import filesRoutes from './routes/files';
@@ -16,7 +15,7 @@ export const init = () => {
   app.use(bodyParser.json());
   app.use(bodyParser.urlencoded({ extended: true }));
 
-  app.use('/api/v2', [categoriesV2Routes, messagesV2Routes, productsV2Routes, filesRoutes]);
+  app.use('/api/v2', [messagesV2Routes, productsV2Routes, filesRoutes]);
 
   app.use('/api/v3', [categoriesRouter, usersRouter]);
 
