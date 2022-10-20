@@ -16,16 +16,13 @@ export const usersSchema = {
 export const categorySchema = {
   $jsonSchema: {
     bsonType: 'object',
-    required: ['name', 'description', 'removed', 'createdAt'],
+    required: ['name', 'description', 'createdAt'],
     properties: {
       name: {
         bsonType: 'string',
       },
       description: {
         bsonType: 'string',
-      },
-      removed: {
-        bsonType: 'bool',
       },
       createdAt: {
         bsonType: 'string',
