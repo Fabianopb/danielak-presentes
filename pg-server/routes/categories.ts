@@ -46,12 +46,15 @@ categoriesRouter.post('/categories', auth, async (req, res, next) => {
 categoriesRouter.put('/categories/:categoryId', auth, async (req, res, next) => {
   try {
     const { categoryId } = req.params;
-    const category = req.body;
-    const replaceDocument = category;
+    const updateDocument = req.body;
     const collection = database.collection(CATEGORIES);
-    const result = await collection.replaceOne({ _id: new ObjectId(categoryId) }, replaceDocument);
+    const result = await collection.updateOne(
+      { _id: new ObjectId(categoryId) },
+      { $set: updateDocument },
+      { upsert: false }
+    );
     if (result.matchedCount === 0) {
-      throw new NotFoundError(`Item '${categoryId}' not found`);
+      throw new NotFoundError(`Category '${categoryId}' not found`);
     }
     return res.status(200).json({ message: 'Category updated' });
   } catch (error) {
@@ -65,7 +68,7 @@ categoriesRouter.delete('/categories/:categoryId', auth, async (req, res, next) 
     const collection = database.collection(CATEGORIES);
     const result = await collection.deleteOne({ _id: new ObjectId(categoryId) });
     if (result.deletedCount === 0) {
-      throw new NotFoundError(`Item '${categoryId}' not found`);
+      throw new NotFoundError(`Category '${categoryId}' not found`);
     }
     return res.status(200).json({ message: 'Category deleted' });
   } catch (error) {
