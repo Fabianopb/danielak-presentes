@@ -6,7 +6,7 @@ export type User = {
 };
 
 export type Product = {
-  id: string;
+  _id: string;
   name: string;
   featuredImageIndex: number;
   storeLink?: string;
@@ -30,7 +30,7 @@ export type Product = {
   createdAt: Date;
 };
 
-export type ProductPayload = Omit<Product, 'id' | 'createdAt'>;
+export type ProductPayload = Omit<Product, '_id' | 'createdAt'>;
 
 export type Message = {
   _id: string;
@@ -40,7 +40,7 @@ export type Message = {
   createdAt: Date;
 };
 
-export type MessagePayload = Omit<Message, 'id' | 'createdAt'>;
+export type MessagePayload = Omit<Message, '_id' | 'createdAt'>;
 
 export type Category = {
   _id: string;
