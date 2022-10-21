@@ -1,5 +1,5 @@
 import axios from 'axios';
-import * as API from '../pg-server/types';
+import * as API from '../server/types';
 import { getAuthHeaders } from './modules/helpers';
 
 export type ApiProductPayload = API.ProductPayload;

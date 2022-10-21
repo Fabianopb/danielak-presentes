@@ -1,6 +1,6 @@
 import Knex from 'knex';
-import knexfile from '../pg-server/knexfile';
-import { getAppEnv } from '../pg-server/config';
+import knexfile from '../server/knexfile';
+import { getAppEnv } from '../server/config';
 
 (async () => {
   const appEnv = getAppEnv();

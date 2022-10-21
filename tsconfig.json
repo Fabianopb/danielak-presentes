@@ -23,7 +23,7 @@
   },
   "include": [
     "src",
-    "pg-server",
+    "server",
     "scripts"
   ],
   "references": [{ "path": "./tsconfig.node.json" }]
