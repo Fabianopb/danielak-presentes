@@ -68,9 +68,9 @@ export const deleteImageFiles = (imageUrls: string[]) => {
   return s3.deleteObjects(params).promise();
 };
 
-const router = Router();
+const filesRouter = Router();
 
-router.post('/files/upload', auth, async (req, res, next) => {
+filesRouter.post('/files/upload', auth, async (req, res, next) => {
   const form = new multiparty.Form();
   form.parse(req, async (error, fields, files) => {
     if (error) {
@@ -85,7 +85,7 @@ router.post('/files/upload', auth, async (req, res, next) => {
   });
 });
 
-router.post('/files/delete', auth, async (req, res, next) => {
+filesRouter.post('/files/delete', auth, async (req, res, next) => {
   try {
     const data = await deleteImageFiles(req.body.images);
     return res.status(200).send(data);
@@ -94,4 +94,4 @@ router.post('/files/delete', auth, async (req, res, next) => {
   }
 });
 
-export default router;
+export default filesRouter;
