@@ -72,8 +72,8 @@ const AdminMain = () => {
                   return (
                     <Table.Row
                       className={styles.clickableRow}
-                      key={product.id}
-                      onClick={() => history.push(`/admin/product/${product.id}`)}
+                      key={product._id}
+                      onClick={() => history.push(`/admin/product/${product._id}`)}
                     >
                       <Table.Cell className={styles.nameRow}>
                         <div className={styles.thumbnailContainer}>

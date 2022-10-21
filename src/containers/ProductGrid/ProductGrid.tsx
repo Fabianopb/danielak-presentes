@@ -60,8 +60,8 @@ const ProductGrid = () => {
             .map((product) => (
               <div
                 className={styles.productCell}
-                key={product.id}
-                onClick={() => history.push(`/product/${product.id}${location.search}`)}
+                key={product._id}
+                onClick={() => history.push(`/product/${product._id}${location.search}`)}
               >
                 <div className={styles.imageContainer}>
                   {product.images.length > 0 && (
