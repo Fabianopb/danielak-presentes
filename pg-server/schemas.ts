@@ -104,7 +104,16 @@ export const messageSchema = {
       images: {
         bsonType: 'array',
         items: {
-          bsonType: 'string',
+          bsonType: 'object',
+          required: ['large', 'small'],
+          properties: {
+            large: {
+              bsonType: 'string',
+            },
+            small: {
+              bsonType: 'string',
+            },
+          },
         },
       },
       createdAt: {
