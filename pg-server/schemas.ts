@@ -34,19 +34,96 @@ export const categorySchema = {
 export const messageSchema = {
   $jsonSchema: {
     bsonType: 'object',
-    required: ['text', 'isNew', 'isAnswered', 'createdAt'],
+    required: [
+      'name',
+      'featuredImageIndex',
+      'description',
+      'categoryId',
+      'currentPrice',
+      'tags',
+      'productionTime',
+      'minAmount',
+      'width',
+      'height',
+      'depth',
+      'weight',
+      'isVisible',
+      'isFeatured',
+      'images',
+      'createdAt',
+    ],
     properties: {
-      text: {
+      name: {
+        bsonType: 'string',
+      },
+      featuredImageIndex: {
+        bsonType: 'int',
+      },
+      storeLink: {
+        bsonType: 'string',
+      },
+      description: {
+        bsonType: 'string',
+      },
+      categoryId: {
+        bsonType: 'string',
+      },
+      currentPrice: {
+        bsonType: 'decimal',
+      },
+      discountPrice: {
+        bsonType: 'decimal',
+      },
+      tags: {
+        bsonType: 'string',
+      },
+      productionTime: {
+        bsonType: 'int',
+      },
+      minAmount: {
+        bsonType: 'int',
+      },
+      width: {
+        bsonType: 'decimal',
+      },
+      height: {
+        bsonType: 'decimal',
+      },
+      depth: {
+        bsonType: 'decimal',
+      },
+      weight: {
+        bsonType: 'decimal',
+      },
+      isVisible: {
+        bsonType: 'bool',
+      },
+      isFeatured: {
+        bsonType: 'bool',
+      },
+      images: {
         bsonType: 'array',
         items: {
           bsonType: 'string',
         },
       },
-      isNew: {
-        bsonType: 'bool',
+      createdAt: {
+        bsonType: 'string',
       },
-      isAnswered: {
-        bsonType: 'bool',
+    },
+  },
+};
+
+export const productSchema = {
+  $jsonSchema: {
+    bsonType: 'object',
+    required: ['name', 'description', 'createdAt'],
+    properties: {
+      name: {
+        bsonType: 'string',
+      },
+      description: {
+        bsonType: 'string',
       },
       createdAt: {
         bsonType: 'string',
