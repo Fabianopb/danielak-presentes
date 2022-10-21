@@ -22,8 +22,8 @@ messagesRouter.post('/messages', async (req, res, next) => {
   try {
     const collection = database.collection(MESSAGES);
     const message = { ...req.body, isNew: true, isAnswered: false, createdAt: new Date().toISOString() };
-    await collection.insertOne(message);
-    return res.status(200).json({ message: 'Message created' });
+    const result = await collection.insertOne(message);
+    return res.status(200).json({ id: result.insertedId, message: 'Message created' });
   } catch (error) {
     next(error);
   }

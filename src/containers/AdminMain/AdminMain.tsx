@@ -164,9 +164,7 @@ const AdminMain = () => {
                       <Table.Cell>
                         {message.text.map((paragraph, index) => (
                           // eslint-disable-next-line react/no-array-index-key
-                          <p key={`message-paragraph-${index}`}>
-                            {typeof paragraph === 'string' ? paragraph : '[falha ao mostrar mensagem]'}
-                          </p>
+                          <p key={`message-paragraph-${index}`}>{paragraph}</p>
                         ))}
                       </Table.Cell>
                       <Table.Cell collapsing>
