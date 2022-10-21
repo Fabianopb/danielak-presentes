@@ -19,7 +19,7 @@
     "history": "^4.6.3",
     "jsonwebtoken": "8.5.1",
     "jwt-decode": "3.1.2",
-    "moment": "2.29.0",
+    "moment": "2.29.4",
     "mongodb": "4.10.0",
     "multiparty": "^4.2.2",
     "passport": "0.6.0",
