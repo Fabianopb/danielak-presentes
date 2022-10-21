@@ -131,7 +131,7 @@ const AdminProduct = () => {
 
   const initialValues = useMemo<FormValues>(() => {
     if (product) {
-      const { id, createdAt, ...rest } = product;
+      const { _id, createdAt, ...rest } = product;
       return rest;
     }
     return {
@@ -152,7 +152,7 @@ const AdminProduct = () => {
       if (!product) {
         await createProduct(valuesWithImages);
       } else {
-        await editProduct(product.id, valuesWithImages);
+        await editProduct(product._id, valuesWithImages);
       }
       history.push('/admin');
     } catch (error: any) {
@@ -259,7 +259,7 @@ const AdminProduct = () => {
                 <FieldRenderer {...field} style={{ marginTop: 24 }}>
                   <Dropdown
                     value={field.input.value}
-                    onChange={(event, data) => field.input.onChange(data.value)}
+                    onChange={(_, data) => field.input.onChange(data.value)}
                     selection
                     placeholder="Escolha uma categoria"
                     options={categoriesOptions}
@@ -449,7 +449,7 @@ const AdminProduct = () => {
             icon
             labelPosition="right"
             color="red"
-            onClick={() => (product ? confirmProductDelete(product.id, product.images) : undefined)}
+            onClick={() => (product ? confirmProductDelete(product._id, product.images) : undefined)}
           >
             Remover
             <Icon name="remove" />

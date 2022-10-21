@@ -1,6 +1,6 @@
 import { MongoClient, Db, Document } from 'mongodb';
-import { CATEGORIES, MESSAGES, USERS } from './collections';
-import { categorySchema, messageSchema, usersSchema } from './schemas';
+import { CATEGORIES, MESSAGES, PRODUCTS, USERS } from './collections';
+import { categorySchema, messageSchema, productSchema, usersSchema } from './schemas';
 
 const cloudServer = process.env.APP_ENV !== 'production' ? '' : '+srv';
 const user = encodeURIComponent(process.env.MONGO_USERNAME || '');
@@ -37,6 +37,7 @@ export const init = async () => {
   setupSchema(USERS, usersSchema);
   setupSchema(CATEGORIES, categorySchema);
   setupSchema(MESSAGES, messageSchema);
+  setupSchema(PRODUCTS, productSchema);
 };
 
 export const close = () => {

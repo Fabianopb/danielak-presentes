@@ -7,21 +7,21 @@ export type ApiProductPayload = API.ProductPayload;
 export const loginAdminUser = (credentials: { username: string; password: string }) =>
   axios.post<{ token: string }>(`/api/v3/users/login`, credentials).then((res) => res.data);
 
-export const fetchAllProducts = () => axios.get<API.Product[]>(`/api/v2/products`).then((res) => res.data);
+export const fetchAllProducts = () => axios.get<API.Product[]>(`/api/v3/products`).then((res) => res.data);
 
 export const fetchProductById = (productId: string) =>
-  axios.get<API.Product>(`/api/v2/products/${productId}`).then((res) => res.data);
+  axios.get<API.Product>(`/api/v3/products/${productId}`).then((res) => res.data);
 
 export const createProduct = (product: API.ProductPayload) =>
-  axios.post(`/api/v2/products`, product, { headers: getAuthHeaders() });
+  axios.post(`/api/v3/products`, product, { headers: getAuthHeaders() });
 
 export const editProduct = (id: string, product: API.ProductPayload) =>
-  axios.put(`/api/v2/products/${id}`, product, {
+  axios.put(`/api/v3/products/${id}`, product, {
     headers: getAuthHeaders(),
   });
 
 export const deleteProduct = (productId: string) =>
-  axios.delete(`/api/v2/products/${productId}`, { headers: getAuthHeaders() });
+  axios.delete(`/api/v3/products/${productId}`, { headers: getAuthHeaders() });
 
 export const fetchCategories = () => axios.get<API.Category[]>(`/api/v3/categories`).then((res) => res.data);
 
