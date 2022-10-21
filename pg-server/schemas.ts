@@ -30,3 +30,27 @@ export const categorySchema = {
     },
   },
 };
+
+export const messageSchema = {
+  $jsonSchema: {
+    bsonType: 'object',
+    required: ['text', 'isNew', 'isAnswered', 'createdAt'],
+    properties: {
+      text: {
+        bsonType: 'array',
+        items: {
+          bsonType: 'string',
+        },
+      },
+      isNew: {
+        bsonType: 'bool',
+      },
+      isAnswered: {
+        bsonType: 'bool',
+      },
+      createdAt: {
+        bsonType: 'string',
+      },
+    },
+  },
+};

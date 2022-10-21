@@ -159,19 +159,17 @@ const AdminMain = () => {
                 sortedMessages.map((message) => {
                   const answeredIcon = message.isAnswered ? 'paper plane' : 'envelope';
                   return (
-                    <Table.Row key={message.id} className={cn({ [styles.answered]: message.isAnswered })}>
+                    <Table.Row key={message._id} className={cn({ [styles.answered]: message.isAnswered })}>
                       <Table.Cell collapsing>{moment(message.createdAt).format('L LT')}</Table.Cell>
                       <Table.Cell>
                         {message.text.map((paragraph, index) => (
                           // eslint-disable-next-line react/no-array-index-key
-                          <p key={`message-paragraph-${index}`}>
-                            {typeof paragraph === 'string' ? paragraph : '[falha ao mostrar mensagem]'}
-                          </p>
+                          <p key={`message-paragraph-${index}`}>{paragraph}</p>
                         ))}
                       </Table.Cell>
                       <Table.Cell collapsing>
-                        <Icon name={answeredIcon} link onClick={() => toggleMessageState(message.id)} />
-                        <Icon name="trash" link onClick={() => setIdToDelete(message.id)} />
+                        <Icon name={answeredIcon} link onClick={() => toggleMessageState(message._id)} />
+                        <Icon name="trash" link onClick={() => setIdToDelete(message._id)} />
                       </Table.Cell>
                     </Table.Row>
                   );
