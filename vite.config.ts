@@ -1,8 +1,6 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 
-const port = process.env.PORT || 9090;
-
 export default defineConfig({
   plugins: [
     react({
@@ -11,12 +9,6 @@ export default defineConfig({
       },
     }),
   ],
-  server: {
-    open: true,
-    proxy: {
-      '^/api/.*': `http://localhost:${port}`,
-    },
-  },
   build: {
     outDir: 'danik-dist',
   },
