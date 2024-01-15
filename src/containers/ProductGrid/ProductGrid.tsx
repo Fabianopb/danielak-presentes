@@ -1,6 +1,5 @@
 import { useHistory, useLocation } from 'react-router-dom';
-import { Dimmer, Loader, Image, Divider } from 'semantic-ui-react';
-import useSWR from 'swr';
+import { Image, Divider } from 'semantic-ui-react';
 import queryString from 'query-string';
 import { Carousel } from 'react-responsive-carousel';
 import carousel1 from '../../assets/carousel-1.jpg';
@@ -9,11 +8,9 @@ import carousel3 from '../../assets/carousel-3.jpg';
 import { currencyFormat } from '../../modules/helpers';
 import 'react-responsive-carousel/lib/styles/carousel.min.css';
 import styles from './ProductGrid.module.scss';
-import { fetchAllProducts } from '../../api';
+import { products } from '../../data/products';
 
 const ProductGrid = () => {
-  const { data, isValidating } = useSWR('/products', fetchAllProducts);
-
   const history = useHistory();
   const location = useLocation();
 
@@ -49,35 +46,28 @@ const ProductGrid = () => {
       <h3>Produtos</h3>
       <Divider />
       <div className="flex-wrap main-axis-center">
-        {isValidating ? (
-          <Dimmer active inverted>
-            <Loader />
-          </Dimmer>
-        ) : (
-          data &&
-          data
-            .filter((product) => (categoryId ? product.categoryId === categoryId : true))
-            .map((product) => (
-              <div
-                className={styles.productCell}
-                key={product._id}
-                onClick={() => history.push(`/product/${product._id}${location.search}`)}
-              >
-                <div className={styles.imageContainer}>
-                  {product.images.length > 0 && (
-                    <Image className={styles.productImage} src={product.images[product.featuredImageIndex].large} />
-                  )}
-                </div>
-                <div className={styles.title}>{product.name}</div>
-                <div className={styles.currentPrice}>
-                  <span className={product.discountPrice ? styles.disabledPrice : ''}>
-                    {currencyFormat(product.currentPrice)}
-                  </span>
-                  {product.discountPrice && currencyFormat(product.discountPrice)}
-                </div>
+        {products
+          .filter((product) => (categoryId ? product.categoryId === categoryId : true))
+          .map((product) => (
+            <div
+              className={styles.productCell}
+              key={product.id}
+              onClick={() => history.push(`/product/${product.id}${location.search}`)}
+            >
+              <div className={styles.imageContainer}>
+                {product.images.length > 0 && (
+                  <Image className={styles.productImage} src={product.images[product.featuredImageIndex].large} />
+                )}
               </div>
-            ))
-        )}
+              <div className={styles.title}>{product.name}</div>
+              <div className={styles.currentPrice}>
+                <span className={product.discountPrice ? styles.disabledPrice : ''}>
+                  {currencyFormat(product.currentPrice)}
+                </span>
+                {product.discountPrice && currencyFormat(product.discountPrice)}
+              </div>
+            </div>
+          ))}
       </div>
     </div>
   );

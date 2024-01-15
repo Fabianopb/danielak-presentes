@@ -1,10 +1,12 @@
+import { CategoryId } from './categories';
+
 export type Product = {
   id: string;
   name: string;
   featuredImageIndex: number;
   storeLink: string | null;
   description: string;
-  categoryId: string;
+  categoryId: CategoryId;
   currentPrice: number;
   discountPrice: number | null;
   tags: string;
@@ -63,7 +65,7 @@ export const products: Product[] = [
         small: 'https://danielak-products.s3.sa-east-1.amazonaws.com/products/1532978292734-sm.jpg',
       },
     ],
-    categoryId: '6351844822f40a591bc50bc3',
+    categoryId: 'papeis-especiais',
   },
   {
     id: '6352d09fd65b93c66f0c8886',
@@ -89,7 +91,7 @@ export const products: Product[] = [
         small: 'https://danielak-products.s3.sa-east-1.amazonaws.com/products/1600021481310-sm.jpg',
       },
     ],
-    categoryId: '6351847422f40a591bc50bc4',
+    categoryId: 'jogo-de-runas',
   },
   {
     id: '6352d0afd65b93c66f0c8887',
@@ -127,7 +129,7 @@ export const products: Product[] = [
         small: 'https://danielak-products.s3.sa-east-1.amazonaws.com/products/1694017659822-sm.jpg',
       },
     ],
-    categoryId: '6351844822f40a591bc50bc3',
+    categoryId: 'papeis-especiais',
   },
   {
     id: '6352d0c3d65b93c66f0c8888',
@@ -169,7 +171,7 @@ export const products: Product[] = [
         small: 'https://danielak-products.s3.sa-east-1.amazonaws.com/products/1694017790181-sm.jpg',
       },
     ],
-    categoryId: '6351844822f40a591bc50bc3',
+    categoryId: 'papeis-especiais',
   },
   {
     id: '6352d0cdd65b93c66f0c8889',
@@ -211,7 +213,7 @@ export const products: Product[] = [
         small: 'https://danielak-products.s3.sa-east-1.amazonaws.com/products/1532977371247-sm.jpg',
       },
     ],
-    categoryId: '6351844822f40a591bc50bc3',
+    categoryId: 'papeis-especiais',
   },
   {
     id: '6352d0d6d65b93c66f0c888a',
@@ -253,7 +255,7 @@ export const products: Product[] = [
         small: 'https://danielak-products.s3.sa-east-1.amazonaws.com/products/1532980473605-sm.jpg',
       },
     ],
-    categoryId: '6351844822f40a591bc50bc3',
+    categoryId: 'papeis-especiais',
   },
   {
     id: '6352d0e1d65b93c66f0c888b',
@@ -295,7 +297,7 @@ export const products: Product[] = [
         small: 'https://danielak-products.s3.sa-east-1.amazonaws.com/products/1569544200179-sm.jpg',
       },
     ],
-    categoryId: '6351844822f40a591bc50bc3',
+    categoryId: 'papeis-especiais',
   },
   {
     id: '6352d0ead65b93c66f0c888c',
@@ -329,7 +331,7 @@ export const products: Product[] = [
         small: 'https://danielak-products.s3.sa-east-1.amazonaws.com/products/1550081522768-sm.jpg',
       },
     ],
-    categoryId: '6351844822f40a591bc50bc3',
+    categoryId: 'papeis-especiais',
   },
   {
     id: '6352d101d65b93c66f0c888e',
@@ -371,7 +373,7 @@ export const products: Product[] = [
         small: 'https://danielak-products.s3.sa-east-1.amazonaws.com/products/1567354298259-sm.jpg',
       },
     ],
-    categoryId: '6351847422f40a591bc50bc4',
+    categoryId: 'jogo-de-runas',
   },
   {
     id: '6352d10ad65b93c66f0c888f',
@@ -413,7 +415,7 @@ export const products: Product[] = [
         small: 'https://danielak-products.s3.sa-east-1.amazonaws.com/products/1658094430742-sm.jpg',
       },
     ],
-    categoryId: '6351844822f40a591bc50bc3',
+    categoryId: 'papeis-especiais',
   },
   {
     id: '6352d113d65b93c66f0c8890',
@@ -455,7 +457,7 @@ export const products: Product[] = [
         small: 'https://danielak-products.s3.sa-east-1.amazonaws.com/products/1658093977833-sm.jpg',
       },
     ],
-    categoryId: '6351844822f40a591bc50bc3',
+    categoryId: 'papeis-especiais',
   },
   {
     id: '6352d11cd65b93c66f0c8891',
@@ -497,7 +499,7 @@ export const products: Product[] = [
         small: 'https://danielak-products.s3.sa-east-1.amazonaws.com/products/1581791867393-sm.jpg',
       },
     ],
-    categoryId: '6351844822f40a591bc50bc3',
+    categoryId: 'papeis-especiais',
   },
   {
     id: '6352d128d65b93c66f0c8892',
@@ -531,7 +533,7 @@ export const products: Product[] = [
         small: 'https://danielak-products.s3.sa-east-1.amazonaws.com/products/1600020831094-sm.jpg',
       },
     ],
-    categoryId: '6351844822f40a591bc50bc3',
+    categoryId: 'papeis-especiais',
   },
   {
     id: '6352d12fd65b93c66f0c8893',
@@ -565,6 +567,6 @@ export const products: Product[] = [
         small: 'https://danielak-products.s3.sa-east-1.amazonaws.com/products/1600020654330-sm.jpg',
       },
     ],
-    categoryId: '6351844822f40a591bc50bc3',
+    categoryId: 'papeis-especiais',
   },
 ];

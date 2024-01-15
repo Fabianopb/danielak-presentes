@@ -1,5 +1,7 @@
+export type CategoryId = 'papeis-especiais' | 'jogo-de-runas';
+
 export type Category = {
-  id: string;
+  id: CategoryId;
   name: string;
   description: string;
 };
