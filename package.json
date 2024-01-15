@@ -85,14 +85,11 @@
     ]
   },
   "scripts": {
-    "start-client": "vite",
-    "start-server": "APP_ENV=development nodemon -r dotenv/config --exec ts-node server/index.ts",
-    "build-client": "tsc && vite build",
-    "build-server": "tsc server/index.ts --esModuleInterop --outDir danik-dist",
+    "start": "vite",
+    "build": "tsc && vite build",
     "ts": "tsc --project ./tsconfig.json --noEmit",
     "ts:watch": "tsc --project ./tsconfig.json --watch --noEmit",
     "lint": "eslint server src --ext .ts,.tsx",
-    "lint-watch": "esw server src --ext .ts,.tsx --watch --color",
-    "serve": "node -r dotenv/config danik-dist/index.js"
+    "lint-watch": "esw server src --ext .ts,.tsx --watch --color"
   }
 }
