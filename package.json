@@ -86,10 +86,10 @@
   },
   "scripts": {
     "start": "vite",
-    "build": "tsc && vite build",
+    "build": "vite build",
     "ts": "tsc --project ./tsconfig.json --noEmit",
     "ts:watch": "tsc --project ./tsconfig.json --watch --noEmit",
-    "lint": "eslint server src --ext .ts,.tsx",
-    "lint-watch": "esw server src --ext .ts,.tsx --watch --color"
+    "lint": "eslint src --ext .ts,.tsx",
+    "lint-watch": "esw src --ext .ts,.tsx --watch --color"
   }
 }
