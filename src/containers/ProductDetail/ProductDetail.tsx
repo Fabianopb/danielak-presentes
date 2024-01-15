@@ -1,45 +1,39 @@
 import { useState } from 'react';
 import { useParams } from 'react-router-dom';
-import useSWR from 'swr';
-import { Dimmer, Loader, Button, Icon, Grid, Popup, Modal } from 'semantic-ui-react';
+import { Button, Icon, Grid, Popup, Modal } from 'semantic-ui-react';
 import ImageGallery from '../../components/ImageGallery/ImageGallery';
 import { currencyFormat } from '../../modules/helpers';
 import pagseguroLogo from '../../assets/pagseguro-logo.png';
 import styles from './ProductDetail.module.scss';
-import { fetchProductById } from '../../api';
+import { products } from '../../data/products';
 
 const ProductDetail = () => {
   const params = useParams<{ id: string }>();
 
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const { data, isValidating, error } = useSWR(`/product/${params.id}`, () => fetchProductById(params.id));
+  const product = products.find((p) => p.id === params.id);
 
   return (
     <div>
       <Grid className={styles.productDetails} fluid="true">
         <Grid.Column width={2} only="computer" />
         <Grid.Column width={1} only="widescreen" />
-        {isValidating && (
-          <Dimmer active inverted>
-            <Loader />
-          </Dimmer>
-        )}
         <Grid.Column computer={12} widescreen={10} width={16}>
-          {data && (
+          {product && (
             <div>
               <Grid stackable columns={2}>
                 <Grid.Column className={styles.frame}>
-                  <ImageGallery images={data.images} selectedIndex={data.featuredImageIndex} />
+                  <ImageGallery images={product.images} selectedIndex={product.featuredImageIndex} />
                 </Grid.Column>
                 <Grid.Column className={styles.frame}>
                   <div className={`${styles.detailsContainer} flex-column cross-axis-baseline`}>
-                    <div className={styles.title}>{data.name}</div>
+                    <div className={styles.title}>{product.name}</div>
                     <div className={styles.price}>
-                      <span className={data.discountPrice ? styles.disabledPrice : ''}>
-                        {currencyFormat(data.currentPrice)}
+                      <span className={product.discountPrice ? styles.disabledPrice : ''}>
+                        {currencyFormat(product.currentPrice)}
                       </span>
-                      {data.discountPrice && currencyFormat(data.discountPrice)}
+                      {product.discountPrice && currencyFormat(product.discountPrice)}
                     </div>
                     <div className={styles.buttonContainer}>
                       <Popup
@@ -57,25 +51,25 @@ const ProductDetail = () => {
                       />
                       <div className={styles.discountInfo}>Com até 10% de desconto!</div>
                     </div>
-                    {data.storeLink && (
+                    {product.storeLink && (
                       <div className={styles.buttonContainer}>
                         <Button
                           primary
                           icon="shop"
                           content="Loja Elo7"
                           labelPosition="left"
-                          onClick={() => window.open(data ? data.storeLink : undefined, '_blank')}
+                          onClick={() => window.open(product.storeLink ? product.storeLink : undefined, '_blank')}
                         />
                       </div>
                     )}
                     <h3>Detalhes do produto e confecção</h3>
-                    <div>Peso: {data.weight} g</div>
+                    <div>Peso: {product.weight} g</div>
                     <div>
-                      Dimensões (cm): {data.width} x {data.depth} x {data.height}
+                      Dimensões (cm): {product.width} x {product.depth} x {product.height}
                       (comprimento x largura x altura)
                     </div>
-                    <div>Quantidade mínima do pedido: {data.minAmount} unidades</div>
-                    <div>Tempo esperado para produção: {data.productionTime} dias úteis</div>
+                    <div>Quantidade mínima do pedido: {product.minAmount} unidades</div>
+                    <div>Tempo esperado para produção: {product.productionTime} dias úteis</div>
                     <img className={styles.pagseguro} src={pagseguroLogo} alt="pagseguro" />
                   </div>
                 </Grid.Column>
@@ -86,14 +80,13 @@ const ProductDetail = () => {
                     // FIXME: what would be the alternative?
                     // eslint-disable-next-line react/no-danger
                     dangerouslySetInnerHTML={{
-                      __html: data.description,
+                      __html: product.description,
                     }}
                   />
                 </Grid.Column>
               </Grid>
             </div>
           )}
-          {error && <div>Produto não encontrado</div>}
         </Grid.Column>
         <Grid.Column width={2} only="computer" />
         <Grid.Column width={1} only="widescreen" />

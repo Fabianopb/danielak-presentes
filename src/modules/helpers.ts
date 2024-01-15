@@ -5,14 +5,6 @@ export const currencyFormat = (value: number): string => {
   }).format(value);
 };
 
-export const getAuthHeaders = () => ({
-  Authorization: `Bearer ${localStorage.getItem('danik_token')}`,
-});
-
 export const getImageNameFromUrl = (url: string): string => {
   return url.substring(url.substring(url.lastIndexOf('/'), 0).lastIndexOf('/') + 1);
-};
-
-export const isAdminPage = (path: string): boolean => {
-  return path.includes('admin');
 };
