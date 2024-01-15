@@ -1,7 +1,6 @@
 import ReactDOM from 'react-dom/client';
 import { Switch, Route, Router } from 'react-router-dom';
 import { createBrowserHistory } from 'history';
-import { SWRConfig } from 'swr';
 import { QueryParamProvider } from 'use-query-params';
 import Layout from './components/Layout/Layout';
 import AboutPage from './components/AboutPage/AboutPage';
@@ -16,18 +15,16 @@ const history = createBrowserHistory();
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <Router history={history}>
-    <SWRConfig value={{ revalidateOnFocus: false }}>
-      <QueryParamProvider ReactRouterRoute={Route}>
-        <Layout>
-          <CategoryMenu />
-          <Switch>
-            <Route exact path="/" component={ProductGrid} />
-            <Route exact path="/product/:id" component={ProductDetail} />
-            <Route exact path="/about" component={AboutPage} />
-            <Route component={NotFoundPage} />
-          </Switch>
-        </Layout>
-      </QueryParamProvider>
-    </SWRConfig>
+    <QueryParamProvider ReactRouterRoute={Route}>
+      <Layout>
+        <CategoryMenu />
+        <Switch>
+          <Route exact path="/" component={ProductGrid} />
+          <Route exact path="/product/:id" component={ProductDetail} />
+          <Route exact path="/about" component={AboutPage} />
+          <Route component={NotFoundPage} />
+        </Switch>
+      </Layout>
+    </QueryParamProvider>
   </Router>
 );
