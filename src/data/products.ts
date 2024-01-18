@@ -14,8 +14,6 @@ export type Product = {
   height: number;
   depth: number;
   weight: number;
-  isVisible: boolean;
-  isFeatured: boolean;
   images: {
     large: string;
     small: string;
@@ -37,8 +35,6 @@ export const products: Product[] = [
     height: 1.5,
     depth: 14,
     weight: 140,
-    isVisible: true,
-    isFeatured: true,
     images: [
       {
         large: 'https://danielak-products.s3.sa-east-1.amazonaws.com/products/1532977799362-lg.jpg',
@@ -77,8 +73,6 @@ export const products: Product[] = [
     height: 3,
     depth: 15,
     weight: 250,
-    isVisible: true,
-    isFeatured: true,
     images: [
       {
         large: 'https://danielak-products.s3.sa-east-1.amazonaws.com/products/1600021481310-lg.jpg',
@@ -101,8 +95,6 @@ export const products: Product[] = [
     height: 6,
     depth: 27,
     weight: 450,
-    isVisible: true,
-    isFeatured: false,
     images: [
       {
         large: 'https://danielak-products.s3.sa-east-1.amazonaws.com/products/1550081635138-lg.jpg',
@@ -137,8 +129,6 @@ export const products: Product[] = [
     height: 6,
     depth: 22,
     weight: 300,
-    isVisible: true,
-    isFeatured: false,
     images: [
       {
         large: 'https://danielak-products.s3.sa-east-1.amazonaws.com/products/1569544272186-lg.jpg',
@@ -177,8 +167,6 @@ export const products: Product[] = [
     height: 3,
     depth: 17,
     weight: 250,
-    isVisible: true,
-    isFeatured: true,
     images: [
       {
         large: 'https://danielak-products.s3.amazonaws.com/products/1520690292478-lg.jpg',
@@ -217,8 +205,6 @@ export const products: Product[] = [
     height: 3,
     depth: 20,
     weight: 245,
-    isVisible: true,
-    isFeatured: true,
     images: [
       {
         large: 'https://danielak-products.s3.sa-east-1.amazonaws.com/products/1532980107644-lg.jpg',
@@ -257,8 +243,6 @@ export const products: Product[] = [
     height: 3.5,
     depth: 24,
     weight: 450,
-    isVisible: true,
-    isFeatured: false,
     images: [
       {
         large: 'https://danielak-products.s3.sa-east-1.amazonaws.com/products/1555261224299-lg.jpg',
@@ -297,8 +281,6 @@ export const products: Product[] = [
     height: 6,
     depth: 27,
     weight: 350,
-    isVisible: true,
-    isFeatured: false,
     images: [
       {
         large: 'https://danielak-products.s3.sa-east-1.amazonaws.com/products/1550081497664-lg.jpg',
@@ -329,8 +311,6 @@ export const products: Product[] = [
     height: 4,
     depth: 20,
     weight: 120,
-    isVisible: true,
-    isFeatured: true,
     images: [
       {
         large: 'https://danielak-products.s3.amazonaws.com/products/1567354225756-lg.jpg',
@@ -369,8 +349,6 @@ export const products: Product[] = [
     height: 3,
     depth: 12,
     weight: 170,
-    isVisible: true,
-    isFeatured: true,
     images: [
       {
         large: 'https://danielak-products.s3.amazonaws.com/products/1520689804996-lg.jpg',
@@ -409,8 +387,6 @@ export const products: Product[] = [
     height: 3,
     depth: 9,
     weight: 50,
-    isVisible: true,
-    isFeatured: true,
     images: [
       {
         large: 'https://danielak-products.s3.amazonaws.com/products/1532975275490-lg.jpg',
@@ -449,8 +425,6 @@ export const products: Product[] = [
     height: 2.5,
     depth: 10,
     weight: 50,
-    isVisible: true,
-    isFeatured: true,
     images: [
       {
         large: 'https://danielak-products.s3.sa-east-1.amazonaws.com/products/1533089719847-lg.jpg',
@@ -489,8 +463,6 @@ export const products: Product[] = [
     height: 3,
     depth: 9,
     weight: 50,
-    isVisible: true,
-    isFeatured: true,
     images: [
       {
         large: 'https://danielak-products.s3.sa-east-1.amazonaws.com/products/1600020815717-lg.jpg',
@@ -521,8 +493,6 @@ export const products: Product[] = [
     height: 3,
     depth: 9,
     weight: 50,
-    isVisible: true,
-    isFeatured: true,
     images: [
       {
         large: 'https://danielak-products.s3.sa-east-1.amazonaws.com/products/1600020623560-lg.jpg',
