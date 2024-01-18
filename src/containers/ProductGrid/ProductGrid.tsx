@@ -55,9 +55,7 @@ const ProductGrid = () => {
               onClick={() => history.push(`/product/${product.id}${location.search}`)}
             >
               <div className={styles.imageContainer}>
-                {product.images.length > 0 && (
-                  <Image className={styles.productImage} src={product.images[product.featuredImageIndex].large} />
-                )}
+                {product.images.length > 0 && <Image className={styles.productImage} src={product.images[0].large} />}
               </div>
               <div className={styles.title}>{product.name}</div>
               <div className={styles.currentPrice}>
