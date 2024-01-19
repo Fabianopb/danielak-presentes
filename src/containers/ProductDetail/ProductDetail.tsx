@@ -5,9 +5,13 @@ import ImageGallery from '../../components/ImageGallery/ImageGallery';
 import { currencyFormat } from '../../modules/helpers';
 import pagseguroLogo from '../../assets/pagseguro-logo.png';
 import styles from './ProductDetail.module.scss';
-import { products } from '../../data/products';
+import { Product } from '../../data/products';
 
-const ProductDetail = () => {
+type Props = {
+  products: Product[];
+};
+
+const ProductDetail = ({ products }: Props) => {
   const params = useParams<{ id: string }>();
 
   const [isModalOpen, setIsModalOpen] = useState(false);

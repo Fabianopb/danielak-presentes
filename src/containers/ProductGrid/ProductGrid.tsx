@@ -8,9 +8,13 @@ import carousel3 from '../../assets/carousel-3.jpg';
 import { currencyFormat } from '../../modules/helpers';
 import 'react-responsive-carousel/lib/styles/carousel.min.css';
 import styles from './ProductGrid.module.scss';
-import { products } from '../../data/products';
+import { Product } from '../../data/products';
 
-const ProductGrid = () => {
+type Props = {
+  products: Product[];
+};
+
+const ProductGrid = ({ products }: Props) => {
   const history = useHistory();
   const location = useLocation();
 
