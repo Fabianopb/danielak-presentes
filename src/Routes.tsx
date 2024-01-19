@@ -23,6 +23,9 @@ const Routes = () => {
           large: imageBaseUrl + image,
         }));
       }
+      if (field === 'description') {
+        return value.replaceAll('\n', '<br />');
+      }
       return value;
     },
     complete(results) {
