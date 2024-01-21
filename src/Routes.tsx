@@ -9,7 +9,7 @@ import { Product } from './data/products';
 import { usePrevious } from './modules/helpers';
 import isEqual from 'lodash.isequal';
 
-const url = 'https://danielak-products.s3.sa-east-1.amazonaws.com/produtos.csv';
+const url = 'https://danielak-products.s3.sa-east-1.amazonaws.com/produtos-pt.csv';
 const imageBaseUrl = 'https://danielak-products.s3.sa-east-1.amazonaws.com/products/';
 
 const Routes = () => {
@@ -22,13 +22,13 @@ const Routes = () => {
         download: true,
         header: true,
         transform(value, field) {
-          if (field === 'images') {
+          if (field === 'imagens') {
             return value.split('\n').map((image) => ({
               small: imageBaseUrl + image,
               large: imageBaseUrl + image,
             }));
           }
-          if (field === 'description') {
+          if (field === 'descricao') {
             return value.replaceAll('\n', '<br />');
           }
           return value;
@@ -36,7 +36,7 @@ const Routes = () => {
         complete(results) {
           const productWithIds = results.data.map((product) => ({
             ...product,
-            id: product.name.replace(/[^A-Z|a-z|\d]+/g, '-').toLowerCase(),
+            id: product.nome.replace(/[^A-Z|a-z|\d]+/g, '-').toLowerCase(),
           }));
           setProducts(productWithIds);
         },

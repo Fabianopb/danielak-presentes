@@ -51,7 +51,7 @@ const ProductGrid = ({ products }: Props) => {
       <Divider />
       <div className="flex-wrap main-axis-center">
         {products
-          .filter((product) => (categoryId ? product.categoryId === categoryId : true))
+          .filter((product) => (categoryId ? product.categoria === categoryId : true))
           .map((product) => (
             <div
               className={styles.productCell}
@@ -59,14 +59,14 @@ const ProductGrid = ({ products }: Props) => {
               onClick={() => history.push(`/product/${product.id}${location.search}`)}
             >
               <div className={styles.imageContainer}>
-                {product.images.length > 0 && <Image className={styles.productImage} src={product.images[0].large} />}
+                {product.imagens.length > 0 && <Image className={styles.productImage} src={product.imagens[0].large} />}
               </div>
-              <div className={styles.title}>{product.name}</div>
+              <div className={styles.title}>{product.nome}</div>
               <div className={styles.currentPrice}>
-                <span className={product.discountPrice ? styles.disabledPrice : ''}>
-                  {currencyFormat(product.currentPrice)}
+                <span className={product.precoDesconto ? styles.disabledPrice : ''}>
+                  {currencyFormat(product.preco)}
                 </span>
-                {product.discountPrice && currencyFormat(product.discountPrice)}
+                {product.precoDesconto && currencyFormat(product.precoDesconto)}
               </div>
             </div>
           ))}

@@ -28,16 +28,16 @@ const ProductDetail = ({ products }: Props) => {
             <div>
               <Grid stackable columns={2}>
                 <Grid.Column className={styles.frame}>
-                  <ImageGallery images={product.images} selectedIndex={0} />
+                  <ImageGallery images={product.imagens} selectedIndex={0} />
                 </Grid.Column>
                 <Grid.Column className={styles.frame}>
                   <div className={`${styles.detailsContainer} flex-column cross-axis-baseline`}>
-                    <div className={styles.title}>{product.name}</div>
+                    <div className={styles.title}>{product.nome}</div>
                     <div className={styles.price}>
-                      <span className={product.discountPrice ? styles.disabledPrice : ''}>
-                        {currencyFormat(product.currentPrice)}
+                      <span className={product.precoDesconto ? styles.disabledPrice : ''}>
+                        {currencyFormat(product.preco)}
                       </span>
-                      {product.discountPrice && currencyFormat(product.discountPrice)}
+                      {product.precoDesconto && currencyFormat(product.precoDesconto)}
                     </div>
                     <div className={styles.buttonContainer}>
                       <Popup
@@ -55,25 +55,25 @@ const ProductDetail = ({ products }: Props) => {
                       />
                       <div className={styles.discountInfo}>Com até 10% de desconto!</div>
                     </div>
-                    {product.storeLink && (
+                    {product.linkElo7 && (
                       <div className={styles.buttonContainer}>
                         <Button
                           primary
                           icon="shop"
                           content="Loja Elo7"
                           labelPosition="left"
-                          onClick={() => window.open(product.storeLink ? product.storeLink : undefined, '_blank')}
+                          onClick={() => window.open(product.linkElo7 ? product.linkElo7 : undefined, '_blank')}
                         />
                       </div>
                     )}
                     <h3>Detalhes do produto e confecção</h3>
-                    <div>Peso: {product.weight} g</div>
+                    <div>Peso: {product.pesoEmGramas} g</div>
                     <div>
-                      Dimensões (cm): {product.width} x {product.depth} x {product.height}
+                      Dimensões (cm): {product.larguraEmCm} x {product.profundidadeEmCm} x {product.alturaEmCm}
                       (comprimento x largura x altura)
                     </div>
-                    <div>Quantidade mínima do pedido: {product.minAmount} unidades</div>
-                    <div>Tempo esperado para produção: {product.productionTime} dias úteis</div>
+                    <div>Quantidade mínima do pedido: {product.minimoPedido} unidades</div>
+                    <div>Tempo esperado para produção: {product.diasProducao} dias úteis</div>
                     <img className={styles.pagseguro} src={pagseguroLogo} alt="pagseguro" />
                   </div>
                 </Grid.Column>
@@ -84,7 +84,7 @@ const ProductDetail = ({ products }: Props) => {
                     // FIXME: what would be the alternative?
                     // eslint-disable-next-line react/no-danger
                     dangerouslySetInnerHTML={{
-                      __html: product.description,
+                      __html: product.descricao,
                     }}
                   />
                 </Grid.Column>
