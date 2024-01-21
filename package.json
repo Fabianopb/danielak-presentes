@@ -11,6 +11,7 @@
     "dotenv": "^8.2.0",
     "final-form": "^4.20.1",
     "history": "^4.6.3",
+    "lodash.isequal": "4.5.0",
     "moment": "2.29.0",
     "papaparse": "5.4.1",
     "query-string": "6.13.2",
@@ -26,6 +27,7 @@
   },
   "devDependencies": {
     "@types/classnames": "2.2.10",
+    "@types/lodash.isequal": "4.5.8",
     "@types/node": "18.8.5",
     "@types/papaparse": "5.3.14",
     "@types/query-string": "6.3.0",

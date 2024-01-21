@@ -4,38 +4,45 @@ import ProductDetail from './containers/ProductDetail/ProductDetail';
 import AboutPage from './components/AboutPage/AboutPage';
 import NotFoundPage from './containers/NotFoundPage/NotFoundPage';
 import { parse } from 'papaparse';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Product } from './data/products';
+import { usePrevious } from './modules/helpers';
+import isEqual from 'lodash.isequal';
 
 const url = 'https://danielak-products.s3.sa-east-1.amazonaws.com/produtos.csv';
 const imageBaseUrl = 'https://danielak-products.s3.sa-east-1.amazonaws.com/products/';
 
 const Routes = () => {
   const [products, setProducts] = useState<Product[]>([]);
+  const previousProducts = usePrevious(products);
 
-  parse<Product>(url, {
-    download: true,
-    header: true,
-    transform(value, field) {
-      if (field === 'images') {
-        return value.split('\n').map((image) => ({
-          small: imageBaseUrl + image,
-          large: imageBaseUrl + image,
-        }));
-      }
-      if (field === 'description') {
-        return value.replaceAll('\n', '<br />');
-      }
-      return value;
-    },
-    complete(results) {
-      const productWithIds = results.data.map((product) => ({
-        ...product,
-        id: product.name.replace(/[^A-Z|a-z|\d]+/g, '-').toLowerCase(),
-      }));
-      setProducts(productWithIds);
-    },
-  });
+  useEffect(() => {
+    if (!isEqual(products, previousProducts)) {
+      parse<Product>(url, {
+        download: true,
+        header: true,
+        transform(value, field) {
+          if (field === 'images') {
+            return value.split('\n').map((image) => ({
+              small: imageBaseUrl + image,
+              large: imageBaseUrl + image,
+            }));
+          }
+          if (field === 'description') {
+            return value.replaceAll('\n', '<br />');
+          }
+          return value;
+        },
+        complete(results) {
+          const productWithIds = results.data.map((product) => ({
+            ...product,
+            id: product.name.replace(/[^A-Z|a-z|\d]+/g, '-').toLowerCase(),
+          }));
+          setProducts(productWithIds);
+        },
+      });
+    }
+  }, [previousProducts, products, products.length]);
 
   return (
     <Switch>
