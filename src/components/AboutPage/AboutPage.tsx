@@ -7,7 +7,7 @@ const AboutPage = () => (
     <Col xs={12} lg={8}>
       <div className={styles.aboutPage}>
         <div className={styles.info}>
-          <p>Olá! Que bom ter você por aqui.</p>
+          <p>Olá! Que bom ter você por aqui!</p>
           <p>
             Me chamo Daniela e descobri a cartonagem em uma busca para tornar meus dias menos estressantes e mais
             alegres. Logo de cara me apaixonei... e foi assim, que há seis anos atrás, nasceu a Dani K.
