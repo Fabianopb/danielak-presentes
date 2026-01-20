@@ -1,5 +1,5 @@
 import ReactDOM from 'react-dom/client';
-import { Redirect, Route, Router } from 'react-router-dom';
+import { Route, Router } from 'react-router-dom';
 import { createBrowserHistory } from 'history';
 import { QueryParamProvider } from 'use-query-params';
 import Layout from './components/Layout/Layout';
