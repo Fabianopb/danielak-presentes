@@ -55,5 +55,17 @@ jobs:
       - name: Build React App
         run: yarn build
 
-      - name: Deploy app build to S3 bucket
-        run: aws s3 sync ./danik-dist/ s3://${{ secrets.AWS_BUCKET_NAME }} --delete
+      - name: Deploy static assets to s3
+        run: |
+          aws s3 sync ./danik-dist/ \
+            s3://${{ secrets.AWS_BUCKET_NAME }} \
+            --exclude "index.html" \
+            --cache-control "public,max-age=31536000,immutable" \
+            --delete
+
+      - name: Deploy index.html (no cache) to s3
+        run: |
+          aws s3 cp ./danik-dist/index.html \
+            s3://${{ secrets.AWS_BUCKET_NAME }}/index.html \
+            --cache-control "no-cache,no-store,must-revalidate" \
+            --content-type "text/html"
