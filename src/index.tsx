@@ -1,5 +1,5 @@
 import ReactDOM from 'react-dom/client';
-import { Route, Router } from 'react-router-dom';
+import { Redirect, Route, Router } from 'react-router-dom';
 import { createBrowserHistory } from 'history';
 import { QueryParamProvider } from 'use-query-params';
 import Layout from './components/Layout/Layout';
@@ -9,6 +9,8 @@ import './index.scss';
 import Routes from './Routes';
 
 const history = createBrowserHistory();
+
+window.location.replace('https://www.elo7.com.br/danikpresentes');
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <Router history={history}>
