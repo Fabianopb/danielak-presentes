@@ -17,6 +17,10 @@ const Routes = () => {
   const previousProducts = usePrevious(products);
 
   useEffect(() => {
+    window.location.replace('https://www.elo7.com.br/danikpresentes');
+  }, []);
+
+  useEffect(() => {
     if (!isEqual(products, previousProducts)) {
       parse<Product>(url, {
         download: true,

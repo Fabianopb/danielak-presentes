@@ -10,8 +10,6 @@ import Routes from './Routes';
 
 const history = createBrowserHistory();
 
-window.location.replace('https://www.elo7.com.br/danikpresentes');
-
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <Router history={history}>
     <QueryParamProvider ReactRouterRoute={Route}>
